@@ -95,11 +95,11 @@ class optprog():
     def equals(self):
         return self._compare('__eq__')
 
-    def jump_if_true(self):
+    def _jump_if(self, func):
         self.address += 1
         value = self._get_value(self.param_modes[1])
         self.address += 1
-        if value != 0:
+        if getattr(value, func)(0):
             value = self._get_value(self.param_modes[2])
             self.address = value
             return True
@@ -107,17 +107,12 @@ class optprog():
         self.address += 1
         return True
 
+    
+    def jump_if_true(self):
+        return self._jump_if('__ne__')
+
     def jump_if_false(self):
-        self.address += 1
-        value = self._get_value(self.param_modes[1])
-        self.address += 1
-        if value == 0:
-            value = self._get_value(self.param_modes[2])
-            self.address = value
-            return True
-            pass
-        self.address += 1
-        return True
+        return self._jump_if('__eq__')
 
     def get_input(self):
         value = int(input('Please enter an input: '))
