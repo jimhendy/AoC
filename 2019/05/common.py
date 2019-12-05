@@ -1,4 +1,11 @@
 import numpy as np
+from enum import Enum
+from collections import defaultdict
+
+class Mode(Enum):
+    POSITION = 0
+    IMMEDIATE = 1
+    pass
 
 
 class optprog():
@@ -8,9 +15,7 @@ class optprog():
         self.inputs = optprog.in_to_array(inputs)
         self.code = self.inputs.copy()
         self.address = 0
-        self.param_1_mode = None
-        self.param_2_mode = None
-        self.param_3_mode = None
+        self.param_modes = defaultdict(lambda : Mode.POSITION)
         self.optcode = None
         self.outputs = []
         pass
@@ -26,19 +31,16 @@ class optprog():
 
     def analyse_instruction(self):
         optcode = self.code[self.address]
-        # Modes: 0=position, 1=immediate
         if optcode > 9:
             optcode_str = f'{optcode:05}'
             self.optcode = int(optcode_str[3:])
-            self.param_1_mode = int(optcode_str[2])
-            self.param_2_mode = int(optcode_str[1])
-            self.param_3_mode = int(optcode_str[0])
+            self.param_modes[1] = Mode(int(optcode_str[2]))
+            self.param_modes[2] = Mode(int(optcode_str[1]))
+            self.param_modes[3] = Mode(int(optcode_str[0]))
             pass
         else:
             self.optcode = optcode
-            self.param_1_mode = 0
-            self.param_2_mode = 0
-            self.param_3_mode = 0
+            self.param_modes.clear()
             pass
         return self.analyse_optcode()
 
@@ -65,45 +67,40 @@ class optprog():
         return func()
 
     def _get_value(self, mode):
-        if mode == 0:
+        if mode == Mode.POSITION:
             return self.code[self.code[self.address]]
-        elif mode == 1:
+        elif mode == Mode.IMMEDIATE:
             return self.code[self.address]
         else:
             raise NotImplementedError
         pass
 
-    def less_than(self):
+    def _compare(self, func):
         self.address += 1
-        param_1 = self._get_value(self.param_1_mode)
+        param_1 = self._get_value(self.param_modes[1])
         self.address += 1
-        param_2 = self._get_value(self.param_2_mode)
-        value = int(param_1 < param_2)
+        param_2 = self._get_value(self.param_modes[2])
+        value = int(
+            getattr(param_1, func)(param_2)
+        )
         self.address += 1
         output_address = self.code[self.address]
         self.code[output_address] = value
         self.address += 1
         return True
+
+    def less_than(self):
+        return self._compare('__lt__')
 
     def equals(self):
-        self.address += 1
-        param_1 = self._get_value(self.param_1_mode)
-        self.address += 1
-        param_2 = self._get_value(self.param_2_mode)
-        value = int(param_1 == param_2)
-        self.address += 1
-        output_address = self.code[self.address]
-        self.code[output_address] = value
-        self.address += 1
-        return True
+        return self._compare('__eq__')
 
-    
     def jump_if_true(self):
         self.address += 1
-        value = self._get_value(self.param_1_mode)
+        value = self._get_value(self.param_modes[1])
         self.address += 1
         if value != 0:
-            value = self._get_value(self.param_2_mode)
+            value = self._get_value(self.param_modes[2])
             self.address = value
             return True
             pass
@@ -112,10 +109,10 @@ class optprog():
 
     def jump_if_false(self):
         self.address += 1
-        value = self._get_value(self.param_1_mode)
+        value = self._get_value(self.param_modes[1])
         self.address += 1
         if value == 0:
-            value = self._get_value(self.param_2_mode)
+            value = self._get_value(self.param_modes[2])
             self.address = value
             return True
             pass
@@ -132,29 +129,24 @@ class optprog():
 
     def get_output(self):
         self.address += 1
-        value = self._get_value(mode=self.param_1_mode)
+        value = self._get_value(mode=self.param_modes[1])
         self.outputs.append(value)
         self.address += 1
         return True
 
-    def add(self):
+    def _combine(self, func):
         self.address += 1
-        param_1 = self._get_value(mode=self.param_1_mode)
+        param_1 = self._get_value(mode=self.param_modes[1])
         self.address += 1
-        param_2 = self._get_value(mode=self.param_2_mode)
+        param_2 = self._get_value(mode=self.param_modes[2])
         self.address += 1
         output_address = self.code[self.address]
-        self.code[output_address] = param_1 + param_2
+        self.code[output_address] = getattr(param_1, func)(param_2)
         self.address += 1
         return True
 
+    def add(self):
+        return self._combine('__add__')
+
     def mul(self):
-        self.address += 1
-        param_1 = self._get_value(mode=self.param_1_mode)
-        self.address += 1
-        param_2 = self._get_value(mode=self.param_2_mode)
-        self.address += 1
-        output_address = self.code[self.address]
-        self.code[output_address] = param_1 * param_2
-        self.address += 1
-        return True
+        return self._combine('__mul__')
