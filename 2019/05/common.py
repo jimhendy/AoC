@@ -2,6 +2,7 @@ import numpy as np
 from enum import Enum
 from collections import defaultdict
 
+
 class Mode(Enum):
     POSITION = 0
     IMMEDIATE = 1
@@ -11,11 +12,10 @@ class Mode(Enum):
 class optprog():
 
     def __init__(self, inputs):
-
         self.inputs = optprog.in_to_array(inputs)
         self.code = self.inputs.copy()
         self.address = 0
-        self.param_modes = defaultdict(lambda : Mode.POSITION)
+        self.param_modes = defaultdict(lambda: Mode.POSITION)
         self.optcode = None
         self.outputs = []
         pass
@@ -107,7 +107,6 @@ class optprog():
         self.address += 1
         return True
 
-    
     def jump_if_true(self):
         return self._jump_if('__ne__')
 
