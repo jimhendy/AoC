@@ -79,18 +79,22 @@ class optprog():
             raise NotImplementedError
         pass
 
+    def step(self, step=1):
+        self.address += step
+        pass
+    
     def _compare(self, func):
-        self.address += 1
+        self.step()
         param_1 = self._get_value(self.param_modes[1])
-        self.address += 1
+        self.step()
         param_2 = self._get_value(self.param_modes[2])
         value = int(
             getattr(param_1, func)(param_2)
         )
-        self.address += 1
+        self.step()
         output_address = self.code[self.address]
         self.code[output_address] = value
-        self.address += 1
+        self.step()
         return True
 
     def less_than(self):
@@ -100,15 +104,15 @@ class optprog():
         return self._compare('__eq__')
 
     def _jump_if(self, func):
-        self.address += 1
+        self.step()
         value = self._get_value(self.param_modes[1])
-        self.address += 1
+        self.step()
         if getattr(value, func)(0):
             value = self._get_value(self.param_modes[2])
             self.address = value
             return True
             pass
-        self.address += 1
+        self.step()
         return True
 
     def jump_if_true(self):
@@ -118,9 +122,7 @@ class optprog():
         return self._jump_if('__eq__')
 
     def get_input(self):
-        #value = int(input('Please enter an input: '))
         if self.input_signal is not None:
-            #print(f'Using signal {self.input_signal}')
             value = self.input_signal
             self.input_signal = None
             pass
@@ -128,28 +130,28 @@ class optprog():
             # No input signal - return and wait
             return None
             pass
-        self.address += 1
+        self.step()
         output_address = self.code[self.address]
         self.code[output_address] = value
-        self.address += 1
+        self.step()
         return True
 
     def get_output(self):
-        self.address += 1
+        self.step()
         value = self._get_value(mode=self.param_modes[1])
         self.outputs.append(value)
-        self.address += 1
+        self.step()
         return True
 
     def _combine(self, func):
-        self.address += 1
+        self.step()
         param_1 = self._get_value(mode=self.param_modes[1])
-        self.address += 1
+        self.step()
         param_2 = self._get_value(mode=self.param_modes[2])
-        self.address += 1
+        self.step()
         output_address = self.code[self.address]
         self.code[output_address] = getattr(param_1, func)(param_2)
-        self.address += 1
+        self.step()
         return True
 
     def add(self):
