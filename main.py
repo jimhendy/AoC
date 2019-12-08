@@ -44,13 +44,28 @@ if __name__ == '__main__':
         soln = solver.run(os.linesep.join(args.test_input))
     else:
         soln = solver.run(puzzle.input_data)
+        pass
 
-    print(f'Calculated solution for {solver_file}: "{soln:,.0f}"')
+
+    is_int = type(soln) == int
+    try:
+        if int(soln) == soln:
+            is_int = True
+            pass
+        pass
+    except:
+        pass
+
+    if is_int:
+        soln = int(soln)
+    
+    print_soln = f'{soln:,.0f}' if is_int else soln
+    print(f'Calculated solution for {solver_file}: "{print_soln}"')
 
     if args.submit:
         # Submit the answer
         if is_test:
             raise('Not submitting answer as we used the test_input data')
-        setattr( puzzle, f'answer_{puzzle_code}', int(soln) )
+        setattr( puzzle, f'answer_{puzzle_code}', soln )
     
     pass
