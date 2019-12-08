@@ -11,9 +11,12 @@ logging.basicConfig(level=logging.INFO)
 usage = 'python main.py <YYYY>/<DD>/<P>.py \n e.g. python main.py 2019/01/a.py'
 
 parser = argparse.ArgumentParser(usage=usage)
-parser.add_argument('solver_file',help='File containing "run(inputs)" function to solve the problem')
-parser.add_argument('--submit',action='store_true',help='Submit this solution')
-parser.add_argument('--test_input',nargs='*',type=str,help='Test input to pass to solver')
+parser.add_argument(
+    'solver_file', help='File containing "run(inputs)" function to solve the problem')
+parser.add_argument('--submit', action='store_true',
+                    help='Submit this solution')
+parser.add_argument('--test_input', nargs='*', type=str,
+                    help='Test input to pass to solver')
 args = parser.parse_args()
 
 if __name__ == '__main__':
@@ -24,7 +27,7 @@ if __name__ == '__main__':
     puzzle_code = os.path.splitext(file_name)[0]
 
     is_test = args.test_input is not None
-    
+
     # Construct the puzzle from aocd
     puzzle = aocd.models.Puzzle(
         year=int(year),
@@ -46,7 +49,6 @@ if __name__ == '__main__':
         soln = solver.run(puzzle.input_data)
         pass
 
-
     is_int = type(soln) == int
     try:
         if int(soln) == soln:
@@ -58,7 +60,7 @@ if __name__ == '__main__':
 
     if is_int:
         soln = int(soln)
-    
+
     print_soln = f'{soln:,.0f}' if is_int else soln
     print(f'Calculated solution for {solver_file}: "{print_soln}"')
 
@@ -66,6 +68,6 @@ if __name__ == '__main__':
         # Submit the answer
         if is_test:
             raise('Not submitting answer as we used the test_input data')
-        setattr( puzzle, f'answer_{puzzle_code}', soln )
-    
+        setattr(puzzle, f'answer_{puzzle_code}', soln)
+
     pass

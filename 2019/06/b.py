@@ -1,8 +1,9 @@
 import common
 
+
 def run(inputs):
     orbits = common.extract_orbits(inputs)
-    
+
     you = common.get_orbit_list('YOU', orbits)
     san = common.get_orbit_list('SAN', orbits)
 

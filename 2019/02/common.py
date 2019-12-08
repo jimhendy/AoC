@@ -1,7 +1,9 @@
 import numpy as np
 
+
 def in_to_array(inputs):
     return np.array(inputs.split(',')).astype(int)
+
 
 def intcode(inputs):
     in_copy = inputs.copy()
@@ -14,7 +16,7 @@ def intcode(inputs):
         address += step
         pass
     return in_copy
-        
+
 
 def analyse_optcode(inputs, address):
     if inputs[address] == 99:
@@ -26,7 +28,9 @@ def analyse_optcode(inputs, address):
     else:
         print(inputs)
         print(inputs[address:address+4])
-        raise NotImplementedError(f'Unexpected code "{inputs[address]}" at addressition "{address}"')
+        raise NotImplementedError(
+            f'Unexpected code "{inputs[address]}" at address "{address}"')
+
 
 def add(inputs, address):
     return inputs[inputs[address+1]] + inputs[inputs[address+2]], inputs[address+3], 4

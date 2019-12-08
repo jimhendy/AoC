@@ -82,7 +82,7 @@ class optprog():
     def step(self, step=1):
         self.address += step
         pass
-    
+
     def _compare(self, func):
         self.step()
         param_1 = self._get_value(self.param_modes[1])

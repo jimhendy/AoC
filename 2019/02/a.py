@@ -1,5 +1,6 @@
 import common
 
+
 def run(inputs):
 
     in_copy = common.in_to_array(inputs)
