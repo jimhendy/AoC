@@ -10,9 +10,7 @@ def run(inputs):
     visible = common.num_visible(data)
     station_coords = visible.index[-1]
 
-    x = int(station_coords.split(',')[0])
-    y = int(station_coords.split(',')[1])
-    position = np.array([x, y])
+    position = np.array([station_coords])
 
     angle = common._get_angle(data, position)
     r = common._get_distance(data, position)

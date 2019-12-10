@@ -20,7 +20,7 @@ def num_visible(data):
     visible = {}
     for position in data:
         angle = _get_angle(data, position)
-        visible[f'{position[0]}, {position[1]}'] = len(np.unique(angle))
+        visible[(position[0], position[1])] = len(np.unique(angle))
         pass
     visible = pd.Series(visible).sort_values()
     return visible
