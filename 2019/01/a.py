@@ -7,4 +7,4 @@ def module_fuel(inputs):
 
 
 def run(inputs):
-    return module_fuel(inputs)
+    return module_fuel(inputs).sum()
