@@ -26,19 +26,20 @@ class Rotation(Enum):
 
 class EhpRobot():
 
-    def __init__(self, intcode_inputs):
-
+    def __init__(self, intcode_inputs, start_color=Color.BLACK):
+        self.start_color = start_color
         self._direction = Direction.NORTH
         self._position = np.array((0, 0))
         self._path = [self._position.copy()]
         self._colors = defaultdict(lambda: Color.BLACK)
+        self._colors[str(self._position)] = self.start_color
         self.program = intcode.optprog(intcode_inputs)
         pass
 
     def run(self):
         while True:
             current_color = self._get_position_color()
-            self.program.analyse_intcode(current_color)
+            self.program.analyse_intcode(current_color.value)
 
             if self.program.complete:
                 break
