@@ -4,6 +4,7 @@ import numpy as np
 import common
 from moon import Moon
 
+
 def get_status(moons, axis):
     return '-'.join(
         [
@@ -25,15 +26,16 @@ def check_hist(hist, moons, axis):
         return False
     pass
 
+
 def run(inputs):
 
     axis_frequencies = []
-    
+
     # Do each axis alone
     for a in range(3):
         moons = [Moon(ps) for ps in inputs.split(os.linesep)]
         history = set()
-        
+
         s = 0
         check_hist(history, moons, a)
 
@@ -45,18 +47,18 @@ def run(inputs):
                     pass
                 pass
             [m.update_position() for m in moons]
-            
+
             if s % 10000 == 0:
                 print(f'Iteration: {s}')
                 pass
-            
+
             if check_hist(history, moons, axis=a):
                 axis_frequencies.append(s)
                 break
-            
+
             pass
         pass
 
     lcm = np.lcm.reduce(axis_frequencies)
-    
+
     return lcm

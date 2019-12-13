@@ -43,14 +43,14 @@ class EhpRobot():
 
             if self.program.complete:
                 break
-                        
+
             color_cmd = Color(self.program.outputs[-2])
             rotate_cmd = Rotation(self.program.outputs[-1])
 
             self._set_color(color_cmd)
             self._rotate(rotate_cmd)
             self._step_forward()
-            
+
             pass
         pass
 
@@ -72,7 +72,7 @@ class EhpRobot():
             delta = +1
         else:
             raise NotImplementedError
-        
+
         self._direction = Direction(
             (self._direction.value + delta + 4) % 4
         )
