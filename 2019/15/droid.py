@@ -48,6 +48,8 @@ class Droid():
         self.layout = {tuple(self.position): MapSymbol.DROID}
         self.tank_position = None
         self.completed_tiles = []
+        self.completed_oxygen_tiles = []
+        self.on_tank = False
         pass
 
     def __call__(self, instruction: Direction):
@@ -58,7 +60,10 @@ class Droid():
             self.layout[tuple(intended_position)] = MapSymbol.WALL
             pass
         elif response == Response.SUCCESS:
-            self.layout[tuple(self.position)] = MapSymbol.PREVIOUS
+            if not self.on_tank:
+                self.layout[tuple(self.position)] = MapSymbol.PREVIOUS
+            else:
+                self.on_tank = False
             self.position = intended_position.copy()
             self.layout[tuple(self.position)] = MapSymbol.DROID
             pass
@@ -66,6 +71,8 @@ class Droid():
             print(f'Tank found at :{intended_position}')
             self.tank_position = intended_position.copy()
             self.layout[tuple(intended_position)] = MapSymbol.TANK
+            self.position = intended_position.copy()
+            self.on_tank = True
             pass
         return response
 
@@ -118,7 +125,7 @@ class Droid():
 
         for y in range(y_max, y_min-1, -1):
             for x in range(x_min, x_max+1):
-                c = content[np.all(pos == (x, y), axis=1)][0]
+                c = content[np.all(pos == (x, y), axis=1)][-1]
                 print(c.value, end='')
                 pass
             print()
@@ -147,6 +154,39 @@ class Droid():
         pass
 
 
+    def find_oxygen_adjacent_cells(self, layout=None):
+        if layout is None:
+            layout = self.get_layout()
+            pass
+        pos, content = layout
+        path_mask = content == MapSymbol.OXYGEN
+        path = pos[path_mask]
+        available_x = pos[:,0]
+        available_y = pos[:,1]
+
+        return_cells = []
+
+        for p in path:
+        
+            if tuple(p) in self.completed_oxygen_tiles:
+                continue
+            
+            for step in [ Direction.NORTH, Direction.EAST, Direction.WEST, Direction.SOUTH]:
+                new_pos = move(p, step)
+                point_index = Droid.array_match_mask(pos, new_pos)
+                if any(point_index):
+                    c = content[ point_index ][0]
+                    if (c != MapSymbol.WALL) and (c != MapSymbol.OXYGEN):
+                        return_cells.append(new_pos)
+                    else:
+                        continue
+                    pass
+                pass
+            self.completed_oxygen_tiles.append(tuple(p))
+            pass
+        return return_cells
+
+    
     
     def find_unknown_cell(self, layout=None):
         if layout is None:
