@@ -17,6 +17,7 @@ parser.add_argument('--submit', action='store_true',
                     help='Submit this solution')
 parser.add_argument('--test_input', nargs='*', type=str,
                     help='Test input to pass to solver')
+parser.add_argument('--test_file', help='Use the data store in the passed filename to test the problem')
 args = parser.parse_args()
 
 if __name__ == '__main__':
@@ -26,7 +27,7 @@ if __name__ == '__main__':
     year, day, file_name = solver_file.split(os.path.sep)
     puzzle_code = os.path.splitext(file_name)[0]
 
-    is_test = args.test_input is not None
+    is_test = (args.test_input is not None) or (args.test_file is not None)
 
     # Construct the puzzle from aocd
     puzzle = aocd.models.Puzzle(
@@ -44,7 +45,16 @@ if __name__ == '__main__':
 
     # Run the solver with the input_data
     if is_test:
-        soln = solver.run(os.linesep.join(args.test_input))
+        if args.test_input is not None:
+            inputs = os.linesep.join(args.test_input)
+        elif args.test_file is not None:
+            with open(args.test_file) as f:
+                inputs = ''.join(f.readlines())[:-1]
+                pass
+            pass
+        else:
+            raise NotImplementedError
+        soln = solver.run(inputs)
     else:
         soln = solver.run(puzzle.input_data)
         pass
