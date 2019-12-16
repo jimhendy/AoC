@@ -1,0 +1,6 @@
+import numpy as np
+
+def run(inputs):
+
+    import code
+    code.interact(local=locals())

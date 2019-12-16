@@ -19,7 +19,7 @@ def run(inputs):
         score = output[score_mask][-1][2]
         tiles = output[~score_mask]
 
-        # common.print_game(tiles)
+        common.print_game(tiles)
 
         ball = tiles[tiles[:, 2] == common.Tile.BALL.value][-1]
         paddle = tiles[tiles[:, 2] == common.Tile.PADDLE.value][-1]
