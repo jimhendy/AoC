@@ -5,15 +5,14 @@ BASE_PATTERN = [0,1,0,-1]
 
 def run_phase(inp, phase):
     data = np.array([ int(i) for i in list(inp) ])
-    data = np.tile( data, data.shape[0] ).reshape(data.shape[0],-1)
     pattern_data = []
-    for i in range(data.shape[0]):
+    for i in tqdm.tqdm(range(data.shape[0])):
         pat = np.repeat(BASE_PATTERN, i+1)
         pat = np.tile( pat, int(np.ceil(data.shape[0]/pat.shape[0])) + 1 )[1:data.shape[0]+1]
-        pattern_data.append(pat)
+        pattern_data.append(np.mod(np.abs((data * pat).sum()),10))
         pass
-    pattern = np.concatenate(pattern_data).reshape( data.shape )
-    ans = np.mod( np.abs((data * pattern).sum(axis=1)), 10)
+    import code
+    code.interact(local=locals())
     return ''.join([str(i) for i in ans]).zfill(data.shape[0])
 
 def run(inputs):
