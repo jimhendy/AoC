@@ -134,10 +134,9 @@ def run(inputs):
     #[ print(o, end='') for o in data.ravel() ]
 
     """
-    A = 'L,10,R,12,R,12'
-    B = 'R,6'
-    C = 'R,10,L,10'
-    D = 'L,12'
+    A = 'R,10,L,10,L,12,R,6'
+    B = 'L,10,R,12,R,12'
+    C = 'R,6,R,10,L,10'
     """
     layout = np.array([ [MapSymbol(i) for i in d] for d in data])
 
@@ -177,10 +176,11 @@ def run(inputs):
         
         os.system('clear')
         [ print(i.value, end='') for i in layout.ravel() ]
-        time.sleep(0.01)
+        #time.sleep(0.01)
         #print('-'*50)
         pass
-
+    commands.append(steps)
+    commands = ','.join(list(map(str, commands[1:])))
     print(commands)
     
     import code
