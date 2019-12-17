@@ -133,11 +133,13 @@ def run(inputs):
     
     #[ print(o, end='') for o in data.ravel() ]
 
-    """
+    
     A = 'R,10,L,10,L,12,R,6'
     B = 'L,10,R,12,R,12'
     C = 'R,6,R,10,L,10'
-    """
+
+    MMR = ['B','C','B','A','C','A','C','A','B','A']
+    
     layout = np.array([ [MapSymbol(i) for i in d] for d in data])
 
     commands = []
@@ -183,10 +185,23 @@ def run(inputs):
     commands = ','.join(list(map(str, commands[1:])))
     print(commands)
     
-    import code
-    code.interact(local=locals())
+    inputs2 = inputs[:]
+    inputs2 = '2' + inputs[1:]
+    prog2 = intcode.Intcode(inputs2)
+    
+    prog2.analyse_intcode()
+    [prog2.analyse_intcode(ord(i)) for  i in ','.join(MMR)]
+    prog2.analyse_intcode(ord(os.linesep))
+    [prog2.analyse_intcode(ord(i)) for  i in ','.join(A.split(','))]
+    prog2.analyse_intcode(ord(os.linesep))
+    [prog2.analyse_intcode(ord(i)) for  i in ','.join(B.split(','))]
+    prog2.analyse_intcode(ord(os.linesep))
+    [prog2.analyse_intcode(ord(i)) for  i in ','.join(C.split(','))]
+    prog2.analyse_intcode(ord(os.linesep))
+    prog2.analyse_intcode(ord('n'))
+    prog2.analyse_intcode(ord(os.linesep))
 
-    return 1
+    return prog2.outputs[-1]
 
 
 
