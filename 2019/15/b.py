@@ -25,9 +25,9 @@ def run(inputs):
             droid(new_dir)
             pass
         
-        if count % 10 == 0:
+        if count % 1 == 0:
             droid.plot(True)
-            time.sleep(0.5)
+            time.sleep(0.01)
             pass
 
         count += 1
@@ -42,8 +42,9 @@ def run(inputs):
             pass
         if not len(new_o_cells):
             break
-        if minutes % 5 == 0:
+        if minutes % 1 == 0:
             droid.plot(True)
+            time.sleep(0.01)
             pass
         minutes += 1
         pass

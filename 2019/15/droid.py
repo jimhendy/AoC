@@ -116,12 +116,13 @@ class Droid():
         return pos, content
 
     def plot(self, clear=False):
-        if clear:
-            os.system('clear')
         pos, content = self.get_layout()
 
         x_min, y_min = pos.min(axis=0)
         x_max, y_max = pos.max(axis=0)
+
+        if clear:
+            os.system('clear')
 
         for y in range(y_max, y_min-1, -1):
             for x in range(x_min, x_max+1):

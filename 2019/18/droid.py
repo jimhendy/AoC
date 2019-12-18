@@ -3,7 +3,9 @@ import os
 import numpy as np
 import pandas as pd
 from enum import IntEnum, Enum
+from functools import lru_cache
 
+route_cache = {}
 
 class Direction(IntEnum):
     NORTH = 1
@@ -44,8 +46,15 @@ class Droid():
     def __init__(self, inputs):
         self.position = np.zeros(2)
         self.layout = np.array([list(i) for i in inputs.split(os.linesep)])
+        self.orig_layout = self.layout.copy()
         self.position = self.get_current_position()
         self.keys = []
+        pass
+
+    def reset(self):
+        self.keys = []
+        self.layout = self.orig_layout.copy()
+        self.position = self.get_current_position()
         pass
 
     def get_current_position(self):
@@ -114,7 +123,7 @@ class Droid():
          for j in os.linesep.join([''.join(i) for i in self.layout])]
         print()
         pass
-
+    """
     def key_positions(self):
         ascii_ = np.array([[ord(j) for j in i] for i in self.layout])
         key_pos = np.argwhere((ascii_ >= 97) & (ascii_ <= 122))
@@ -136,7 +145,7 @@ class Droid():
         if not len(routes):
             return False
         return routes
-
+    """
     @staticmethod
     def random_direction():
         dir_int = np.random.randint(1, 5)
@@ -158,8 +167,15 @@ class Droid():
     def remove_nan_rows(arr):
         return arr[~np.isnan(arr.sum(axis=1))]
 
+    
     @staticmethod
     def find_route(origin, destination, possibles):
+        global route_cache
+
+        key = f'{origin}{destination}{possibles}'
+        if key in route_cache.keys():
+            return route_cache[key]
+        
         route = np.full(possibles.shape, np.nan)
         route[0] = origin.copy()
 
@@ -171,7 +187,8 @@ class Droid():
 
             # If done, return
             if Droid.arrays_match(route[current_route_it-1], destination):
-                return Droid.remove_nan_rows(route)
+                route_cache[key] = Droid.remove_nan_rows(route)
+                return route_cache[key]
 
             # Ensure we can't step back where we came from
             remaining_poss = Droid.remove_array(remaining_poss, current_pos)
@@ -207,8 +224,9 @@ class Droid():
                 return False
             pass
         pass
-
+    
     def go_to(self, destination):
+        
         if all(destination==self.position):
             return 
         if destination[1] > self.position[1]:
@@ -223,3 +241,4 @@ class Droid():
             raise NotImplementedError
         self.__call__(direction)
         pass
+    
