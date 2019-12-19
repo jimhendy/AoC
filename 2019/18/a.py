@@ -1,7 +1,7 @@
 import re
 import queue
 import time
-from droid import Droid, Direction
+from droid import Droid, Direction, move
 import numpy as np
 from functools import lru_cache
 
@@ -16,32 +16,39 @@ def possibles_with_keys(arr, keys):
 def key_map(arr, unvisited):
     reg = re.compile('^[a-z]$')
     visited = arr[~unvisited]
-    return visited[match_reg(visited, reg)]
+    return list(visited[match_reg(visited, reg)])
 
 
 d_cache = {}
 
-def dijkstra(droid, origin, destination, return_route=True):
+def dijkstra(droid, origin, destination, starting_keys = []):
     global d_cache
 
+    droid.reset()
+    
     key = tuple((tuple(origin), tuple(destination)))
     if key in d_cache.keys():
         return d_cache[key]
-    
+
     unvisited = np.full(droid.layout.shape, True)
-    possibles = possibles_with_keys(droid.layout, [])
+    possibles = possibles_with_keys(droid.layout, starting_keys)
     unvisited[tuple(origin.astype(int))] = False
-    keys = key_map(droid.layout, unvisited)
-    
+    #keys = key_map(droid.layout, unvisited)
+
+    parents = {}
+    pos_steps = [ Direction.NORTH, Direction.WEST, Direction.SOUTH, Direction.EAST ]
     steps = 0
 
     while True:
+
         if unvisited[tuple(destination.astype(int))] == False:
             # Found the destination
             break
+
         if all(~unvisited[possibles]):
             #print('Unable to find the destination')
             return False
+
         # Expand the unvisited map if possible
         next_unvisited = np.all(
             [unvisited] + [
@@ -52,32 +59,43 @@ def dijkstra(droid, origin, destination, return_route=True):
             axis=0
         )
         next_unvisited[~possibles] = True
+
+        newly_visited = np.argwhere( (unvisited==True) & (next_unvisited==False) )
+        for new_c in newly_visited:
+            for step in pos_steps:
+                pos_old_pos = move(new_c, step)
+                if np.any(pos_old_pos<0):
+                    continue
+                if np.any(pos_old_pos>unvisited.shape):
+                    continue
+                if unvisited[tuple(pos_old_pos.astype(int))] == False:
+                    parents[tuple(new_c.astype(int))] = pos_old_pos
+                    break
+                pass
+            pass
+                
         if np.array_equal(unvisited, next_unvisited):
-            #print(unvisited)
             #print('Nowhere to take the next step')
-            #import code
-            #code.interact(local=locals())
             return False
+
         unvisited = next_unvisited
         steps += 1
-
-        available_keys = key_map(droid.layout, unvisited)
-    
-        possibles = possibles_with_keys(droid.layout, available_keys)
+        #available_keys = key_map(droid.layout, unvisited)
+        #possibles = possibles_with_keys(droid.layout, starting_keys + available_keys)
         
         pass
 
-    if return_route:
-        route = list(Droid.find_route(
-            destination,
-            origin,
-            np.argwhere(~unvisited)
-        )[::-1])
-        d_cache[key] = route
-        return route
-    else:
-        return steps
-    pass
+    route = [destination]
+    while not np.all(route[-1] == origin):
+        route.append(parents[tuple(route[-1].astype(int))])
+        pass
+    route = route[::-1]
+
+    picked_up_keys = key_map(droid.layout, unvisited)
+    d_cache[key] = route, picked_up_keys
+    return route, picked_up_keys
+
+
 
 
 def route_to_str(route):
@@ -142,32 +160,33 @@ def run(inputs):
         #print(route)
         for new_destination in interesting_points:
             if np.any(np.all(np.array(destinations) == new_destination, axis=1)):
-                print('Bad')
-                print(destinations, new_destination)
+                #print('Bad')
+                #print(destinations, new_destination)
                 continue
-            extra_route = dijkstra(droid, destinations[-1], new_destination, return_route=True)
-            if extra_route is False:
-                print(False)
-                print(destinations[-1], new_destination)
-                print('-')
-                continue
+
             new_destinations = destinations + [new_destination]
-            print(new_destinations)
+            #print(new_destinations)
             #print(new_destinations)
             route = route_from_destinations(droid, new_destinations)
+            if route is False:
+                continue
+            
             if is_valid_pos(droid, route):
+                #print(new_destinations)
+                #print('--- y')
                 # droid.plot(True)
                 #print(attempt, new_route[:])
                 # time.sleep(0.1)
                 possibles_q.put(new_destinations)
                 pass
+            else:
+                #print('N')
+                pass
+            #print('+'*8)
             pass
         pass
 
-    import code
-    code.interact(local=locals())
-
-    return 0
+    return len(route) - 1
 
 rfd_cache = {}
 def route_from_destinations(droid, destinations):
@@ -177,11 +196,30 @@ def route_from_destinations(droid, destinations):
         return rfd_cache[key]
     if len(destinations) == 1:
         return destinations
-    route = [
-        dijkstra(droid, destinations[i], destinations[i+1], return_route=True)
-        for i in range(len(destinations)-1)
-    ]
-    route = np.array([ i for j in route for i in j ])
+
+    prev_keys = []
+    route = [destinations[0]]
+    #print(destinations)
+    for end in destinations[1:]:
+
+        start = route[-1]
+        
+        if len(route) and np.any( np.all(end==np.array(route), axis=1) ):
+            # Already visited this destination
+            continue
+        
+        #print(prev_keys)
+        new_route = dijkstra(droid, start, end, prev_keys)
+        if new_route == False:
+            #print(False)
+            return False
+        new_route, prev_keys = new_route
+        #print(prev_keys)
+        #print('-')
+        route.extend(new_route)
+        pass
+    
+    route = np.array(route)
     route = route[np.hstack([[True], np.abs(np.diff(route, axis=0)).sum(axis=1)!=0])]
     assert np.all(np.abs(np.diff(route, axis=0)).sum(axis=1)==1)
     rfd_cache[key] = route[:]
