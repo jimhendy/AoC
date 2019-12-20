@@ -1,6 +1,7 @@
 import re
 import queue
 import time
+import numba
 from droid import Droid, Direction, move
 import numpy as np
 from functools import lru_cache
@@ -18,15 +19,24 @@ def key_map(arr, unvisited):
     visited = arr[~unvisited]
     return list(visited[match_reg(visited, reg)])
 
+@numba.njit
+def expand_unvisited(unvisited):
+    visited = ~ unvisited
+    down = np.roll(visited.T,1).T
+    up = np.roll(visited.T,-1).T
+    right = np.roll(visited,1)
+    left = np.roll(visited,-1)
+    result = visited + up + down + left + right
+    return ~result            
 
 d_cache = {}
-
+@profile
 def dijkstra(droid, origin, destination, starting_keys = []):
     global d_cache
 
     droid.reset()
     
-    key = tuple((tuple(origin), tuple(destination)))
+    key = f'{origin}{destination}{starting_keys}'
     if key in d_cache.keys():
         return d_cache[key]
 
@@ -50,7 +60,9 @@ def dijkstra(droid, origin, destination, starting_keys = []):
             return False
 
         # Expand the unvisited map if possible
-        next_unvisited = np.all(
+        next_unvisited = expand_unvisited(unvisited)
+        """
+        np.all(
             [unvisited] + [
                 np.roll(unvisited, r, axis=a)
                 for r in [-1, 1]
@@ -58,6 +70,7 @@ def dijkstra(droid, origin, destination, starting_keys = []):
             ],
             axis=0
         )
+        """
         next_unvisited[~possibles] = True
 
         newly_visited = np.argwhere( (unvisited==True) & (next_unvisited==False) )
@@ -158,6 +171,7 @@ def run(inputs):
     while not is_complete(droid, route_from_destinations(droid, destinations)):
         destinations = possibles_q.get()
         #print(route)
+        print(destinations)
         for new_destination in interesting_points:
             if np.any(np.all(np.array(destinations) == new_destination, axis=1)):
                 #print('Bad')
@@ -222,5 +236,5 @@ def route_from_destinations(droid, destinations):
     route = np.array(route)
     route = route[np.hstack([[True], np.abs(np.diff(route, axis=0)).sum(axis=1)!=0])]
     assert np.all(np.abs(np.diff(route, axis=0)).sum(axis=1)==1)
-    rfd_cache[key] = route[:]
+    rfd_cache[key] = route.copy()
     return route
