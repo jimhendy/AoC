@@ -31,14 +31,14 @@ class MapSymbol(Enum):
     pass
 
 
+_MOVES = {
+    Direction.NORTH: np.array([-1, 0]),
+    Direction.SOUTH: np.array([+1, 0]),
+    Direction.WEST: np.array([0, -1]),
+    Direction.EAST: np.array([0, +1])
+}
 def move(pos, direction):
-    step = {
-        Direction.NORTH: np.array([-1, 0]),
-        Direction.SOUTH: np.array([+1, 0]),
-        Direction.WEST: np.array([0, -1]),
-        Direction.EAST: np.array([0, +1])
-    }[direction]
-    return pos + step
+    return pos + _MOVES[direction]
 
 
 class Droid():
