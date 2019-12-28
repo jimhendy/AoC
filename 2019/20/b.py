@@ -37,11 +37,25 @@ def get_gates(layout):
                         continue
                     next_next_char = chr( get_char(next_next_pos, layout) )
                     if next_next_char == '.':
+                        
                         if step[1] == 1 or step[0] == 1:
                             key = f'{char}{next_char}'
                         else:
                             key = f'{next_char}{char}'
                             pass
+                        
+                        if (
+                                (pos[0] == 0) or
+                                (pos[0] == layout.shape[1]-1) or
+                                (pos[1] == 0) or
+                                (pos[1] == layout.shape[0] - 1)
+                        ):
+                            key += '_o'
+                            
+                        else:
+                            key += '_i'
+                            pass
+                        
                         if key in data.keys():
                             key += '_1'
                         data[key] = next_next_pos
@@ -117,9 +131,9 @@ def run(inputs):
     [graph.add_node(k, pos=v) for k, v in gates.items()]
 
     for k,v in gates.items():
-        if not k.endswith('_1'):
+        if not k.endswith('_i'):
             continue
-        graph.add_edge(k, k.replace('_1',''), weight=1)
+        graph.add_edge(k, k.replace('_i','_o'), weight=1)
         pass
     
     for o_name, o in gates.items():
@@ -132,14 +146,14 @@ def run(inputs):
             graph.add_edge(o_name, d_name, weight=distance)
             pass
         pass
-    '''
+    
     pos = nx.get_node_attributes(graph, 'pos')
     nx.draw(graph, pos)
     labels = nx.get_edge_attributes(graph, 'weight')
     nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
     nx.draw_networkx_labels(graph, pos)
     plt.show()
-    '''
-    distance = nx.dijkstra_path_length(graph, 'AA', 'ZZ')
+    
+    distance = nx.dijkstra_path_length(graph, 'AA_o', 'ZZ_o')
 
     return distance
