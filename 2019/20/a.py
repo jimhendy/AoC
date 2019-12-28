@@ -5,43 +5,38 @@ import networkx as nx
 import matplotlib.pylab as plt
 from collections import defaultdict
 
-STEPS = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+STEPS = np.array([np.array(i) for i in [(1, 0), (-1, 0), (0, 1), (0, -1)]])
 
 import numba
 
-@numba.njit
-def is_valid_pos(pos: , layout):
+@numba.njit(numba.boolean(numba.int64[:],numba.int64[:,:]))
+def is_valid_pos(pos, layout):
     if not (0 < pos[0] < len(layout[0])):
         return False
     if not (0 < pos[1] < len(layout)):
         return False
     return True
 
-@numba.njit
-def step_pos(pos, step):
-    return (pos[0]+step[0], pos[1]+step[1])
-
-#@numba.njit
-def stepped_char(pos, step, layout):
-    # Return the character in the stepped position
-    # If the stepped pos is invalid, return a wall
-    new_pos = step_pos(pos, step)
-    if not is_valid_pos(new_pos, layout):
-        return '#'
-    return get_char(new_pos, layout)
-
-
 def get_gates(layout):
     # Gates are defined as the period next to two adjacent uppercase letters
     data = {}
     for y, row in enumerate(layout):
-        for x, char in enumerate(row):
+        for x, char_o in enumerate(row):
+            char = chr(char_o)
             if not char.isupper():
                 continue
+            pos = np.array([x,y])
             for step in STEPS:
-                next_char = stepped_char((x, y), step, layout)
+                next_pos = pos + step
+                if not is_valid_pos(next_pos, layout):
+                    continue
+                next_char = chr( get_char(next_pos, layout))
                 if next_char.isupper():
-                    if stepped_char((x, y), (2*step[0], 2*step[1]), layout) == '.':
+                    next_next_pos = next_pos + step
+                    if not is_valid_pos(next_next_pos, layout):
+                        continue
+                    next_next_char = chr( get_char(next_next_pos, layout) )
+                    if next_next_char == '.':
                         if step[1] == 1 or step[0] == 1:
                             key = f'{char}{next_char}'
                         else:
@@ -49,42 +44,48 @@ def get_gates(layout):
                             pass
                         if key in data.keys():
                             key += '_1'
-                        data[key] = (x + 2 * step[0], y + 2 * step[1])
+                        data[key] = next_next_pos
     return data
 
-@numba.njit
+@numba.njit(numba.int64(numba.int64[:],numba.int64[:,:]))
 def get_char(pos, layout):
-    if not is_valid_pos(pos, layout):
-        return False
     return layout[pos[1]][pos[0]]
 
-
+@numba.njit(numba.boolean(numba.int64[:], numba.int64[:,:], numba.int64))
 def set_char(pos, layout, char):
     if not is_valid_pos(pos, layout):
         return False
     layout[pos[1]][pos[0]] = char
     return True
 
-
+@numba.njit(numba.int64(numba.int64[:],numba.int64[:],numba.int64[:,:]))
 def dijkstra(origin, destination, layout_orig):
-    layout = np.array(layout_orig)
+    layout = layout_orig.copy()
     layout_prev = layout.copy()
-    seen_char = '0'
+    seen_char = 48 # ord('0')
     origin_set = set_char(origin, layout_prev, seen_char)
     steps = 0
     if not origin_set:
-        raise Exception(f'Canno\'t set origin at position {origin}')
+        #raise Exception(f'Canno\'t set origin at position {origin}')
+        return -1
     while True:
         if get_char(destination, layout) == seen_char:
             return steps
 
-        for y, row in enumerate(layout_prev):
-            for x, char in enumerate(row):
+        for y in range(layout_prev.shape[0]):
+            row = layout_prev[y]
+            for x in range(row.shape[0]):
+                char = row[x]
                 if char == seen_char:
-                    for step in STEPS:
-                        next_char = stepped_char((x, y), step, layout_prev)
-                        if next_char == '.':
-                            set_char(step_pos((x, y), step), layout, seen_char)
+                    pos = np.array([x,y])
+                    for step_i in range(STEPS.shape[0]):
+                        step = STEPS[step_i]
+                        next_pos = pos + step
+                        if not is_valid_pos(next_pos, layout):
+                            continue
+                        next_char = get_char(next_pos, layout_prev)
+                        if next_char == 46: # ord('.')
+                            set_char(next_pos, layout, seen_char)
                             pass
                         pass
                     pass
@@ -92,23 +93,24 @@ def dijkstra(origin, destination, layout_orig):
             pass
         # plot(layout)
         if np.array_equal(layout_prev, layout):
-            print(f'Canno\'t find a path from {origin} to {destination}')
-            return False
+            #print(f'Canno\'t find a path from {origin} to {destination}')
+            return -1
         layout_prev = layout.copy()
         steps += 1
+        pass
     pass
 
 
 def plot(layout):
-    [print(''.join(i)) for i in layout]
+    [print(''.join(map(chr,i))) for i in layout]
     print()
 
 
 def run(inputs):
 
-    layout = np.array([list(i) for i in inputs.split(os.linesep)])
+    layout = np.array([list(map(ord,i)) for i in inputs.split(os.linesep)])
     plot(layout)
-
+    
     gates = get_gates(layout)
     graph = nx.Graph()
     
@@ -125,7 +127,7 @@ def run(inputs):
             if graph.has_edge(o_name, d_name):
                 continue
             distance = dijkstra(o, d, layout)
-            if distance == False:
+            if distance < 0:
                 continue
             graph.add_edge(o_name, d_name, weight=distance)
             pass
