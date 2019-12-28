@@ -7,19 +7,21 @@ from collections import defaultdict
 
 STEPS = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
+import numba
 
-def is_valid_pos(pos, layout):
+@numba.njit
+def is_valid_pos(pos: , layout):
     if not (0 < pos[0] < len(layout[0])):
         return False
     if not (0 < pos[1] < len(layout)):
         return False
     return True
 
-
+@numba.njit
 def step_pos(pos, step):
     return (pos[0]+step[0], pos[1]+step[1])
 
-
+#@numba.njit
 def stepped_char(pos, step, layout):
     # Return the character in the stepped position
     # If the stepped pos is invalid, return a wall
@@ -31,7 +33,7 @@ def stepped_char(pos, step, layout):
 
 def get_gates(layout):
     # Gates are defined as the period next to two adjacent uppercase letters
-    data = defaultdict(list)
+    data = {}
     for y, row in enumerate(layout):
         for x, char in enumerate(row):
             if not char.isupper():
@@ -40,12 +42,17 @@ def get_gates(layout):
                 next_char = stepped_char((x, y), step, layout)
                 if next_char.isupper():
                     if stepped_char((x, y), (2*step[0], 2*step[1]), layout) == '.':
-                        data[''.join(sorted([char, next_char]))].append(
-                            (x + 2 * step[0], y + 2 * step[1])
-                        )
+                        if step[1] == 1 or step[0] == 1:
+                            key = f'{char}{next_char}'
+                        else:
+                            key = f'{next_char}{char}'
+                            pass
+                        if key in data.keys():
+                            key += '_1'
+                        data[key] = (x + 2 * step[0], y + 2 * step[1])
     return data
 
-
+@numba.njit
 def get_char(pos, layout):
     if not is_valid_pos(pos, layout):
         return False
@@ -99,25 +106,27 @@ def plot(layout):
 
 def run(inputs):
 
-    layout = [list(i) for i in inputs.split(os.linesep)]
+    layout = np.array([list(i) for i in inputs.split(os.linesep)])
     plot(layout)
 
     gates = get_gates(layout)
     graph = nx.Graph()
+    
+    [graph.add_node(k, pos=v) for k, v in gates.items()]
 
-    [ graph.add_node(k, pos=v[0]) for k,v in gates.items() ]
+    for k,v in gates.items():
+        if not k.endswith('_1'):
+            continue
+        graph.add_edge(k, k.replace('_1',''), weight=1)
+        pass
     
     for o_name, o in gates.items():
         for d_name, d in gates.items():
-            distances = [
-                dijkstra(o_i, d_i, layout)
-                for o_i in o
-                for d_i in d
-            ]
-            distances = [ d for d in distances if d != False ]
-            if not len(distances):
+            if graph.has_edge(o_name, d_name):
                 continue
-            distance = min(distances)
+            distance = dijkstra(o, d, layout)
+            if distance == False:
+                continue
             graph.add_edge(o_name, d_name, weight=distance)
             pass
         pass
@@ -129,9 +138,6 @@ def run(inputs):
     nx.draw_networkx_labels(graph, pos)
     plt.show()
     '''
-
-    sp = nx.dijkstra_path(graph, 'AA', 'ZZ')
-    distance = nx.dijkstra_path_length( graph, 'AA', 'ZZ' )
-    distance += len(sp) - 2
+    distance = nx.dijkstra_path_length(graph, 'AA', 'ZZ')
 
     return distance
