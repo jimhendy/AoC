@@ -132,14 +132,14 @@ def run(inputs):
             graph.add_edge(o_name, d_name, weight=distance)
             pass
         pass
-    '''
+    
     pos = nx.get_node_attributes(graph, 'pos')
     nx.draw(graph, pos)
     labels = nx.get_edge_attributes(graph, 'weight')
     nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
     nx.draw_networkx_labels(graph, pos)
     plt.show()
-    '''
+    
     distance = nx.dijkstra_path_length(graph, 'AA', 'ZZ')
 
     return distance
