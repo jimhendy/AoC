@@ -165,6 +165,7 @@ class Status(a_star.State):
         return m < om
 
     def all_possible_next_states(self):
+        print_grid(self.used, self.goal_data_loc)
         avail = self.sizes - self.used
         for y in range(self.sizes.shape[0]):
             for x in range(self.sizes.shape[1]):
