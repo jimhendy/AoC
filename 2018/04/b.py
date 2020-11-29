@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 import re
 
 def run(inputs):
@@ -24,9 +24,4 @@ def run(inputs):
         index='Minute', columns=['Guard','Date'], values='Asleep'
     ).reindex(range(60)).ffill().fillna(False).astype(int)
 
-    total_sleep_minutes = dfp.sum(axis=1, level=0).sum().sort_values()
-    sleepiest_guard = total_sleep_minutes.index[-1]
-
-    sleepiest_minute = dfp[sleepiest_guard].sum(axis=1).sort_values().index[-1]
-
-    return sleepiest_guard * sleepiest_minute
+    return np.product(dfp.sum(axis=1, level=0).unstack().sort_values().index[-1])
