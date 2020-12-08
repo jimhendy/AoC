@@ -1,0 +1,9 @@
+from optcode import OptCode
+import os
+
+def run(inputs):
+    inputs = inputs.split(os.linesep)
+    ip = int(inputs[0].split()[1])
+    oc = OptCode(ip, inputs[1:])
+    oc.run()
+    return oc.registers[0]
