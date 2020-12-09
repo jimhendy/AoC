@@ -9,14 +9,12 @@ def run(inputs):
         line = line.strip()
 
         if not len(line):
-            print(len(data))
             total += len(data)
             data = None
         else:
             if data is None:
                 data = set(list(line))
             else:
-                print(data, set(list(line)))
                 data = data.intersection( set(list(line)) )
             
     total += len(data)
