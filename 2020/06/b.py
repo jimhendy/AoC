@@ -1,11 +1,12 @@
 import os
 
+
 def run(inputs):
 
     total = 0
     data = None
     for line in inputs.split(os.linesep):
-        
+
         line = line.strip()
 
         if not len(line):
@@ -15,8 +16,8 @@ def run(inputs):
             if data is None:
                 data = set(list(line))
             else:
-                data = data.intersection( set(list(line)) )
-            
+                data = data.intersection(set(list(line)))
+
     total += len(data)
 
     return total
