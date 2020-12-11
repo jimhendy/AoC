@@ -12,6 +12,4 @@ def run(inputs):
 
     diffs = adapters.diff().value_counts()
 
-    print(diffs)
-
     return diffs.loc[1] * diffs.loc[3]
