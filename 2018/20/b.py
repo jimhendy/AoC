@@ -23,4 +23,10 @@ def run(inputs):
         elif c == ")":
             pos = before_brackets.pop()
 
-    return max(list(map(len, nx.shortest_path(graph, Point(0, 0)).values()))) - 1
+    return len(
+        [
+            k for k,v in nx.shortest_path(graph, Point(0, 0)).items()
+            if len(v) > 1_000
+        ]
+    )
+        
