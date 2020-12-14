@@ -19,7 +19,12 @@ class Route(State):
         self.history = history if history is not None else []
 
     def __lt__(self, other):
-        return self.time < other.time
+        # Potential worst case for steps to the target
+        s_to_target = abs(self.pos-self.cave.target)
+        o_to_target = abs(other.pos - self.cave.target)
+        potential_s = self.time + s_to_target
+        potential_o = other.time + o_to_target
+        return potential_s < potential_o
 
     def is_complete(self):
         return self.pos == self.cave.target and self.equipment == Equipment.Torch

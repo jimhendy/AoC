@@ -3,12 +3,18 @@ from abc import ABC, abstractmethod
 
 DEBUG = False
 
+"""
+In this augmented a_star we allow for a faster route to location
+to be found after we have already seen this location.
+This is due to the problem not being a simple maze but some steps
+taking longer than others.
+"""
 
 class AStarException(Exception):
     pass
 
 
-def a_star(initial_state, tag_func=str, return_status=False):
+def augemented_a_star(initial_state, tag_func=str, return_status=False):
     """Perform the A* search algorithm
     The initial_state should be a subclass of State (below)
     that implements:
@@ -32,7 +38,7 @@ def a_star(initial_state, tag_func=str, return_status=False):
     """
 
     possible_states = [initial_state]
-    seen = set()
+    seen = {}
     n_tests = 0
     is_complete = False
 
@@ -51,16 +57,20 @@ def a_star(initial_state, tag_func=str, return_status=False):
         for s in best_option.all_possible_next_states():
             if not s.is_valid():
                 if DEBUG:
-                    print(f"Skipping {s} as not valid")
+                    print(f"Skipping {tag_func(s)} as not valid")
                 continue
             tag = tag_func(s)
             if tag in seen:
-                if DEBUG:
-                    print(f"Skipping {tag} as already seen")
-                continue
+                if seen[tag] <= s.time:
+                    if DEBUG:
+                        print(f'Skipping {tag} as already seen with a better time')
+                    continue
+                else:
+                    if DEBUG:
+                        print(f'NOT skipping {tag} as we just found a faster way to get there ({s.time} vrs {seen[tag]})')
             if DEBUG:
-                print("Adding new state to heap")
-            seen.add(tag)
+                print(f"Adding new state to heap: {tag}")
+            seen[tag] = s.time
             heapq.heappush(possible_states, s)
 
     if return_status:

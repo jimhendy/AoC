@@ -1,6 +1,6 @@
 import os
 
-from a_star import a_star
+from a_star import augemented_a_star as a_star
 from cave import Cave, Terrain
 from point import Point
 from route import Equipment, Route

@@ -9,7 +9,9 @@ class Terrain(Enum):
     Wet = 1
     Narrow = 2
 
-CHARACTERS = {Terrain.Rocky: ".", Terrain.Wet: "=", Terrain.Narrow: "|", 'unknown':' '}
+
+CHARACTERS = {Terrain.Rocky: ".", Terrain.Wet: "=", Terrain.Narrow: "|", "unknown": " "}
+
 
 class Cave:
     def __init__(self, depth, target):
@@ -52,7 +54,6 @@ class Cave:
     def terrain(self, p):
         if p in self.terrain_cache:
             return self.terrain_cache[p]
-
         el = self.erosion_level(p)
         terrain = Terrain(el % 3)
         self.terrain_cache[p] = terrain
@@ -62,8 +63,8 @@ class Cave:
         max_x = max([p.x for p in self.terrain_cache.keys()])
         max_y = max([p.y for p in self.terrain_cache.keys()])
 
-        #max_x = max([max_x, self.target.x])
-        #max_y = max([max_y, self.target.y])
+        # max_x = max([max_x, self.target.x])
+        # max_y = max([max_y, self.target.y])
 
         out = ""
         for y in range(max_y + 1):
@@ -72,6 +73,6 @@ class Cave:
                 if p == self.target:
                     out += "T"
                 else:
-                    out += CHARACTERS.get(self.terrain_cache.get(p, 'unknown'))
+                    out += CHARACTERS.get(self.terrain_cache.get(p, "unknown"))
             out += os.linesep
         return out
