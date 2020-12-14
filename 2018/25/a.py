@@ -21,35 +21,31 @@ def run(inputs):
         for line in inputs.split(os.linesep)
     ]
 
-    c = sorted(c, key=lambda x: x.points[0].x[0])
-
     n_c = None
     no_merge = set()
 
     while len(c) != n_c:
-        ignore = set()
-        print(len(c), len(no_merge))
+        merged = set()
+        print(len(c))
         n_c = len(c)
 
         for i, ci in enumerate(c[:-1]):
-            if i in ignore:
+            if i in merged:
                 continue
             ci_str = ci.__repr__()
             for j, cj in enumerate(c):
-                if j <= i:
-                    continue
-                if j in ignore:
+                if j <= i or j in merged:
                     continue
                 s = ci_str + "@" + cj.__repr__()
                 if s in no_merge:
                     continue
                 if ci.distance(cj) <= 3:
                     ci.combine(cj)
-                    ignore.add(j)
+                    merged.add(j)
                 else:
                     no_merge.add(s)
 
-        for i in sorted(ignore)[::-1]:
+        for i in sorted(merged)[::-1]:
             c.pop(i)
 
-    return len(c)
+    return n_c
