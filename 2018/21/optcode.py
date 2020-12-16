@@ -39,6 +39,7 @@ class OptCode:
         self.instruction_count = defaultdict(int) # instruction_id : count
         self.instruction_count_order = defaultdict(list) # count : list([instructions_pointers])
         self.seen = set()
+        self.prev_seen = None
 
     def run(self):
         count = 0
@@ -163,7 +164,9 @@ class OptCode:
     def eqrr(self, A, B, C):
         if A in self.seen:
             print(A)
+            print(self.prev_seen)
             raise Exception
         self.seen.add(A)
         print(self.seen)
+        self.prev_seen = A
         return int(A == B)

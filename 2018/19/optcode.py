@@ -2,6 +2,8 @@ import functools
 import re
 from collections import defaultdict
 
+import time
+
 def write_to_c(func):
     @functools.wraps(func)
     def wrapped(self, A, B, C):
@@ -41,32 +43,11 @@ class OptCode:
 
     def run(self):
         while True:
-            '''
-            print(self.registers)
-
-            if self.registers[self.ip_reg] == 3:
-                if not self.registers[4] % self.registers[2]:
-                    self.registers[3] = self.registers[1]
-                    self.registers[5] = 1
-                    self.registers[self.ip_reg] = 7
-                else:
-                    self.registers[3] = self.registers[1] + 1
-                    self.registers[5] = 1
-                    self.registers[self.ip_reg] = 12
-                self.instruction_pointer = self.registers[self.ip_reg] + 1
-                continue
 
             try:
                 i = self.instructions[self.instruction_pointer]
             except IndexError:
                 return
-            
-            self.instruction_count[self.instruction_pointer] += 1
-            self.instruction_count_order[self.instruction_count[self.instruction_pointer]].append(i)
-            if len(self.instruction_count_order[self.instruction_count[self.instruction_pointer]]) == 1:
-                print('='*30)
-            print(self.instruction_count_order[self.instruction_count[self.instruction_pointer]])
-            '''
             matches = self.instruction_reg.findall(i)[0]
             func = getattr(self, matches[0])
             func(*list(map(int, matches[1:])))

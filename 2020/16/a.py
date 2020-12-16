@@ -22,7 +22,6 @@ def run(inputs):
     error_rate = 0
     for ticket in tickets:
         for num in ticket:
-            print(num, type(num))
             valid_num = False
             for rule_name, rule in rules.items():
                 if rule[0] <= num <= rule[1] or rule[2] <= num <= rule[3]:
