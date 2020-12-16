@@ -63,8 +63,8 @@ class Group:
         }
         for t in available_target_groups:
             damage = self.calculate_inflicted_damage(t)
-            #if damage == 0:
-            #    continue
+            if damage == 0:
+                continue
             replace = (damage > target_props["damage"]) or (
                 (damage == target_props["damage"])
                 and (
