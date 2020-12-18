@@ -1,5 +1,4 @@
 import os
-import re
 
 
 def extreme_cubes(active):
