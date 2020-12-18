@@ -18,19 +18,19 @@ def evaluate_first_bracket_term(line):
     return line
 
 
-def evaluate_term(line):
-    line = evaluate_operator(line, "+", addition_reg, lambda x, y: x + y)
-    line = evaluate_operator(line, "*", multiplication_reg, lambda x, y: x * y)
-    return line
+def evaluate_term(term):
+    term = evaluate_operator(term, "+", addition_reg, lambda x, y: x + y)
+    term = evaluate_operator(term, "*", multiplication_reg, lambda x, y: x * y)
+    return term
 
 
-def evaluate_operator(line, op, reg, func):
-    while op in line:
-        for match in reg.finditer(line):
+def evaluate_operator(term, op, reg, func):
+    while op in term:
+        for match in reg.finditer(term):
             result = func(int(match[1]), int(match[2]))
-            line = line[: match.start()] + str(result) + line[match.end() :]
+            term = term[: match.start()] + str(result) + term[match.end() :]
             break
-    return line
+    return term
 
 
 def run(inputs):

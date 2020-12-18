@@ -15,9 +15,9 @@ def evaluate_first_bracket_term(line):
     return line
 
 
-def evaluate_term(line):
-    ints = list(map(int, int_reg.findall(line)))
-    ops = operator_reg.findall(line)
+def evaluate_term(term):
+    ints = list(map(int, int_reg.findall(term)))
+    ops = operator_reg.findall(term)
     result = ints[0]
     for i, o in zip(ints[1:], ops):
         if o == "+":
