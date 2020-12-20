@@ -14,7 +14,7 @@ def run(inputs):
             for tj in tiles:
                 if tj == ti:
                     continue
-                for j, ej in tj.edges():
+                for _, ej in tj.edges():
                     if ei == ej:
                         ti.matches.append({"MySide": i, "Them": tj})
 
