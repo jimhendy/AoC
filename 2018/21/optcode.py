@@ -2,13 +2,13 @@ import functools
 import re
 from collections import defaultdict
 
+
 def write_to_c(func):
     @functools.wraps(func)
     def wrapped(self, A, B, C):
         self.registers[self.ip_reg] = self.instruction_pointer
         self.registers[C] = func(self, A, B, C)
         self.instruction_pointer = self.registers[self.ip_reg] + 1
-
 
     return wrapped
 
@@ -36,33 +36,35 @@ class OptCode:
         self.instructions = instructions
         self.registers = [0] * 6
         self.instruction_reg = re.compile(r"(\w+) ([\-\d]+) ([\-\d]+) ([\-\d]+)")
-        self.instruction_count = defaultdict(int) # instruction_id : count
-        self.instruction_count_order = defaultdict(list) # count : list([instructions_pointers])
+        self.instruction_count = defaultdict(int)  # instruction_id : count
+        self.instruction_count_order = defaultdict(
+            list
+        )  # count : list([instructions_pointers])
         self.seen = set()
         self.prev_seen = None
 
     def run(self):
         count = 0
         while True:
-            
+
             #print(self.registers)
 
             try:
                 i = self.instructions[self.instruction_pointer]
             except IndexError:
                 return
-            '''
+            """
             self.instruction_count[self.instruction_pointer] += 1
             self.instruction_count_order[self.instruction_count[self.instruction_pointer]].append(i)
             if len(self.instruction_count_order[self.instruction_count[self.instruction_pointer]]) == 1:
                 print('='*30)
             print(self.instruction_count_order[self.instruction_count[self.instruction_pointer]])
-            '''
+            """
             matches = self.instruction_reg.findall(i)[0]
             func = getattr(self, matches[0])
             func(*list(map(int, matches[1:])))
-            #count += 1
-            #if count > 3000:
+            count += 1
+            # if count > 20:
             #    break
 
     ## ADD
@@ -167,6 +169,5 @@ class OptCode:
             print(self.prev_seen)
             raise Exception
         self.seen.add(A)
-        print(self.seen)
         self.prev_seen = A
         return int(A == B)
