@@ -38,9 +38,6 @@ if __name__ == "__main__":
     # Add the solver file location to the path
     sys.path.append(os.path.split(solver_file)[0])
 
-    # Add the common tools location to the path AFTER the problem directory so that it takes precidence if we want to override a module
-    sys.path.append('./tools/')
-
     # Import the solver file as "solver"
     solver = importlib.import_module(puzzle_code)
 

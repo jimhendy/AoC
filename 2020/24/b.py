@@ -1,7 +1,7 @@
 import os
 from collections import defaultdict
 
-from point import PointyTop2DHexPoint as Point
+from tools.point import PointyTop2DHexPoint as Point
 
 
 def flip(black_tiles):
