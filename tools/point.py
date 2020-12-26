@@ -86,6 +86,7 @@ class Point2D(Point):
 
 
 class PointyTop2DHexPoint(Point):
+    # See https://www.redblobgames.com/grids/hexagons/
     steps = {
         "nw": Point(-1, 0, +1),
         "ne": Point(0, +1, +1),
