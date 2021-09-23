@@ -2,7 +2,7 @@ import numpy as np
 from functools import lru_cache
 
 
-def chinese_remainder(b, n):
+def chinese_remainder(b: np.ndarray, n: np.ndarray) -> int:
     """
     Find the value "x" in the following system:
 
@@ -24,7 +24,7 @@ def chinese_remainder(b, n):
 
 
 @lru_cache(maxsize=1024)
-def inverse_mod(a, n):
+def inverse_mod(a: int, n: int) -> int:
     """
     Return x in the below
     a * x = 1 mod(n)
