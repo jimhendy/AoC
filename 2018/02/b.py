@@ -1,14 +1,15 @@
 import os
 
+
 def run(inputs):
 
-    ids = [ list(i) for i in inputs.split(os.linesep) ]
+    ids = [list(i) for i in inputs.split(os.linesep)]
 
     for i, id_i in enumerate(ids):
         for id_j in ids[i:]:
             if not len(id_i) == len(id_j):
                 continue
-            
+
             n_diffs = 0
             failed = False
             diff_character_i = -1
@@ -24,4 +25,4 @@ def run(inputs):
                 continue
             if n_diffs != 1:
                 continue
-            return ''.join(id_i[:diff_character_i] + id_i[diff_character_i+1:])
+            return "".join(id_i[:diff_character_i] + id_i[diff_character_i + 1 :])

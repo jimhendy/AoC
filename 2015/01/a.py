@@ -1,3 +1,3 @@
 def run(inputs):
 
-    return inputs.count('(') - inputs.count(')')
+    return inputs.count("(") - inputs.count(")")

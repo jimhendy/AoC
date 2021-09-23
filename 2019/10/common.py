@@ -7,7 +7,7 @@ def in_to_array(inputs):
     data = []
     for y, row in enumerate(inputs.split(os.linesep)):
         for x, cell in enumerate(row):
-            if cell != '#':
+            if cell != "#":
                 continue
             data.append([x, y])
             pass
@@ -28,7 +28,7 @@ def num_visible(data):
 
 def _get_angle(data, pos):
     delta = data - pos
-    angle_ = (np.arctan2(-1 * delta[:, 1], delta[:, 0]) - np.pi/2) * -1
+    angle_ = (np.arctan2(-1 * delta[:, 1], delta[:, 0]) - np.pi / 2) * -1
     angle = (angle_ + 2 * np.pi) % (2 * np.pi)
     return angle
 

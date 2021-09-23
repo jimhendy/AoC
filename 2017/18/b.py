@@ -3,6 +3,7 @@ import time
 from duetcode import JumpCode
 from concurrent.futures import ThreadPoolExecutor
 
+
 def run(inputs):
 
     instructions = inputs.split(os.linesep)
@@ -21,7 +22,7 @@ def run(inputs):
             else:
                 for i, p in enumerate((p0, p1)):
                     if not p.is_running:
-                        print(f'Restarting {i}')
+                        print(f"Restarting {i}")
                         executor.submit(p.run)
             time.sleep(1)
 

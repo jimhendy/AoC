@@ -10,6 +10,7 @@ class Equipment(Enum):
     Climbing = 1
     Empty = 2
 
+
 class Route(State):
     def __init__(self, pos, cave, equipment, time, history=None):
         self.pos = pos
@@ -20,7 +21,7 @@ class Route(State):
 
     def __lt__(self, other):
         # Potential worst case for steps to the target
-        s_to_target = abs(self.pos-self.cave.target)
+        s_to_target = abs(self.pos - self.cave.target)
         o_to_target = abs(other.pos - self.cave.target)
         potential_s = self.time + s_to_target
         potential_o = other.time + o_to_target
@@ -44,6 +45,18 @@ class Route(State):
 
     def all_possible_next_states(self):
         for p in self.pos.nb4():
-            yield Route(p, self.cave, self.equipment, self.time + 1, self.history + [(self.pos.x, self.pos.y, self.equipment.value)])
+            yield Route(
+                p,
+                self.cave,
+                self.equipment,
+                self.time + 1,
+                self.history + [(self.pos.x, self.pos.y, self.equipment.value)],
+            )
         for e in Equipment:
-            yield Route(self.pos, self.cave, e, self.time + 7,self.history + [(self.pos.x, self.pos.y, self.equipment.value)])
+            yield Route(
+                self.pos,
+                self.cave,
+                e,
+                self.time + 7,
+                self.history + [(self.pos.x, self.pos.y, self.equipment.value)],
+            )

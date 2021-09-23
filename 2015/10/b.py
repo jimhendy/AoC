@@ -3,7 +3,7 @@ import itertools
 
 
 def evaluate(num):
-    return ''.join([str(len(list(g))) + str(k) for k, g in itertools.groupby(num)])
+    return "".join([str(len(list(g))) + str(k) for k, g in itertools.groupby(num)])
 
 
 def run(inputs):

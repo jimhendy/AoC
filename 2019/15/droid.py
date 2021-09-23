@@ -21,12 +21,12 @@ class Response(IntEnum):
 
 
 class MapSymbol(Enum):
-    DROID = 'D'
-    UNKNOWN = ' '
-    PREVIOUS = '.'
-    WALL = '#'
-    TANK = '@'
-    OXYGEN = 'O'
+    DROID = "D"
+    UNKNOWN = " "
+    PREVIOUS = "."
+    WALL = "#"
+    TANK = "@"
+    OXYGEN = "O"
     pass
 
 
@@ -35,13 +35,12 @@ def move(pos, direction):
         Direction.NORTH: np.array([0, +1]),
         Direction.SOUTH: np.array([0, -1]),
         Direction.WEST: np.array([-1, 0]),
-        Direction.EAST: np.array([+1, 0])
+        Direction.EAST: np.array([+1, 0]),
     }[direction]
     return pos + step
 
 
-class Droid():
-
+class Droid:
     def __init__(self, inputs):
         self.position = np.zeros(2)
         self.prog = intcode.Intcode(inputs)
@@ -68,7 +67,7 @@ class Droid():
             self.layout[tuple(self.position)] = MapSymbol.DROID
             pass
         elif response == Response.TANK:
-            print(f'Tank found at :{intended_position}')
+            print(f"Tank found at :{intended_position}")
             self.tank_position = intended_position.copy()
             self.layout[tuple(intended_position)] = MapSymbol.TANK
             self.position = intended_position.copy()
@@ -82,7 +81,7 @@ class Droid():
     def get_layout(self):
         pos_dtype = np.int32
         pos = np.full((len(self.layout), 2), np.nan, dtype=pos_dtype)
-        content = np.full(len(self.layout), np.nan, dtype='object')
+        content = np.full(len(self.layout), np.nan, dtype="object")
 
         for i, (k, v) in enumerate(self.layout.items()):
             pos[i][0] = k[0]
@@ -97,12 +96,11 @@ class Droid():
         missing_values = expected_values - len(self.layout)
         if missing_values > 0:
             extra_pos = np.full((missing_values, 2), np.nan, dtype=pos_dtype)
-            extra_content = np.full(
-                missing_values, MapSymbol.UNKNOWN, dtype='object')
+            extra_content = np.full(missing_values, MapSymbol.UNKNOWN, dtype="object")
 
             count = 0
-            for x in range(x_min, x_max+1):
-                for y in range(y_min, y_max+1):
+            for x in range(x_min, x_max + 1):
+                for y in range(y_min, y_max + 1):
                     if tuple([x, y]) in self.layout.keys():
                         continue
                     extra_pos[count][0] = x
@@ -122,12 +120,12 @@ class Droid():
         x_max, y_max = pos.max(axis=0)
 
         if clear:
-            os.system('clear')
+            os.system("clear")
 
-        for y in range(y_max, y_min-1, -1):
-            for x in range(x_min, x_max+1):
+        for y in range(y_max, y_min - 1, -1):
+            for x in range(x_min, x_max + 1):
                 c = content[np.all(pos == (x, y), axis=1)][-1]
-                print(c.value, end='')
+                print(c.value, end="")
                 pass
             print()
             pass
@@ -137,9 +135,8 @@ class Droid():
         route = droid_route(droid, destination, layout)
 
         if route is False:
-            raise Exception(
-                f'Cannot find route from {droid.position} to {destination}')
-        
+            raise Exception(f"Cannot find route from {droid.position} to {destination}")
+
         for r in route[1:]:
             if r[0] > droid.position[0]:
                 yield Direction.EAST
@@ -154,7 +151,6 @@ class Droid():
             pass
         pass
 
-
     def find_oxygen_adjacent_cells(self, layout=None):
         if layout is None:
             layout = self.get_layout()
@@ -162,21 +158,26 @@ class Droid():
         pos, content = layout
         path_mask = content == MapSymbol.OXYGEN
         path = pos[path_mask]
-        available_x = pos[:,0]
-        available_y = pos[:,1]
+        available_x = pos[:, 0]
+        available_y = pos[:, 1]
 
         return_cells = []
 
         for p in path:
-        
+
             if tuple(p) in self.completed_oxygen_tiles:
                 continue
-            
-            for step in [ Direction.NORTH, Direction.EAST, Direction.WEST, Direction.SOUTH]:
+
+            for step in [
+                Direction.NORTH,
+                Direction.EAST,
+                Direction.WEST,
+                Direction.SOUTH,
+            ]:
                 new_pos = move(p, step)
                 point_index = Droid.array_match_mask(pos, new_pos)
                 if any(point_index):
-                    c = content[ point_index ][0]
+                    c = content[point_index][0]
                     if (c != MapSymbol.WALL) and (c != MapSymbol.OXYGEN):
                         return_cells.append(new_pos)
                     else:
@@ -187,8 +188,6 @@ class Droid():
             pass
         return return_cells
 
-    
-    
     def find_unknown_cell(self, layout=None):
         if layout is None:
             layout = self.get_layout()
@@ -196,16 +195,21 @@ class Droid():
         pos, content = layout
         path_mask = (content == MapSymbol.PREVIOUS) | (content == MapSymbol.DROID)
         path = pos[path_mask]
-        available_x = pos[:,0]
-        available_y = pos[:,1]
+        available_x = pos[:, 0]
+        available_y = pos[:, 1]
         for p in path[::-1]:
             if tuple(p) in self.completed_tiles:
                 continue
-            for step in [ Direction.NORTH, Direction.EAST, Direction.WEST, Direction.SOUTH]:
+            for step in [
+                Direction.NORTH,
+                Direction.EAST,
+                Direction.WEST,
+                Direction.SOUTH,
+            ]:
                 new_pos = move(p, step)
                 point_index = Droid.array_match_mask(pos, new_pos)
                 if any(point_index):
-                    if all(content[ point_index ] == MapSymbol.UNKNOWN):
+                    if all(content[point_index] == MapSymbol.UNKNOWN):
                         return new_pos
                     else:
                         continue
@@ -223,101 +227,99 @@ class Droid():
         return Direction(dir_int)
 
     @staticmethod
-    def arrays_match(a,b):
-        return np.all(a==b)
+    def arrays_match(a, b):
+        return np.all(a == b)
 
     @staticmethod
     def array_match_mask(possibles, arr):
-        return np.all(possibles==arr, axis=1)
+        return np.all(possibles == arr, axis=1)
 
     @staticmethod
     def remove_array(possibles, arr):
-        return possibles[ ~Droid.array_match_mask(possibles, arr) ]
+        return possibles[~Droid.array_match_mask(possibles, arr)]
 
     @staticmethod
     def remove_nan_rows(arr):
-        return arr[ ~np.isnan(arr.sum(axis=1)) ]
+        return arr[~np.isnan(arr.sum(axis=1))]
 
     @staticmethod
-    def find_route(origin, destination, possibles):    
-        route = np.full( possibles.shape, np.nan)
+    def find_route(origin, destination, possibles):
+        route = np.full(possibles.shape, np.nan)
         route[0] = origin.copy()
-        
+
         remaining_poss = possibles.copy()
         current_pos = origin.copy()
         current_route_it = 1
-        
+
         while True:
-            
+
             # If done, return
-            if Droid.arrays_match(route[current_route_it-1], destination):
+            if Droid.arrays_match(route[current_route_it - 1], destination):
                 return Droid.remove_nan_rows(route)
-            
+
             # Ensure we can't step back where we came from
             remaining_poss = Droid.remove_array(remaining_poss, current_pos)
-            
+
             # Possible next steps are next to current position
-            poss = remaining_poss[np.abs(
-                remaining_poss-current_pos).sum(axis=1) == 1]
-            
+            poss = remaining_poss[np.abs(remaining_poss - current_pos).sum(axis=1) == 1]
+
             if not len(poss):
                 # No possible steps
                 return False
             if len(poss) == 1:
                 # Single option
                 new_pos = poss[0].copy()
-                route[ current_route_it ] = new_pos
+                route[current_route_it] = new_pos
                 current_route_it += 1
                 current_pos = new_pos
                 pass
             else:
                 # Multiple options
-                
+
                 # Sort the steps so we first go to the one which is closer
                 # in Manhatten distance to the destination
-                poss = sorted(poss, key = lambda x : np.abs(x-destination).sum() )
+                poss = sorted(poss, key=lambda x: np.abs(x - destination).sum())
                 poss_next = remaining_poss.copy()
                 for p in poss:
                     it_route = Droid.find_route(p, destination, poss_next)
                     if it_route is False:
                         continue
-                    route[ current_route_it : current_route_it + len(it_route) ] = it_route
+                    route[
+                        current_route_it : current_route_it + len(it_route)
+                    ] = it_route
                     return Droid.remove_nan_rows(route)
                 return False
             pass
         pass
 
-
     def droid_route(self, destination, layout=None):
         if layout is None:
             layout = self.get_layout()
             pass
-        
+
         pos, content = layout
-        
+
         mask = (content == MapSymbol.DROID) | (content == MapSymbol.PREVIOUS)
-        possible_pos = pos[ mask ]
-        
-        if not any( np.all(possible_pos ==  destination, axis=1) ):
+        possible_pos = pos[mask]
+
+        if not any(np.all(possible_pos == destination, axis=1)):
             possible_pos = np.vstack([possible_pos, destination])
             pass
-        
+
         route = Droid.find_route(self.position, destination, possible_pos)
         return route
-
 
     def go_to(self, destination, layout=None):
 
         if layout is None:
             layout = self.get_layout()
             pass
-        
+
         route = self.droid_route(destination, layout)
-        
+
         if route is False:
-            raise Exception(
-                f'Cannot find route from {self.position} to {destination}')
-        
+            raise Exception(f"Cannot find route from {self.position} to {destination}")
+
         for r in route[1:]:
             if r[0] > self.position[0]:
                 direction = Direction.EAST
@@ -332,4 +334,3 @@ class Droid():
             self.__call__(direction)
             pass
         pass
-

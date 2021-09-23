@@ -2,6 +2,7 @@ import os
 
 from tools.point import PointyTop2DHexPoint as Point
 
+
 def run(inputs):
     black_tiles = set()
 

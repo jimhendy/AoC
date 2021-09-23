@@ -4,12 +4,12 @@ import re
 
 def run(inputs):
 
-    data = ''.join(inputs.split(os.linesep))
+    data = "".join(inputs.split(os.linesep))
 
-    marker_reg = re.compile('\((\d+)x(\d+)\)')
+    marker_reg = re.compile("\((\d+)x(\d+)\)")
     prev_end_pos = 0
 
-    output = ''
+    output = ""
 
     for match in marker_reg.finditer(data):
 

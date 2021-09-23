@@ -2,6 +2,7 @@ from collections import defaultdict
 import re
 import time
 
+
 class JumpCode:
     def __init__(self, instructions, bail_func=None):
         self.instructions = instructions
@@ -32,14 +33,8 @@ class JumpCode:
         pass
 
     def _get_value(self, value):
-        if (
-            isinstance(value, (int, float)) 
-            or 
-            (
-                isinstance(value, str) 
-                and 
-                re.match(r'^(\-?\d+)$', value)
-            )
+        if isinstance(value, (int, float)) or (
+            isinstance(value, str) and re.match(r"^(\-?\d+)$", value)
         ):
             return int(value)
         elif isinstance(value, str):
@@ -81,5 +76,3 @@ class JumpCode:
             self.instruction_pointer += self._get_value(y)
         else:
             self.instruction_pointer += 1
-
-

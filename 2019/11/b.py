@@ -18,10 +18,10 @@ def run(inputs):
         ]
     ).T
 
-    df = pd.DataFrame({'x': xy[0], 'y': xy[1]})
-    df['Ones'] = 1
+    df = pd.DataFrame({"x": xy[0], "y": xy[1]})
+    df["Ones"] = 1
 
-    df = df.pivot_table(index='y', columns='x', values='Ones')
+    df = df.pivot_table(index="y", columns="x", values="Ones")
     for i in range(df.columns.max()):
         if not i in df.columns:
             df[i] = np.nan
@@ -30,9 +30,9 @@ def run(inputs):
     df.sort_index(inplace=True, ascending=False)
 
     sns.heatmap(df.values, cbar=False)
-    plt.axis('off')
+    plt.axis("off")
     plt.show()
 
-    result = input('What does it say: ')
+    result = input("What does it say: ")
 
     return result

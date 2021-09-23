@@ -1,9 +1,10 @@
 import os
 
+
 def run(inputs):
 
     total = 0
-    data = set() # Use a set to store the answers from each group
+    data = set()  # Use a set to store the answers from each group
     for line in inputs.split(os.linesep):
         if not len(line.strip()):
             # Reaching an empty line means a new group so add the current total and reset

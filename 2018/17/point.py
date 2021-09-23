@@ -55,10 +55,9 @@ class Point:
 
     def neighbour(self, direction):
         delta = {
-            'down': Point(0, 1),
-            'up': Point(0, -1),
-            'left': Point(-1,0),
-            'right': Point(1,0)
+            "down": Point(0, 1),
+            "up": Point(0, -1),
+            "left": Point(-1, 0),
+            "right": Point(1, 0),
         }[direction]
         return self + delta
-        

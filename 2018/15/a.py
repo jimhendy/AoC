@@ -3,6 +3,7 @@ import units
 
 import exceptions
 
+
 def run(inputs):
 
     g = grid.Grid(inputs)
@@ -16,6 +17,6 @@ def run(inputs):
             break
     g.print_grid()
 
-    print(f'Rounds: {g.rounds}')
+    print(f"Rounds: {g.rounds}")
 
     return g.rounds * sum([u.hit_points for u in g.units])

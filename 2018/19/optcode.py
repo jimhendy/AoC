@@ -4,13 +4,13 @@ from collections import defaultdict
 
 import time
 
+
 def write_to_c(func):
     @functools.wraps(func)
     def wrapped(self, A, B, C):
         self.registers[self.ip_reg] = self.instruction_pointer
         self.registers[C] = func(self, A, B, C)
         self.instruction_pointer = self.registers[self.ip_reg] + 1
-
 
     return wrapped
 
@@ -38,8 +38,10 @@ class OptCode:
         self.instructions = instructions
         self.registers = [0] * 6
         self.instruction_reg = re.compile(r"(\w+) ([\-\d]+) ([\-\d]+) ([\-\d]+)")
-        self.instruction_count = defaultdict(int) # instruction_id : count
-        self.instruction_count_order = defaultdict(list) # count : list([instructions_pointers])
+        self.instruction_count = defaultdict(int)  # instruction_id : count
+        self.instruction_count_order = defaultdict(
+            list
+        )  # count : list([instructions_pointers])
 
     def run(self):
         while True:

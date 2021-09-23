@@ -100,7 +100,7 @@ def run(inputs):
     # Manually found the orientation of grid which gives a non-zero "total" below
     grid = grid[::-1]
     # grid = [ ''.join(list(row)) for row in zip(*reversed(grid))]
-    
+
     total = 0
     for start_row in range(len(grid) - sm_rows + 1):
         for start_col in range(len(grid[0]) - sm_cols + 1):

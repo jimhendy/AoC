@@ -61,4 +61,3 @@ def run(inputs):
         iteration += 1
 
     return grid_str(grid).count("#")
-

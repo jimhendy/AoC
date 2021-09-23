@@ -2,7 +2,7 @@ import os
 
 
 def extract_orbits(inputs):
-    lis = [i.split(')') for i in inputs.split(os.linesep)]
+    lis = [i.split(")") for i in inputs.split(os.linesep)]
     orbits = {v: k for k, v in lis}
     return orbits
 

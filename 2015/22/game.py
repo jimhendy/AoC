@@ -10,7 +10,6 @@ class GameWon(Exception):
 
 
 class Game:
-
     def __init__(self, player_hp, boss_hp, player_mana, boss_damage, hard_mode=False):
         self.player = character.Character(player_hp, player_mana)
         self.boss = character.Character(boss_hp)
@@ -26,7 +25,7 @@ class Game:
             boss_hp=0,
             player_mana=0,
             boss_damage=self.boss_damage,
-            hard_mode=self.hard_mode
+            hard_mode=self.hard_mode,
         )
         new.player = self.player.copy()
         new.boss = self.boss.copy()
@@ -64,10 +63,7 @@ class Game:
             raise GameLost
 
     def enact_effects(self):
-        [
-            s(self.player, self.boss)
-            for s in self.player.active_spells
-        ]
+        [s(self.player, self.boss) for s in self.player.active_spells]
         self.player.remove_finished_spells()
 
     def __lt__(self, other):

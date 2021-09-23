@@ -1,5 +1,4 @@
 class Point:
-
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -61,19 +60,17 @@ class Point:
                     continue
                 yield Point(self.x + dx, self.y + dy)
 
-
     def neighbour(self, direction):
         return self + NEIGHBOUR_DELTAS[direction]
 
 
-        
 NEIGHBOUR_DELTAS = {
-    'down': Point(0, 1),
-    'up': Point(0, -1),
-    'left': Point(-1,0),
-    'right': Point(1,0),
-    'up-left': Point(-1, -1),
-    'up-right': Point(1,-1),
-    'down-left': Point(-1,1),
-    'down-right': Point(1,1)
+    "down": Point(0, 1),
+    "up": Point(0, -1),
+    "left": Point(-1, 0),
+    "right": Point(1, 0),
+    "up-left": Point(-1, -1),
+    "up-right": Point(1, -1),
+    "down-left": Point(-1, 1),
+    "down-right": Point(1, 1),
 }

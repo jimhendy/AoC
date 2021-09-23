@@ -3,23 +3,26 @@ import os
 from collections import defaultdict
 from itertools import permutations
 
+
 def run(inputs):
 
-    reg = re.compile('(\D+) would (\D+) (\d+) happiness units by sitting next to (\D+)\.')
+    reg = re.compile(
+        "(\D+) would (\D+) (\d+) happiness units by sitting next to (\D+)\."
+    )
 
-    happiness = defaultdict(lambda : defaultdict(list))
+    happiness = defaultdict(lambda: defaultdict(list))
 
-    for match in reg.findall(inputs.replace(os.linesep,'')):
-        _sign = +1 if match[1] == 'gain' else -1
+    for match in reg.findall(inputs.replace(os.linesep, "")):
+        _sign = +1 if match[1] == "gain" else -1
         happiness[match[0]][match[3]] = _sign * int(match[2])
         pass
 
     people = list(happiness.keys())
     for p in people:
-        happiness['Me'][p] = 0
-        happiness[p]['Me'] = 0
+        happiness["Me"][p] = 0
+        happiness[p]["Me"] = 0
         pass
-    
+
     max_happiness = 0
     best_order = None
     for p in permutations(happiness.keys()):
@@ -40,4 +43,3 @@ def run(inputs):
         pass
 
     return max_happiness
-            

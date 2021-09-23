@@ -24,9 +24,5 @@ def run(inputs):
             pos = before_brackets.pop()
 
     return len(
-        [
-            k for k,v in nx.shortest_path(graph, Point(0, 0)).items()
-            if len(v) > 1_000
-        ]
+        [k for k, v in nx.shortest_path(graph, Point(0, 0)).items() if len(v) > 1_000]
     )
-        

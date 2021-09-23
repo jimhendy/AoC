@@ -2,8 +2,7 @@ import re
 import numpy as np
 
 
-class Moon():
-
+class Moon:
     def __init__(self, pos_str):
         self.pos_str = pos_str
         self.position = self.extract_pos()
@@ -11,12 +10,7 @@ class Moon():
         pass
 
     def extract_pos(self):
-        pos = np.array(
-            [
-                int(i) for i in
-                re.findall('([-\d]+)', self.pos_str)
-            ]
-        )
+        pos = np.array([int(i) for i in re.findall("([-\d]+)", self.pos_str)])
         return pos
 
     def pot_energy(self):
@@ -29,9 +23,9 @@ class Moon():
         return self.pot_energy() * self.kin_energy()
 
     def print_data(self):
-        return(
-            f'pos=<x= {self.position[0]}, y= {self.position[1]}, z= {self.position[2]}>, ' +
-            f'vel=<x= {self.velocity[0]}, y= {self.velocity[1]}, z= {self.velocity[2]}>'
+        return (
+            f"pos=<x= {self.position[0]}, y= {self.position[1]}, z= {self.position[2]}>, "
+            + f"vel=<x= {self.velocity[0]}, y= {self.velocity[1]}, z= {self.velocity[2]}>"
         )
         pass
 

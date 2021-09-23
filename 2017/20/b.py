@@ -6,6 +6,7 @@ from collections import defaultdict
 
 NUM = "[ \-\d]+"
 
+
 class Particle:
     def __init__(self, particle_id, config_str):
         self.particle_id = particle_id
@@ -38,14 +39,11 @@ def run(inputs):
         [p.update() for p in particles]
         positions = defaultdict(list)
         for p in particles:
-            pos = '_'.join(list(map(str, p.position)))
+            pos = "_".join(list(map(str, p.position)))
             positions[pos].append(p)
-        for k,v in positions.items():
+        for k, v in positions.items():
             if len(v) > 1:
                 for p in v:
                     particles.remove(p)
 
-
-
-        
     return len(particles)

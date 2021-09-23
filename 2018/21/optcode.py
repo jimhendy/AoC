@@ -47,7 +47,7 @@ class OptCode:
         count = 0
         while True:
 
-            #print(self.registers)
+            # print(self.registers)
 
             try:
                 i = self.instructions[self.instruction_pointer]

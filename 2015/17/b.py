@@ -2,6 +2,7 @@ import os
 from itertools import combinations
 from collections import defaultdict
 
+
 def run(inputs):
 
     sizes = [int(i) for i in inputs.split(os.linesep)]

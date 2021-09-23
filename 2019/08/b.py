@@ -21,6 +21,6 @@ def run(inputs):
     sns.heatmap(output)
     plt.show()
 
-    result = input('What does it say: ')
+    result = input("What does it say: ")
 
     return result

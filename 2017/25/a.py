@@ -1,5 +1,6 @@
 from turing import Turing
 
+
 def run(inputs):
 
     machine = Turing(inputs)

@@ -2,9 +2,10 @@ import os
 import re
 import networkx as nx
 
+
 def run(inputs):
     g = nx.DiGraph()
-    reg = re.compile('(\w+)')
+    reg = re.compile("(\w+)")
     for row in inputs.split(os.linesep):
         parent, weight, *children = reg.findall(row)
         g.add_node(parent)

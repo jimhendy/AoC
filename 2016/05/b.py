@@ -5,13 +5,13 @@ def run(inputs):
 
     i = 0
     n_zeros = 5
-    code = ['#'] * 8
+    code = ["#"] * 8
     found = []
-    required_start = '0' * n_zeros
-    
+    required_start = "0" * n_zeros
+
     while True:
         m = hashlib.md5()
-        m.update(f'{inputs}{i}'.encode('utf-8'))
+        m.update(f"{inputs}{i}".encode("utf-8"))
         h = m.hexdigest()
 
         if h[:n_zeros] == required_start:
@@ -24,7 +24,7 @@ def run(inputs):
                     if len(found) == len(code):
                         break
         i += 1
-        
+
         pass
 
-    return ''.join(code)
+    return "".join(code)

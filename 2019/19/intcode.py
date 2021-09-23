@@ -10,8 +10,7 @@ class Mode(Enum):
     pass
 
 
-class Intcode():
-
+class Intcode:
     def __init__(self, inputs):
         self.inputs = Intcode.in_to_array(inputs)
         self.code = defaultdict(int)
@@ -31,15 +30,15 @@ class Intcode():
     def reset(self):
         self.address = 0
         self.relative_base = 0
-        for i,v in enumerate(self.inputs):
+        for i, v in enumerate(self.inputs):
             self.code[i] = v
             pass
-        
+
         pass
-    
+
     @staticmethod
     def in_to_array(inputs):
-        return np.array(inputs.split(',')).astype(int)
+        return np.array(inputs.split(",")).astype(int)
 
     def analyse_intcode(self, input_signal=None):
         self.input_signal = input_signal
@@ -51,7 +50,7 @@ class Intcode():
         self._address_log.append(self.address)
         optcode = self.code[self.address]
         if optcode > 9:
-            optcode_str = f'{optcode:05}'
+            optcode_str = f"{optcode:05}"
             self.optcode = int(optcode_str[3:])
             self.param_modes[1] = Mode(int(optcode_str[2]))
             self.param_modes[2] = Mode(int(optcode_str[1]))
@@ -77,14 +76,15 @@ class Intcode():
             6: self.jump_if_false,
             7: self.less_than,
             8: self.equals,
-            9: self.update_relative_base
+            9: self.update_relative_base,
         }.get(self.optcode, None)
         if func is None:
-            print(f'Address: {self.address}')
-            print(f'Optcode: {self.optcode}')
-            print(self.code[self.address:self.address+4])
+            print(f"Address: {self.address}")
+            print(f"Optcode: {self.optcode}")
+            print(self.code[self.address : self.address + 4])
             raise NotImplementedError(
-                f'Unexpected optcode "{self.code[self.address]}" at address "{self.address}"')
+                f'Unexpected optcode "{self.code[self.address]}" at address "{self.address}"'
+            )
         return func()
 
     def _get_address(self, mode):
@@ -147,11 +147,11 @@ class Intcode():
         if self.input_signal is not None:
             value = self.input_signal
             self.input_signal = None
-            #print( f'Using input {value}')
+            # print( f'Using input {value}')
             pass
         else:
             # No input signal - return and wait
-            #print('No input')
+            # print('No input')
             return None
             pass
         self.step()
@@ -179,10 +179,10 @@ class Intcode():
         return True
 
     def add(self):
-        return self._combine(lambda x, y: x+y)
+        return self._combine(lambda x, y: x + y)
 
     def mul(self):
-        return self._combine(lambda x, y: x*y)
+        return self._combine(lambda x, y: x * y)
 
     def update_relative_base(self):
         self.step()

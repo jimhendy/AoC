@@ -1,6 +1,7 @@
 import queue
 import intcode
 
+
 def run(inputs):
 
     n_computers = 50
@@ -11,10 +12,10 @@ def run(inputs):
         computers.append(p)
         pass
 
-    queues = [ queue.Queue() for _ in range(n_computers) ]
+    queues = [queue.Queue() for _ in range(n_computers)]
 
     while True:
-        for c,q in zip(computers, queues):
+        for c, q in zip(computers, queues):
 
             if q.qsize():
                 while q.qsize():

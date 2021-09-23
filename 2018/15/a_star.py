@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 class AStarException(Exception):
     pass
 
+
 def a_star(initial_state, tag_func=str, return_status=False):
     """Perform the A* search algorithm
     The initial_state should be a subclass of State (below)

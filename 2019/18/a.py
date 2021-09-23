@@ -20,21 +20,35 @@ def reachable_keys(loc, keys, grid):
             yield num_steps, loc, new_char
             continue
         for s in STEPS:
-            new_loc = loc[0]+s[0], loc[1]+s[1]
+            new_loc = loc[0] + s[0], loc[1] + s[1]
             if (new_loc) in seen:
                 continue
             seen.add(new_loc)
             new_char = get_char(grid, new_loc)
-            if new_char != '#' and (not new_char.isupper()) or (new_char.lower() in keys):
-                q.append((new_loc, num_steps+1))
+            if (
+                new_char != "#"
+                and (not new_char.isupper())
+                or (new_char.lower() in keys)
+            ):
+                q.append((new_loc, num_steps + 1))
 
 
 def run(inputs):
     grid = inputs.split(os.linesep)
-    droid_loc = [(x, y) for y, row in enumerate(grid)
-                 for x, char in enumerate(row) if char == '@'][0]
-    all_keys = set([char for y, row in enumerate(grid)
-                    for x, char in enumerate(row) if char.islower()])
+    droid_loc = [
+        (x, y)
+        for y, row in enumerate(grid)
+        for x, char in enumerate(row)
+        if char == "@"
+    ][0]
+    all_keys = set(
+        [
+            char
+            for y, row in enumerate(grid)
+            for x, char in enumerate(row)
+            if char.islower()
+        ]
+    )
     q = [(0, droid_loc, frozenset())]
     seen = set()
 
@@ -47,5 +61,4 @@ def run(inputs):
             continue
         seen.add((loc, keys))
         for new_steps, new_loc, new_key in reachable_keys(loc, keys, grid):
-            heapq.heappush(q, (steps+new_steps, new_loc,
-                               keys | frozenset([new_key])))
+            heapq.heappush(q, (steps + new_steps, new_loc, keys | frozenset([new_key])))

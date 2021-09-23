@@ -2,7 +2,7 @@ import numpy as np
 
 
 def in_to_array(inputs):
-    return np.array(inputs.split(',')).astype(int)
+    return np.array(inputs.split(",")).astype(int)
 
 
 def intcode(inputs):
@@ -27,14 +27,23 @@ def analyse_optcode(inputs, address):
         return mul(inputs, address)
     else:
         print(inputs)
-        print(inputs[address:address+4])
+        print(inputs[address : address + 4])
         raise NotImplementedError(
-            f'Unexpected code "{inputs[address]}" at address "{address}"')
+            f'Unexpected code "{inputs[address]}" at address "{address}"'
+        )
 
 
 def add(inputs, address):
-    return inputs[inputs[address+1]] + inputs[inputs[address+2]], inputs[address+3], 4
+    return (
+        inputs[inputs[address + 1]] + inputs[inputs[address + 2]],
+        inputs[address + 3],
+        4,
+    )
 
 
 def mul(inputs, address):
-    return inputs[inputs[address+1]] * inputs[inputs[address+2]], inputs[address+3], 4
+    return (
+        inputs[inputs[address + 1]] * inputs[inputs[address + 2]],
+        inputs[address + 3],
+        4,
+    )

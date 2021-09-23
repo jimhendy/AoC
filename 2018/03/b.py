@@ -2,9 +2,10 @@ import numpy as np
 import os
 import re
 
+
 class Claim:
 
-    reg = re.compile(r'#(\d+) @ (\d+),(\d+): (\d+)x(\d+)')
+    reg = re.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
 
     def __init__(self, data):
         self.data = data
@@ -19,15 +20,15 @@ class Claim:
 
 
 def run(inputs):
-    claims = [ Claim(i) for i in inputs.split(os.linesep) ]
+    claims = [Claim(i) for i in inputs.split(os.linesep)]
     max_x = max([c.end_x for c in claims])
     max_y = max([c.end_y for c in claims])
-    fabric = np.zeros((max_x+1, max_y+1))
+    fabric = np.zeros((max_x + 1, max_y + 1))
     for c in claims:
         for x in range(c.start_x, c.end_x):
             for y in range(c.start_y, c.end_y):
                 fabric[x][y] += 1
-    
+
     for c in claims:
         overlap = False
         for x in range(c.start_x, c.end_x):
@@ -39,4 +40,3 @@ def run(inputs):
                 continue
         if not overlap:
             return c.num
-    

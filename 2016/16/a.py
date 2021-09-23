@@ -19,10 +19,10 @@ def run(inputs):
 
     while len(data) < DISK_LEN:
         data = step_create_data(data)
-    
+
     checksum = get_checksum(data[:DISK_LEN])
-    
+
     while len(checksum) % 2 == 0:
         checksum = get_checksum(checksum)
 
-    return ''.join(map(str,checksum))
+    return "".join(map(str, checksum))

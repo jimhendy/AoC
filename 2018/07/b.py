@@ -4,8 +4,10 @@ from collections import defaultdict
 
 N_WORKERS = 5
 
+
 class Worker:
     worker_num = 0
+
     def __init__(self):
         self.worker_id = Worker.worker_num
         Worker.worker_num += 1
@@ -24,6 +26,7 @@ class Worker:
             self.active_task.step()
             if self.active_task.complete:
                 self.active_task = None
+
 
 class Task:
     def __init__(self, task_id):
@@ -56,11 +59,14 @@ class Task:
     def __gt__(self, other):
         return not self.__lt__(other)
 
+
 def run(inputs):
-    
+
     tasks = {}
 
-    for i in re.findall(r'Step ([A-Z]) must be finished before step ([A-Z]) can begin.', inputs):
+    for i in re.findall(
+        r"Step ([A-Z]) must be finished before step ([A-Z]) can begin.", inputs
+    ):
         for t_id in i:
             if not t_id in tasks.keys():
                 tasks[t_id] = Task(t_id)
@@ -71,17 +77,18 @@ def run(inputs):
 
     time = -1
     while not all([t.complete for t in tasks]):
-        [ w.step() for w in workers ]
+        [w.step() for w in workers]
         time += 1
         if all([w.busy() for w in workers]):
             continue
         # Some space for new tasks if any available
-        available = sorted([
-            t for t in tasks
-            if not t.complete
-            and not t.active
-            and t.pre_tasks_complete()
-        ])
+        available = sorted(
+            [
+                t
+                for t in tasks
+                if not t.complete and not t.active and t.pre_tasks_complete()
+            ]
+        )
         if not len(available):
             continue
         available_i = 0
@@ -91,5 +98,5 @@ def run(inputs):
                 available_i += 1
                 if available_i == len(available):
                     break
-    
+
     return time

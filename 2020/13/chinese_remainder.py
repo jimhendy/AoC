@@ -16,7 +16,7 @@ def chinese_remainder(b, n):
     assert len(b) == len(n)
     N = np.product(n)
     total = 0
-    for ni, bi in zip(n,b):
+    for ni, bi in zip(n, b):
         Ni = N / ni
         xi = inverse_mod(Ni, ni)
         total += bi * Ni * xi

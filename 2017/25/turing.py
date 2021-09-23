@@ -11,7 +11,9 @@ class Turing:
         self.instructions = instructions
         self.state = self.extract_inital_state()
         self.steps = self.extract_steps()
-        print(f'Turning machine created with initial state {self.state} and {self.steps:,} steps.')
+        print(
+            f"Turning machine created with initial state {self.state} and {self.steps:,} steps."
+        )
 
     def extract_inital_state(self):
         reg = re.compile(r"Begin in state ([A-Z])\.")
@@ -38,7 +40,9 @@ class Turing:
         try:
             match = re.findall(reg, self.instructions)[0]
         except:
-            import pdb; pdb.set_trace()
+            import pdb
+
+            pdb.set_trace()
         return {
             "WriteValue": int(match[0]),
             "MoveLeft": match[1] == "left",

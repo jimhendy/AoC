@@ -52,13 +52,12 @@ def extended_gcd(a, b):
 
     return old_r, old_s, old_t
 
+
 from chinese_remainder import chinese_remainder
+
 
 def run(inputs):
     inputs = inputs.split(os.linesep)
     buses = {i: int(j) for i, j in enumerate(inputs[1].split(",")) if j.isdigit()}
-    
-    return chinese_remainder(
-        [-i for i in buses.keys()],
-        list(buses.values())
-    )
+
+    return chinese_remainder([-i for i in buses.keys()], list(buses.values()))

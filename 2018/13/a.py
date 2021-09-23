@@ -2,16 +2,15 @@ from cart import Cart
 import numpy as np
 import os
 
+
 def run(inputs):
-    track = np.array([
-        list(line) for line in inputs.split(os.linesep)
-    ])
+    track = np.array([list(line) for line in inputs.split(os.linesep)])
     carts = []
     for r, row in enumerate(track):
         for c, char in enumerate(row):
-            if char.lower() in ['v','>','<','^']:
-                carts.append(Cart(np.array((r,c)), track))
-    
+            if char.lower() in ["v", ">", "<", "^"]:
+                carts.append(Cart(np.array((r, c)), track))
+
     count = 0
     while True:
         crash = False
@@ -29,4 +28,4 @@ def run(inputs):
         if not c.loc_as_str() in locs:
             locs.append(c.loc_as_str())
         else:
-            return f'{c.loc[1]},{c.loc[0]}'
+            return f"{c.loc[1]},{c.loc[0]}"

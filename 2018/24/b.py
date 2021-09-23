@@ -3,6 +3,7 @@ import os
 from army import Army
 from binary_search import binary_search
 
+
 def fight(boost, infection, immune_system):
     armies = [infection.copy(), immune_system.boost(boost)]
     prev_units = None
@@ -22,10 +23,9 @@ def fight(boost, infection, immune_system):
             chosen_target = g.target_selection(a_groups)
             if chosen_target is not None:
                 a_groups.remove(chosen_target)
-        
+
         all_groups = sorted(
-            [ g for a in armies for g in a.groups ],
-            key = lambda g : g.initiative
+            [g for a in armies for g in a.groups], key=lambda g: g.initiative
         )[::-1]
         for g in all_groups:
             g.attack()
@@ -37,19 +37,20 @@ def fight(boost, infection, immune_system):
     else:
         return False
 
+
 def run(inputs):
-    
+
     base_armies = []
     for line in inputs.split(os.linesep):
         if not line.strip():
             continue
-        if line.endswith(':'):
-            base_armies.append(Army(line.rstrip(':')))
+        if line.endswith(":"):
+            base_armies.append(Army(line.rstrip(":")))
         else:
             base_armies[-1].add_group(line)
 
-    infection = [ a for a in base_armies if a.name == 'Infection'][0]
-    immune_system = [ a for a in base_armies if a.name != 'Infection'][0]
+    infection = [a for a in base_armies if a.name == "Infection"][0]
+    immune_system = [a for a in base_armies if a.name != "Infection"][0]
 
     boolean_fight = lambda boost: bool(fight(boost, infection, immune_system))
     min_boost = binary_search(boolean_fight, lower=0)

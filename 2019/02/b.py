@@ -14,7 +14,7 @@ def run(inputs, aim=19690720):
             trial[2] = verb
             output = common.intcode(trial)
             if output[0] == aim:
-                print(f'Found working combination: Noue: {noun}, Verb: {verb}')
-                return noun*100 + verb
+                print(f"Found working combination: Noue: {noun}, Verb: {verb}")
+                return noun * 100 + verb
 
-    raise Exception('Failure to find working combination')
+    raise Exception("Failure to find working combination")

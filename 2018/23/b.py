@@ -3,6 +3,7 @@ import re
 
 import pandas as pd
 
+
 def run(inputs):
     reg = re.compile(r"([\-\d]+)")
     bots = pd.DataFrame(
@@ -20,7 +21,7 @@ def run(inputs):
             for y in range(mins["y"], maxs["y"] + 1):
                 for z in range(mins["z"], maxs["z"] + 1):
                     for b in scaled_bots.itertuples():
-                        overlap = abs(b.x-x) + abs(b.y-y) + abs(b.z-z) <= b.r
+                        overlap = abs(b.x - x) + abs(b.y - y) + abs(b.z - z) <= b.r
                         data.append({"x": x, "y": y, "z": z, "overlap": int(overlap)})
         df = pd.DataFrame(data).groupby(["x", "y", "z"]).overlap.sum()
         max_overlaps = df[df.eq(df.max())]

@@ -6,11 +6,11 @@ def run(inputs):
     i = 0
     n_zeros = 5
     code = []
-    required_start = '0' * n_zeros
-    
+    required_start = "0" * n_zeros
+
     while True:
         m = hashlib.md5()
-        m.update(f'{inputs}{i}'.encode('utf-8'))
+        m.update(f"{inputs}{i}".encode("utf-8"))
         h = m.hexdigest()
 
         if h[:n_zeros] == required_start:
@@ -21,4 +21,4 @@ def run(inputs):
             break
         pass
 
-    return ''.join(code)
+    return "".join(code)

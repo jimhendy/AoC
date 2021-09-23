@@ -59,14 +59,13 @@ def get_single_str(grid):
 def run(inputs):
     grid = [list(line) for line in inputs.split(os.linesep)]
 
-
     total_i = int(1e9)
     for i in tqdm(range(total_i)):
         grid, previous_i = update_grid(grid, i)
         if isinstance(previous_i, int):
             print(previous_i)
             break
-    
+
     period = i - previous_i
     remaining_i = (total_i - i) % period - 1
 

@@ -1,8 +1,8 @@
 import re
 import os
 
+
 class Reindeer:
-    
     def __init__(self, speed, time, rest):
         self.run_speed = int(speed)
         self.run_time = int(time)
@@ -32,30 +32,30 @@ class Reindeer:
             pass
         pass
 
-    
     pass
-        
+
+
 def run(inputs):
 
     reg = re.compile(
-        '(\D+) can fly (\d+) km\/s for (\d+) seconds, but then must rest for (\d+) seconds\.'
+        "(\D+) can fly (\d+) km\/s for (\d+) seconds, but then must rest for (\d+) seconds\."
     )
 
     deer = {}
-    for match in reg.findall(inputs.replace(os.linesep,'')):
-        deer[ match[0] ] = Reindeer( match[1], match[2], match[3] )
+    for match in reg.findall(inputs.replace(os.linesep, "")):
+        deer[match[0]] = Reindeer(match[1], match[2], match[3])
         pass
 
     for step in range(2503):
-        [ d.increment_step() for d in deer.values() ]
-        
-        max_distance = max([ d.run_distance for d in deer.values() ])
+        [d.increment_step() for d in deer.values()]
+
+        max_distance = max([d.run_distance for d in deer.values()])
         for d in deer.values():
             if d.run_distance == max_distance:
                 d.points += 1
 
         pass
 
-    best_deer = sorted( deer.items(), key = lambda x : x[1].points )[-1][1]
+    best_deer = sorted(deer.items(), key=lambda x: x[1].points)[-1][1]
 
     return best_deer.points

@@ -3,9 +3,8 @@ import pandas as pd
 
 
 def possibles(inputs):
-    Min, Max = [int(i) for i in inputs.split('-')]
-    possibles = pd.DataFrame([list(str(i))
-                              for i in np.arange(Min, Max)]).astype(int)
+    Min, Max = [int(i) for i in inputs.split("-")]
+    possibles = pd.DataFrame([list(str(i)) for i in np.arange(Min, Max)]).astype(int)
     return possibles
 
 
@@ -15,9 +14,6 @@ def diffs(possibles):
 
 def counts(possibles):
     counts = {
-        i: possibles.eq(i).sum(axis=1)
-        for i in np.unique(
-            possibles.values.ravel()
-        )
+        i: possibles.eq(i).sum(axis=1) for i in np.unique(possibles.values.ravel())
     }
     return pd.concat(counts, axis=1, sort=False)

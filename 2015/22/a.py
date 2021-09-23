@@ -4,6 +4,7 @@ import heapq
 import game
 import spells
 
+
 def run(inputs):
 
     available_spells = [
@@ -11,18 +12,16 @@ def run(inputs):
         spells.Drain,
         spells.Shield,
         spells.Poison,
-        spells.Recharge
+        spells.Recharge,
     ]
-    
-    boss_hp = int(re.findall('Hit Points: (\d+)', inputs)[0])
-    boss_damage = int(re.findall('Damage: (\d+)', inputs)[0])
+
+    boss_hp = int(re.findall("Hit Points: (\d+)", inputs)[0])
+    boss_damage = int(re.findall("Damage: (\d+)", inputs)[0])
 
     player_hp = 50
     player_mana = 500
 
-    possible_games = [
-        game.Game(player_hp, boss_hp, player_mana, boss_damage)
-    ]
+    possible_games = [game.Game(player_hp, boss_hp, player_mana, boss_damage)]
 
     while True:
 
@@ -39,10 +38,7 @@ def run(inputs):
                 continue
             except game.GameWon:
                 pass
-            heapq.heappush(
-                possible_games,
-                gc
-            )
+            heapq.heappush(possible_games, gc)
             pass
         pass
 

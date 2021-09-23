@@ -47,7 +47,7 @@ class OptCode:
             12: "setr",
             13: "addr",
             14: "gtir",
-            15: "addi"
+            15: "addi",
         }
 
     def run(self):

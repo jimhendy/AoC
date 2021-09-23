@@ -8,8 +8,9 @@ import networkx as nx
 import matplotlib.pylab as plt
 from collections import defaultdict
 
-STEPS = np.array([np.array(i)
-                  for i in [(1, 0), (-1, 0), (0, 1), (0, -1)]]).astype(np.int8)
+STEPS = np.array([np.array(i) for i in [(1, 0), (-1, 0), (0, 1), (0, -1)]]).astype(
+    np.int8
+)
 
 
 @numba.njit(numba.boolean(numba.int8[:], numba.int8[:, :]))
@@ -40,28 +41,28 @@ def get_gates(layout):
                     if not is_valid_pos(next_next_pos, layout):
                         continue
                     next_next_char = chr(get_char(next_next_pos, layout))
-                    if next_next_char == '.':
+                    if next_next_char == ".":
 
                         if step[1] == 1 or step[0] == 1:
-                            key = f'{char}{next_char}'
+                            key = f"{char}{next_char}"
                         else:
-                            key = f'{next_char}{char}'
+                            key = f"{next_char}{char}"
                             pass
 
                         if (
-                                (pos[0] == 0) or
-                                (pos[0] == layout.shape[1]-1) or
-                                (pos[1] == 0) or
-                                (pos[1] == layout.shape[0] - 1)
+                            (pos[0] == 0)
+                            or (pos[0] == layout.shape[1] - 1)
+                            or (pos[1] == 0)
+                            or (pos[1] == layout.shape[0] - 1)
                         ):
-                            key += '_o'
+                            key += "_o"
 
                         else:
-                            key += '_i'
+                            key += "_i"
                             pass
 
                         if key in data.keys():
-                            key += '_1'
+                            key += "_1"
                         data[key] = next_next_pos
     return data
 
@@ -87,7 +88,7 @@ def dijkstra(origin, destination, layout_orig):
     origin_set = set_char(origin, layout_prev, seen_char)
     steps = 0
     if not origin_set:
-        #raise Exception(f'Canno\'t set origin at position {origin}')
+        # raise Exception(f'Canno\'t set origin at position {origin}')
         return -1
     while True:
         if get_char(destination, layout) == seen_char:
@@ -114,7 +115,7 @@ def dijkstra(origin, destination, layout_orig):
             pass
         # plot(layout)
         if np.array_equal(layout_prev, layout):
-            #print(f'Canno\'t find a path from {origin} to {destination}')
+            # print(f'Canno\'t find a path from {origin} to {destination}')
             return -1
         layout_prev = layout.copy()
         steps += 1
@@ -123,14 +124,15 @@ def dijkstra(origin, destination, layout_orig):
 
 
 def plot(layout):
-    [print(''.join(map(chr, i))) for i in layout]
+    [print("".join(map(chr, i))) for i in layout]
     print()
 
 
 def run(inputs):
 
-    layout = np.array([list(map(ord, i))
-                       for i in inputs.split(os.linesep)]).astype(np.int8)
+    layout = np.array([list(map(ord, i)) for i in inputs.split(os.linesep)]).astype(
+        np.int8
+    )
     plot(layout)
 
     gates = get_gates(layout)
@@ -139,9 +141,9 @@ def run(inputs):
     [graph.add_node(k, pos=v) for k, v in gates.items()]
 
     for k, v in gates.items():
-        if not k.endswith('_i'):
+        if not k.endswith("_i"):
             continue
-        graph.add_edge(k, k.replace('_i', '_o'), weight=1)
+        graph.add_edge(k, k.replace("_i", "_o"), weight=1)
         pass
 
     for o_name, o in gates.items():
@@ -154,17 +156,17 @@ def run(inputs):
             graph.add_edge(o_name, d_name, weight=distance)
             pass
         pass
-    '''
+    """
     pos = nx.get_node_attributes(graph, 'pos')
     nx.draw(graph, pos)
     labels = nx.get_edge_attributes(graph, 'weight')
     nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
     nx.draw_networkx_labels(graph, pos)
     plt.show()
-    '''
+    """
 
     # Steps, Path as (Location, Level)
-    q = [(0, [('AA_o', 0)])]
+    q = [(0, [("AA_o", 0)])]
 
     while q:
 
@@ -173,7 +175,7 @@ def run(inputs):
         c_node = path[-1][0]
         c_level = path[-1][1]
 
-        if c_node == 'ZZ_o':
+        if c_node == "ZZ_o":
             if c_level == 0:
                 for p in path:
                     print(p)
@@ -181,32 +183,32 @@ def run(inputs):
                 return steps
             continue
             pass
-        
+
         for n in graph.neighbors(c_node):
 
-            if n == 'AA_o':
+            if n == "AA_o":
                 continue
-            
+
             if len(path) > 2 and path[-2][0] == n:
                 continue
-            
+
             new_path = copy.deepcopy(path)
-            new_loc = (n,c_level)
+            new_loc = (n, c_level)
             if new_loc in path:
                 continue
             new_path.append(new_loc)
-            new_steps = graph[c_node][n]['weight']
-            
+            new_steps = graph[c_node][n]["weight"]
+
             # If this is a gate, use it
-            if n.endswith('_o') and n.replace('_o','_i') in graph.neighbors(n):
+            if n.endswith("_o") and n.replace("_o", "_i") in graph.neighbors(n):
                 new_steps += 1
                 if c_level == 0:
                     continue
-                new_path.append( (n.replace('_o','_i'),c_level-1) )
+                new_path.append((n.replace("_o", "_i"), c_level - 1))
                 pass
-            elif n.endswith('_i') and n.replace('_i','_o') in graph.neighbors(n):
-                new_path.append( (n.replace('_i','_o'),c_level+1) )
+            elif n.endswith("_i") and n.replace("_i", "_o") in graph.neighbors(n):
+                new_path.append((n.replace("_i", "_o"), c_level + 1))
                 new_steps += 1
                 pass
-            
+
             heapq.heappush(q, (steps + new_steps, new_path))

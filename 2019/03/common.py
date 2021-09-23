@@ -9,10 +9,9 @@ def index_of_array(array, value):
 def get_intersections(wire_coords):
     intersections = np.array(
         [
-            x for x in
-            set(tuple(x) for x in wire_coords[0])
-            &
-            set(tuple(x) for x in wire_coords[1])
+            x
+            for x in set(tuple(x) for x in wire_coords[0])
+            & set(tuple(x) for x in wire_coords[1])
         ]
     )
 
@@ -20,7 +19,7 @@ def get_intersections(wire_coords):
 
 
 def get_wire_coords(inputs):
-    wire_vertices = [w.split(',') for w in inputs.split(os.linesep)]
+    wire_vertices = [w.split(",") for w in inputs.split(os.linesep)]
     wire_coords = []
 
     for wire_num, wv in enumerate(wire_vertices):
@@ -41,10 +40,13 @@ def get_wire_coords(inputs):
 
 def get_move_func(direction):
     step = {
-        'U': np.array([1, 0]),
-        'D': np.array([-1, 0]),
-        'R': np.array([0, 1]),
-        'L': np.array([0, -1])
+        "U": np.array([1, 0]),
+        "D": np.array([-1, 0]),
+        "R": np.array([0, 1]),
+        "L": np.array([0, -1]),
     }.get(direction)
-    def f(p): return p + step
+
+    def f(p):
+        return p + step
+
     return f

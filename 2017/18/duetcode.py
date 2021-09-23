@@ -3,6 +3,7 @@ import re
 import time
 import queue
 
+
 class JumpCode:
 
     num_codes = 0
@@ -16,10 +17,9 @@ class JumpCode:
         self.is_waiting = False
         self.is_running = False
         self.program_id = JumpCode.num_codes
-        self.registers['p'] = self.program_id
+        self.registers["p"] = self.program_id
         self.n_sends = 0
         JumpCode.num_codes += 1
-
 
     def add_partner(self, partner_code):
         self.partner = partner_code
@@ -44,14 +44,8 @@ class JumpCode:
         self.is_running = False
 
     def _get_value(self, value):
-        if (
-            isinstance(value, (int, float)) 
-            or 
-            (
-                isinstance(value, str) 
-                and 
-                re.match(r'^(\-?\d+)$', value)
-            )
+        if isinstance(value, (int, float)) or (
+            isinstance(value, str) and re.match(r"^(\-?\d+)$", value)
         ):
             return int(value)
         elif isinstance(value, str):
@@ -98,5 +92,3 @@ class JumpCode:
             self.instruction_pointer += self._get_value(y)
         else:
             self.instruction_pointer += 1
-
-

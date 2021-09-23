@@ -27,7 +27,7 @@ def run(inputs):
         ball_x = ball[0]
         paddle_x = paddle[0]
 
-        joystick = np.sign(ball_x-paddle_x)
+        joystick = np.sign(ball_x - paddle_x)
 
         if prog.complete:
             break

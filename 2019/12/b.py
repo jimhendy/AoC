@@ -6,12 +6,11 @@ from moon import Moon
 
 
 def get_status(moons, axis):
-    return '-'.join(
+    return "-".join(
         [
-            str(i) for i in (
-                [m.position[axis] for m in moons]
-                +
-                [m.velocity[axis] for m in moons]
+            str(i)
+            for i in (
+                [m.position[axis] for m in moons] + [m.velocity[axis] for m in moons]
             )
         ]
     )
@@ -42,14 +41,14 @@ def run(inputs):
         while True:
             s += 1
             for i, mi in enumerate(moons):
-                for j, mj in enumerate(moons[i+1:]):
+                for j, mj in enumerate(moons[i + 1 :]):
                     common.apply_gravity(mi, mj)
                     pass
                 pass
             [m.update_position() for m in moons]
 
             if s % 10000 == 0:
-                print(f'Iteration: {s}')
+                print(f"Iteration: {s}")
                 pass
 
             if check_hist(history, moons, axis=a):

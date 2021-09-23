@@ -88,10 +88,10 @@ class Group:
 
     def attack(self):
         if self.target is None:
-            #print('No target available')
+            # print('No target available')
             return
         damage = self.calculate_inflicted_damage(self.target)
-        #print(f'{self} attacking {self.target} with damage {damage}')
+        # print(f'{self} attacking {self.target} with damage {damage}')
         units_lost = damage // self.target.hit_points
         if self.target.n_units < units_lost:
             units_lost = self.target.n_units

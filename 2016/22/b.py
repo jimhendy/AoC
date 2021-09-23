@@ -8,6 +8,7 @@ from functools import lru_cache
 
 # Cluster arrays indexed y,x
 
+
 @lru_cache(maxsize=2048)
 def _metric_calc(zp_0, zp_1, dp_0, dp_1):
     zp = np.array((zp_0, zp_1))
@@ -15,7 +16,7 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
     total = 0
 
     while not np.array_equal(dp, (0, 0)):
-        #print_zp_dp(zp, dp)
+        # print_zp_dp(zp, dp)
         # if we can move the data into the space left or up then do it
         if zp[0] == dp[0] and zp[1] == dp[1] - 1:
             # left
@@ -45,18 +46,18 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
             continue
 
         # if data is on top row with space to the right
-        if dp[0] == 0 and zp[0] == 0 and (dp[1] == (zp[1]-1)):
+        if dp[0] == 0 and zp[0] == 0 and (dp[1] == (zp[1] - 1)):
             total += 5 * dp[1]
             zp[1] = 1
             dp[1] = 0
             continue
-        elif dp[1] == 0 and zp[1] == 0 and (dp[0] == (zp[0]-1)):
+        elif dp[1] == 0 and zp[1] == 0 and (dp[0] == (zp[0] - 1)):
             total += 5 * dp[0]
             zp[0] = 1
             dp[0] = 0
             continue
 
-        #If space is nearby data
+        # If space is nearby data
         if np.array_equal(zp, dp + 1):
             # diagonally below & right
             if dp[0] == 0:
@@ -97,7 +98,7 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
             total += 1
             continue
         elif zp[0] == dp[0] - 1 and np.abs(zp[1] - dp[1]) == 1:
-            zp[1] += np.sign(zp[1]-dp[1])
+            zp[1] += np.sign(zp[1] - dp[1])
             total += 1
             continue
 
@@ -112,33 +113,35 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
 
     return total
 
+
 def print_zp_dp(zp, dp):
-    used = np.full((max((zp[0], dp[0]))+1, max((zp[1], dp[1]))+1), 40)
+    used = np.full((max((zp[0], dp[0])) + 1, max((zp[1], dp[1])) + 1), 40)
     used[zp[0], zp[1]] = 0
     print_grid(used, dp)
 
 
 def print_grid(used, dp):
-    out = ''
-    for y,row in enumerate(used):
-        for x,cell in enumerate(row):
-            if np.array_equal((y,x), dp):
-                c = 'X'
+    out = ""
+    for y, row in enumerate(used):
+        for x, cell in enumerate(row):
+            if np.array_equal((y, x), dp):
+                c = "X"
             elif cell == 0:
-                c = '0'
+                c = "0"
             elif cell > 100:
-                c = '#'
-            else: c = '.'
+                c = "#"
+            else:
+                c = "."
             out += c
-        out += '\n'
-    os.system('clear')
+        out += "\n"
+    os.system("clear")
     print(out)
 
 
 class Status(a_star.State):
     def __init__(self, sizes, used, goal_data_loc, n_steps):
         super().__init__()
-        #print_grid(used, goal_data_loc)
+        # print_grid(used, goal_data_loc)
         self.sizes = sizes
         self.used = used
         self.goal_data_loc = goal_data_loc
@@ -153,8 +156,8 @@ class Status(a_star.State):
     def metric(self):
         # Potential moves to completion
         data_pos = self.goal_data_loc.copy()
-        totals = [ 
-            _metric_calc(zp[0], zp[1], data_pos[0], data_pos[1]) 
+        totals = [
+            _metric_calc(zp[0], zp[1], data_pos[0], data_pos[1])
             for zp in np.argwhere(self.used == 0)
         ]
         return min(totals)
@@ -230,7 +233,7 @@ def run(inputs):
     used = df_p.used.values
 
     initial_state = Status(sizes, used, np.array((df.y.min(), df.x.max())), 0)
-    tag_func = lambda x: str(x.goal_data_loc) + '_' + str(np.argwhere(x.used==0))
+    tag_func = lambda x: str(x.goal_data_loc) + "_" + str(np.argwhere(x.used == 0))
 
     result = a_star.a_star(initial_state, tag_func)
 

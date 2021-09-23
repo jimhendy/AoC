@@ -2,14 +2,15 @@ import os
 
 from army import Army
 
+
 def run(inputs):
-    
+
     armies = []
     for line in inputs.split(os.linesep):
         if not line.strip():
             continue
-        if line.endswith(':'):
-            armies.append(Army(line.rstrip(':')))
+        if line.endswith(":"):
+            armies.append(Army(line.rstrip(":")))
         else:
             armies[-1].add_group(line)
 
@@ -24,10 +25,9 @@ def run(inputs):
             chosen_target = g.target_selection(a_groups)
             if chosen_target is not None:
                 a_groups.remove(chosen_target)
-        
+
         all_groups = sorted(
-            [ g for a in armies for g in a.groups ],
-            key = lambda g : g.initiative
+            [g for a in armies for g in a.groups], key=lambda g: g.initiative
         )[::-1]
         for g in all_groups:
             g.attack()

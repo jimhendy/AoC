@@ -1,6 +1,7 @@
 import re
 import os
 
+
 def run(inputs):
 
     # (?:^|\]) Start of line or outside [...] (non-capturing)
@@ -12,12 +13,14 @@ def run(inputs):
     #                [a-z]) But do match any other lowercase letter
     # (?P=a) Then match group "a" again
     # etc.
-    
+
     before_ssl = re.compile(
-        '(?:^|\])[a-z]*(?P<a>[a-z])(?P<b>(?!(?P=a))[a-z])(?P=a).*\[[a-z]*(?P=b)(?P=a)(?P=b)[a-z]*\]')
+        "(?:^|\])[a-z]*(?P<a>[a-z])(?P<b>(?!(?P=a))[a-z])(?P=a).*\[[a-z]*(?P=b)(?P=a)(?P=b)[a-z]*\]"
+    )
     after_ssl = re.compile(
-        '\[[a-z]*(?P<a>[a-z])(?P<b>(?!(?P=a))[a-z])(?P=a)[a-z]*\].*(?P=b)(?P=a)(?P=b)[a-z]*(?:$|\[)')
-    
+        "\[[a-z]*(?P<a>[a-z])(?P<b>(?!(?P=a))[a-z])(?P=a)[a-z]*\].*(?P=b)(?P=a)(?P=b)[a-z]*(?:$|\[)"
+    )
+
     total = 0
     for line in inputs.split(os.linesep):
         if len(before_ssl.findall(line)) or len(after_ssl.findall(line)):

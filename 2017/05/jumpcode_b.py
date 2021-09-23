@@ -1,5 +1,4 @@
 class JumpCode:
-
     def __init__(self, code):
         self.code = list(map(int, code.split()))
         self.instruction_pointer = 0
@@ -8,9 +7,9 @@ class JumpCode:
     def __call__(self):
         while True:
             try:
-                jump = self.code[ self.instruction_pointer ]
+                jump = self.code[self.instruction_pointer]
                 delta = -1 if jump >= 3 else 1
-                self.code[ self.instruction_pointer ] = jump + delta
+                self.code[self.instruction_pointer] = jump + delta
                 self.instruction_pointer += jump
                 self.n_steps += 1
             except IndexError:

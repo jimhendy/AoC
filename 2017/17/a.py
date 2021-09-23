@@ -22,4 +22,3 @@ def run(inputs):
         current_pos = do_iteration(buffer, steps, current_pos, it)
     print_buffer(buffer, 0)
     return buffer[buffer.index(2017) + 1]
-

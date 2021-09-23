@@ -1,13 +1,13 @@
 import a_star
 
-class Position(a_star.State):
 
+class Position(a_star.State):
     def __init__(self, x, y, fav_num, prev_steps=0):
         self.x = x
         self.y = y
         self.fav_num = fav_num
         self.prev_steps = prev_steps
-    
+
     def metric(self):
         return self.prev_steps
 
@@ -22,23 +22,20 @@ class Position(a_star.State):
 
     def is_valid(self):
         return (
-            (self.x >=0 and self.y >= 0) 
-            and 
-            not is_wall(self.x, self.y, self.fav_num)
+            (self.x >= 0 and self.y >= 0)
+            and not is_wall(self.x, self.y, self.fav_num)
             and (self.prev_steps <= 50)
         )
 
     def all_possible_next_states(self):
         for dy in [-1, 0, 1]:
             for dx in [-1, 0, 1]:
-                if dy  != 0 and dx != 0:
+                if dy != 0 and dx != 0:
                     continue
                 yield Position(
-                    self.x + dx,
-                    self.y + dy,
-                    self.fav_num,
-                    self.prev_steps + 1 
+                    self.x + dx, self.y + dy, self.fav_num, self.prev_steps + 1
                 )
+
 
 def run(inputs):
     fav_num = int(inputs)
@@ -46,24 +43,20 @@ def run(inputs):
     for y in range(n):
         for x in range(n):
             if y == 39 and x == 31:
-                char = 'X'
-            elif is_wall(x,y,fav_num):
-                char = '#'
+                char = "X"
+            elif is_wall(x, y, fav_num):
+                char = "#"
             else:
-                char = ' '
-            print(char, end='')
+                char = " "
+            print(char, end="")
         print()
 
-    initial_state = Position(1,1,fav_num)
-    result = a_star.a_star(
-            initial_state, 
-            lambda x : f'{x.x}_{x.y}',
-            return_status=True
-    )
-    return len(result['seen'])
+    initial_state = Position(1, 1, fav_num)
+    result = a_star.a_star(initial_state, lambda x: f"{x.x}_{x.y}", return_status=True)
+    return len(result["seen"])
 
 
 def is_wall(x, y, favourite_number):
     base_ten = x * x + 3 * x + 2 * x * y + y + y * y + favourite_number
-    binary = f'{base_ten:b}'
-    return (binary.count('1') % 2) == 1
+    binary = f"{base_ten:b}"
+    return (binary.count("1") % 2) == 1

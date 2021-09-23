@@ -1,7 +1,7 @@
 from collections import deque
 
-class Game:
 
+class Game:
     def __init__(self, last_marble, n_players):
         self.marbles = deque([0])
         self.next_marble = 1
@@ -10,7 +10,7 @@ class Game:
         self.n_players = n_players
 
     def current_player(self):
-        return '-' if self.turn == -1 else (self.turn % self.n_players) + 1
+        return "-" if self.turn == -1 else (self.turn % self.n_players) + 1
 
     def complete(self):
         return self.next_marble > self.last_marble
@@ -20,7 +20,7 @@ class Game:
 
     def anticlockwise(self, n=1):
         self.marbles.rotate(n)
-        
+
     def place_new_marble(self):
         marble_number = self.next_marble
         self.next_marble += 1
@@ -37,6 +37,7 @@ class Game:
         score = self.marbles.pop()
         self.clockwise(1)
         return score
+
 
 class Player:
     def __init__(self):

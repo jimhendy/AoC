@@ -12,8 +12,6 @@ def run(inputs):
     # As all values increase this is enough
     double_mask = counts.eq(2).any(axis=1)
 
-    possibles = possibles[
-        diffs_mask & double_mask
-    ]
+    possibles = possibles[diffs_mask & double_mask]
 
     return len(possibles)

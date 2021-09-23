@@ -2,6 +2,7 @@ import os
 import numpy as np
 import numba
 
+
 @numba.njit
 def int_to_binary(num, width=16):
     binary = np.zeros(width, dtype=np.int8)
@@ -13,6 +14,7 @@ def int_to_binary(num, width=16):
             num = num // 2
             i += 1
     return binary[::-1]
+
 
 @numba.njit
 def do(start_a, start_b, factor_a, factor_b, mod, n_repeats):
@@ -32,17 +34,12 @@ def do(start_a, start_b, factor_a, factor_b, mod, n_repeats):
 
         if np.array_equal(bin_a, bin_b):
             matches += 1
-        
+
     return matches
 
+
 def run(inputs):
-    starting_values = [
-        int(i.split()[-1])
-        for i in inputs.split(os.linesep)
-    ]
+    starting_values = [int(i.split()[-1]) for i in inputs.split(os.linesep)]
     return do(
-        starting_values[0], starting_values[1],
-        16807, 48271,
-        2147483647,
-        40_000_000
+        starting_values[0], starting_values[1], 16807, 48271, 2147483647, 40_000_000
     )

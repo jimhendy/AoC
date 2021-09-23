@@ -14,11 +14,7 @@ class Maze:
     def __init__(self, maze_as_str):
         self.maze_as_str = maze_as_str
         self.maze = np.array(
-            [
-                [j for j in i] 
-                for i in 
-                self.maze_as_str.split(os.linesep)
-            ]
+            [[j for j in i] for i in self.maze_as_str.split(os.linesep)]
         )
         self.steps_between_store = {}
 
@@ -52,14 +48,13 @@ class Maze:
 
     def find_distance(self, pos_a, pos_b):
         start_state = Position(self.maze, pos_a, pos_b)
-        end_state = a_star.a_star(
-            start_state,
-            tag_func = lambda x : str(x.current_pos) 
-        )
+        end_state = a_star.a_star(start_state, tag_func=lambda x: str(x.current_pos))
         return end_state.previous_steps
+
 
 def get_char(maze, pos):
     return maze[pos[0]][pos[1]]
+
 
 class Position(a_star.State):
     def __init__(self, maze, current_pos, end_pos, previous_steps=0):
@@ -71,14 +66,14 @@ class Position(a_star.State):
 
     def is_valid(self):
         if np.any(self.current_pos < 0):
-            #print(f'Failed {self.current_pos} as negative')
+            # print(f'Failed {self.current_pos} as negative')
             return False
         if np.any(self.current_pos >= self.maze.shape):
-            #print(f'Failed {self.current_pos} as larger than maze')
+            # print(f'Failed {self.current_pos} as larger than maze')
             return False
         current_char = get_char(self.maze, self.current_pos)
         if current_char == WALL_CHAR:
-            #print(f'Failed {self.current_pos} as wall')
+            # print(f'Failed {self.current_pos} as wall')
             return False
         return True
 
@@ -86,12 +81,12 @@ class Position(a_star.State):
         return np.all(self.current_pos == self.end_pos)
 
     def all_possible_next_states(self):
-        #print(f'Current : {self.current_pos}')
+        # print(f'Current : {self.current_pos}')
         for dx in [-1, 0, 1]:
             for dy in [-1, 0, 1]:
                 if (dx and dy) or (dx == dy == 0):
                     continue
-                #print(f'New {self.current_pos + np.array((dx, dy))}')
+                # print(f'New {self.current_pos + np.array((dx, dy))}')
                 yield Position(
                     self.maze,
                     self.current_pos + np.array((dx, dy)),

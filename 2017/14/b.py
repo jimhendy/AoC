@@ -2,13 +2,10 @@ import numpy as np
 from knot_hash import knot_hash
 import heapq
 
+
 def kh_to_binary(kh):
-    return ''.join(
-        map(
-            lambda x : bin(int(x, 16))[2:].zfill(4),
-            kh
-        )
-    )
+    return "".join(map(lambda x: bin(int(x, 16))[2:].zfill(4), kh))
+
 
 def fill_region(grid, row_num, col_num):
     assert grid[row_num][col_num] == 1
@@ -28,9 +25,8 @@ def fill_region(grid, row_num, col_num):
                     continue
                 if r >= grid.shape[0] or c >= grid.shape[1]:
                     continue
-                heapq.heappush(q, (r,c) )
+                heapq.heappush(q, (r, c))
     return grid
-
 
 
 def count_regions(grid):
@@ -46,9 +42,9 @@ def count_regions(grid):
 
 
 def run(inputs):
-    grid = np.zeros((128,128))
+    grid = np.zeros((128, 128))
     for i in range(128):
-        kh = knot_hash(f'{inputs}-{i}')
+        kh = knot_hash(f"{inputs}-{i}")
         bin_rep = kh_to_binary(kh)
         grid[i] = list(map(int, bin_rep))
     n_regions = count_regions(grid)

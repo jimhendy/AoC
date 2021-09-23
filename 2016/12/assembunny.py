@@ -9,16 +9,17 @@ import time
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)
 
+
 class Assembunny:
     def __init__(self, instructions):
         self.instructions = self.extract_instructions(instructions)
-        self.registers = defaultdict(lambda : 0)
+        self.registers = defaultdict(lambda: 0)
         self.instruction_pointer = 0
 
     def __call__(self):
         while True:
-            #print(self.registers)
-            #time.sleep(0.5)
+            # print(self.registers)
+            # time.sleep(0.5)
             try:
                 ins = self.instructions[self.instruction_pointer]
                 ins()
@@ -42,23 +43,23 @@ class Assembunny:
     def cpy(self, x, y):
         x_value = self.get_value(x)
         self.registers[y] = x_value
-        logger.debug(f'Copied {x_value} into {y}')
+        logger.debug(f"Copied {x_value} into {y}")
         self.instruction_pointer += 1
 
     def inc(self, x, magnitude=1):
         self.registers[x] += magnitude
-        logger.debug(f'Incremented {x} to {self.registers[x]}')
+        logger.debug(f"Incremented {x} to {self.registers[x]}")
         self.instruction_pointer += 1
 
     def dec(self, x, magnitude=1):
         self.registers[x] -= magnitude
-        logger.debug(f'Decresed {x} to {self.registers[x]}')
+        logger.debug(f"Decresed {x} to {self.registers[x]}")
         self.instruction_pointer += 1
 
     def jnz(self, x, y):
         x_value = self.get_value(x)
         if x_value != 0:
-            logger.debug(f'Jumped to instruction {y}')
+            logger.debug(f"Jumped to instruction {y}")
             self.instruction_pointer += int(y)
         else:
             self.instruction_pointer += 1

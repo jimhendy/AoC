@@ -4,6 +4,7 @@ import time
 
 np.random.seed(123)
 
+
 def run(inputs):
 
     droid = Droid(inputs)
@@ -24,7 +25,7 @@ def run(inputs):
             new_dir = Droid.random_direction()
             droid(new_dir)
             pass
-        
+
         if count % 1 == 0:
             droid.plot(True)
             time.sleep(0.01)
@@ -48,5 +49,5 @@ def run(inputs):
             pass
         minutes += 1
         pass
-        
+
     return minutes

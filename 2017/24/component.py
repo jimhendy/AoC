@@ -1,8 +1,9 @@
 import re
 
+
 class Component:
 
-    reg = re.compile(r'(\d+)\/(\d+)')
+    reg = re.compile(r"(\d+)\/(\d+)")
 
     def __init__(self, pins_str):
         match = Component.reg.findall(pins_str)
@@ -16,7 +17,7 @@ class Component:
         return self.pin_a + self.pin_b
 
     def __repr__(self):
-        return f'{self.pin_a}/{self.pin_b}'
+        return f"{self.pin_a}/{self.pin_b}"
 
     def __contains__(self, num):
         return num == self.pin_a or num == self.pin_b

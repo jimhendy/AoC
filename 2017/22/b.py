@@ -25,15 +25,21 @@ def reverse(direction):
 
 
 def turn(node_state):
-    return {CLEAN: left, WEAKENED: lambda x: x, INFECTED: right, FLAGGED: reverse,}[
-        node_state
-    ]
+    return {
+        CLEAN: left,
+        WEAKENED: lambda x: x,
+        INFECTED: right,
+        FLAGGED: reverse,
+    }[node_state]
 
 
 def new_state(current_state):
-    return {CLEAN: WEAKENED, WEAKENED: INFECTED, INFECTED: FLAGGED, FLAGGED: CLEAN,}[
-        current_state
-    ]
+    return {
+        CLEAN: WEAKENED,
+        WEAKENED: INFECTED,
+        INFECTED: FLAGGED,
+        FLAGGED: CLEAN,
+    }[current_state]
 
 
 def burst(grid, current_node, direction):

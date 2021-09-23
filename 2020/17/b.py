@@ -3,6 +3,7 @@ import itertools
 
 STEPS = (-1, 0, 1)
 
+
 def extreme_cubes(active):
     min_x, min_y, min_z, min_w, max_x, max_y, max_z, max_w = 0, 0, 0, 0, 0, 0, 0, 0
     for x, y, z, w in active:

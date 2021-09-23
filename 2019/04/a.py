@@ -12,8 +12,6 @@ def run(inputs):
     # As the values increase they must be beside each other
     counts_mask = counts.gt(1).any(axis=1)
 
-    possibles = possibles[
-        diffs_mask & counts_mask
-    ]
+    possibles = possibles[diffs_mask & counts_mask]
 
     return len(possibles)

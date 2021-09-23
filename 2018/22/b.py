@@ -21,10 +21,9 @@ def run(inputs):
     )
 
     grid = cave.__repr__()
-    with open('mine.txt', 'w') as f:
+    with open("mine.txt", "w") as f:
         for h in chosen_route.history:
             f.write(str(h))
-            f.write('\n')
-    
+            f.write("\n")
 
     return chosen_route.time

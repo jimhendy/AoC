@@ -1,17 +1,18 @@
 import os
 import re
 
+
 def run(inputs):
     rules = {}
     my_ticket = None
     tickets = []
     for line in inputs.split(os.linesep):
-        if ':' in line and 'or' in line:
-            rule_name = line.split(':')[0].strip()
-            nums = list(map(int, re.findall(r'(\d+)', line)))
+        if ":" in line and "or" in line:
+            rule_name = line.split(":")[0].strip()
+            nums = list(map(int, re.findall(r"(\d+)", line)))
             rules[rule_name] = nums
         else:
-            nums = re.findall(r'(\d+)', line)
+            nums = re.findall(r"(\d+)", line)
             if not len(nums):
                 continue
             if my_ticket is None:
@@ -30,4 +31,4 @@ def run(inputs):
             if not valid_num:
                 error_rate += num
 
-    return error_rate    
+    return error_rate

@@ -4,6 +4,7 @@ from functools import lru_cache
 
 CACHE = {}
 
+
 def extract_matrix(string):
     data = string.split("/")
     return np.array([list(d) for d in data])
@@ -68,4 +69,3 @@ def run(inputs):
         image = enhance(image, rules)
 
     return len(np.argwhere(image == "#"))
-

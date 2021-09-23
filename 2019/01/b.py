@@ -10,8 +10,7 @@ iteration = 0
 def log_new_fuel(total_new_fuel):
     global iteration
     iteration += 1
-    logger.info(
-        f'Iteration: {iteration:02d}, extra fuel: {total_new_fuel:,.2f}')
+    logger.info(f"Iteration: {iteration:02d}, extra fuel: {total_new_fuel:,.2f}")
     pass
 
 

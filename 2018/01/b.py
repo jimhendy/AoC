@@ -1,5 +1,6 @@
 import os
 
+
 def run(inputs):
 
     freq = 0
@@ -13,6 +14,5 @@ def run(inputs):
         i += 1
         seen.add(freq)
         freq += delta
-        
-    
+
     return freq

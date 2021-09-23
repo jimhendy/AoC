@@ -6,6 +6,7 @@ from location import Location
 
 DEBUG = False
 
+
 class Unit:
     def __init__(self, loc, grid, symbol, enemy_symbol, attack_power=3):
         self.symbol = symbol
@@ -19,19 +20,19 @@ class Unit:
         target_locs = self.grid.locate_targets(self)
         if not len(target_locs):
             if DEBUG:
-                print('No targets found')
+                print("No targets found")
             # raise NoTargetsException
             return
         adjacent_locs = self.find_adjacent_locs(target_locs)
         if not len(adjacent_locs):
             if DEBUG:
-                print('No valid adjacent locations')
+                print("No valid adjacent locations")
             # raise NoPossibleAdjacentLocsException
             return
         paths = self.grid.find_paths(self.loc, adjacent_locs)
         if not len(paths):
             if DEBUG:
-                print('No valid paths')
+                print("No valid paths")
             # raise NoPossiblePathsException
             return
         path_lengths = defaultdict(list)
@@ -47,7 +48,7 @@ class Unit:
 
     def move(self, new_loc):
         if DEBUG:
-            print(f'Moving to {new_loc.__repr__()}')
+            print(f"Moving to {new_loc.__repr__()}")
         self.grid.move_unit(self, new_loc)
 
     def attack(self):
@@ -86,7 +87,7 @@ class Unit:
         return adj_locs
 
     def __repr__(self):
-        return f'{self.symbol} [{self.loc.__repr__()}]'
+        return f"{self.symbol} [{self.loc.__repr__()}]"
 
 
 class Elf(Unit):

@@ -1,12 +1,13 @@
 import optcode
 import os
 
+
 def run(inputs):
-    
+
     # Two blank lines indicate start of code
     instructions = []
     start = False
-    prev_line = 'start'
+    prev_line = "start"
     for l in inputs.split(os.linesep):
         if start and len(l.strip()):
             instructions.append(l)

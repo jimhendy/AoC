@@ -3,6 +3,7 @@ import os
 import a_star
 import maze
 
+
 def run(inputs):
     grid = [list(row) for row in inputs.split(os.linesep)]
     start_row = 0
@@ -11,5 +12,4 @@ def run(inputs):
 
     solution = a_star.augmented_a_star(initial_state)
 
-    return ''.join(solution.letters)
-
+    return "".join(solution.letters)

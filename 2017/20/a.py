@@ -4,6 +4,7 @@ import numpy as np
 
 NUM = "[ \-\d]+"
 
+
 class Particle:
     def __init__(self, particle_id, config_str):
         self.particle_id = particle_id
@@ -34,7 +35,7 @@ def run(inputs):
 
     for _ in range(1_000):
         [p.update() for p in particles]
-        
+
     return sorted(
         [(p.particle_id, p.distance()) for p in particles], key=lambda x: x[1]
     )[0][0]

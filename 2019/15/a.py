@@ -3,6 +3,7 @@ from droid import Droid
 
 np.random.seed(123)
 
+
 def run(inputs):
 
     droid = Droid(inputs)
@@ -21,7 +22,7 @@ def run(inputs):
             new_dir = Droid.random_direction()
             droid(new_dir)
             pass
-        
+
         if count % 100 == 0:
             droid.plot(True)
             pass

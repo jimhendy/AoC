@@ -24,8 +24,7 @@ class Rotation(Enum):
     pass
 
 
-class EhpRobot():
-
+class EhpRobot:
     def __init__(self, intcode_inputs, start_color=Color.BLACK):
         self.start_color = start_color
         self._direction = Direction.NORTH
@@ -57,9 +56,9 @@ class EhpRobot():
     def _step_forward(self):
         delta = {
             Direction.NORTH: [0, +1],
-            Direction.EAST:  [+1, 0],
+            Direction.EAST: [+1, 0],
             Direction.SOUTH: [0, -1],
-            Direction.WEST:  [-1, 0]
+            Direction.WEST: [-1, 0],
         }[self._direction]
         self._position += np.array(delta)
         self._path.append(self._position.copy())
@@ -73,9 +72,7 @@ class EhpRobot():
         else:
             raise NotImplementedError
 
-        self._direction = Direction(
-            (self._direction.value + delta + 4) % 4
-        )
+        self._direction = Direction((self._direction.value + delta + 4) % 4)
         pass
 
     def _set_color(self, color, pos=None):

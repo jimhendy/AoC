@@ -2,6 +2,7 @@ from collections import defaultdict
 import re
 import time
 
+
 class JumpCode:
     def __init__(self, instructions, bail_func=None, debug_mode=False):
         self.instructions = instructions
@@ -9,7 +10,7 @@ class JumpCode:
         self.registers = defaultdict(int)
         self.debug_mode = debug_mode
         if not self.debug_mode:
-            self.registers['a'] = 1
+            self.registers["a"] = 1
         self.instruction_nums = defaultdict(int)
 
     def run(self):
@@ -22,29 +23,23 @@ class JumpCode:
                 break
 
             print(self.instruction_pointer)
-            
+
             if i > 10_000:
                 break
             func_name, *args = ins.split()
             func = getattr(self, func_name)
             self.instruction_nums[func_name] += 1
             func(*args)
-            
+
             print(ins)
             print(self.registers)
-            print('*'*30)
+            print("*" * 30)
             pass
         pass
 
     def _get_value(self, value):
-        if (
-            isinstance(value, (int, float)) 
-            or 
-            (
-                isinstance(value, str) 
-                and 
-                re.match(r'^(\-?\d+)$', value)
-            )
+        if isinstance(value, (int, float)) or (
+            isinstance(value, str) and re.match(r"^(\-?\d+)$", value)
         ):
             return int(value)
         elif isinstance(value, str):
@@ -71,5 +66,3 @@ class JumpCode:
             self.instruction_pointer += self._get_value(y)
         else:
             self.instruction_pointer += 1
-
-

@@ -24,7 +24,14 @@ def run(inputs):
 
     # Add the extra items
     initial_state.contents[1] = initial_state.contents[1].union(
-        set((Microchip('elerium'), Generator('elerium'), Microchip('dilithium'), Generator('dilithium')))
+        set(
+            (
+                Microchip("elerium"),
+                Generator("elerium"),
+                Microchip("dilithium"),
+                Generator("dilithium"),
+            )
+        )
     )
     result = a_star.a_star(initial_state, lambda x: f"{x.elevator_floor}{x.contents}")
 

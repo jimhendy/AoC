@@ -10,6 +10,7 @@ This is due to the problem not being a simple maze but some steps
 taking longer than others.
 """
 
+
 class AStarException(Exception):
     pass
 
@@ -47,10 +48,12 @@ def augemented_a_star(initial_state, tag_func=str, return_status=False):
         best_option = heapq.heappop(possible_states)
         n_tests += 1
         if DEBUG:
-            print(f"Test {n_tests}, n_options {len(possible_states)}, best_option: {tag_func(best_option)}")
+            print(
+                f"Test {n_tests}, n_options {len(possible_states)}, best_option: {tag_func(best_option)}"
+            )
         if best_option.is_complete():
             if DEBUG:
-                print('Search complete')
+                print("Search complete")
             is_complete = True
             break
 
@@ -63,11 +66,13 @@ def augemented_a_star(initial_state, tag_func=str, return_status=False):
             if tag in seen:
                 if seen[tag] <= s.time:
                     if DEBUG:
-                        print(f'Skipping {tag} as already seen with a better time')
+                        print(f"Skipping {tag} as already seen with a better time")
                     continue
                 else:
                     if DEBUG:
-                        print(f'NOT skipping {tag} as we just found a faster way to get there ({s.time} vrs {seen[tag]})')
+                        print(
+                            f"NOT skipping {tag} as we just found a faster way to get there ({s.time} vrs {seen[tag]})"
+                        )
             if DEBUG:
                 print(f"Adding new state to heap: {tag}")
             seen[tag] = s.time

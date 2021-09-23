@@ -2,7 +2,6 @@ import game
 
 
 class Character:
-
     def __init__(self, hp, mana=0, armor=0):
         self.hp = hp
         self.mana = mana
@@ -11,21 +10,20 @@ class Character:
         self.active_spells = []
 
     def remove_finished_spells(self):
-        self.active_spells = [
-            s for s in self.active_spells
-            if s.is_active()
-        ]
+        self.active_spells = [s for s in self.active_spells if s.is_active()]
 
     def defend(self, attack_damage):
         strength = max([attack_damage - self.armor, 1])
         self.hp -= strength
 
     def cast_spell(self, spell_type):
-        if len([
-                s for s in self.active_spells
-                if isinstance(s, spell_type)
-                and s.is_active()
-        ]):
+        if len(
+            [
+                s
+                for s in self.active_spells
+                if isinstance(s, spell_type) and s.is_active()
+            ]
+        ):
             raise game.GameLost
         spell = spell_type()
         self.mana -= spell.mana_cost

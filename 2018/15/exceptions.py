@@ -13,5 +13,6 @@ class NoPossibleAdjacentLocsException(CannotMoveException):
 class NoPossiblePathsException(CannotMoveException):
     pass
 
+
 class GameOverException(Exception):
     pass

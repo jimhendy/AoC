@@ -13,22 +13,22 @@ def a_star(initial_state, tag_func=str, return_status=False):
     - is_complete - boolean of whether this state is the desired result
     - is_valid - boolean
     - all_possible_next_states - iterable of states after this one
-    
+
     Arguments:
         initial_state {user_class with above methods}
-    
+
     Keyword Arguments:
-        tag_func {callable} -- [function to tag each 
+        tag_func {callable} -- [function to tag each
         state with so we can know if it has already been seen
         ] (default: {str})
 
         return_status {boolean} -- Rather than returning the
         final state, return a dictionary summarising the search
-    
+
     Returns:
         [user_class(State)] -- [Desired search result]
     """
-    
+
     possible_states = [initial_state]
     seen = set()
     n_tests = 0
@@ -41,7 +41,7 @@ def a_star(initial_state, tag_func=str, return_status=False):
         if best_option.is_complete():
             is_complete = True
             break
-        
+
         for s in best_option.all_possible_next_states():
             if not s.is_valid():
                 continue
@@ -53,18 +53,18 @@ def a_star(initial_state, tag_func=str, return_status=False):
 
     if return_status:
         return {
-            'seen': seen,
-            'best_option': best_option,
-            'n_tests': n_tests,
-            'is_complete': is_complete
+            "seen": seen,
+            "best_option": best_option,
+            "n_tests": n_tests,
+            "is_complete": is_complete,
         }
     elif is_complete:
         return best_option
     else:
-        raise AStarException('Search did not complete')
+        raise AStarException("Search did not complete")
+
 
 class State(ABC):
-
     def __init__(self):
         pass
 
@@ -80,5 +80,3 @@ class State(ABC):
     def all_possible_next_states(self):
         for i in range(0):
             yield State()
-
-            

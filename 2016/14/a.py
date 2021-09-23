@@ -1,7 +1,7 @@
 import re
 import hashlib
 
-REG_3 = re.compile(r'(?P<char>.)(?P=char){2}')
+REG_3 = re.compile(r"(?P<char>.)(?P=char){2}")
 
 
 def get_hash(s):
@@ -9,10 +9,8 @@ def get_hash(s):
 
 
 def triples(s):
-    return [
-        match[0]
-        for match in REG_3.findall(s)
-    ]
+    return [match[0] for match in REG_3.findall(s)]
+
 
 def run(salt):
     index = -1
@@ -20,11 +18,11 @@ def run(salt):
     keys = []
     while len(keys) < 64:
         index += 1
-    
-        test_str = f'{salt}{index}'
+
+        test_str = f"{salt}{index}"
         str_hash = get_hash(test_str)
         trips = triples(str_hash)
-        
+
         if len(trips):
             possibles[index] = trips[0]
         else:
@@ -32,8 +30,8 @@ def run(salt):
             continue
 
         to_delete = []
-        for k,v in possibles.items():
-            
+        for k, v in possibles.items():
+
             if k == index:
                 continue
 
@@ -42,9 +40,9 @@ def run(salt):
             else:
                 for trip_char in v:
                     if trip_char * 5 in str_hash:
-                        keys.append((k,index))
+                        keys.append((k, index))
                         to_delete.append(k)
         for k in to_delete:
             possibles.pop(k)
-        
+
     return keys[63][0]

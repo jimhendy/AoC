@@ -6,7 +6,7 @@ import numba
 def run_phase(inp):
     output = np.zeros(len(inp))
     for i, x in enumerate(inp[::-1]):
-        output[-i-1] = (output[-i] + x) % 10
+        output[-i - 1] = (output[-i] + x) % 10
         pass
     return output
 
@@ -22,7 +22,7 @@ def run(inputs):
     is simply the cumsum of the values and "luckily" the offset means
     we only care about the lower right corner
     """
-    assert offset > len(data)/2
+    assert offset > len(data) / 2
 
     data = list(map(int, data[offset:]))
 
@@ -30,5 +30,5 @@ def run(inputs):
         data = run_phase(data)
         pass
 
-    result = ''.join(map(str, map(int, data[:8])))
+    result = "".join(map(str, map(int, data[:8])))
     return result

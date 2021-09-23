@@ -1,8 +1,9 @@
 import os
 import string
 
+
 def run(inputs):
-    '''
+    """
     inputs = inputs.split("\n\n")
 
     numTrue = 0
@@ -14,8 +15,8 @@ def run(inputs):
                 numTrue += 1
 
     return numTrue
-    '''
-    
+    """
+
     total = 0
     data = None  # We will use a set to store the letters again but need a special way of knowing when we are starting a new group. Note: len(data) == 0 is not valid as then we can't tell between a new group and an existing group with no overlapping answers
     for line in inputs.split(os.linesep):
@@ -38,4 +39,3 @@ def run(inputs):
     total += len(data)
 
     return total
-    

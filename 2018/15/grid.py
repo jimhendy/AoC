@@ -9,6 +9,7 @@ from location import Location
 CHARS = {"Wall": "#", "Space": ".", "Elf": "E", "Goblin": "G"}
 PATH_CACHE = {}
 
+
 class Grid:
     def __init__(self, input_grid, elf_power=3):
         self.elf_power = elf_power
@@ -22,7 +23,9 @@ class Grid:
         for r, row in enumerate(self.grid):
             for c, char in enumerate(row):
                 if char == CHARS["Elf"]:
-                    self.add_unit(units.Elf(Location(r, c), self, attack_power=self.elf_power))
+                    self.add_unit(
+                        units.Elf(Location(r, c), self, attack_power=self.elf_power)
+                    )
                 elif char == CHARS["Goblin"]:
                     self.add_unit(units.Goblin(Location(r, c), self))
 
@@ -77,14 +80,12 @@ class Grid:
     def get_key(self, start, targets):
         key = start.tup.__repr__()
         for t in targets:
-            key += '-' + t.__repr__()
-        key += '=' + self.get_str_grid()
+            key += "-" + t.__repr__()
+        key += "=" + self.get_str_grid()
         return key
 
     def get_str_grid(self):
-        return os.linesep.join(
-            [''.join(line) for line in self.grid]
-        )
+        return os.linesep.join(["".join(line) for line in self.grid])
 
     def print_grid(self):
         print(self.get_str_grid())

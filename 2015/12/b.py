@@ -1,11 +1,12 @@
 import json
 
+
 def extract_nums(data):
 
     total = 0
     print(data)
     if type(data) is dict:
-        if 'red' in data.values():
+        if "red" in data.values():
             return 0
         else:
             for v in data.values():
@@ -27,6 +28,7 @@ def extract_nums(data):
         total = data
         pass
     return total
+
 
 def run(inputs):
 

@@ -1,5 +1,6 @@
 import os
 
+
 def run(inputs):
     total = 0
     for row in inputs.split(os.linesep):
@@ -12,4 +13,3 @@ def run(inputs):
             seen.add(word)
         total += valid
     return total
-        

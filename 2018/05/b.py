@@ -6,7 +6,7 @@ def reduced_length(inputs, omit):
     lowercase = list(inputs.lower())
 
     reduced = []
-    for p,s,l in zip(polymer, swapped, lowercase):
+    for p, s, l in zip(polymer, swapped, lowercase):
         if l == omit:
             continue
         if len(reduced) and reduced[-1] == s:
@@ -15,6 +15,7 @@ def reduced_length(inputs, omit):
             reduced.append(p)
 
     return len(reduced)
+
 
 def run(inputs):
     possibles = set((i.lower() for i in list(inputs)))

@@ -1,5 +1,4 @@
 class State:
-
     def __init__(self):
         self.loc_a = 0
         self.loc_b = 1
@@ -12,27 +11,27 @@ class State:
         if new_score < 10:
             self.scores.append(new_score)
         else:
-            [ self.scores.append(int(i)) for i in list(str(new_score)) ]  
-        self.loc_a = ( self.loc_a + score_a + 1 ) % len(self.scores)  
-        self.loc_b = ( self.loc_b + score_b + 1 ) % len(self.scores)  
+            [self.scores.append(int(i)) for i in list(str(new_score))]
+        self.loc_a = (self.loc_a + score_a + 1) % len(self.scores)
+        self.loc_b = (self.loc_b + score_b + 1) % len(self.scores)
 
     def __repr__(self):
         out = []
-        for i,n in enumerate(self.scores):
+        for i, n in enumerate(self.scores):
             if i == self.loc_a:
-                out.append(f'({n})')
+                out.append(f"({n})")
             elif i == self.loc_b:
-                out.append(f'[{n}]')
+                out.append(f"[{n}]")
             else:
                 out.append(str(n))
-        return ' '.join(out)
+        return " ".join(out)
+
 
 def run(inputs):
     n = int(inputs)
     state = State()
-    
-    while len(state.scores) < (n+10):
-        state.generate()
-    
 
-    return ''.join(map(str, state.scores[-10:]))
+    while len(state.scores) < (n + 10):
+        state.generate()
+
+    return "".join(map(str, state.scores[-10:]))

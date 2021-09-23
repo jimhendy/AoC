@@ -2,7 +2,9 @@ from abc import ABC
 
 
 class Spell(ABC):
-    def __init__(self, mana_cost, n_turns=1, damage=0, hp=0, armor=0, mana=0, each_time=False):
+    def __init__(
+        self, mana_cost, n_turns=1, damage=0, hp=0, armor=0, mana=0, each_time=False
+    ):
         self.mana_cost = mana_cost
         self.n_turns = n_turns
         self.remaining_turns = self.n_turns
@@ -38,22 +40,25 @@ class Spell(ABC):
 
 
 class MagicMissile(Spell):
-    def __init__(self): super().__init__(53, damage=4)
+    def __init__(self):
+        super().__init__(53, damage=4)
 
 
 class Drain(Spell):
-    def __init__(self): super().__init__(73, damage=2, hp=2)
+    def __init__(self):
+        super().__init__(73, damage=2, hp=2)
 
 
 class Shield(Spell):
-    def __init__(self): super().__init__(113, armor=7, n_turns=6)
+    def __init__(self):
+        super().__init__(113, armor=7, n_turns=6)
 
 
 class Poison(Spell):
-    def __init__(self): super().__init__(
-        173, damage=3, n_turns=6, each_time=True)
+    def __init__(self):
+        super().__init__(173, damage=3, n_turns=6, each_time=True)
 
 
 class Recharge(Spell):
-    def __init__(self): super().__init__(
-        229, mana=101, n_turns=5, each_time=True)
+    def __init__(self):
+        super().__init__(229, mana=101, n_turns=5, each_time=True)

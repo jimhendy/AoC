@@ -4,7 +4,7 @@ import heapq
 from collections import defaultdict
 
 
-class Molecule():
+class Molecule:
     def __init__(self, n_reacts, mol_str, reacts):
         self.n_reacts = n_reacts
         self.mol_str = mol_str
@@ -23,7 +23,7 @@ class Molecule():
 
 def replace_all(string, drop, insert):
     for c in range(string.count(drop)):
-        where = [m.start() for m in re.finditer(drop, string)][c-1]
+        where = [m.start() for m in re.finditer(drop, string)][c - 1]
         before = string[:where]
         after = string[where:]
         after = after.replace(drop, insert, 1)
@@ -34,7 +34,7 @@ def run(inputs):
 
     base = inputs.split(os.linesep)[-1]
 
-    reaction_reg = re.compile('(\D+) \=\> (\D+)')
+    reaction_reg = re.compile("(\D+) \=\> (\D+)")
     reactions = defaultdict(set)
     for i in inputs.split(os.linesep):
         match = reaction_reg.findall(i)
@@ -46,15 +46,15 @@ def run(inputs):
     possibles = [Molecule(0, base, [])]
     seen = set([base])
     total = 0
-    
+
     while len(possibles):
 
         total += 1
-        
+
         best_option = heapq.heappop(possibles)
         current_mol = best_option.mol_str
 
-        if current_mol == 'e':
+        if current_mol == "e":
             break
 
         for start, ends in reactions.items():
@@ -68,7 +68,8 @@ def run(inputs):
                         Molecule(
                             best_option.n_reacts + 1,
                             new_mol,
-                            best_option.reacts + [f'{start}=>{end}'])
+                            best_option.reacts + [f"{start}=>{end}"],
+                        ),
                     )
 
     return best_option.n_reacts

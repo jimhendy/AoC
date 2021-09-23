@@ -1,11 +1,13 @@
 import heapq
 from abc import ABC, abstractmethod
 from collections import defaultdict
+
 DEBUG = False
 
 
 class AStarException(Exception):
     pass
+
 
 def augmented_a_star(initial_state, return_status=False):
     """Perform the A* search algorithm
@@ -40,7 +42,7 @@ def augmented_a_star(initial_state, return_status=False):
         if DEBUG:
             print(f"Test {n_tests:,}, best_option: {best_option}")
             print(f"Current heap size: {len(possible_states):,}")
-            print(f'MAX STRENGTH: {max_strength:,}')
+            print(f"MAX STRENGTH: {max_strength:,}")
         if best_option.is_complete():
             if DEBUG:
                 print("Search Complete!")
@@ -63,7 +65,7 @@ def augmented_a_star(initial_state, return_status=False):
             "best_option": best_option,
             "n_tests": n_tests,
             "is_complete": is_complete,
-            'bridge_data': bridge_data
+            "bridge_data": bridge_data,
         }
     elif is_complete:
         return best_option

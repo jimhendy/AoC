@@ -1,6 +1,7 @@
 from register_code import RegisterCode
 import pandas as pd
 
+
 def run(inputs):
     rc = RegisterCode(inputs)
     rc()

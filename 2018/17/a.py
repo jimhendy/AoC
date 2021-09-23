@@ -22,14 +22,14 @@ def find_clay(inputs):
 
 
 def is_static(loc, grid, direction=None):
-    grid['falling'].add(loc)
-    below, left, right = (loc.neighbour(d) for d in ('down','left','right'))
+    grid["falling"].add(loc)
+    below, left, right = (loc.neighbour(d) for d in ("down", "left", "right"))
 
-    if not below in grid['clay']:
-        if below not in grid['falling'] and 1 <= below.y <= MAX_Y:
+    if not below in grid["clay"]:
+        if below not in grid["falling"] and 1 <= below.y <= MAX_Y:
             # Don't yet know what this loc is
             is_static(below, grid)
-        if below not in grid['static']:
+        if below not in grid["static"]:
             # Either already evaluated or outside area of concern
             return False
 
@@ -37,54 +37,62 @@ def is_static(loc, grid, direction=None):
     # Yes if
     # * Clay
     # * or not yet evaulated and is_static (only going left(/right))
-    left_static = left in grid['clay'] or (left not in grid['falling'] and is_static(left, grid, direction='left'))
-    right_static = right in grid['clay'] or (right not in grid['falling'] and is_static(right, grid, direction='right'))
+    left_static = left in grid["clay"] or (
+        left not in grid["falling"] and is_static(left, grid, direction="left")
+    )
+    right_static = right in grid["clay"] or (
+        right not in grid["falling"] and is_static(right, grid, direction="right")
+    )
 
     if direction == None and left_static and right_static:
         # If going down and letf & right are static
-        grid['static'].add(loc)
+        grid["static"].add(loc)
 
-        while left in grid['falling']:
-            grid['static'].add(left)
-            left = left.neighbour('left')
+        while left in grid["falling"]:
+            grid["static"].add(left)
+            left = left.neighbour("left")
 
-        while right in grid['falling']:
-            grid['static'].add(right)
-            right = right.neighbour('right')
+        while right in grid["falling"]:
+            grid["static"].add(right)
+            right = right.neighbour("right")
 
     # is_static = everything in either direction is also static
-    return direction == 'left' and (left_static or left in grid['clay']) or direction == 'right' and (right_static or right in grid['clay'])
-
+    return (
+        direction == "left"
+        and (left_static or left in grid["clay"])
+        or direction == "right"
+        and (right_static or right in grid["clay"])
+    )
 
 
 def display(grid):
-    y = set([p.y for p in grid['clay'] | grid['falling'] | grid['static']])
-    x = set([p.x for p in grid['clay'] | grid['falling'] | grid['static']])
+    y = set([p.y for p in grid["clay"] | grid["falling"] | grid["static"]])
+    x = set([p.x for p in grid["clay"] | grid["falling"] | grid["static"]])
     df = pd.DataFrame(
         ".",
         index=list(range(min(y) - 1, max(y) + 2)),
         columns=list(range(min(x) - 1, max(x) + 2)),
     )
-    for p in grid['clay']:
+    for p in grid["clay"]:
         df.loc[p.y, p.x] = "#"
-    for p in grid['falling']:
+    for p in grid["falling"]:
         df.loc[p.y, p.x] = "|"
-    for p in grid['static']:
+    for p in grid["static"]:
         df.loc[p.y, p.x] = "~"
     print(os.linesep.join(["".join(v) for v in df.values]))
 
 
 def run(inputs):
     global MAX_Y
-    
+
     spring = Point(500, 0)
     grid = defaultdict(set)
-    grid['clay'] = find_clay(inputs)
+    grid["clay"] = find_clay(inputs)
 
-    ys = [p.y for p in grid['clay']]
+    ys = [p.y for p in grid["clay"]]
     MIN_Y, MAX_Y = min(ys), max(ys)
 
-    is_static(spring.neighbour('down'), grid)
+    is_static(spring.neighbour("down"), grid)
     display(grid)
 
-    return len([p for p in grid['falling'] | grid['static'] if MIN_Y <= p.y <= MAX_Y])
+    return len([p for p in grid["falling"] | grid["static"] if MIN_Y <= p.y <= MAX_Y])
