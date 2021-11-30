@@ -8,7 +8,7 @@ def run(inputs):
         elif i == ")":
             floor -= 1
         else:
-            raise NotImplemented
+            raise NotImplementedError
 
         if floor == -1:
             return step + 1
