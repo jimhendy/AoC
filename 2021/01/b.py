@@ -1,8 +1,6 @@
 import os
-import re
-import numpy as np
-import pandas as pd
-from tools import *
+
 
 def run(inputs):
-    pass
+    depths = list(map(int, inputs.split(os.linesep)))
+    return sum(x < y for x, y in zip(depths, depths[3:]))
