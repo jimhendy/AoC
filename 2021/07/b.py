@@ -1,12 +1,13 @@
 import numpy as np
 from tools.binary_search import binary_search
+import matplotlib.pyplot as plt
 
 CACHE = {}
 
 
 def feul_to_dest(dest: int, initial_positions: np.ndarray) -> int:
     """
-    Calculate the fuel required for all our crabby friends to travel from 
+    Calculate the fuel required for all our crabby friends to travel from
     their ``initial_positions`` to ``dest``. Results are cached in ``CACHE``.
 
     :param dest: Horizontal destination position.
@@ -16,7 +17,7 @@ def feul_to_dest(dest: int, initial_positions: np.ndarray) -> int:
     global CACHE
     if dest not in CACHE:
         diff = np.abs(initial_positions - dest)
-        feul = (np.multiply(diff, diff + 1) / 2).sum()
+        feul = np.multiply(diff, diff + 1).sum() / 2
         CACHE[dest] = feul
     return CACHE[dest]
 
@@ -26,8 +27,8 @@ def run(inputs):
 
     def func(dest: int) -> bool:
         """
-        For use in binary search to give monotonic result looking for the 
-        smallest value of ``dest`` where the feul required to travel to 
+        For use in binary search to give monotonic result looking for the
+        smallest value of ``dest`` where the feul required to travel to
         ``dest`` is less than the feul required to travel to ``dest + 1``.
 
         This will find the minimum iff:
@@ -40,5 +41,8 @@ def run(inputs):
         return feul_to_dest(dest, pos) < feul_to_dest(dest + 1, pos)
 
     optimum_dest = binary_search(func, lower=pos.min(), upper=pos.max())
+
+    plt.scatter(CACHE.keys(), CACHE.values())
+    plt.show()
 
     return CACHE[optimum_dest]
