@@ -1,8 +1,27 @@
 import os
-import re
-import numpy as np
-import pandas as pd
-from tools import *
+from queue import LifoQueue
+
 
 def run(inputs):
-    pass
+
+    open_to_close = {"(": ")", "[": "]", "{": "}", "<": ">"}
+    opens = set(open_to_close.keys())
+    closes = set(open_to_close.values())
+    points = {")": 3, "]": 57, "}": 1197, ">": 25137}
+
+    total_syntax_error = 0
+
+    for line in inputs.split(os.linesep):
+        lifo = LifoQueue()
+
+        for char in line:
+            if char in opens:
+                lifo.put(char)
+            elif char in closes:
+                if char != open_to_close[lifo.get()]:
+                    total_syntax_error += points[char]
+                    break
+            else:
+                raise NotImplementedError(f'Unknown character "{char}"')
+
+    return total_syntax_error
