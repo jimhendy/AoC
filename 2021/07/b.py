@@ -42,7 +42,4 @@ def run(inputs):
 
     optimum_dest = binary_search(func, lower=pos.min(), upper=pos.max())
 
-    plt.scatter(CACHE.keys(), CACHE.values())
-    plt.show()
-
     return CACHE[optimum_dest]

@@ -20,20 +20,12 @@ def iterate(oct):
     oct += 1
     while points := to_flash(oct, flashed):
         for p in points:
-
             flashed.add(p)
-
-            for n in p.nb8():
-
-                if n.x[0] < 0 or n.x[0] >= oct.shape[1]:
-                    continue
-                if n.x[1] < 0 or n.x[1] >= oct.shape[0]:
-                    continue
-
-                oct[n.x[1], n.x[0]] += 1
+            for n in p.nb8(grid_size=oct.shape):
+                oct[n.y, n.x] += 1
 
     for p in flashed:
-        oct[p.x[1], p.x[0]] = 0
+        oct[p.y, p.x] = 0
 
     return len(flashed)
 

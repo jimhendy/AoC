@@ -11,14 +11,9 @@ def run(inputs):
             h = heightmap[y, x]
             p = Point2D(x, y)
             is_lowest = True
-            for pp in p.nb4():
+            for pp in p.nb4(grid_size=heightmap.shape):
 
-                if pp.x[0] < 0 or pp.x[0] == heightmap.shape[1]:
-                    continue
-                if pp.x[1] < 0 or pp.x[1] == heightmap.shape[0]:
-                    continue
-
-                if heightmap[pp.x[1], pp.x[0]] <= h:
+                if heightmap[pp.y, pp.x] <= h:
                     is_lowest = False
                     break
 

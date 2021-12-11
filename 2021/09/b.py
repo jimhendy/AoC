@@ -12,14 +12,9 @@ def run(inputs):
             h = heightmap[y, x]
             low_point = Point2D(x, y)
             is_lowest = True
-            for pp in low_point.nb4():
+            for pp in low_point.nb4(grid_size=heightmap.shape):
 
-                if pp.x[0] < 0 or pp.x[0] == heightmap.shape[1]:
-                    continue
-                if pp.x[1] < 0 or pp.x[1] == heightmap.shape[0]:
-                    continue
-
-                if heightmap[pp.x[1], pp.x[0]] <= h:
+                if heightmap[pp.y, pp.x] <= h:
                     is_lowest = False
                     break
 
@@ -30,16 +25,12 @@ def run(inputs):
                 while len(points_to_analyse):
                     p = points_to_analyse.pop()
 
-                    for pp in p.nb4():
+                    for pp in p.nb4(grid_size=heightmap.shape):
 
                         if pp in seen:
                             continue
-                        if pp.x[0] < 0 or pp.x[0] == heightmap.shape[1]:
-                            continue
-                        if pp.x[1] < 0 or pp.x[1] == heightmap.shape[0]:
-                            continue
 
-                        if heightmap[pp.x[1], pp.x[0]] == 9:
+                        if heightmap[pp.y, pp.x] == 9:
                             continue
 
                         seen.add(pp)
