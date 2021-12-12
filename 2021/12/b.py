@@ -3,28 +3,36 @@ from collections import defaultdict, deque
 
 
 class Route:
-    def __init__(self, current_loc, connections, visits=None):
+    def __init__(
+        self, current_loc, connections, visits=None, has_double_lower_visit=False
+    ):
         self.current_loc = current_loc
-        self.visits = defaultdict(int) if visits is None else visits
+        self.visits = visits or defaultdict(int)
         self.visits[self.current_loc] += 1
         self.connections = connections
+        self.has_double_lower_visit = has_double_lower_visit
+        if not self.has_double_lower_visit:
+            for k, v in self.visits.items():
+                if v == 2 and k.islower():
+                    self.has_double_lower_visit = True
+                    break
 
     def all_possible_next_states(self):
         for next_loc in self.connections[self.current_loc]:
-            yield Route(next_loc, self.connections, visits=self.visits.copy())
 
-    def is_valid(self):
-        double_lower_visit = False
-        for cave_name, visits in self.visits.items():
-            if cave_name.islower():
-                if visits > 2:
-                    return False
-                elif visits == 2:
-                    if double_lower_visit:
-                        return False
-                    else:
-                        double_lower_visit = True
-        return True
+            prev_visits = self.visits[next_loc]
+            if prev_visits and next_loc.islower():
+                if prev_visits == 2:
+                    continue
+                elif prev_visits and self.has_double_lower_visit:
+                    continue
+
+            yield Route(
+                next_loc,
+                self.connections,
+                visits=self.visits.copy(),
+                has_double_lower_visit=self.has_double_lower_visit,
+            )
 
     def is_complete(self):
         return self.current_loc == "end"
@@ -53,8 +61,6 @@ def run(inputs):
             n_routes += 1
             continue
         for next_route in considered_route.all_possible_next_states():
-            if not next_route.is_valid():
-                continue
             queue.append(next_route)
 
     return n_routes

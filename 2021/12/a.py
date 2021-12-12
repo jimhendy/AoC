@@ -5,19 +5,21 @@ from collections import defaultdict, deque
 class Route:
     def __init__(self, current_loc, connections, visits=None):
         self.current_loc = current_loc
-        self.visits = defaultdict(int) if visits is None else visits
+        self.visits = visits or defaultdict(int)
         self.visits[self.current_loc] += 1
         self.connections = connections
 
     def all_possible_next_states(self):
         for next_loc in self.connections[self.current_loc]:
-            yield Route(next_loc, self.connections, visits=self.visits.copy())
 
-    def is_valid(self):
-        for cave_name, visits in self.visits.items():
-            if cave_name.islower() and visits > 1:
-                return False
-        return True
+            if self.visits[next_loc] and next_loc.islower():
+                continue
+
+            yield Route(
+                next_loc,
+                self.connections,
+                visits=self.visits.copy(),
+            )
 
     def is_complete(self):
         return self.current_loc == "end"
@@ -46,8 +48,6 @@ def run(inputs):
             n_routes += 1
             continue
         for next_route in considered_route.all_possible_next_states():
-            if not next_route.is_valid():
-                continue
             queue.append(next_route)
 
     return n_routes
