@@ -1,6 +1,8 @@
 import os
 from collections import defaultdict, deque
 
+LOWER_CASE = set()
+
 
 class Route:
     def __init__(
@@ -13,7 +15,7 @@ class Route:
         self.has_double_lower_visit = has_double_lower_visit
         if not self.has_double_lower_visit:
             for k, v in self.visits.items():
-                if v == 2 and k.islower():
+                if v == 2 and k in LOWER_CASE:
                     self.has_double_lower_visit = True
                     break
 
@@ -21,7 +23,7 @@ class Route:
         for next_loc in self.connections[self.current_loc]:
 
             prev_visits = self.visits[next_loc]
-            if prev_visits and next_loc.islower():
+            if prev_visits and next_loc in LOWER_CASE:
                 if prev_visits == 2:
                     continue
                 elif prev_visits and self.has_double_lower_visit:
@@ -52,6 +54,7 @@ def extract_connections(inputs):
 def run(inputs):
 
     connections = extract_connections(inputs)
+    [LOWER_CASE.add(k) for k in connections.keys() if k.islower()]
     queue = deque([Route("start", connections)])
     n_routes = 0
 
