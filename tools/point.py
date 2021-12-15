@@ -146,20 +146,19 @@ class Point2D(Point):
         if grid_size is not None:
             grid_size = tuple(grid_size)
             assert len(grid_size) == 2, f"grid_size must be an int or a 2-tuple of ints"
-            assert all([i > 0 for i in grid_size]), f"grid_size must be positive"
+            assert grid_size[0] > 0 and grid_size[1] > 0, f"grid_size must be positive"
 
         for k, v in self.steps.items():
             if "-" in k:
                 continue
-            neighbour = self + v
+            new_x = self.x + v.values[0]
+            new_y = self.y + v.values[1]
+            if grid_size is not None and (
+                not (0 <= new_x < grid_size[0]) or not (0 <= new_y < grid_size[1])
+            ):
+                continue
 
-            if grid_size is not None:
-
-                if any([v < 0 for v in neighbour.values]):
-                    continue
-
-                if any([v >= g for v, g in zip(neighbour.values, grid_size)]):
-                    continue
+            neighbour = Point2D(new_x, new_y)
 
             yield neighbour
 

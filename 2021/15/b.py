@@ -1,19 +1,36 @@
 import os
 import numpy as np
-from tools.a_star import State, a_star
-from tools.point import Point2D
+from tools.a_star import State
+import heapq
+
+POINT_TO_RISK = {}
+MAP_SIZE = None
+STEPS = ((-1, 0), (1, 0), (0, 1), (0, -1))
+
+
+def a_star(initial_state, tag_func=str):
+    possible_states = [initial_state]
+    seen = set()
+    while len(possible_states):
+        best_option = heapq.heappop(possible_states)
+        if best_option.is_complete():
+            return best_option
+        for s in best_option.all_possible_next_states():
+            tag = tag_func(s)
+            if tag in seen:
+                continue
+            seen.add(tag)
+            heapq.heappush(possible_states, s)
 
 
 class Route(State):
-    def __init__(self, pos, scan, prev_risk=0):
+    def __init__(self, pos, prev_risk=0):
         self.current_pos = pos
-        self.scan = scan
-        self.risk = prev_risk + self.scan[self.current_pos.y, self.current_pos.x]
+        self.risk = prev_risk + POINT_TO_RISK[self.current_pos]
 
     def is_complete(self):
         return (
-            self.current_pos.x == self.scan.shape[1] - 1
-            and self.current_pos.y == self.scan.shape[0] - 1
+            self.current_pos[0] == MAP_SIZE - 1 and self.current_pos[1] == MAP_SIZE - 1
         )
 
     def is_valid(self):
@@ -23,14 +40,23 @@ class Route(State):
         return self.risk < other.risk
 
     def all_possible_next_states(self):
-        for p in self.current_pos.nb4(grid_size=self.scan.shape):
-            yield Route(pos=p, scan=self.scan, prev_risk=self.risk)
+        for dx, dy in STEPS:
+            new_x = self.current_pos[0] + dx
+            if not 0 <= new_x < MAP_SIZE:
+                continue
+
+            new_y = self.current_pos[1] + dy
+            if not 0 <= new_y < MAP_SIZE:
+                continue
+
+            yield Route(pos=(new_x, new_y), prev_risk=self.risk)
 
     def tag(self):
         return self.current_pos
 
 
 def run(inputs):
+    global MAP_SIZE
     orig_scan = np.array(list(map(list, inputs.split(os.linesep)))).astype(int)
     scan = np.array(
         [
@@ -41,8 +67,14 @@ def run(inputs):
     )
     scan[scan > 9] += scan[scan > 9] // 10  # > 9 wraps to 1, not 0
     scan = np.mod(scan, 10)
+    for y, row in enumerate(scan):
+        for x, risk in enumerate(row):
+            POINT_TO_RISK[(x, y)] = risk
 
-    initial = Route(pos=Point2D(0, 0), scan=scan)
+    assert scan.shape[0] == scan.shape[1]
+    MAP_SIZE = scan.shape[0]
+
+    initial = Route(pos=(0, 0))
     initial.risk = 0
 
     best_route = a_star(
