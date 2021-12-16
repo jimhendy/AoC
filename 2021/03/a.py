@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from scipy.stats import mode
-from tools.binary_nums import binary_to_decimal
+from tools.number_conversion import binary_to_decimal
 
 
 def run(inputs):

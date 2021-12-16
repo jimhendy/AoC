@@ -1,8 +1,9 @@
-import os
-import re
-import numpy as np
-import pandas as pd
-from tools import *
+from bits_message import BitsMessage
+
 
 def run(inputs):
-    pass
+
+    bm = BitsMessage(hex_message=inputs)
+    bm.extract_leading_packet()
+
+    return bm.version_total

@@ -2,7 +2,7 @@ import os
 from typing import Callable
 
 import numpy as np
-from tools.binary_nums import binary_to_decimal
+from tools.number_conversion import binary_to_decimal
 
 
 def find_value(inputs: np.ndarray, desired_bit_lambda: Callable) -> int:
