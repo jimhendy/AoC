@@ -2,21 +2,19 @@ import os
 import numpy as np
 import heapq
 
-ID_RO_RISK = {}
+GRID = None
 MAP_SIZE = None
 STEPS = ((-1, 0), (1, 0), (0, 1), (0, -1))
 
 
 def a_star(initial_state):
     possible_states = [initial_state]
-    seen = set()
+    seen = set([initial_state._id])
     while len(possible_states):
         best_option = heapq.heappop(possible_states)
         if best_option.is_complete():
             return best_option
-        for s in best_option.all_possible_next_states():
-            if s._id in seen:
-                continue
+        for s in best_option.all_possible_next_states(seen):
             seen.add(s._id)
             heapq.heappush(possible_states, s)
 
@@ -24,11 +22,15 @@ def a_star(initial_state):
 class Route:
     __slots__ = ["x", "y", "_id", "risk"]
 
-    def __init__(self, x, y, prev_risk=0):
+    def __init__(self, x, y, _id=0, prev_risk=0):
         self.x = x
         self.y = y
-        self._id = self.x * MAP_SIZE + self.y
-        self.risk = prev_risk + ID_RO_RISK[self._id]
+        self._id = _id
+        self.risk = prev_risk + GRID[self.y, self.x]
+
+    @staticmethod
+    def route_id(x, y):
+        return x * MAP_SIZE + y
 
     def is_complete(self):
         return self.x == MAP_SIZE - 1 and self.y == MAP_SIZE - 1
@@ -36,8 +38,9 @@ class Route:
     def __lt__(self, other):
         return self.risk < other.risk
 
-    def all_possible_next_states(self):
+    def all_possible_next_states(self, seen: set):
         for dx, dy in STEPS:
+
             new_x = self.x + dx
             if not 0 <= new_x < MAP_SIZE:
                 continue
@@ -46,11 +49,16 @@ class Route:
             if not 0 <= new_y < MAP_SIZE:
                 continue
 
-            yield Route(x=new_x, y=new_y, prev_risk=self.risk)
+            new_id = Route.route_id(new_x, new_y)
+            if new_id in seen:
+                continue
+
+            yield Route(x=new_x, y=new_y, _id=new_id, prev_risk=self.risk)
 
 
 def run(inputs):
     global MAP_SIZE
+    global GRID
 
     orig_scan = np.array(list(map(list, inputs.split(os.linesep)))).astype(int)
     scan = np.array(
@@ -63,11 +71,9 @@ def run(inputs):
     scan[scan > 9] += scan[scan > 9] // 10  # > 9 wraps to 1, not 0
     scan = np.mod(scan, 10)
     assert scan.shape[0] == scan.shape[1]
-    MAP_SIZE = scan.shape[0]
 
-    for y, row in enumerate(scan):
-        for x, risk in enumerate(row):
-            ID_RO_RISK[x * MAP_SIZE + y] = risk
+    MAP_SIZE = scan.shape[0]
+    GRID = scan
 
     initial = Route(x=0, y=0)
     initial.risk = 0
