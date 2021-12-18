@@ -1,9 +1,12 @@
 import os
-import re
-import numpy as np
-import pandas as pd
-from tools import *
+from pair import Pair
 
 
 def run(inputs):
-    pass
+    pairs = [Pair.from_str(i) for i in inputs.split(os.linesep)]
+
+    p = pairs[0]
+    for pi in pairs[1:]:
+        p = p + pi
+
+    return p.magnitude()

@@ -1,9 +1,17 @@
 import os
-import re
-import numpy as np
-import pandas as pd
-from tools import *
+from pair import Pair
 
 
 def run(inputs):
-    pass
+    pairs = [Pair.from_str(i) for i in inputs.split(os.linesep)]
+
+    max_mag = 0
+    for xi, x in enumerate(pairs):
+        for yi, y in enumerate(pairs):
+            if xi == yi:
+                continue
+            m = (x + y).magnitude()
+            if m > max_mag:
+                max_mag = m
+
+    return max_mag
