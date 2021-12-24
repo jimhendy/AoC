@@ -96,6 +96,8 @@ class Route:
         return self.energy < other.energy
 
     def tag(self):
+        # return np.hstack([self.hallway, self.rooms.reshape(1, -1)[0]])
+
         s = np.empty(
             self.hallway.shape[0] + self.rooms.shape[0] * self.rooms.shape[1],
             dtype=np.int16,
@@ -107,7 +109,9 @@ class Route:
                 s[self.hallway.shape[0] + i * self.rooms.shape[1] + j] = self.rooms[
                     i, j
                 ]
-        return s
+        # return s
+        mult = np.power(10, np.arange(len(s)))
+        return np.multiply(s, mult).sum()
 
     def all_possible_next_states(self):
         occupied = set([i for i, c in enumerate(self.hallway) if c != -1])
@@ -144,9 +148,7 @@ class Route:
                     # Go from hallway into a room
 
                     room_id = self.hallway_pos_to_room_id(new_pos)
-                    if self.amphipod_id_to_type[amphipod_id] != self.room_id_to_desired(
-                        room_id
-                    ):
+                    if self.amphipod_id_to_type[amphipod_id] != room_id:
                         continue
                     room = self.rooms[room_id]
 
@@ -317,15 +319,14 @@ def a_star(
                 continue
             seen.add(tag)
 
-        if best_option.energy == 40:
-            if best_option.hallway[3] == 2:
+        if best_option.energy == 440:
+            if best_option.hallway[3] == 2 and best_option.hallway.sum() == -8:
                 print(best_option.hallway)
                 print(best_option.rooms)
                 print(best_option.energy)
-        
+
                 print()
-        
-        
+
         if not best_option.energy % 100:
             print(best_option.energy)
         if DEBUG:
@@ -339,20 +340,6 @@ def a_star(
             break
 
         for s in best_option.all_possible_next_states():
-            if not s.is_valid():
-                if DEBUG:
-                    print(f"Skipping {s} as not valid")
-                continue
-            if not test_tag_at_best_option:
-                tag = tag_func(s)
-                if tag in seen:
-                    if DEBUG:
-                        print(f"Skipping {tag} as already seen")
-                    continue
-                seen.add(tag)
-            if DEBUG:
-                print("Adding new state to heap")
-
             i += 1
             data[i] = s
             key = (s.energy, i)
@@ -382,10 +369,7 @@ def run(inputs):
 
     all_amphipods = [
         j
-        for i in [
-            top_amphipods,
-            bottom_amphipods,
-        ]  # [top_amphipods, top_middle, bottom_middle, bottom_amphipods]
+        for i in [top_amphipods, top_middle, bottom_middle, bottom_amphipods]
         for j in i
     ]
 
@@ -396,9 +380,9 @@ def run(inputs):
         amphipod_id_to_type[amphipod_id] = TYPE_TO_TYPE_ID[amphipod_type]
         amphipod_id_to_cost[amphipod_id] = TYPE_TO_COST[amphipod_type]
 
-    rooms = np.arange(len(all_amphipods), dtype=np.int16).reshape(
-        -1, len(top_amphipods)
-    ).T
+    rooms = (
+        np.arange(len(all_amphipods), dtype=np.int16).reshape(-1, len(top_amphipods)).T
+    )
 
     entered_room_amphioid_id = np.full_like(amphipod_id_to_cost, False, dtype=bool)
 
