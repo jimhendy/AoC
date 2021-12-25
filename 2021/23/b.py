@@ -20,12 +20,12 @@ TYPE_TO_TYPE_ID = {"A": 0, "B": 1, "C": 2, "D": 3}
 # AMPHIPOD_ID_TO_COST = {}
 
 spec = [
-    ("hallway", numba.types.int16[:]),
-    ("rooms", numba.types.int16[:, :]),
+    ("hallway", numba.types.int32[:]),
+    ("rooms", numba.types.int32[:, :]),
     ("entered_room_amphipod_ids", numba.types.boolean[:]),
-    ("energy", numba.types.int16),
-    ("amphipod_id_to_type", numba.types.int16[:]),
-    ("amphipod_id_to_cost", numba.types.int16[:]),
+    ("energy", numba.types.int32),
+    ("amphipod_id_to_type", numba.types.int32[:]),
+    ("amphipod_id_to_cost", numba.types.int32[:]),
 ]
 
 
@@ -100,7 +100,7 @@ class Route:
 
         s = np.empty(
             self.hallway.shape[0] + self.rooms.shape[0] * self.rooms.shape[1],
-            dtype=np.int16,
+            dtype=np.int32,
         )
         for i in range(len(self.hallway)):
             s[i] = self.hallway[i]
@@ -144,21 +144,29 @@ class Route:
                 if crossing_other:
                     continue
 
-                if new_pos in np.array([2, 4, 6, 8], dtype=np.int16):
+                if new_pos in np.array([2, 4, 6, 8], dtype=np.int32):
                     # Go from hallway into a room
 
                     room_id = self.hallway_pos_to_room_id(new_pos)
                     if self.amphipod_id_to_type[amphipod_id] != room_id:
                         continue
+
                     room = self.rooms[room_id]
 
                     if not np.any(room == -1):
                         continue
 
                     vacancy = -1
+                    correct_type = True
                     for i in range(len(room)):
                         if room[i] == -1:
                             vacancy = i
+                        elif room[i] != room_id:
+                            correct_type = False
+                            break
+                    
+                    if not correct_type:
+                        continue
 
                     new_rooms = self.rooms.copy()
                     new_rooms[room_id, vacancy] = amphipod_id
@@ -222,7 +230,7 @@ class Route:
 
                 if new_pos in occupied:
                     continue
-                elif new_pos in np.array([2, 4, 6, 8], dtype=np.int16):
+                elif new_pos in np.array([2, 4, 6, 8], dtype=np.int32):
                     continue
                 elif new_pos < room_pos:
                     crossing_other = False
@@ -340,6 +348,9 @@ def a_star(
             break
 
         for s in best_option.all_possible_next_states():
+            tag = s.tag()
+            if tag in seen:
+                continue
             i += 1
             data[i] = s
             key = (s.energy, i)
@@ -360,7 +371,7 @@ def a_star(
 
 def run(inputs):
     lines = inputs.split(os.linesep)
-    hallway = np.full(lines[1].count("."), -1, dtype=np.int16)
+    hallway = np.full(lines[1].count("."), -1, dtype=np.int32)
 
     top_amphipods = lines[2].replace("#", "").strip()
     top_middle = "DCBA"
@@ -373,15 +384,15 @@ def run(inputs):
         for j in i
     ]
 
-    amphipod_id_to_type = np.empty(len(all_amphipods), dtype=np.int16)
-    amphipod_id_to_cost = np.empty_like(amphipod_id_to_type, dtype=np.int16)
+    amphipod_id_to_type = np.empty(len(all_amphipods), dtype=np.int32)
+    amphipod_id_to_cost = np.empty_like(amphipod_id_to_type, dtype=np.int32)
 
     for amphipod_id, amphipod_type in enumerate(all_amphipods):
         amphipod_id_to_type[amphipod_id] = TYPE_TO_TYPE_ID[amphipod_type]
         amphipod_id_to_cost[amphipod_id] = TYPE_TO_COST[amphipod_type]
 
     rooms = (
-        np.arange(len(all_amphipods), dtype=np.int16).reshape(-1, len(top_amphipods)).T
+        np.arange(len(all_amphipods), dtype=np.int32).reshape(-1, len(top_amphipods)).T
     )
 
     entered_room_amphioid_id = np.full_like(amphipod_id_to_cost, False, dtype=bool)
