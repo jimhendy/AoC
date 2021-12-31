@@ -1,25 +1,12 @@
+import heapq
 import os
-import numpy as np
-from typing import List, Union, Dict, Tuple
+
 import numba
+import numpy as np
 from numba.experimental import jitclass
-import logging
 
-from numpy.core.numeric import cross
-
-# numba_logger = logging.getLogger("numba")
-# numba_logger.setLevel(logging.DEBUG)
-
-
-# ROOM_ID_TO_DESIRED = list("ABCD")
 TYPE_TO_COST = {"A": 1, "B": 10, "C": 100, "D": 1_000}
 TYPE_TO_TYPE_ID = {"A": 0, "B": 1, "C": 2, "D": 3}
-# FORBIDDEN_HALLWAY_POS = np.array([2, 4, 6, 8])
-# HALLWAY_POS_TO_ROOM_ID = {2: 0, 4: 1, 6: 2, 8: 3}
-# ROOM_ID_TO_HALLWAY_POS = {v: k for k, v in HALLWAY_POS_TO_ROOM_ID.items()}
-# EMPTY_CHAR = -1
-# AMPHIPOD_ID_TO_TYPE = {}
-# AMPHIPOD_ID_TO_COST = {}
 
 spec = [
     ("hallway", numba.types.int32[:]),
@@ -36,7 +23,12 @@ spec = [
 @jitclass(spec)
 class Route:
     def __init__(
-        self, hallway, rooms, energy, amphipod_id_to_type, amphipod_id_to_cost,
+        self,
+        hallway,
+        rooms,
+        energy,
+        amphipod_id_to_type,
+        amphipod_id_to_cost,
     ):
         self.hallway = hallway
         self.rooms = rooms
@@ -120,8 +112,6 @@ class Route:
         return np.all(self.rooms_complete)
 
     def tag(self):
-        # return np.hstack([self.hallway, self.rooms.reshape(1, -1)[0]])
-
         s = np.empty(
             self.hallway.shape[0] + self.rooms.shape[0] * self.rooms.shape[1],
             dtype=np.int32,
@@ -131,13 +121,14 @@ class Route:
                 s[i] = a
             else:
                 s[i] = self.amphipod_id_to_type[a]
-        for i, r in enumerate(self.rooms):
-            for j, a in enumerate(r):
-                loc = self.hallway.shape[0] + i * self.rooms.shape[1] + j
+        loc = i + 1
+        for r in self.rooms:
+            for a in r:
                 if a == -1:
                     s[loc] = a
                 else:
                     s[loc] = self.amphipod_id_to_type[a]
+                loc += 1
         return s
 
     def print(self):
@@ -152,7 +143,7 @@ class Route:
             s += os.linesep + " "
             for j in range(len(self.hallway)):
                 if j in [2, 4, 6, 8]:
-                    r = self.rooms[int(j / 2 - 1)]
+                    r = self.rooms[self.hallway_pos_to_room_id(j)]
                     type = r[i]
                     if type == -1:
                         s += " "
@@ -280,7 +271,7 @@ class Route:
                         )
                     )
                 else:
-
+                    # Go from room into hallway
                     new_rooms = self.rooms.copy()
                     new_rooms[room_id, room_space] = -1
 
@@ -303,70 +294,27 @@ class Route:
         return outputs
 
 
-import heapq
-
-DEBUG = False
-
-
-class AStarException(Exception):
-    pass
-
-
-# @profile
-def a_star(
-    initial_state, tag_func=str, return_status=False, test_tag_at_best_option=False
-):
-    """Perform the A* search algorithm
-    The initial_state should be a subclass of State (below)
-    that implements:
-    - is_complete - boolean of whether this state is the desired result
-    - is_valid - boolean
-    - all_possible_next_states - iterable of states after this one
-
-    Arguments:
-        initial_state {user_class with above methods}
-
-    Keyword Arguments:
-        tag_func {callable} -- [function to tag each
-        state with so we can know if it has already been seen
-        ] (default: {str})
-
-        return_status {boolean} -- Rather than returning the
-        final state, return a dictionary summarising the search
-
-    Returns:
-        [user_class(State)] -- [Desired search result]
+def a_star(initial_state, tag_func=str):
     """
-
+    Custom implementation required as numba jitclass instances can't be used in the heapq
+    """
     i = 0
     possible_states = [(initial_state[0], i)]
     data = {i: initial_state[1]}
+    tags = {i: tag_func(initial_state[1])}
     seen = set()
-    n_tests = 0
-    is_complete = False
 
     while len(possible_states):
 
         _, best_option_key = heapq.heappop(possible_states)
         best_option = data.pop(best_option_key)
-        n_tests += 1
 
-        tag = tag_func(best_option)
-        if tag in seen:
-            if DEBUG:
-                print(f"Skipping {tag} as already seen")
+        if tags[best_option_key] in seen:
             continue
-        seen.add(tag)
-
-        if not best_option.energy % 100:
-            print(best_option.energy)
-            # best_option.print()
-            # print(best_option.tag())
-            # print()
+        seen.add(tags[best_option_key])
 
         if best_option.is_complete():
-            is_complete = True
-            break
+            return best_option
 
         for s in best_option.all_possible_next_states():
             tag = tag_func(s)
@@ -374,13 +322,11 @@ def a_star(
                 continue
             i += 1
             data[i] = s
+            tags[i] = tag
             key = (s.energy, i)
             heapq.heappush(possible_states, key)
 
-    if is_complete:
-        return best_option
-    else:
-        raise AStarException("Search did not complete")
+    raise RuntimeError("Search did not complete")
 
 
 def run(inputs):
@@ -392,11 +338,7 @@ def run(inputs):
     bottom_middle = "DBAC"
     bottom_amphipods = lines[3].replace("#", "").strip()
 
-    if 1:
-        all_inputs = [top_amphipods, top_middle, bottom_middle, bottom_amphipods]
-    else:
-        all_inputs = [top_amphipods, bottom_amphipods]
-
+    all_inputs = [top_amphipods, top_middle, bottom_middle, bottom_amphipods]
     all_amphipods = [j for i in all_inputs for j in i]
 
     amphipod_id_to_type = np.empty(len(all_amphipods), dtype=np.int32)
@@ -423,8 +365,7 @@ def run(inputs):
 
     best_route = a_star(
         initial_state=(0, initial_state),
-        test_tag_at_best_option=True,
         tag_func=tag_state,
     )
-    print(best_route)
+
     return best_route.energy

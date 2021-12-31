@@ -18,7 +18,7 @@ class ArithmeticLogicUnit:
         self.z = 0
 
     def get(self, name: str):
-        if name in {'w','x','y','z'}:
+        if name in {"w", "x", "y", "z"}:
             return getattr(self, name)
         else:
             return int(name)
@@ -48,7 +48,64 @@ class ArithmeticLogicUnit:
         setattr(self, a, int(getattr(self, a) == self.get(b)))
 
 
+def get_constraints(instructions):
+    constraints = []
+    stack = deque()
+    line = 0
+
+    for i in range(14):
+        line += 4
+        op = instructions[line].rstrip()
+
+        assert op.startswith("div z "), f'Invalid input! "{op}", "{line}"'
+
+        if op == "div z 1":  # first kind of chunk
+            line += 11
+            op = instructions[line]
+            line += 3
+            assert op.startswith("add y "), "Invalid input!"
+
+            a = int(op.split()[-1])  # first constant to add
+            stack.append((i, a))
+        else:  # second kind of chunk
+            line += 1
+            op = instructions[line]
+            line += 13
+            assert op.startswith("add x "), "Invalid input!"
+
+            b = int(op.split()[-1])  # second constant to add
+            j, a = stack.pop()
+            constraints.append((i, j, a + b))  # digits[j] - digits[i] must equal a + b
+
+    return constraints
+
+
+def find_max(constraints):
+    digits = [0] * 14
+
+    for i, j, diff in constraints:
+        if diff > 0:
+            digits[i], digits[j] = 9, 9 - diff
+        else:
+            digits[i], digits[j] = 9 + diff, 9
+
+    # Compute the actual number from its digits.
+    num = 0
+    for d in digits:
+        num = num * 10 + d
+
+    return num
+
+
 def run(inputs):
-    alu = ArithmeticLogicUnit(inputs.split(os.linesep))
-    
-    return alu.z
+    lines = inputs.split(os.linesep)
+    alu = ArithmeticLogicUnit(lines)
+
+    constraints = get_constraints(lines)
+    max_num = find_max(constraints)
+    deq = deque([int(i) for i in str(max_num)])
+
+    alu.run(deq)
+    assert alu.z == 0
+
+    return max_num
