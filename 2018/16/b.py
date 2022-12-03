@@ -1,5 +1,6 @@
-import optcode
 import os
+
+import optcode
 
 
 def run(inputs):

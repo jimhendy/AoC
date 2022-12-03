@@ -1,10 +1,9 @@
-import re
-import os
-
-from functools import partial
-from collections import defaultdict
 import logging
+import os
+import re
 import time
+from collections import defaultdict
+from functools import partial
 
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)

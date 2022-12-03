@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
+from typing import List
+
 import numpy as np
 
-from typing import List
 from tools.number_conversion import binary_to_decimal
 
 

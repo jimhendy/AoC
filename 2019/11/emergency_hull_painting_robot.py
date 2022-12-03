@@ -1,7 +1,8 @@
+from collections import defaultdict
+from enum import Enum
+
 import intcode
 import numpy as np
-from enum import Enum
-from collections import defaultdict
 
 
 class Direction(Enum):

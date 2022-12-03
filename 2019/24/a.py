@@ -1,4 +1,5 @@
 import os
+
 import numba
 import numpy as np
 
@@ -85,6 +86,6 @@ def run(inputs):
         for x, char in enumerate(row):
             if char == BUG:
                 p = y * grid.shape[1] + x
-                result += 2 ** p
+                result += 2**p
 
     return result

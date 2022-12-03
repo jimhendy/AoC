@@ -1,5 +1,5 @@
-import re
 import os
+import re
 
 
 def replace_str(in_str, remove, replace):

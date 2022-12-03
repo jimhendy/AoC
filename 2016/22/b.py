@@ -1,10 +1,11 @@
+import os
 import re
 import time
-import os
+from functools import lru_cache
+
 import a_star
 import numpy as np
 import pandas as pd
-from functools import lru_cache
 
 # Cluster arrays indexed y,x
 
@@ -107,9 +108,9 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
         print(dp)
         print(total)
 
-        import pdb
+        # import pdb
 
-        pdb.set_trace()
+        # pdb.set_trace()
 
     return total
 

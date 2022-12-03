@@ -1,7 +1,8 @@
 import hashlib
+import re
+
 import a_star
 import numpy as np
-import re
 
 STEPS = {
     "U": np.array([0, +1]),

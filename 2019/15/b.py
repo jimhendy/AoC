@@ -1,6 +1,7 @@
+import time
+
 import numpy as np
 from droid import Droid, MapSymbol
-import time
 
 np.random.seed(123)
 
@@ -27,8 +28,8 @@ def run(inputs):
             pass
 
         if count % 1 == 0:
-            droid.plot(True)
-            time.sleep(0.01)
+            # droid.plot(True)
+            # time.sleep(0.01)
             pass
 
         count += 1
@@ -44,8 +45,8 @@ def run(inputs):
         if not len(new_o_cells):
             break
         if minutes % 1 == 0:
-            droid.plot(True)
-            time.sleep(0.01)
+            # droid.plot(True)
+            # time.sleep(0.01)
             pass
         minutes += 1
         pass

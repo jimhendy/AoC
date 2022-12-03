@@ -1,7 +1,8 @@
 import os
 import time
-from duetcode import JumpCode
 from concurrent.futures import ThreadPoolExecutor
+
+from duetcode import JumpCode
 
 
 def run(inputs):

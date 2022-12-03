@@ -1,5 +1,5 @@
-from functools import lru_cache
 from collections import defaultdict
+from functools import lru_cache
 
 
 def _get_combs(y, x, data):

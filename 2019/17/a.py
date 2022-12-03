@@ -1,6 +1,7 @@
-import numpy as np
-import intcode
 import os
+
+import intcode
+import numpy as np
 
 
 def run(inputs):

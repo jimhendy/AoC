@@ -1,6 +1,7 @@
+import heapq
+
 import numpy as np
 from knot_hash import knot_hash
-import heapq
 
 
 def kh_to_binary(kh):

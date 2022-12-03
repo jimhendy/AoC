@@ -1,5 +1,5 @@
-import re
 import os
+import re
 
 import matplotlib.pylab as plt
 
@@ -46,8 +46,8 @@ def run(inputs):
 
     plt.hist2d(x, y, bins=(range(min(x), max(x) + 1), range(min(y), max(y) + 1)))
 
-    plt.show()
+    # plt.show()
 
-    import pdb
+    # import pdb
 
-    pdb.set_trace()
+    # pdb.set_trace()

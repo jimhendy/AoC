@@ -1,5 +1,5 @@
-import maze
 import a_star
+import maze
 
 
 class MazeState(a_star.State):

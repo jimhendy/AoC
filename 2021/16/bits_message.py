@@ -1,8 +1,9 @@
 from collections import deque
 from typing import List
-from tools.number_conversion import binary_to_decimal, hex_to_binary
 
 from packets import Literal, Operator, Packet
+
+from tools.number_conversion import binary_to_decimal, hex_to_binary
 
 
 class BitsMessage:

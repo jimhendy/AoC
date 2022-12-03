@@ -4,13 +4,13 @@ def run(inputs):
 
     upper_square_root = 1
     while True:
-        upper_sqaure = upper_square_root ** 2
+        upper_sqaure = upper_square_root**2
         if upper_sqaure > target:
             break
         upper_square_root += 2
 
     lower_square_root = upper_square_root - 2
-    lower_square = lower_square_root ** 2
+    lower_square = lower_square_root**2
 
     lower_square_coord = (lower_square_root - 1) / 2
     lower_square_coords = [lower_square_coord, lower_square_coord]

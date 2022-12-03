@@ -2,9 +2,8 @@ import os
 import re
 from functools import lru_cache
 
-import numpy as np
-
 import a_star
+import numpy as np
 
 WALL_CHAR = "#"
 SPACE_CHAR = "."

@@ -1,5 +1,5 @@
-import os
 import copy
+import os
 
 
 def get_neighbours(y, x, lights):

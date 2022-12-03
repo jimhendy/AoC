@@ -1,9 +1,10 @@
-import re
 import os
+import re
+import sys
+from collections import defaultdict
+
 import pandas as pd
 from point import Point
-from collections import defaultdict
-import sys
 
 sys.setrecursionlimit(10_000)
 

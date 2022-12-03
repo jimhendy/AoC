@@ -1,6 +1,6 @@
 import re
-from functools import partial
 from collections import defaultdict
+from functools import partial
 
 
 class RegisterCode:

@@ -1,6 +1,7 @@
-import numpy as np
-from tools.binary_search import binary_search
 import matplotlib.pyplot as plt
+import numpy as np
+
+from tools.binary_search import binary_search
 
 CACHE = {}
 

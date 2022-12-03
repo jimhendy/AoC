@@ -1,8 +1,9 @@
 import os
+from enum import Enum, IntEnum
+
 import intcode
 import numpy as np
 import pandas as pd
-from enum import IntEnum, Enum
 
 
 class Direction(IntEnum):

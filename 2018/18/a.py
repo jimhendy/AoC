@@ -1,5 +1,6 @@
-from point import Point
 import os
+
+from point import Point
 
 
 def get_char(grid, point):

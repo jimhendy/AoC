@@ -1,5 +1,5 @@
-from register_code import RegisterCode
 import pandas as pd
+from register_code import RegisterCode
 
 
 def run(inputs):

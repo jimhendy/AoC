@@ -1,8 +1,7 @@
 import functools
 import re
-from collections import defaultdict
-
 import time
+from collections import defaultdict
 
 
 def write_to_c(func):

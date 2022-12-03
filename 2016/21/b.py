@@ -1,7 +1,8 @@
 import os
 import re
-import numpy as np
 from functools import lru_cache
+
+import numpy as np
 
 
 def swap_position(s, x, y):

@@ -2,7 +2,7 @@ import os
 import re
 
 import a_star
-from items import Microchip, Generator
+from items import Generator, Microchip
 from status import Status
 
 

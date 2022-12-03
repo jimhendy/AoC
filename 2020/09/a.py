@@ -1,5 +1,5 @@
-import os
 import itertools
+import os
 
 
 def run(inputs):

@@ -1,6 +1,7 @@
 import os
+from typing import Set, Tuple, Union
+
 import numpy as np
-from typing import Union, Tuple, Set
 
 Beacon = Tuple[int, int, int]
 

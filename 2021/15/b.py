@@ -1,6 +1,7 @@
-import os
-import numpy as np
 import heapq
+import os
+
+import numpy as np
 
 GRID = None
 MAP_SIZE = None

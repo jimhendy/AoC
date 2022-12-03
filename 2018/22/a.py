@@ -1,5 +1,6 @@
-from cave import Cave, Terrain
 import os
+
+from cave import Cave, Terrain
 from point import Point
 
 

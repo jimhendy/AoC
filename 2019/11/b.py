@@ -1,8 +1,8 @@
 import emergency_hull_painting_robot as ehpr
 import matplotlib.pylab as plt
-import seaborn as sns
-import pandas as pd
 import numpy as np
+import pandas as pd
+import seaborn as sns
 
 
 def run(inputs):
@@ -31,7 +31,7 @@ def run(inputs):
 
     sns.heatmap(df.values, cbar=False)
     plt.axis("off")
-    plt.show()
+    # plt.show()
 
     result = input("What does it say: ")
 

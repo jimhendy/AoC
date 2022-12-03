@@ -1,6 +1,7 @@
+from itertools import permutations
+
 import common
 import numpy as np
-from itertools import permutations
 
 
 def run(inputs):

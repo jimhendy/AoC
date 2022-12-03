@@ -1,5 +1,6 @@
-from large_marble_game import Player, Game
 import re
+
+from large_marble_game import Game, Player
 
 
 def run(inputs):

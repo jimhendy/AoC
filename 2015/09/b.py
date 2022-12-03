@@ -1,6 +1,7 @@
+import itertools
 import os
 import re
-import itertools
+
 import networkx as nx
 
 

@@ -1,12 +1,13 @@
-import numba
-import os
-import re
 import copy
 import heapq
-import numpy as np
-import networkx as nx
-import matplotlib.pylab as plt
+import os
+import re
 from collections import defaultdict
+
+import matplotlib.pylab as plt
+import networkx as nx
+import numba
+import numpy as np
 
 STEPS = np.array([np.array(i) for i in [(1, 0), (-1, 0), (0, 1), (0, -1)]]).astype(
     np.int8

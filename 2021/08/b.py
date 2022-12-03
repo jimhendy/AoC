@@ -9,7 +9,7 @@ class Display:
         self.numbers = self._extract_numbers()
 
     def decode(self):
-        """ Return the unscrambled 4 digit number """
+        """Return the unscrambled 4 digit number"""
         return int("".join([self.numbers[n] for n in self.outputs]))
 
     def _get_wire_by_bits(self, bits):

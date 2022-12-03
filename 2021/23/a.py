@@ -1,9 +1,11 @@
 import os
 import re
+from typing import Dict, List, Tuple, Union
+
 import numpy as np
 import pandas as pd
+
 from tools.a_star import State, a_star
-from typing import List, Union, Dict, Tuple
 
 
 class Amphipod:

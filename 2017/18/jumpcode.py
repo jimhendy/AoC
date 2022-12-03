@@ -1,6 +1,6 @@
-from collections import defaultdict
 import re
 import time
+from collections import defaultdict
 
 
 class JumpCode:

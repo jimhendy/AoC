@@ -2,7 +2,6 @@ import os
 import re
 
 import numpy as np
-
 from tile import Tile
 
 

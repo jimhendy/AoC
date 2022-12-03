@@ -1,8 +1,9 @@
-import numpy as np
-import intcode
 import os
-from enum import Enum
 import time
+from enum import Enum
+
+import intcode
+import numpy as np
 
 
 class MapSymbol(Enum):

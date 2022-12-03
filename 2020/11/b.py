@@ -1,5 +1,6 @@
 import os
-from point import Point, NEIGHBOUR_DELTAS
+
+from point import NEIGHBOUR_DELTAS, Point
 
 
 def get_char(p, grid):

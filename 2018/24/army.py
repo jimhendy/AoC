@@ -1,5 +1,6 @@
-from group import Group
 import re
+
+from group import Group
 
 
 class Army:

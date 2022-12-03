@@ -1,4 +1,5 @@
 import os
+
 from tools.number_conversion import binary_to_decimal
 
 # coords = (y, x)
@@ -43,7 +44,7 @@ def run(inputs: str) -> int:
             pixels[(row_num, col_num)] = character
 
     odd_default = iea[0]
-    even_default = OFF if odd_default == OFF else iea[sum(2 ** i for i in range(9))]
+    even_default = OFF if odd_default == OFF else iea[sum(2**i for i in range(9))]
 
     for i in range(2):
         pixels = enhance(

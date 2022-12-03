@@ -1,6 +1,7 @@
 import os
-import numpy as np
 from queue import LifoQueue
+
+import numpy as np
 
 
 def run(inputs):

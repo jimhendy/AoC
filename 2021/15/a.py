@@ -1,5 +1,7 @@
 import os
+
 import numpy as np
+
 from tools.a_star import State, a_star
 from tools.point import Point2D
 

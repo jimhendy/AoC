@@ -1,5 +1,6 @@
-from marble_game import Player, Game
 import re
+
+from marble_game import Game, Player
 
 
 def run(inputs):

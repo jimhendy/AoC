@@ -1,5 +1,6 @@
-import re
 import os
+import re
+
 from chinese_remainder import chinese_remainder
 
 

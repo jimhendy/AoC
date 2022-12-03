@@ -1,5 +1,5 @@
 import os
-from collections import deque, Counter
+from collections import Counter, deque
 
 
 def step(q, alterations):

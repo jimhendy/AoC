@@ -1,4 +1,5 @@
 import os
+
 from point import Point
 
 

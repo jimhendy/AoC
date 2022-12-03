@@ -1,9 +1,10 @@
-import os
-import sys
-import aocd
-import logging
 import argparse
 import importlib
+import logging
+import os
+import sys
+
+import aocd
 
 logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO)

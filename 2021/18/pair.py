@@ -1,8 +1,8 @@
+from dataclasses import dataclass
 from enum import Enum
 from typing import List, Tuple, Union
 
 import numpy as np
-from dataclasses import dataclass
 
 
 class Direction(Enum):

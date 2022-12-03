@@ -1,5 +1,6 @@
-from intcode import Intcode
 import os
+
+from intcode import Intcode
 
 
 def instruction(instr, prog):

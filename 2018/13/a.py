@@ -1,6 +1,7 @@
-from cart import Cart
-import numpy as np
 import os
+
+import numpy as np
+from cart import Cart
 
 
 def run(inputs):

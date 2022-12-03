@@ -1,8 +1,8 @@
-import re
 import os
-import numpy as np
-
+import re
 from collections import defaultdict
+
+import numpy as np
 
 NUM = "[ \-\d]+"
 

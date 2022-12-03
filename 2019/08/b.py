@@ -1,7 +1,7 @@
 import common
+import matplotlib.pylab as plt
 import numpy as np
 import seaborn as sns
-import matplotlib.pylab as plt
 
 
 def run(inputs):
@@ -19,7 +19,7 @@ def run(inputs):
 
     # Plot the result
     sns.heatmap(output)
-    plt.show()
+    # plt.show()
 
     result = input("What does it say: ")
 

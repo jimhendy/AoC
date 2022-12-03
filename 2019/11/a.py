@@ -1,7 +1,7 @@
 import emergency_hull_painting_robot as ehpr
 import matplotlib.pylab as plt
-import seaborn as sns
 import numpy as np
+import seaborn as sns
 
 
 def run(inputs):

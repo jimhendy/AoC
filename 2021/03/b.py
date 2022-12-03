@@ -2,6 +2,7 @@ import os
 from typing import Callable
 
 import numpy as np
+
 from tools.number_conversion import binary_to_decimal
 
 

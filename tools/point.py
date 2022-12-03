@@ -1,5 +1,5 @@
 import itertools
-from typing import Tuple, Union, Optional, Iterable
+from typing import Iterable, Optional, Tuple, Union
 
 
 class Point:

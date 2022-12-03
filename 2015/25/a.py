@@ -1,6 +1,7 @@
 import re
-import numba
 import time
+
+import numba
 
 
 @numba.njit

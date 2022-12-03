@@ -8,6 +8,7 @@ TURNS = 0
 SCORE = 1
 POSITION = 2
 
+
 class Player:
     def __init__(self, initial_position):
         self.statuses = {(0, 0, initial_position): 1}
@@ -30,13 +31,14 @@ class Player:
             new_statuses = defaultdict(int)
             for k, v in self.statuses.items():
                 for roll, weight in THREE_ROLLS.items():
-                    new_position = (k[POSITION] + roll)
+                    new_position = k[POSITION] + roll
                     while new_position > 10:
                         new_position -= 10
                     new_status = (k[TURNS] + 1, k[SCORE] + new_position, new_position)
                     new_statuses[new_status] += weight * v
             self.statuses = new_statuses
             self._remove_complete()
+
 
 def run(inputs):
     pos = list(map(int, [line.split()[-1] for line in inputs.split(os.linesep)]))
@@ -49,9 +51,9 @@ def run(inputs):
 
     total_1 = 0
     for r1, w1 in p1.turns_to_win.items():
-        nyw2 = p2.turns_to_not_yet_won[r1-1]
+        nyw2 = p2.turns_to_not_yet_won[r1 - 1]
         total_1 += w1 * nyw2
-    
+
     total_2 = 0
     for r2, w2 in p2.turns_to_win.items():
         nyw1 = p1.turns_to_not_yet_won[r2]

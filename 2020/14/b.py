@@ -1,6 +1,6 @@
-import re
-import os
 import itertools
+import os
+import re
 
 
 def run(inputs):

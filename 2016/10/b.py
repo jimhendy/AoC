@@ -1,10 +1,10 @@
+import logging
 import os
 import re
-import numpy as np
 from abc import ABC
 from collections import defaultdict
 
-import logging
+import numpy as np
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

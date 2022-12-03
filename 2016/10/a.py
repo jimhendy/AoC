@@ -1,9 +1,8 @@
+import logging
 import os
 import re
 from abc import ABC
 from collections import defaultdict
-
-import logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

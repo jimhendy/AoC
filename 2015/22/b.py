@@ -1,5 +1,5 @@
-import re
 import heapq
+import re
 
 import game
 import spells

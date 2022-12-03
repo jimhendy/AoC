@@ -1,16 +1,17 @@
 import argparse
 import glob
 import os
+import pathlib
+import re
 import subprocess
 import time
-import re
 
 import pandas as pd
 
 # Time each day & part for a given year's code and print a table of the slowest parts for optimisation
 
 parser = argparse.ArgumentParser()
-parser.add_argument("year", type=int, help="Year to profile")
+parser.add_argument("--year", type=int, help="Year to profile", default=-1)
 args = parser.parse_args()
 
 
@@ -24,11 +25,11 @@ def run_part(part_file):
 
 
 def profile_year(year):
-    assert os.path.isdir(str(args.year))
+    assert os.path.isdir(str(year))
     parts = sorted(
         [
             f
-            for f in glob.glob(os.path.join(str(args.year), "*", "*.py"))
+            for f in glob.glob(os.path.join(str(year), "*", "*.py"))
             if re.search(os.path.join(r"\d{4}", r"\d{2}", r"[a|b].py"), f)
         ]
     )
@@ -53,4 +54,15 @@ def profile_year(year):
 
 
 if __name__ == "__main__":
-    profile_year(args.year)
+    if args.year != -1:
+        profile_year(args.year)
+    else:
+        years = sorted(
+            [
+                directory.name
+                for directory in pathlib.Path(".").glob("*")
+                if directory.is_dir() and re.match(r"\d{4}", directory.name)
+            ]
+        )
+        print(years)
+        [profile_year(int(d)) for d in years]

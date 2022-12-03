@@ -1,6 +1,6 @@
 import os
-from typing import List, Union
 from collections import deque
+from typing import List, Union
 
 
 class Cuboid:

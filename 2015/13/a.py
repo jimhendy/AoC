@@ -1,5 +1,5 @@
-import re
 import os
+import re
 from collections import defaultdict
 from itertools import permutations
 

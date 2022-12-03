@@ -1,6 +1,7 @@
-import numpy as np
 import os
 import re
+
+import numpy as np
 
 
 class Claim:

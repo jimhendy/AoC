@@ -1,8 +1,9 @@
-import re
 import os
+import re
+
+import matplotlib.pylab as plt
 import numpy as np
 import seaborn as sns
-import matplotlib.pylab as plt
 
 N_COLS = 50
 N_ROWS = 6
@@ -49,6 +50,6 @@ def run(inputs):
         raise Exception(ins)
 
     sns.heatmap(pixels)
-    plt.show()
+    # plt.show()
 
     return pixels.sum()

@@ -1,7 +1,7 @@
 import os
-import numpy as np
 
 import common
+import numpy as np
 from moon import Moon
 
 

@@ -1,7 +1,8 @@
 import os
-import numpy as np
-from functools import lru_cache
 from collections import defaultdict
+from functools import lru_cache
+
+import numpy as np
 
 
 class StoreEmptyException(Exception):

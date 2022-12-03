@@ -1,7 +1,7 @@
-from collections import defaultdict
+import queue
 import re
 import time
-import queue
+from collections import defaultdict
 
 
 class JumpCode:

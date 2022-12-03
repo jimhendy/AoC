@@ -1,7 +1,7 @@
-from droid import Droid, Direction, Response, MapSymbol, move
+import numba
 import numpy as np
 import pandas as pd
-import numba
+from droid import Direction, Droid, MapSymbol, Response, move
 
 completed_tiles = []
 
@@ -95,9 +95,10 @@ def find_route(origin, destination, possibles):
             poss_next = remaining_poss.copy()
             for p in poss:
                 if not len(poss_next):
-                    import code
+                    # import code
 
-                    code.interact(local=locals())
+                    # code.interact(local=locals())
+                    pass
                 it_route = find_route(p, destination, poss_next)
                 if it_route is False:
                     continue

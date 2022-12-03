@@ -1,5 +1,6 @@
-import networkx as nx
 import re
+
+import networkx as nx
 
 
 def run(inputs):

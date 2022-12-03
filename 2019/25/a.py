@@ -1,6 +1,7 @@
-import re
-import intcode
 import itertools
+import re
+
+import intcode
 
 
 def run_cmd(prog, cmd=None):

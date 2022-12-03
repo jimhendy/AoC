@@ -1,5 +1,6 @@
-import tqdm
 import itertools
+
+import tqdm
 
 
 def evaluate(num):

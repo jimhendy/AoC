@@ -1,6 +1,6 @@
-from status import Status
 import numpy as np
 import pandas as pd
+from status import Status
 
 
 def run(inputs):

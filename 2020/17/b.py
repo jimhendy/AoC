@@ -1,5 +1,5 @@
-import os
 import itertools
+import os
 
 STEPS = (-1, 0, 1)
 

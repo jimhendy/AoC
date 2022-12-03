@@ -1,7 +1,7 @@
-import numpy as np
 from collections import Counter
 
 import common
+import numpy as np
 from intcode import optprog
 
 

@@ -1,8 +1,9 @@
 import os
 import re
-import numpy as np
-import networkx as nx
 from functools import lru_cache
+
+import networkx as nx
+import numpy as np
 
 
 @lru_cache(2048)

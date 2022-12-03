@@ -1,6 +1,7 @@
-import numpy as np
-import re
 import os
+import re
+
+import numpy as np
 
 
 def area(dims):

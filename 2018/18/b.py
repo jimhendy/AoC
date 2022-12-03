@@ -1,5 +1,6 @@
-from point import Point
 import os
+
+from point import Point
 from tqdm import tqdm
 
 CACHE = {}

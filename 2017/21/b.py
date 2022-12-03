@@ -1,6 +1,7 @@
 import os
-import numpy as np
 from functools import lru_cache
+
+import numpy as np
 
 CACHE = {}
 

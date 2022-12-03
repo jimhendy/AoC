@@ -1,5 +1,5 @@
-import re
 import os
+import re
 from collections import defaultdict
 
 from cyk import cyk
@@ -21,6 +21,6 @@ def run(inputs):
 
     data = cyk(base, reactions)
 
-    import code
+    # import code
 
-    code.interact(local=locals())
+    # code.interact(local=locals())

@@ -1,4 +1,5 @@
 import os
+
 import numpy as np
 
 KEYPAD = np.array([list(l) for l in ["00100", "02340", "56789", "0ABC0", "00D00"]]).T

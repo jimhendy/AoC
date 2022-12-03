@@ -1,6 +1,6 @@
-import re
-import os
 import heapq
+import os
+import re
 from collections import defaultdict
 
 

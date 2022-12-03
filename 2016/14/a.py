@@ -1,5 +1,5 @@
-import re
 import hashlib
+import re
 
 REG_3 = re.compile(r"(?P<char>.)(?P=char){2}")
 

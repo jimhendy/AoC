@@ -1,6 +1,7 @@
 import re
 from collections import defaultdict
 from functools import lru_cache
+
 import tqdm
 
 
@@ -40,9 +41,10 @@ class Turing:
         try:
             match = re.findall(reg, self.instructions)[0]
         except:
-            import pdb
+            # import pdb
 
-            pdb.set_trace()
+            # pdb.set_trace()
+            pass
         return {
             "WriteValue": int(match[0]),
             "MoveLeft": match[1] == "left",

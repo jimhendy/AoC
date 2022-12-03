@@ -1,6 +1,7 @@
-import common
-import a
 import logging
+
+import a
+import common
 
 logger = logging.getLogger()
 

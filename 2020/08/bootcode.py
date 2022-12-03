@@ -1,5 +1,5 @@
-import re
 import functools
+import re
 
 
 def increment_pointer(func):

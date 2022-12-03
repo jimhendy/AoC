@@ -1,4 +1,5 @@
 import re
+
 import pandas as pd
 
 
@@ -77,8 +78,8 @@ def run(inputs):
             pass
         pass
 
-    import code
+    # import code
 
-    code.interact(local=locals())
+    # code.interact(local=locals())
 
     return sorted(fights, key=lambda x: x[0])[-1][0]

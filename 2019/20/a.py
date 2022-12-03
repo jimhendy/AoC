@@ -1,9 +1,10 @@
 import os
 import re
-import numpy as np
-import networkx as nx
-import matplotlib.pylab as plt
 from collections import defaultdict
+
+import matplotlib.pylab as plt
+import networkx as nx
+import numpy as np
 
 STEPS = np.array([np.array(i) for i in [(1, 0), (-1, 0), (0, 1), (0, -1)]])
 

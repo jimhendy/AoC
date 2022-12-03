@@ -1,7 +1,7 @@
 import intcode
+import matplotlib.pylab as plt
 import pandas as pd
 import seaborn as sns
-import matplotlib.pylab as plt
 
 
 def run(inputs):
@@ -20,10 +20,10 @@ def run(inputs):
 
     dfp = df.pivot_table(index="y", columns="x", values="o")
     sns.heatmap(dfp)
-    plt.show()
+    # plt.show()
 
-    import code
+    # import code
 
-    code.interact(local=locals())
+    # code.interact(local=locals())
 
     return len(df[df.o.ne(0)])

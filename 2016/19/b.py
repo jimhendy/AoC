@@ -1,5 +1,6 @@
-import numpy as np
 import collections
+
+import numpy as np
 
 
 def run(inputs):
