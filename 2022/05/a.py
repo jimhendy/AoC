@@ -1,6 +1,4 @@
-import pathlib
 import re
-from typing import List, Tuple
 from collections import defaultdict, deque
 
 INSTRUCTION_REG = re.compile(r"^move (\d+) from (\d+) to (\d+)$")
