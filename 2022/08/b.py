@@ -1,18 +1,16 @@
 import numpy as np
-import numba
 
 
-@numba.njit
 def viewing_distance_from_top_to_bottom(grid):
     output = np.ones_like(grid)
-    grid_height = grid.shape[0]
-    for y, row in enumerate(grid):
-        for x, tree_height in enumerate(row):
+    grid_height, grid_width = grid.shape
+    for y in range(grid_height):
+        for x in range(grid_width):
             if y == grid_height - 1:
                 distance = 0
             else:
                 for distance in range(1, grid_height - y):
-                    if grid[y + distance, x] >= tree_height:
+                    if grid[y + distance, x] >= grid[y, x]:
                         break
             output[y, x] = distance
     return output
