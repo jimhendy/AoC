@@ -10,9 +10,11 @@ def visible_from_top(grid):
 def run(inputs):
     inputs = np.array(list(map(list, inputs.splitlines())), dtype=np.int8)
 
-    return np.logical_or.reduce((
-        visible_from_top(inputs),  # From top
-        visible_from_top(inputs[::-1])[::-1],  # From bottom
-        visible_from_top(inputs.T).T,  # From left
-        visible_from_top(inputs.T[::-1])[::-1].T,  # From right
-    )).sum()
+    return np.logical_or.reduce(
+        (
+            visible_from_top(inputs),  # From top
+            visible_from_top(inputs[::-1])[::-1],  # From bottom
+            visible_from_top(inputs.T).T,  # From left
+            visible_from_top(inputs.T[::-1])[::-1].T,  # From right
+        )
+    ).sum()
