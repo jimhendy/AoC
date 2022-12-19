@@ -1,91 +1,81 @@
 from functools import lru_cache
-from typing import List, Optional
+from typing import Dict, List, Optional
 
-from a_star import AStarException, State, a_star
-
-# ToDo: Add caching (fastest route from any position)
-# Numba
-# Remove classes / add slots
-# Better algo working backwards
+from a_star import State, a_star
 
 STEPS = [+1, -1, +1j, -1j]
+ord_S = ord("S")
+ord_E = ord("E")
+ord_a = ord("a")
+ord_z = ord("z")
+
+
+class Grid:
+    def __init__(self, inputs: str) -> None:
+        self._values = [list(map(ord, line)) for line in inputs.splitlines()]
+
+    @lru_cache(maxsize=2056)
+    def __getitem__(self, loc: complex) -> int:
+        return self._values[int(loc.imag)][int(loc.real)]
+
+    def __setitem__(self, loc: complex, value: int) -> None:
+        self._values[int(loc.imag)][int(loc.real)] = value
+
+    def locate(self, *args) -> Dict[int, complex]:
+        flat_values = [char for row in self._values for char in row]
+        return {
+            a: complex(*(divmod(flat_values.index(a), len(self._values[0]))[::-1]))
+            for a in args
+        }
 
 
 class GridLocation(State):
 
-    grid: List[List[int]]
-    dest: complex
+    grid: Grid
+    grid_width: int
+    grid_height: int
 
-    def __init__(self, loc: complex, prev_locs: Optional[List[complex]] = None):
+    def __init__(self, loc: complex, n_steps: int = 0):
         self.loc = loc
-        self.prev_locs = prev_locs or []
+        self.n_steps = n_steps
+        self._loc_value = self.grid[self.loc]
 
     def is_complete(self) -> bool:
-        return self.loc == self.dest
+        return self._loc_value == ord_a
 
     def is_valid(self):
         return True
 
     def __lt__(self, other: "GridLocation") -> bool:
-        return len(self.prev_locs) < len(other.prev_locs)
+        return self.n_steps < other.n_steps
 
     def all_possible_next_states(self):
         for step in STEPS:
             new_loc = self.loc + step
-            if not 0 <= new_loc.real < self.grid_size().real:
+            if not (0 <= new_loc.real < self.grid_width):
                 continue
-            if not 0 <= new_loc.imag < self.grid_size().imag:
+            if not (0 <= new_loc.imag < self.grid_height):
                 continue
-            dest_value = GridLocation.value_at_loc(new_loc)
-            if dest_value - GridLocation.value_at_loc(self.loc) > 1:
+            dest_value = self.grid[new_loc]
+            if dest_value - self._loc_value < -1:
                 continue
-            prev_loc = self.prev_locs[:]
-            prev_loc.append(self.loc)
-            yield GridLocation(loc=new_loc, prev_locs=prev_loc)
-
-    @staticmethod
-    def value_at_loc(loc: complex) -> int:
-        return GridLocation.grid[int(loc.imag)][int(loc.real)]
-
-    @staticmethod
-    def set_value_at_loc(loc: complex, value) -> None:
-        GridLocation.grid[int(loc.imag)][int(loc.real)] = value
-
-    @staticmethod
-    @lru_cache(maxsize=1)
-    def grid_size() -> complex:
-        return len(GridLocation.grid) * 1j + len(GridLocation.grid[0])
-
-    @staticmethod
-    def loc_of_value(value: int) -> complex:
-        for y in range(int(GridLocation.grid_size().imag)):
-            for x in range(int(GridLocation.grid_size().real)):
-                c = x + 1j * y
-                if GridLocation.value_at_loc(c) == value:
-                    yield c
+            yield GridLocation(loc=new_loc, n_steps=self.n_steps + 1)
 
 
 def run(inputs: str):
-    GridLocation.grid = [list(map(ord, line)) for line in inputs.splitlines()]
 
-    starting_loc = next(GridLocation.loc_of_value(ord("S")))
-    desintation_loc = next(GridLocation.loc_of_value(ord("E")))
+    grid = Grid(inputs)
 
-    GridLocation.set_value_at_loc(starting_loc, ord("a"))
-    GridLocation.set_value_at_loc(desintation_loc, ord("z"))
+    locs = grid.locate(ord_S, ord_E)
 
-    GridLocation.dest = desintation_loc
+    grid[locs[ord_S]] = ord_a
+    grid[locs[ord_E]] = ord_z
 
-    possible_starting_points = list(GridLocation.loc_of_value(ord("a")))
-    steps = []
-    for starting_point in possible_starting_points:
-        try:
-            initial_state = GridLocation(loc=starting_point)
-            optimal_route = a_star(
-                initial_state=initial_state, tag_func=lambda gl: gl.loc
-            )
-            steps.append(len(optimal_route.prev_locs))
-        except AStarException:
-            pass
+    GridLocation.grid = grid
+    GridLocation.grid_width = len(grid._values[0])
+    GridLocation.grid_height = len(grid._values)
+    initial_state = GridLocation(loc=locs[ord_E])
 
-    return min(steps)
+    optimal_route = a_star(initial_state=initial_state, tag_func=lambda gl: gl.loc)
+
+    return optimal_route.n_steps

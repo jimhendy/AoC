@@ -21,7 +21,7 @@ class Claim:
 
 
 def run(inputs):
-    claims = [Claim(i) for i in inputs.split(os.linesep)]
+    claims = [Claim(i) for i in inputs.splitlines()]
     max_x = max([c.end_x for c in claims])
     max_y = max([c.end_y for c in claims])
     fabric = np.zeros((max_x + 1, max_y + 1))
