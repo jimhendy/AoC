@@ -44,6 +44,10 @@ def a_star(initial_state, tag_func=str, return_status=False):
             print(
                 f"Test {n_tests}, n_options {len(possible_states)}, best_option: {best_option}"  # tag_func(best_option)}"
             )
+        if not n_tests % 10_000:
+            print(
+                f"Test {n_tests}, n_options {len(possible_states)}, best_option: {best_option.elapsed_time}"  # tag_func(best_option)}"
+            )
         if best_option.is_complete():
             if DEBUG:
                 print("Search complete")

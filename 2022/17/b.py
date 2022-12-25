@@ -4,15 +4,14 @@ import itertools
 # y = imag component, up +ve
 
 WIDTH = 7
-ROCKS = itertools.cycle(
-    [
-        [complex(0, 0), complex(1, 0), complex(2, 0), complex(3, 0)],
-        [complex(1, 0), complex(0, 1), complex(1, 1), complex(2, 1), complex(1, 2)],
-        [complex(0, 0), complex(1, 0), complex(2, 0), complex(2, 1), complex(2, 2)],
-        [complex(0, 0), complex(0, 1), complex(0, 2), complex(0, 3)],
-        [complex(0, 0), complex(0, 1), complex(1, 1), complex(1, 0)],
-    ]
-)
+_ROCKS = [
+    [complex(0, 0), complex(1, 0), complex(2, 0), complex(3, 0)],
+    [complex(1, 0), complex(0, 1), complex(1, 1), complex(2, 1), complex(1, 2)],
+    [complex(0, 0), complex(1, 0), complex(2, 0), complex(2, 1), complex(2, 2)],
+    [complex(0, 0), complex(0, 1), complex(0, 2), complex(0, 3)],
+    [complex(0, 0), complex(0, 1), complex(1, 1), complex(1, 0)],
+]
+ROCKS = itertools.cycle(_ROCKS)
 
 
 def run(inputs):
@@ -23,7 +22,8 @@ def run(inputs):
     down_offset = complex(0, -1)
     origin_x = 2
     rock_i = 0
-    first_rock_pos = None
+    full_iteration_count = 0
+    volume_by_rock = {}
 
     while True:
         origin = complex(origin_x, highest_rock + 4)
@@ -56,13 +56,17 @@ def run(inputs):
                 [occupied.add(p) for p in new_rock]
                 highest_rock = max(highest_rock, max(p.imag for p in new_rock))
                 break
-            
-        rock_i += 1
-        
-        if not rock_i % len(ROCKS):
-            # We are looking at the first rock shape ('-')
-            
-            
-        
 
+        rock_i += 1
+
+        if not rock_i % len(_ROCKS):
+            full_iteration_count += 1
+            current = highest_rock
+            volume_by_rock[full_iteration_count] = current
+            print(volume_by_rock)
+            if volume_by_rock.get(full_iteration_count / 2) == current / 2:
+                print(full_iteration_count, current)
+                break
+
+    print(volume_by_rock)
     return highest_rock + 1

@@ -1,11 +1,14 @@
 import itertools
-from typing import Iterable, Optional, Tuple, Union
+from typing import Dict, Iterable, Optional, Tuple, Union
 
 
 class Point:
     def __init__(self, *values):
         self.values = values
-        self.steps = {}  # To be set in sub-class
+
+    @property
+    def steps(self) -> Dict[str, "Point"]:
+        return {}  # To be set in sub-class
 
     @property
     def x(self):
@@ -74,7 +77,7 @@ class Point:
         return self + self.steps[direction]
 
     def all_neighbours(
-        self, grid_size: Optional[Union[int, Tuple[int, int]]] = None
+        self, grid_size: Optional[Union[int, Tuple[int, ...]]] = None
     ) -> Iterable["Point"]:
         if not len(self.steps):
             raise RuntimeError(
@@ -127,7 +130,7 @@ class Point2D(Point):
 
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.steps = Point2D.steps
+        # self.steps = Point2D.steps
 
     def nb4(
         self, grid_size: Optional[Union[int, Tuple[int, int]]] = None
@@ -189,7 +192,7 @@ class PointyTop2DHexPoint(Point):
 
     def __init__(self, x, y, z=0):
         super().__init__(x, y, z)
-        self.steps = PointyTop2DHexPoint.steps
+        # self.steps = PointyTop2DHexPoint.steps
 
 
 class FlatTop2DHexPoint(Point):
@@ -204,4 +207,30 @@ class FlatTop2DHexPoint(Point):
 
     def __init__(self, x, y, z=0):
         super().__init__(x, y, z)
-        self.steps = FlatTop2DHexPoint.steps
+        # self.steps = FlatTop2DHexPoint.steps
+
+
+class Point3D(Point):
+    steps = {
+        "down": Point(0, 0, 1),
+        "up": Point(0, 0, -1),
+        "left": Point(-1, 0, 0),
+        "right": Point(1, 0, 0),
+        "in": Point(0, 1, 0),
+        "out": Point(0, -1, 0),
+    }
+
+    @property
+    def x(self):
+        return self.values[0]
+
+    @property
+    def y(self):
+        return self.values[1]
+
+    @property
+    def z(self):
+        return self.values[2]
+
+    def __init__(self, x, y, z):
+        super().__init__(x, y, z)

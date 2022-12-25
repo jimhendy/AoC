@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Set, Optional
+from typing import Dict, Optional, Set
 
 import networkx as nx
 from a_star import State, a_star
