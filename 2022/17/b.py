@@ -1,5 +1,8 @@
 import itertools
 
+import pandas as pd
+from statsmodels.tsa.stattools import acf
+
 # x = real component, right +ve
 # y = imag component, up +ve
 
@@ -21,11 +24,11 @@ def run(inputs):
 
     down_offset = complex(0, -1)
     origin_x = 2
-    rock_i = 0
-    full_iteration_count = 0
-    volume_by_rock = {}
+    data = {}
+    previous = 0
+    N = 1_000 * len(_ROCKS)
 
-    while True:
+    for rock_i in range(1, N):
         origin = complex(origin_x, highest_rock + 4)
         new_rock = [p + origin for p in next(ROCKS)]
 
@@ -57,16 +60,36 @@ def run(inputs):
                 highest_rock = max(highest_rock, max(p.imag for p in new_rock))
                 break
 
-        rock_i += 1
+        data[rock_i] = highest_rock - previous
+        previous = highest_rock
 
-        if not rock_i % len(_ROCKS):
-            full_iteration_count += 1
-            current = highest_rock
-            volume_by_rock[full_iteration_count] = current
-            print(volume_by_rock)
-            if volume_by_rock.get(full_iteration_count / 2) == current / 2:
-                print(full_iteration_count, current)
-                break
+    data = pd.Series(data)
+    max_offset = None
+    period = None
+    max_acf = None
+    bad_data = {}
+    for offset in range(N // 3):
+        acf_values = pd.Series(acf(data.iloc[offset:], nlags=N // 2))
+        this_max = max(acf_values[1:])
+        bad_data[offset] = this_max
+        if max_acf is None or this_max > max_acf:
+            max_acf = this_max
+            period = acf_values.iloc[1:].argmax() + 1
+            max_offset = offset
 
-    print(volume_by_rock)
-    return highest_rock + 1
+    # This is drity, needs fixing!
+    max_offset += period  # Initial period may require settling down
+
+    prediction_x = 1_000_000_000_000
+    offset_contribution = data.iloc[:max_offset].sum()
+    post_offset_x = prediction_x - max_offset
+    n_full_cycles, remaining_x = divmod(post_offset_x, period)
+    remaining_contribution = data.iloc[max_offset : max_offset + remaining_x].sum()
+    single_period_contribution = data.iloc[max_offset : max_offset + period].sum()
+
+    return (
+        offset_contribution
+        + single_period_contribution * n_full_cycles
+        + remaining_contribution
+        + 1
+    )

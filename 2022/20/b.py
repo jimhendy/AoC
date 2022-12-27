@@ -1,4 +1,5 @@
 import itertools
+
 KEY = 811589153
 
 
