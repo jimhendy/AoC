@@ -10,6 +10,9 @@ class Point:
     def steps(self) -> Dict[str, "Point"]:
         return {}  # To be set in sub-class
 
+    def step(self, direction: str) -> "Point2D":
+        return self + self.steps[direction]
+
     @property
     def x(self):
         return self.values

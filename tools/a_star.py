@@ -1,7 +1,7 @@
 import heapq
 from abc import ABC, abstractmethod
 
-DEBUG = False
+DEBUG = 0
 
 
 class AStarException(Exception):
@@ -40,19 +40,19 @@ def a_star(initial_state, tag_func=str, return_status=False):
 
         best_option = heapq.heappop(possible_states)
         n_tests += 1
-        if DEBUG:
+        if DEBUG > 0:
             print(
                 f"Test {n_tests}, n_options {len(possible_states)}, best_option: {tag_func(best_option)}"
             )
         if best_option.is_complete():
-            if DEBUG:
+            if DEBUG > 0:
                 print("Search complete")
             is_complete = True
             break
 
         for s in best_option.all_possible_next_states():
             if not s.is_valid():
-                if DEBUG:
+                if DEBUG > 1:
                     print(f"Skipping {s} as not valid")
                 continue
             tag = tag_func(s)
