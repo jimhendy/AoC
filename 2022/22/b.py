@@ -1,14 +1,15 @@
 import re
 from collections import defaultdict, deque
-from typing import Dict
+from typing import Callable, Dict
 
 from tools.point import Point2D
 
 DIRECTIONS = deque(["right", "down", "left", "up"])
 FACING_VALUE = {"right": 0, "left": 2, "up": 3, "down": 1}
+OPPOSITES = {"down": "up", "up": "down", "left": "right", "right": "left"}
 
 
-def run(inputs: str):
+def run(inputs: str):  # sourcery skip: collection-into-set
     inputs = inputs.splitlines()
     board = inputs[:-2]
 
@@ -28,157 +29,202 @@ def run(inputs: str):
             elif char == ".":
                 open_tiles.add(Point2D(x, y))
 
-    side_length = len(board) // 3
+    side_length = max(len(board) // 4, max(len(line) for line in board) // 4)
 
-    # Right Side 1 & Right Side 6
-    for y in range(side_length):
-        leaving = Point2D(max(p.x for p in open_tiles if p.y == y), y)
-        entering = Point2D(
-            max(p.x for p in open_tiles if p.y == 3 * side_length - 1 - y),
-            3 * side_length - 1 - y,
+    def extract_from_x(
+        x_lambda: Callable[[int], int], min_or_max: Callable
+    ) -> Callable[[int], Point2D]:
+        def func(i: int) -> Point2D:
+            x = x_lambda(i)
+            return Point2D(x=x, y=min_or_max(p.y for p in open_tiles if p.x == x))
+
+        return func
+
+    def extract_from_y(
+        y_lambda: Callable[[int], int], min_or_max: Callable
+    ) -> Callable[[int], Point2D]:
+        def func(i: int) -> Point2D:
+            y = y_lambda(i)
+            return Point2D(
+                x=min_or_max(p.x for p in open_tiles if p.y == y),
+                y=y,
+            )
+
+        return func
+
+    def configure_moves(
+        leaving_lambda: Callable[[int], Point2D],
+        entering_lambda: Callable[[int], Point2D],
+        leaving_direction: str,
+        entering_direction: str,
+    ):
+        """
+        Add the loop data for a particular side exit.
+
+        E.g. for the unfolded cube:
+            11
+            11
+        223344
+        223344
+            5566
+            5566
+
+        Exiting the right of side 1 would enter from the right of side 6.
+        Hence, this function is used with
+        * leaving_direction="right"
+        * entering_direction="left"
+
+        With functions taking in an iterable of side length (2 in example) to create the Point2Ds
+        e.g.
+
+        leaving_lambda=lambda i: i
+        entering_lambda=lambda i: side_length * 3 - 1 - i
+        """
+        if leaving_direction in {"up", "down"}:
+            leaving_extract = extract_from_x
+            leaving_min_max = min if leaving_direction == "up" else max
+        else:
+            leaving_extract = extract_from_y
+            leaving_min_max = min if leaving_direction == "left" else max
+
+        if entering_direction in {"up", "down"}:
+            entering_extract = extract_from_x
+            entering_min_max = min if entering_direction == "down" else max
+        else:
+            entering_extract = extract_from_y
+            entering_min_max = min if entering_direction == "right" else max
+
+        for i in range(side_length):
+            leaving = leaving_extract(leaving_lambda, leaving_min_max)(i)
+            entering = entering_extract(entering_lambda, entering_min_max)(i)
+
+            beyond_leaving = leaving + Point2D.steps[leaving_direction]
+            beyond_entering = entering + Point2D.steps[OPPOSITES[entering_direction]]
+
+            can_leave = beyond_leaving not in walls
+            can_enter = beyond_entering not in walls
+
+            if can_leave and can_enter:
+                loop_tiles[leaving_direction][beyond_leaving] = entering
+                loop_directions[leaving_direction][beyond_leaving] = entering_direction
+
+                loop_tiles[OPPOSITES[entering_direction]][beyond_entering] = leaving
+                loop_directions[OPPOSITES[entering_direction]][
+                    beyond_entering
+                ] = OPPOSITES[leaving_direction]
+
+    if side_length == 4:
+        # Right of 1, right of 6
+        configure_moves(
+            leaving_direction="right",
+            leaving_lambda=lambda i: i,
+            entering_direction="left",
+            entering_lambda=lambda i: 3 * side_length - 1 - i,
         )
 
-        beyond_leaving = leaving + Point2D.steps["right"]
-        beyond_entering = entering + Point2D.steps["right"]
-
-        can_leave = beyond_leaving not in walls
-        can_enter = beyond_entering not in walls
-
-        if can_leave and can_enter:
-            loop_tiles["right"][beyond_leaving] = entering
-            loop_tiles["right"][beyond_entering] = leaving
-            loop_directions["right"][beyond_leaving] = "left"
-            loop_directions["right"][beyond_entering] = "left"
-
-    # Right Side 4 & Top Side 6
-    for y in range(side_length):
-        leaving = Point2D(
-            max(p.x for p in open_tiles if p.y == y + side_length), y + side_length
-        )
-        entering = Point2D(
-            4 * side_length - y - 1,
-            min(p.y for p in open_tiles if p.x == 4 * side_length - y - 1),
+        # Right of 4, top of 6
+        configure_moves(
+            leaving_direction="right",
+            leaving_lambda=lambda i: side_length + i,
+            entering_direction="down",
+            entering_lambda=lambda i: 4 * side_length - 1 - i,
         )
 
-        beyond_leaving = leaving + Point2D.steps["right"]
-        beyond_entering = entering + Point2D.steps["up"]
-
-        can_leave = beyond_leaving not in walls
-        can_enter = beyond_entering not in walls
-
-        if can_leave and can_enter:
-            loop_tiles["right"][beyond_leaving] = entering
-            loop_tiles["up"][beyond_entering] = leaving
-            loop_directions["right"][beyond_leaving] = "down"
-            loop_directions["up"][beyond_entering] = "left"
-
-    # Top Side 1 & Top Side 2
-    for x in range(side_length):
-        leaving = Point2D(
-            side_length * 2 + x,
-            min(p.y for p in open_tiles if p.x == side_length * 2 + x),
-        )
-        entering = Point2D(
-            side_length - x - 1,
-            min(p.y for p in open_tiles if p.x == side_length - x - 1),
+        # Bottom of 6, left of 2
+        configure_moves(
+            leaving_direction="down",
+            leaving_lambda=lambda i: 3 * side_length + i,
+            entering_direction="right",
+            entering_lambda=lambda i: 2 * side_length - 1 - i,
         )
 
-        beyond_leaving = leaving + Point2D.steps["up"]
-        beyond_entering = entering + Point2D.steps["up"]
-
-        can_leave = beyond_leaving not in walls
-        can_enter = beyond_entering not in walls
-
-        if can_leave and can_enter:
-            loop_tiles["up"][beyond_leaving] = entering
-            loop_tiles["up"][beyond_entering] = leaving
-            loop_directions["up"][beyond_leaving] = "down"
-            loop_directions["up"][beyond_entering] = "down"
-
-    # Left Side 1 & Top Side 3
-    for y in range(side_length):
-        leaving = Point2D(min(p.x for p in open_tiles if p.y == y), y)
-        entering = Point2D(
-            side_length + x, min(p.y for p in open_tiles if p.x == side_length + x)
+        # Bottom of 5, bottom of 2
+        configure_moves(
+            leaving_direction="down",
+            leaving_lambda=lambda i: 2 * side_length + i,
+            entering_direction="up",
+            entering_lambda=lambda i: side_length - 1 - i,
         )
 
-        beyond_leaving = leaving + Point2D.steps["left"]
-        beyond_entering = entering + Point2D.steps["up"]
-
-        can_leave = beyond_leaving not in walls
-        can_enter = beyond_entering not in walls
-
-        if can_leave and can_enter:
-            loop_tiles["left"][beyond_leaving] = entering
-            loop_tiles["up"][beyond_entering] = leaving
-            loop_directions["left"][beyond_leaving] = "down"
-            loop_directions["up"][beyond_entering] = "right"
-
-    # Left Side 2 & Bottom Side 6
-    for y in range(side_length):
-        leaving = Point2D(
-            min(p.x for p in open_tiles if p.y == side_length + y), side_length + y
-        )
-        entering = Point2D(
-            side_length * 4 - y - 1,
-            max(p.y for p in open_tiles if p.x == side_length * 4 - y - 1),
+        # Top of 1, top of 2
+        configure_moves(
+            leaving_direction="up",
+            leaving_lambda=lambda i: 2 * side_length + i,
+            entering_direction="down",
+            entering_lambda=lambda i: side_length - 1 - i,
         )
 
-        beyond_leaving = leaving + Point2D.steps["left"]
-        beyond_entering = entering + Point2D.steps["down"]
-
-        can_leave = beyond_leaving not in walls
-        can_enter = beyond_entering not in walls
-
-        if can_leave and can_enter:
-            loop_tiles["left"][beyond_leaving] = entering
-            loop_tiles["down"][beyond_entering] = leaving
-            loop_directions["left"][beyond_leaving] = "up"
-            loop_directions["down"][beyond_entering] = "right"
-
-    # Bootom Side 2 & Bottom Side 5
-    for x in range(side_length):
-        leaving = Point2D(x, max(p.y for p in open_tiles if p.x == x))
-        entering = Point2D(
-            side_length * 3 - 1 + x,
-            max(p.y for p in open_tiles if p.x == side_length * 3 - 1 + x),
+        # Left of 1, top of 3
+        configure_moves(
+            leaving_direction="left",
+            leaving_lambda=lambda i: i,
+            entering_direction="down",
+            entering_lambda=lambda i: side_length + i,
         )
 
-        beyond_leaving = leaving + Point2D.steps["down"]
-        beyond_entering = entering + Point2D.steps["down"]
-
-        can_leave = beyond_leaving not in walls
-        can_enter = beyond_entering not in walls
-
-        if can_leave and can_enter:
-            loop_tiles["down"][beyond_leaving] = entering
-            loop_tiles["down"][beyond_entering] = leaving
-            loop_directions["down"][beyond_leaving] = "up"
-            loop_directions["down"][beyond_entering] = "up"
-
-    # Bottom Side 3 & Left Side 5
-    for x in range(side_length):
-        leaving = Point2D(
-            side_length + x, max(p.y for p in open_tiles if p.x == side_length + x)
+        # Bottom of 3, left of 5
+        configure_moves(
+            leaving_direction="down",
+            leaving_lambda=lambda i: side_length + i,
+            entering_direction="right",
+            entering_lambda=lambda i: 3 * side_length - 1 - i,
         )
-        entering = Point2D(
-            min(p.x for p in open_tiles if p.y == side_length * 3 - x - 1),
-            side_length * 3 - x - 1,
+    else:  # =====================================================================================
+        # Right side 2, right side 4
+        configure_moves(
+            leaving_direction="right",
+            leaving_lambda=lambda i: i,
+            entering_direction="left",
+            entering_lambda=lambda i: 3 * side_length - 1 - i,
         )
 
-        beyond_leaving = leaving + Point2D.steps["down"]
-        beyond_entering = entering + Point2D.steps["left"]
+        # Right side 3, bottom side 2
+        configure_moves(
+            leaving_direction="right",
+            leaving_lambda=lambda i: side_length + i,
+            entering_direction="up",
+            entering_lambda=lambda i: 2 * side_length + i,
+        )
 
-        can_leave = beyond_leaving not in walls
-        can_enter = beyond_entering not in walls
+        # Right side 6, bottom side 4
+        configure_moves(
+            leaving_direction="right",
+            leaving_lambda=lambda i: 3 * side_length + i,
+            entering_direction="up",
+            entering_lambda=lambda i: side_length + i,
+        )
 
-        if can_leave and can_enter:
-            loop_tiles["down"][beyond_leaving] = entering
-            loop_tiles["left"][beyond_entering] = leaving
-            loop_directions["down"][beyond_leaving] = "right"
-            loop_directions["left"][beyond_entering] = "up"
+        # Top side 2, bottom side 6
+        configure_moves(
+            leaving_direction="up",
+            leaving_lambda=lambda i: 2 * side_length + i,
+            entering_direction="up",
+            entering_lambda=lambda i: i,
+        )
 
-    print(loop_tiles)
+        # Top side 1, left side 6
+        configure_moves(
+            leaving_direction="up",
+            leaving_lambda=lambda i: side_length + i,
+            entering_direction="right",
+            entering_lambda=lambda i: 3 * side_length + i,
+        )
+
+        # Left side 1, left side 5
+        configure_moves(
+            leaving_direction="left",
+            leaving_lambda=lambda i: i,
+            entering_direction="right",
+            entering_lambda=lambda i: 3 * side_length - 1 - i,
+        )
+
+        # Left side 3, top side 5
+        configure_moves(
+            leaving_direction="left",
+            leaving_lambda=lambda i: side_length + i,
+            entering_direction="down",
+            entering_lambda=lambda i: i,
+        )
 
     moves = map(int, re.findall(r"\d+", inputs[-1]))
     turns = iter(re.findall(r"[RL]", inputs[-1]))
@@ -186,12 +232,7 @@ def run(inputs: str):
     loc = Point2D(min(p.x for p in open_tiles if p.y == 0), 0)
     step = Point2D.steps["right"]
 
-    import pdb
-
-    pdb.set_trace()
-
     for num_steps in moves:
-        print(f"Pre Move: {loc}, {DIRECTIONS[0]}")
         for _ in range(num_steps):
             new_loc = loc + step
             if new_loc in open_tiles:
@@ -201,12 +242,12 @@ def run(inputs: str):
                 new_direction = loop_directions[DIRECTIONS[0]][new_loc]
                 while DIRECTIONS[0] != new_direction:
                     DIRECTIONS.rotate()
-        print(f"Post Move: {loc}, {DIRECTIONS[0]}")
+                step = Point2D.steps[new_direction]
         try:
             rot = -1 if next(turns) == "R" else 1
             DIRECTIONS.rotate(rot)
             step = Point2D.steps[DIRECTIONS[0]]
         except StopIteration:
-            print("No turns left")
+            ...
 
     return 1_000 * (abs(loc.y) + 1) + 4 * (loc.x + 1) + FACING_VALUE[DIRECTIONS[0]]

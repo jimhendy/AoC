@@ -25,12 +25,8 @@ class Point:
 
     def __eq__(self, other):
         return all(
-            [
-                s == o
-                for s, o in itertools.zip_longest(
-                    self.values, other.values, fillvalue=0
-                )
-            ]
+            s == o
+            for s, o in itertools.zip_longest(self.values, other.values, fillvalue=0)
         )
 
     def __add__(self, other):
@@ -57,7 +53,7 @@ class Point:
         return self.__copy__()
 
     def __abs__(self):
-        return sum([abs(i) for i in self.values])
+        return sum(abs(i) for i in self.values)
 
     def __copy__(self):
         return type(self)(*self.values)
@@ -95,17 +91,17 @@ class Point:
             assert len(grid_size) == len(
                 self
             ), f"grid_size must be an int or a {len(self)}-tuple of ints"
-            assert all([i > 0 for i in grid_size]), f"grid_size must be positive"
+            assert all(i > 0 for i in grid_size), "grid_size must be positive"
 
         for s in self.steps.values():
             neighbour = self + s
 
             if grid_size is not None:
 
-                if any([v < 0 for v in neighbour.values]):
+                if any(v < 0 for v in neighbour.values):
                     continue
 
-                if any([v >= g for v, g in zip(neighbour.values, grid_size)]):
+                if any(v >= g for v, g in zip(neighbour.values, grid_size)):
                     continue
 
             yield neighbour
@@ -151,8 +147,8 @@ class Point2D(Point):
 
         if grid_size is not None:
             grid_size = tuple(grid_size)
-            assert len(grid_size) == 2, f"grid_size must be an int or a 2-tuple of ints"
-            assert grid_size[0] > 0 and grid_size[1] > 0, f"grid_size must be positive"
+            assert len(grid_size) == 2, "grid_size must be an int or a 2-tuple of ints"
+            assert grid_size[0] > 0 and grid_size[1] > 0, "grid_size must be positive"
 
         for k, v in self.steps.items():
             if "-" in k:
@@ -164,9 +160,7 @@ class Point2D(Point):
             ):
                 continue
 
-            neighbour = Point2D(new_x, new_y)
-
-            yield neighbour
+            yield Point2D(new_x, new_y)
 
     def nb8(
         self, grid_size: Optional[Union[int, Tuple[int, int]]] = None

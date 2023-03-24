@@ -1,5 +1,6 @@
 import heapq
 from abc import ABC, abstractmethod
+from typing import Iterable
 
 DEBUG = 0
 
@@ -79,25 +80,25 @@ def a_star(initial_state, tag_func=str, return_status=False):
 
 
 class State(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     @abstractmethod
-    def is_valid(self):
+    def is_valid(self) -> bool:
         return False
 
     @abstractmethod
-    def is_complete(self):
+    def is_complete(self) -> bool:
         return False
 
     @abstractmethod
-    def all_possible_next_states(self):
+    def all_possible_next_states(self) -> Iterable["State"]:
         for i in range(0):
             yield State()
 
     @abstractmethod
-    def __lt__(self, other):
+    def __lt__(self, other: "State") -> bool:
         return True
 
-    def __gt__(self, other):
+    def __gt__(self, other: "State") -> bool:
         return not self.__lt__(other)
