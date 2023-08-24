@@ -1,7 +1,5 @@
 import os
-from typing import Set, Tuple, Union
-
-import numpy as np
+from typing import Set, Tuple
 
 Beacon = Tuple[int, int, int]
 
@@ -110,7 +108,7 @@ def run(inputs):
                 break
 
         if not to_remove:
-            raise RuntimeError(f"Should not be here, nothing to remove")
+            raise RuntimeError("Should not be here, nothing to remove")
 
         for i, r in enumerate(to_remove):
             del scanners[r - i]

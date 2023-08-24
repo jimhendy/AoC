@@ -1,8 +1,5 @@
 import intcode
-import matplotlib.pylab as plt
-import numpy as np
 import pandas as pd
-import seaborn as sns
 
 
 def run(inputs):

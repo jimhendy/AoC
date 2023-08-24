@@ -1,8 +1,6 @@
 from collections import defaultdict
 
-import exceptions
 import grid
-from location import Location
 
 DEBUG = False
 

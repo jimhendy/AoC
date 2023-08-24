@@ -1,6 +1,4 @@
-import os
 import re
-from collections import defaultdict
 
 N_WORKERS = 5
 
@@ -68,7 +66,7 @@ def run(inputs):
         r"Step ([A-Z]) must be finished before step ([A-Z]) can begin.", inputs
     ):
         for t_id in i:
-            if not t_id in tasks.keys():
+            if t_id not in tasks.keys():
                 tasks[t_id] = Task(t_id)
         tasks[i[1]].add_pre(tasks[i[0]])
 

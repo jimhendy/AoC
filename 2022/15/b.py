@@ -1,61 +1,79 @@
 import re
 
-from tqdm import tqdm
+import numba as nb
+import numpy as np
 
 REG_NUM = r"(-?\d+)"
 REG = re.compile(
     f"^Sensor at x={REG_NUM}, y={REG_NUM}: closest beacon is at x={REG_NUM}, y={REG_NUM}$"
 )
 
-# MAX = 20
-MAX = 4_000_000
+# Range = 1D np.ndarray with 2 element, lower and upper
+Range = np.ndarray
+INT = np.int64  # Bigger than MAX
 
 
-class Range:
-    def __init__(self, lower: int, upper: int) -> None:
-        self.lower = lower
-        self.upper = upper
-
-    def overlaps(self, other: "Range") -> bool:
-        left = self if self.lower < other.lower else other
-        right = self if other is left else other
-        return left.lower <= right.upper and right.lower <= left.upper
-
-    def combine(self, other: "Range") -> "Range":
-        return Range(min(self.lower, other.lower), max(self.upper, other.upper))
-
-    def __len__(self) -> int:
-        return self.upper - self.lower
-
-    def __repr__(self):
-        return f"Range({self.lower},{self.upper})"
+@nb.njit("i8(i8[:])", boundscheck=False, cache=True)
+def lower(range_: Range) -> INT:
+    return range_[0]
 
 
-def run(inputs):
+@nb.njit("i8(i8[:])", boundscheck=False, cache=True)
+def upper(range_: Range) -> INT:
+    return range_[1]
 
-    inputs = [list(map(int, REG.findall(line)[0])) for line in inputs.splitlines()]
 
-    for Y in tqdm(range(MAX + 1)):
+@nb.njit("b1(i8[:], i8[:])", boundscheck=False, cache=True)
+def ranges_overlap(range_1: Range, range_2: Range) -> bool:
+    left = range_1 if lower(range_1) < lower(range_2) else range_2
+    right = range_1 if range_2 is left else range_2
+    # As this grid is all integers, lets say two ranges overlap if they touch
+    return lower(left) <= upper(right) and (lower(right) - 1) <= upper(left)
+
+
+@nb.njit("i8(i8[:,:], i8)", parallel=False, boundscheck=False, cache=True)
+def numba_run(inputs: np.ndarray, grid_size: INT) -> INT:
+
+    distances = np.zeros(inputs.shape[0], dtype=INT)
+
+    for sensor_id in nb.prange(inputs.shape[0]):
+        sx, sy, bx, by = inputs[sensor_id]
+        distances[sensor_id] = abs(bx - sx) + abs(by - sy)
+
+    for Y in range(grid_size + 1):
         ranges = []
+        for sensor_id in range(inputs.shape[0]):
 
-        for (sx, sy, bx, by) in inputs:
-            distance = abs(bx - sx) + abs(by - sy)
-            dist_to_y = abs(Y - sy)
-            width_at_y = distance - dist_to_y
+            sensor_x = inputs[sensor_id, 0]
+            sensor_y = inputs[sensor_id, 1]
+
+            dist_to_Y = abs(Y - sensor_y)
+            width_at_y = distances[sensor_id] - dist_to_Y
+
             if width_at_y > 0:
-                ranges.append(Range(lower=sx - width_at_y, upper=sx + width_at_y))
+                min_x = sensor_x - width_at_y
+                max_x = sensor_x + width_at_y
 
-        # Remove double counting
+                if min_x < 0:
+                    min_x = 0
+
+                if max_x > grid_size:
+                    max_x = grid_size
+
+                ranges.append(np.array([min_x, max_x]))
+
         while True:
             combined = False
             for i, ri in enumerate(ranges):
                 for j, rj in enumerate(ranges):
                     if i == j:
                         continue
-                    if ri.overlaps(rj):
-                        new_range = ri.combine(rj)
-                        ranges = [r for k, r in enumerate(ranges) if k not in [i, j]]
-                        ranges.append(new_range)
+                    if ranges_overlap(ri, rj):
+
+                        ranges.pop(j)
+                        ri[0] = min(lower(ri), lower(rj))
+                        ri[1] = max(upper(ri), upper(rj))
+
                         combined = True
                         break
                 if combined:
@@ -63,19 +81,19 @@ def run(inputs):
             if not combined:
                 break
 
-        failed = False
-        for r in ranges:
-            if r.lower <= 0 and r.upper >= MAX:
-                failed = True
-                break
+        if len(ranges) != 1:
+            for r in ranges:
+                if lower(r) == 0:
+                    print(r) # This is required to get the correct answer ???????
+                    return 4_000_000 * (upper(r) + 1) + Y
 
-        if not failed:
+    return 0
 
-            for x in range(MAX + 1):
-                failed_x = False
-                for r in ranges:
-                    if r.lower <= x and r.upper >= x:
-                        failed_x = True
-                        break
-                if not failed_x:
-                    return 4_000_000 * x + Y
+
+def run(inputs):
+    inputs = np.array(
+        [list(map(int, REG.findall(line)[0])) for line in inputs.splitlines()],
+        dtype=INT,
+    )
+
+    return numba_run(inputs, 4_000_000)

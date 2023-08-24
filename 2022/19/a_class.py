@@ -1,10 +1,7 @@
 import re
-from collections import Counter, deque
-from copy import deepcopy
+from collections import Counter
 from functools import lru_cache
-from typing import Dict, List, Optional, Set
-
-import numpy as np
+from typing import Dict, Optional, Set
 
 from tools.a_star import State, a_star
 
@@ -74,7 +71,7 @@ class Factory(State):
 
     def all_possible_next_states(self):
         new_time = self.elapsed_time + 1
-        time_left = TIME - new_time
+        TIME - new_time
         could_build = [
             resource
             for resource, required_items in self.blueprint.items()
@@ -84,9 +81,7 @@ class Factory(State):
             )
         ]
 
-        spend_nothing = True
         if TARGET_RESOURCE in could_build:
-            spend_nothing = False
             could_build = [TARGET_RESOURCE]
 
         for resource in could_build:

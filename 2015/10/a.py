@@ -1,7 +1,5 @@
 import re
 
-import tqdm
-
 
 def evaluate(num):
     matches = re.findall(r"(\d)(\1*)", str(num))

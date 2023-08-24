@@ -2,8 +2,6 @@ import collections
 import heapq
 import os
 
-import numpy as np
-
 STEPS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
 

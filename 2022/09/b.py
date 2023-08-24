@@ -1,6 +1,3 @@
-import itertools
-import math
-
 DIRECTION_STEPS = {"U": +1j, "D": -1j, "L": -1, "R": +1}
 ROPE_LEN = 10
 

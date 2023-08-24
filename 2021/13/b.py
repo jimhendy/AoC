@@ -33,4 +33,4 @@ def run(inputs):
 
     print(df)
 
-    raise NotImplementedError(f"Read the above letters, do not automatically submit")
+    raise NotImplementedError("Read the above letters, do not automatically submit")

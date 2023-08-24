@@ -26,7 +26,7 @@ def run(inputs):
 
     locs = []
     for c in carts:
-        if not c.loc_as_str() in locs:
+        if c.loc_as_str() not in locs:
             locs.append(c.loc_as_str())
         else:
             return f"{c.loc[1]},{c.loc[0]}"

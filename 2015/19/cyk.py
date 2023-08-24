@@ -1,5 +1,4 @@
 from collections import defaultdict
-from functools import lru_cache
 
 
 def _get_combs(y, x, data):
@@ -31,7 +30,7 @@ def cyk(target, grammar):
     for y in range(1, len(target) + 1):
         for x in range(len(target) - y):
             for this_target in _get_combs(y, x, data):
-                if not this_target in possibles:
+                if this_target not in possibles:
                     continue
                 for k, v in grammar.items():
                     print(this_target)

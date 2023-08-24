@@ -47,7 +47,7 @@ def run(inputs):
         ings[match[0]] = Ingredient(match[1], match[2], match[3], match[4], match[5])
         pass
 
-    counts = np.tile(np.arange(0, num_ingredients + 1), len(ings)).reshape(
+    np.tile(np.arange(0, num_ingredients + 1), len(ings)).reshape(
         -1, num_ingredients + 1
     )
 

@@ -1,8 +1,5 @@
 import os
-import re
-from collections import defaultdict
 
-import matplotlib.pylab as plt
 import networkx as nx
 import numpy as np
 

@@ -3,10 +3,18 @@ from collections import deque
 
 import numpy as np
 
-V = lambda *a: np.array(a)
+
+def V(*a):
+    return np.array(a)
+
+
 # What will you have after this turn? Sorted from resources to robots
-key = lambda a: tuple(a[0] + a[1]) + tuple(a[1])
-prune = lambda x: sorted(x, key=key)[-100:]
+def key(a):
+    return tuple(a[0] + a[1]) + tuple(a[1])
+
+
+def prune(x):
+    return sorted(x, key=key)[-100:]
 
 
 def parse(line: str):

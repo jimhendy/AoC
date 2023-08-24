@@ -46,7 +46,7 @@ def run(inputs):
             if side == current_side:
                 found = True
                 break
-        assert found == True
+        assert found is True
 
         # Must be a cleaner way to do this...
         if this_side == "top":

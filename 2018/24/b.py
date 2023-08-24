@@ -52,7 +52,9 @@ def run(inputs):
     infection = [a for a in base_armies if a.name == "Infection"][0]
     immune_system = [a for a in base_armies if a.name != "Infection"][0]
 
-    boolean_fight = lambda boost: bool(fight(boost, infection, immune_system))
+    def boolean_fight(boost):
+        return bool(fight(boost, infection, immune_system))
+
     min_boost = binary_search(boolean_fight, lower=0)
 
     return fight(min_boost, infection, immune_system)

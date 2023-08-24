@@ -1,10 +1,7 @@
 import copy
 import heapq
 import os
-import re
-from collections import defaultdict
 
-import matplotlib.pylab as plt
 import networkx as nx
 import numba
 import numpy as np

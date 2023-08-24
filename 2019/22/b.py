@@ -1,8 +1,5 @@
 import os
 
-import numba
-import numpy as np
-
 
 def deal_into_new_stack(n_cards, a, b):
     a *= -1

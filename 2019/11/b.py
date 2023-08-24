@@ -23,7 +23,7 @@ def run(inputs):
 
     df = df.pivot_table(index="y", columns="x", values="Ones")
     for i in range(df.columns.max()):
-        if not i in df.columns:
+        if i not in df.columns:
             df[i] = np.nan
 
     df = df[sorted(df.columns)]

@@ -1,7 +1,5 @@
 import collections
 
-import numpy as np
-
 
 def run(inputs):
     n_elves = int(inputs)

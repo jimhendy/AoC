@@ -1,5 +1,5 @@
 import os
-from typing import Set, Tuple, Union
+from typing import Set, Tuple
 
 import numpy as np
 
@@ -110,7 +110,7 @@ def run(inputs):
                 break
 
         if not to_remove:
-            raise RuntimeError(f"Should not be here, nothing to remove")
+            raise RuntimeError("Should not be here, nothing to remove")
 
         for i, r in enumerate(to_remove):
             del scanners[r - i]

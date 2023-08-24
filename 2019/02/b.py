@@ -5,8 +5,6 @@ def run(inputs, aim=19690720):
 
     in_copy = common.in_to_array(inputs)
 
-    done = False
-
     for noun in range(99):
         for verb in range(99):
             trial = in_copy.copy()

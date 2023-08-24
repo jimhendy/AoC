@@ -25,7 +25,7 @@ def run(inputs):
         elif turn == "L":
             step = -1
         else:
-            raise NotImplemented
+            raise NotImplementedError
 
         new_dir_it = (current_dir_it + step) % len(dirs)
         new_dir = dirs[new_dir_it]

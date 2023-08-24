@@ -138,10 +138,10 @@ def run(inputs):
             up = level - 1
             down = level + 1
 
-            if not up in grids:
+            if up not in grids:
                 grids[up] = new_grid()
                 new_grids[up] = new_grid()
-            if not down in grids:
+            if down not in grids:
                 grids[down] = new_grid()
                 new_grids[down] = new_grid()
                 pass
@@ -154,7 +154,7 @@ def run(inputs):
 
         keys = sorted(list(grids.keys()))
         for k in keys:
-            v = grids[k]
+            grids[k]
 
             current = np.count_nonzero(grids[k] == BUG)
             if current:

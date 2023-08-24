@@ -34,7 +34,7 @@ def run(inputs):
             gc = best_option.copy()
             try:
                 gc.play_turn(s)
-            except game.GameLost as e:
+            except game.GameLost:
                 continue
             except game.GameWon:
                 pass

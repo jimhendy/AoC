@@ -1,7 +1,5 @@
 from collections import defaultdict
 
-import numpy as np
-
 
 def run(inputs):
 

@@ -1,7 +1,7 @@
 import os
 
 from a_star import augemented_a_star as a_star
-from cave import Cave, Terrain
+from cave import Cave
 from point import Point
 from route import Equipment, Route
 
@@ -20,7 +20,7 @@ def run(inputs):
         tag_func=lambda x: f"{x.pos} {x.equipment}",
     )
 
-    grid = cave.__repr__()
+    cave.__repr__()
     with open("mine.txt", "w") as f:
         for h in chosen_route.history:
             f.write(str(h))

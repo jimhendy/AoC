@@ -2,7 +2,6 @@ from enum import Enum
 
 from a_star import State
 from cave import Terrain
-from point import Point
 
 
 class Equipment(Enum):

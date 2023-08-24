@@ -1,5 +1,4 @@
 import os
-from collections import defaultdict
 
 
 def run(inputs):
@@ -10,7 +9,7 @@ def run(inputs):
         ingredients = set([i.strip() for i in ingredients.split()])
         contains = [c.strip() for c in contains[9:-1].split(",")]
         for c in contains:
-            if not c in allergens.keys():
+            if c not in allergens.keys():
                 allergens[c] = ingredients
             else:
                 allergens[c] = allergens[c].intersection(ingredients)

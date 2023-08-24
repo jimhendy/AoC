@@ -1,5 +1,4 @@
 import intcode
-import matplotlib.pylab as plt
 import pandas as pd
 import seaborn as sns
 

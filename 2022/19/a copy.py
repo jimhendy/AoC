@@ -1,10 +1,7 @@
 import re
-from collections import Counter, deque
-from copy import deepcopy
+from collections import Counter
 from functools import lru_cache
-from typing import Dict, List, Optional, Set
-
-import numpy as np
+from typing import Dict, Optional, Set
 
 from tools.a_star import State, a_star
 
@@ -122,7 +119,6 @@ def run(inputs):
         }
         for bp in inputs.splitlines()
     }
-    import uuid
 
     total = 0
     for bp_id, bp in blueprints.items():

@@ -1,7 +1,6 @@
 import numba
 import numpy as np
-import pandas as pd
-from droid import Direction, Droid, MapSymbol, Response, move
+from droid import Direction, MapSymbol, move
 
 completed_tiles = []
 
@@ -11,8 +10,8 @@ def find_unknown_cell(layout):
     pos, content = layout
     path_mask = (content == MapSymbol.PREVIOUS) | (content == MapSymbol.DROID)
     path = pos[path_mask]
-    available_x = pos[:, 0]
-    available_y = pos[:, 1]
+    pos[:, 0]
+    pos[:, 1]
     for p in path[::-1]:
         if tuple(p) in completed_tiles:
             continue

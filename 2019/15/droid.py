@@ -3,7 +3,6 @@ from enum import Enum, IntEnum
 
 import intcode
 import numpy as np
-import pandas as pd
 
 
 class Direction(IntEnum):
@@ -159,8 +158,8 @@ class Droid:
         pos, content = layout
         path_mask = content == MapSymbol.OXYGEN
         path = pos[path_mask]
-        available_x = pos[:, 0]
-        available_y = pos[:, 1]
+        pos[:, 0]
+        pos[:, 1]
 
         return_cells = []
 
@@ -196,8 +195,8 @@ class Droid:
         pos, content = layout
         path_mask = (content == MapSymbol.PREVIOUS) | (content == MapSymbol.DROID)
         path = pos[path_mask]
-        available_x = pos[:, 0]
-        available_y = pos[:, 1]
+        pos[:, 0]
+        pos[:, 1]
         for p in path[::-1]:
             if tuple(p) in self.completed_tiles:
                 continue

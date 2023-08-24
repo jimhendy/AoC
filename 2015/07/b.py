@@ -88,7 +88,7 @@ def run_once(wires, inputs, skip=[]):
 
 def run(inputs):
     wires = {}
-    first = run_once(wires, inputs)
+    run_once(wires, inputs)
     wires = {"b": wires["a"]}
     second = run_once(wires, inputs, ["b"])
     return second["a"]

@@ -28,7 +28,7 @@ def burst(grid, current_node, direction):
 def print_grid(grid, current_node, burst_num):
     print("-" * 30)
     print(burst_num)
-    if not current_node in grid.keys():
+    if current_node not in grid.keys():
         grid[current_node] = False
     df = (
         pd.DataFrame(

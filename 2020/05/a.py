@@ -1,7 +1,5 @@
 import os
 
-import numpy as np
-
 
 def extract_seat_num(seat, num, lower="F", upper="B"):
     possibles = list(range(num))

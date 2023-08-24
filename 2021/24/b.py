@@ -1,12 +1,6 @@
 import os
-import re
 from collections import deque
 from typing import List
-
-import numpy as np
-import pandas as pd
-
-from tools.binary_search import binary_search
 
 
 class ArithmeticLogicUnit:

@@ -74,7 +74,7 @@ def find_rules_index(rules, valid_tickets):
 
     rule_index = {}
     while len(rule_index) != len(rules):
-        cols = [c for c in df.columns if not c in rule_index.values()]
+        cols = [c for c in df.columns if c not in rule_index.values()]
         df_s = df[cols].sum(axis=1)
         for rule_name, _ in df_s[df_s.eq(1)].iteritems():
             rule_index[rule_name] = (

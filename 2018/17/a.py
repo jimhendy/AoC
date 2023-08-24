@@ -26,7 +26,7 @@ def is_static(loc, grid, direction=None):
     grid["falling"].add(loc)
     below, left, right = (loc.neighbour(d) for d in ("down", "left", "right"))
 
-    if not below in grid["clay"]:
+    if below not in grid["clay"]:
         if below not in grid["falling"] and 1 <= below.y <= MAX_Y:
             # Don't yet know what this loc is
             is_static(below, grid)
@@ -45,7 +45,7 @@ def is_static(loc, grid, direction=None):
         right not in grid["falling"] and is_static(right, grid, direction="right")
     )
 
-    if direction == None and left_static and right_static:
+    if direction is None and left_static and right_static:
         # If going down and letf & right are static
         grid["static"].add(loc)
 

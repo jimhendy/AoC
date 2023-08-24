@@ -1,7 +1,7 @@
 import itertools
 
 import numpy as np
-from items import Generator, Microchip
+from items import Microchip
 
 
 class Status:
@@ -66,7 +66,7 @@ class Status:
                 continue
             g_names = [g.name for g in gens]
             for m in chips:
-                if not m.name in g_names:
+                if m.name not in g_names:
                     return False
         return True
 

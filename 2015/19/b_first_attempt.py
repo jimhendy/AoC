@@ -19,7 +19,7 @@ def run(inputs):
             pass
         pass
 
-    data = cyk(base, reactions)
+    cyk(base, reactions)
 
     # import code
 

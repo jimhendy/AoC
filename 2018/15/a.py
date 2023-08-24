@@ -1,6 +1,5 @@
 import exceptions
 import grid
-import units
 
 
 def run(inputs):

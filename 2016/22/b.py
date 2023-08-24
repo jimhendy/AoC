@@ -1,6 +1,5 @@
 import os
 import re
-import time
 from functools import lru_cache
 
 import a_star
@@ -234,7 +233,9 @@ def run(inputs):
     used = df_p.used.values
 
     initial_state = Status(sizes, used, np.array((df.y.min(), df.x.max())), 0)
-    tag_func = lambda x: str(x.goal_data_loc) + "_" + str(np.argwhere(x.used == 0))
+
+    def tag_func(x):
+        return str(x.goal_data_loc) + "_" + str(np.argwhere(x.used == 0))
 
     result = a_star.a_star(initial_state, tag_func)
 

@@ -24,7 +24,6 @@ def run(inputs):
         pass
 
     max_happiness = 0
-    best_order = None
     for p in permutations(happiness.keys()):
         this_happiness = 0
         for p_0, p_1 in zip(p[:-1], p[1:]):
@@ -37,7 +36,6 @@ def run(inputs):
 
         if this_happiness > max_happiness:
             max_happiness = this_happiness
-            best_order = p
             pass
 
         pass

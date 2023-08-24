@@ -3,7 +3,6 @@ import os
 import re
 import time
 from collections import defaultdict
-from functools import partial
 
 DEBUG = False
 

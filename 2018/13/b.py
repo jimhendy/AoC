@@ -15,7 +15,7 @@ def run(inputs):
     while True:
         sorted_carts = sorted(carts)[:]
         for c in sorted_carts:
-            if not c in carts:
+            if c not in carts:
                 continue
             c.step()
             for co in carts:

@@ -1,9 +1,7 @@
 import os
-import re
 from typing import Dict, List, Tuple, Union
 
 import numpy as np
-import pandas as pd
 
 from tools.a_star import State, a_star
 
@@ -94,7 +92,7 @@ class Room:
                 desired_type=self.desired_type,
             )
         else:
-            raise RuntimeError(f"No space to add a new amphipod")
+            raise RuntimeError("No space to add a new amphipod")
 
     def __repr__(self):
         return f"{self.top_amphipod_id}_{self.bottom_amphipod_id}"
@@ -201,7 +199,7 @@ class Route(State):
             amphipod = [a for a in self.amphipods if a.id_number == amphipod_id][0]
             if amphipod.entered_room:
                 raise RuntimeError(
-                    f"Shouldn't have dudes in the hallway that have already entered a room"
+                    "Shouldn't have dudes in the hallway that have already entered a room"
                 )
 
             for new_pos in range(self.hallway.length):
