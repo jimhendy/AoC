@@ -11,7 +11,7 @@ class Mode(Enum):
 
 
 class optprog:
-    def __init__(self, inputs):
+    def __init__(self, inputs) -> None:
         self.inputs = optprog.in_to_array(inputs)
         self.code = self.inputs.copy()
         self.address = 0
@@ -62,8 +62,9 @@ class optprog:
             print(f"Address: {self.address}")
             print(f"Optcode: {self.optcode}")
             print(self.code[self.address : self.address + 4])
+            msg = f'Unexpected optcode "{self.inputs[self.address]}" at address "{self.address}"'
             raise NotImplementedError(
-                f'Unexpected optcode "{self.inputs[self.address]}" at address "{self.address}"'
+                msg,
             )
         return func()
 
@@ -75,6 +76,7 @@ class optprog:
         else:
             raise NotImplementedError
         pass
+        return None
 
     def _compare(self, func):
         self.address += 1

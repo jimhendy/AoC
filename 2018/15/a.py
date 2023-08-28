@@ -3,7 +3,6 @@ import grid
 
 
 def run(inputs):
-
     g = grid.Grid(inputs)
     g.print_grid()
 

@@ -17,7 +17,7 @@ def run(inputs):
         crash = False
         for c in sorted(carts):
             c.step()
-            if len(set([c.loc_as_str() for c in carts])) != len(carts):
+            if len({c.loc_as_str() for c in carts}) != len(carts):
                 crash = True
                 break
         if crash:
@@ -30,3 +30,4 @@ def run(inputs):
             locs.append(c.loc_as_str())
         else:
             return f"{c.loc[1]},{c.loc[0]}"
+    return None

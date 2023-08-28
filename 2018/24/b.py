@@ -7,7 +7,7 @@ from binary_search import binary_search
 def fight(boost, infection, immune_system):
     armies = [infection.copy(), immune_system.boost(boost)]
     prev_units = None
-    while all([len(a.groups) for a in armies]):
+    while all(len(a.groups) for a in armies):
         n_units = sum([g.n_units for a in armies for g in a.groups])
         if n_units == prev_units:
             # Draw
@@ -25,7 +25,8 @@ def fight(boost, infection, immune_system):
                 a_groups.remove(chosen_target)
 
         all_groups = sorted(
-            [g for a in armies for g in a.groups], key=lambda g: g.initiative
+            [g for a in armies for g in a.groups],
+            key=lambda g: g.initiative,
         )[::-1]
         for g in all_groups:
             g.attack()
@@ -39,7 +40,6 @@ def fight(boost, infection, immune_system):
 
 
 def run(inputs):
-
     base_armies = []
     for line in inputs.split(os.linesep):
         if not line.strip():
@@ -49,8 +49,8 @@ def run(inputs):
         else:
             base_armies[-1].add_group(line)
 
-    infection = [a for a in base_armies if a.name == "Infection"][0]
-    immune_system = [a for a in base_armies if a.name != "Infection"][0]
+    infection = next(a for a in base_armies if a.name == "Infection")
+    immune_system = next(a for a in base_armies if a.name != "Infection")
 
     def boolean_fight(boost):
         return bool(fight(boost, infection, immune_system))

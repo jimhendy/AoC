@@ -12,7 +12,7 @@ def get_status(moons, axis):
             for i in (
                 [m.position[axis] for m in moons] + [m.velocity[axis] for m in moons]
             )
-        ]
+        ],
     )
 
 
@@ -24,10 +24,10 @@ def check_hist(hist, moons, axis):
         hist.add(status)
         return False
     pass
+    return None
 
 
 def run(inputs):
-
     axis_frequencies = []
 
     # Do each axis alone
@@ -41,7 +41,7 @@ def run(inputs):
         while True:
             s += 1
             for i, mi in enumerate(moons):
-                for j, mj in enumerate(moons[i + 1 :]):
+                for _j, mj in enumerate(moons[i + 1 :]):
                     common.apply_gravity(mi, mj)
                     pass
                 pass
@@ -58,6 +58,4 @@ def run(inputs):
             pass
         pass
 
-    lcm = np.lcm.reduce(axis_frequencies)
-
-    return lcm
+    return np.lcm.reduce(axis_frequencies)

@@ -4,15 +4,14 @@ import numpy as np
 
 
 class Moon:
-    def __init__(self, pos_str):
+    def __init__(self, pos_str) -> None:
         self.pos_str = pos_str
         self.position = self.extract_pos()
         self.velocity = np.array([0, 0, 0])
         pass
 
     def extract_pos(self):
-        pos = np.array([int(i) for i in re.findall("([-\d]+)", self.pos_str)])
-        return pos
+        return np.array([int(i) for i in re.findall(r"([-\d]+)", self.pos_str)])
 
     def pot_energy(self):
         return np.abs(self.position).sum()
@@ -29,6 +28,7 @@ class Moon:
             + f"vel=<x= {self.velocity[0]}, y= {self.velocity[1]}, z= {self.velocity[2]}>"
         )
         pass
+        return None
 
     def update_velocity(self, directions):
         self.velocity = np.add(self.velocity, directions)

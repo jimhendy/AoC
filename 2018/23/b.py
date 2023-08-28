@@ -7,7 +7,8 @@ import pandas as pd
 def run(inputs):
     reg = re.compile(r"([\-\d]+)")
     bots = pd.DataFrame(
-        [reg.findall(line) for line in inputs.split(os.linesep)], columns=list("xyzr")
+        [reg.findall(line) for line in inputs.split(os.linesep)],
+        columns=list("xyzr"),
     ).astype(int)
 
     scale = bots.r.min() // 2

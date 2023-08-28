@@ -8,7 +8,7 @@ class Group:
         initiative,
         weaknesses=None,
         immunities=None,
-    ):
+    ) -> None:
         self.n_units = n_units
         self.hit_points = hit_points
         self.attack_damage = attack_damage
@@ -83,15 +83,13 @@ class Group:
         self.target = target_props["group"]
         return self.target
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.n_units} Units"
 
     def attack(self):
         if self.target is None:
-            # print('No target available')
             return
         damage = self.calculate_inflicted_damage(self.target)
-        # print(f'{self} attacking {self.target} with damage {damage}')
         units_lost = damage // self.target.hit_points
         if self.target.n_units < units_lost:
             units_lost = self.target.n_units

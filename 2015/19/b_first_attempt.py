@@ -6,11 +6,10 @@ from cyk import cyk
 
 
 def run(inputs):
-
     raw_base = inputs.split(os.linesep)[-1]
     base = re.compile("([A-Z](?:[a-z]*))").findall(raw_base)
 
-    reaction_reg = re.compile("(\D+) \=\> (\D+)")
+    reaction_reg = re.compile(r"(\D+) \=\> (\D+)")
     reactions = defaultdict(set)
     for i in inputs.split(os.linesep):
         match = reaction_reg.findall(i)
@@ -20,7 +19,3 @@ def run(inputs):
         pass
 
     cyk(base, reactions)
-
-    # import code
-
-    # code.interact(local=locals())

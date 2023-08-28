@@ -1,5 +1,4 @@
 from functools import lru_cache
-from typing import Dict
 
 from a_star import State, a_star
 
@@ -21,7 +20,7 @@ class Grid:
     def __setitem__(self, loc: complex, value: int) -> None:
         self._values[int(loc.imag)][int(loc.real)] = value
 
-    def locate(self, *args) -> Dict[int, complex]:
+    def locate(self, *args) -> dict[int, complex]:
         flat_values = [char for row in self._values for char in row]
         return {
             a: complex(*(divmod(flat_values.index(a), len(self._values[0]))[::-1]))
@@ -30,12 +29,11 @@ class Grid:
 
 
 class GridLocation(State):
-
     grid: Grid
     grid_width: int
     grid_height: int
 
-    def __init__(self, loc: complex, n_steps: int = 0):
+    def __init__(self, loc: complex, n_steps: int = 0) -> None:
         self.loc = loc
         self.n_steps = n_steps
         self._loc_value = self.grid[self.loc]
@@ -63,7 +61,6 @@ class GridLocation(State):
 
 
 def run(inputs: str):
-
     grid = Grid(inputs)
 
     locs = grid.locate(ord_S, ord_E)

@@ -4,11 +4,11 @@ from group import Group
 
 
 class Army:
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         self.name = name
         self.groups = []
         self.basic_reg = re.compile(
-            r"(\d+) units.+?(\d+) hit points.+?(\d+) (\w+) damage.+?(\d+)"
+            r"(\d+) units.+?(\d+) hit points.+?(\d+) (\w+) damage.+?(\d+)",
         )
         self.weakness_reg = re.compile(r"weak to ([^;\)]+)")
         self.immunity_reg = re.compile(r"immune to ([^;\)]+)")

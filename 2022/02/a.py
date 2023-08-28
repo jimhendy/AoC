@@ -3,7 +3,8 @@ import numpy as np
 
 def run(inputs):
     str_data = np.array(
-        [line.split() for line in inputs.splitlines()], dtype=np.dtype("U1")
+        [line.split() for line in inputs.splitlines()],
+        dtype=np.dtype("U1"),
     )
 
     data = np.stack(
@@ -23,7 +24,8 @@ def run(inputs):
     we_have_max = data[:, 1] > data[:, 0]
 
     we_win = np.logical_or(
-        np.logical_and(we_have_max, max_wins), np.logical_and(~we_have_max, min_wins)
+        np.logical_and(we_have_max, max_wins),
+        np.logical_and(~we_have_max, min_wins),
     )
 
     return data[:, 1].sum() + we_win.sum() * 6 + draws.sum() * 3

@@ -20,8 +20,7 @@ def run_part(part_file):
     cmd = f"python main.py {part_file}"
     start = time.time()
     subprocess.call(cmd, shell=True)
-    total = time.time() - start
-    return total
+    return time.time() - start
 
 
 def profile_year(year):
@@ -31,7 +30,7 @@ def profile_year(year):
             f
             for f in glob.glob(os.path.join(str(year), "*", "*.py"))
             if re.search(os.path.join(r"\d{4}", r"\d{2}", r"[a|b].py"), f)
-        ]
+        ],
     )
     data = {f: run_part(f) for f in parts}
     df = (
@@ -60,9 +59,9 @@ if __name__ == "__main__":
         years = sorted(
             [
                 directory.name
-                for directory in pathlib.Path(".").glob("*")
+                for directory in pathlib.Path().glob("*")
                 if directory.is_dir() and re.match(r"\d{4}", directory.name)
-            ]
+            ],
         )
         print(years)
         [profile_year(int(d)) for d in years]

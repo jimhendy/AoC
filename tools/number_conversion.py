@@ -1,4 +1,4 @@
-from typing import Iterable, List
+from collections.abc import Iterable
 
 
 def binary_to_decimal(binary_array: Iterable[int]) -> int:
@@ -26,14 +26,14 @@ def hex_to_decimal(h: str) -> int:
     return int(h, base=16)
 
 
-def decimal_to_binary(d: int) -> List[str]:
+def decimal_to_binary(d: int) -> list[str]:
     """
     Convert a decimal number to binary.
 
     :param d: Input decimal number.
     :return: List of binary ``str`` characters ('0' or '1')
     """
-    return list("{:04d}".format(int(bin(d)[2:])))
+    return list(f"{int(bin(d)[2:]):04d}")
 
 
 def hex_to_binary(h: str) -> int:

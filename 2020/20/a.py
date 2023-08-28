@@ -18,4 +18,4 @@ def run(inputs):
 
     sorted_tiles = sorted(tiles, key=lambda x: len(x.matches))
 
-    return np.product([t.id_num for t in sorted_tiles[:4]])
+    return np.prod([t.id_num for t in sorted_tiles[:4]])

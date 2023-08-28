@@ -16,7 +16,7 @@ def total_weight(node, graph):
 
 def run(inputs):
     g = nx.DiGraph()
-    reg = re.compile("(\w+)")
+    reg = re.compile(r"(\w+)")
     for row in inputs.split(os.linesep):
         parent, weight, *children = reg.findall(row)
         g.add_node(parent, weight=int(weight))
@@ -27,7 +27,7 @@ def run(inputs):
     # Start from a "random" node (last one) and find all predecssors
     n = parent
     while True:
-        preds = [i for i in g.predecessors(n)]
+        preds = list(g.predecessors(n))
         if not len(preds):
             break
         n = preds[0]
@@ -35,7 +35,7 @@ def run(inputs):
     # n is now the root node
     prev_good_weight = None
     while True:
-        successors = [i for i in g.successors(n)]
+        successors = list(g.successors(n))
         suc_w = {s: total_weight(s, g) for s in successors}
         median = np.median(list(suc_w.values()))
         bad_node = [k for k, v in suc_w.items() if v != median]

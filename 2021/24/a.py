@@ -1,10 +1,9 @@
 import os
 from collections import deque
-from typing import List
 
 
 class ArithmeticLogicUnit:
-    def __init__(self, instructions: List[str]):
+    def __init__(self, instructions: list[str]) -> None:
         self.instructions = instructions
         self.inputs = None
         self.w = 0

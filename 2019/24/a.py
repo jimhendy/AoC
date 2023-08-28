@@ -42,6 +42,7 @@ def update_cell(grid, x, y):
             return EMPTY
         pass
     pass
+    return None
 
 
 def plot(grid):
@@ -67,9 +68,8 @@ def update(grid_orig):
 
 
 def run(inputs):
-
     grid = np.array(
-        [np.array(list(map(ord, i))) for i in inputs.split(os.linesep)]
+        [np.array(list(map(ord, i))) for i in inputs.split(os.linesep)],
     ).astype(np.int8)
     hashes = set()
 

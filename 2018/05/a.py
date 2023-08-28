@@ -1,5 +1,4 @@
 def run(inputs):
-
     polymer = list(inputs)
     swapped = list(inputs.swapcase())
 

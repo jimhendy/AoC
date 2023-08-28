@@ -23,7 +23,6 @@ def update_seats(in_grid):
     out_grid = [row[:] for row in in_grid]
     for row_num, row in enumerate(in_grid):
         for col_num, char in enumerate(row):
-
             if char == ".":
                 continue
 
@@ -50,7 +49,7 @@ def grid_str(grid):
 
 def run(inputs):
     grid = [list(line) for line in inputs.split(os.linesep)]
-    seen = set([grid_str(grid)])
+    seen = {grid_str(grid)}
     iteration = 0
     while True:
         print(f"Iteration: {iteration}")

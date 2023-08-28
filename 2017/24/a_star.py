@@ -10,31 +10,33 @@ class AStarException(Exception):
 
 
 def augmented_a_star(initial_state, return_status=False):
-    """Perform the A* search algorithm
+    """
+    Perform the A* search algorithm
     The initial_state should be a subclass of State (below)
     that implements:
     - is_complete - boolean of whether this state is the desired result
     - is_valid - boolean
-    - all_possible_next_states - iterable of states after this one
+    - all_possible_next_states - iterable of states after this one.
 
     Arguments:
+    ---------
         initial_state {user_class with above methods}
 
     Keyword Arguments:
+    -----------------
         return_status {boolean} -- Rather than returning the
         final state, return a dictionary summarising the search
 
     Returns:
+    -------
         [user_class(State)] -- [Desired search result]
     """
-
     possible_states = [initial_state]
     n_tests = 0
     is_complete = False
     bridge_data = defaultdict(int)
 
     while len(possible_states):
-
         best_option = heapq.heappop(possible_states)
         n_tests += 1
         if best_option.strength > bridge_data[best_option.length]:
@@ -70,11 +72,12 @@ def augmented_a_star(initial_state, return_status=False):
     elif is_complete:
         return best_option
     else:
-        raise AStarException("Search did not complete")
+        msg = "Search did not complete"
+        raise AStarException(msg)
 
 
 class State(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     @abstractmethod
@@ -87,7 +90,7 @@ class State(ABC):
 
     @abstractmethod
     def all_possible_next_states(self):
-        for i in range(0):
+        for _i in range(0):
             yield State()
 
     @abstractmethod

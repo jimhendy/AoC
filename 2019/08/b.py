@@ -4,7 +4,6 @@ import seaborn as sns
 
 
 def run(inputs):
-
     data = common.in_to_array(inputs)
 
     # 2 means transparent so replace with nans
@@ -18,8 +17,5 @@ def run(inputs):
 
     # Plot the result
     sns.heatmap(output)
-    # plt.show()
 
-    result = input("What does it say: ")
-
-    return result
+    return input("What does it say: ")

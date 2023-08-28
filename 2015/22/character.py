@@ -2,7 +2,7 @@ import game
 
 
 class Character:
-    def __init__(self, hp, mana=0, armor=0):
+    def __init__(self, hp, mana=0, armor=0) -> None:
         self.hp = hp
         self.mana = mana
         self.used_mana = 0
@@ -22,7 +22,7 @@ class Character:
                 s
                 for s in self.active_spells
                 if isinstance(s, spell_type) and s.is_active()
-            ]
+            ],
         ):
             raise game.GameLost
         spell = spell_type()

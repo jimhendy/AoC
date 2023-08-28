@@ -2,7 +2,7 @@ from knot_hash import knot_hash
 
 
 def kh_to_binary(kh):
-    return "".join(map(lambda x: bin(int(x, 16))[2:].zfill(4), kh))
+    return "".join(bin(int(x, 16))[2:].zfill(4) for x in kh)
 
 
 def run(inputs):

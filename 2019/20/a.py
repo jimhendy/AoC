@@ -42,7 +42,7 @@ def get_gates(layout):
                         else:
                             key = f"{next_char}{char}"
                             pass
-                        if key in data.keys():
+                        if key in data:
                             key += "_1"
                         data[key] = next_next_pos
     return data
@@ -69,7 +69,6 @@ def dijkstra(origin, destination, layout_orig):
     origin_set = set_char(origin, layout_prev, seen_char)
     steps = 0
     if not origin_set:
-        # raise Exception(f'Canno\'t set origin at position {origin}')
         return -1
     while True:
         if get_char(destination, layout) == seen_char:
@@ -94,14 +93,13 @@ def dijkstra(origin, destination, layout_orig):
                     pass
                 pass
             pass
-        # plot(layout)
         if np.array_equal(layout_prev, layout):
-            # print(f'Canno\'t find a path from {origin} to {destination}')
             return -1
         layout_prev = layout.copy()
         steps += 1
         pass
     pass
+    return None
 
 
 def plot(layout):
@@ -110,7 +108,6 @@ def plot(layout):
 
 
 def run(inputs):
-
     layout = np.array([list(map(ord, i)) for i in inputs.split(os.linesep)])
     plot(layout)
 
@@ -119,7 +116,7 @@ def run(inputs):
 
     [graph.add_node(k, pos=v) for k, v in gates.items()]
 
-    for k, v in gates.items():
+    for k in gates:
         if not k.endswith("_1"):
             continue
         graph.add_edge(k, k.replace("_1", ""), weight=1)
@@ -143,6 +140,4 @@ def run(inputs):
     nx.draw_networkx_labels(graph, pos)
     plt.show()
     """
-    distance = nx.dijkstra_path_length(graph, "AA", "ZZ")
-
-    return distance
+    return nx.dijkstra_path_length(graph, "AA", "ZZ")

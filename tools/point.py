@@ -1,13 +1,13 @@
 import itertools
-from typing import Dict, Iterable, Optional, Tuple, Union
+from collections.abc import Iterable
 
 
 class Point:
-    def __init__(self, *values):
+    def __init__(self, *values) -> None:
         self.values = values
 
     @property
-    def steps(self) -> Dict[str, "Point"]:
+    def steps(self) -> dict[str, "Point"]:
         return {}  # To be set in sub-class
 
     def step(self, direction: str) -> "Point2D":
@@ -20,7 +20,7 @@ class Point:
     def tup(self):
         return tuple(self.values)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"({','.join(map(str, self.values))})"
 
     def __eq__(self, other):
@@ -34,9 +34,11 @@ class Point:
             *[
                 s + o
                 for s, o in itertools.zip_longest(
-                    self.values, other.values, fillvalue=0
+                    self.values,
+                    other.values,
+                    fillvalue=0,
                 )
-            ]
+            ],
         )
 
     def __sub__(self, other):
@@ -44,9 +46,11 @@ class Point:
             *[
                 s - o
                 for s, o in itertools.zip_longest(
-                    self.values, other.values, fillvalue=0
+                    self.values,
+                    other.values,
+                    fillvalue=0,
                 )
-            ]
+            ],
         )
 
     def copy(self):
@@ -69,18 +73,20 @@ class Point:
     def __hash__(self):
         return hash(self.values)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.values)
 
     def neighbour(self, direction):
         return self + self.steps[direction]
 
     def all_neighbours(
-        self, grid_size: Optional[Union[int, Tuple[int, ...]]] = None
+        self,
+        grid_size: int | tuple[int, ...] | None = None,
     ) -> Iterable["Point"]:
         if not len(self.steps):
+            msg = 'Trying to find neighbours for a Point baseclass with no "steps" attribute'
             raise RuntimeError(
-                'Trying to find neighbours for a Point baseclass with no "steps" attribute'
+                msg,
             )
 
         if isinstance(grid_size, int):
@@ -89,7 +95,7 @@ class Point:
         if grid_size is not None:
             grid_size = tuple(grid_size)
             assert len(grid_size) == len(
-                self
+                self,
             ), f"grid_size must be an int or a {len(self)}-tuple of ints"
             assert all(i > 0 for i in grid_size), "grid_size must be positive"
 
@@ -97,7 +103,6 @@ class Point:
             neighbour = self + s
 
             if grid_size is not None:
-
                 if any(v < 0 for v in neighbour.values):
                     continue
 
@@ -127,12 +132,12 @@ class Point2D(Point):
     def y(self):
         return self.values[1]
 
-    def __init__(self, x, y):
+    def __init__(self, x, y) -> None:
         super().__init__(x, y)
-        # self.steps = Point2D.steps
 
     def nb4(
-        self, grid_size: Optional[Union[int, Tuple[int, int]]] = None
+        self,
+        grid_size: int | tuple[int, int] | None = None,
     ) -> Iterable["Point2D"]:
         """
         Generator of the 4 nearest neighbours to this point.
@@ -163,7 +168,8 @@ class Point2D(Point):
             yield Point2D(new_x, new_y)
 
     def nb8(
-        self, grid_size: Optional[Union[int, Tuple[int, int]]] = None
+        self,
+        grid_size: int | tuple[int, int] | None = None,
     ) -> Iterable["Point2D"]:
         """
         Generator of the 8 nearest neighbours to this point.
@@ -187,9 +193,8 @@ class PointyTop2DHexPoint(Point):
         "sw": Point(0, -1, -1),
     }
 
-    def __init__(self, x, y, z=0):
+    def __init__(self, x, y, z=0) -> None:
         super().__init__(x, y, z)
-        # self.steps = PointyTop2DHexPoint.steps
 
 
 class FlatTop2DHexPoint(Point):
@@ -202,9 +207,8 @@ class FlatTop2DHexPoint(Point):
         "nw": Point(-1, +1, 0),
     }
 
-    def __init__(self, x, y, z=0):
+    def __init__(self, x, y, z=0) -> None:
         super().__init__(x, y, z)
-        # self.steps = FlatTop2DHexPoint.steps
 
 
 class Point3D(Point):
@@ -229,5 +233,5 @@ class Point3D(Point):
     def z(self):
         return self.values[2]
 
-    def __init__(self, x, y, z):
+    def __init__(self, x, y, z) -> None:
         super().__init__(x, y, z)

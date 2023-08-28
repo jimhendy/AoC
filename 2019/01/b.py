@@ -16,7 +16,6 @@ def log_new_fuel(total_new_fuel):
 
 
 def run(inputs):
-
     fuel_for_modules = a.run(inputs)
     previous_iteration = fuel_for_modules
     total_fuel = previous_iteration.sum()

@@ -18,14 +18,13 @@ def morph(state, grammar):
 
 
 def run(inputs):
-
     initial_state = inputs.split(os.linesep)[0].split(":")[1].strip()
     grammar = {
         i.split("=>")[0].strip(): i.split("=>")[1].strip()
         for i in inputs.split(os.linesep)[2:]
     }
 
-    state = set([i for i, c in enumerate(initial_state) if c == "#"])
+    state = {i for i, c in enumerate(initial_state) if c == "#"}
 
     data = []
 
@@ -34,10 +33,6 @@ def run(inputs):
         data.append(sum(state))
         if _ > 2_000:
             break
-
-    # import matplotlib.pylab as plt
-    # plt.plot(data)
-    # plt.show()
 
     # Looks pretty linear from the above
 
@@ -48,6 +43,4 @@ def run(inputs):
 
     m = (y1 - y0) / (x1 - x0)
     x = int(50e9)
-    y = (x - x0) * m + y0
-
-    return y
+    return (x - x0) * m + y0

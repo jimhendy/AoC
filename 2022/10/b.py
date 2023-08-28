@@ -1,5 +1,5 @@
 class CpuCrt:
-    def __init__(self, instructions: str):
+    def __init__(self, instructions: str) -> None:
         self.instructions = iter(instructions.splitlines())
         self.cycles = 0
         self.x = 1
@@ -26,7 +26,7 @@ class CpuCrt:
                 [
                     self.output[start : start + 40]
                     for start in range(0, len(self.output), 40)
-                ]
+                ],
             )
 
     def parse_instruction(self):
@@ -49,7 +49,6 @@ class CpuCrt:
 
 
 def run(inputs):
-
     cpu = CpuCrt(instructions=inputs)
     cpu.run()
 

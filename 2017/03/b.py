@@ -2,7 +2,6 @@ from collections import defaultdict
 
 
 def run(inputs):
-
     target = int(inputs)
 
     data = defaultdict(int)
@@ -26,8 +25,7 @@ def get_value(data, coord):
 
 
 def get_next_coord(current_coord):
-
-    if all([i >= 0 for i in current_coord]) and current_coord[0] == current_coord[1]:
+    if all(i >= 0 for i in current_coord) and current_coord[0] == current_coord[1]:
         # Next row
         return (current_coord[0] + 1, current_coord[1])
     elif (

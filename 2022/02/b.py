@@ -6,7 +6,8 @@ def run(inputs):
     # Bigger number wins if consequtive, else smaller wins
 
     str_data = np.array(
-        [line.split() for line in inputs.splitlines()], dtype=np.dtype("U1")
+        [line.split() for line in inputs.splitlines()],
+        dtype=np.dtype("U1"),
     )
 
     they_play = np.vectorize({"A": 1, "B": 2, "C": 3}.get)(str_data[:, 0])

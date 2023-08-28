@@ -28,14 +28,14 @@ def burst(grid, current_node, direction):
 def print_grid(grid, current_node, burst_num):
     print("-" * 30)
     print(burst_num)
-    if current_node not in grid.keys():
+    if current_node not in grid:
         grid[current_node] = False
     df = (
         pd.DataFrame(
             [
                 {"row": k[0], "col": k[1], "value": "#" if v else "."}
                 for k, v in grid.items()
-            ]
+            ],
         )
         .pivot_table(index="row", columns="col", values="value", aggfunc="first")
         .fillna(".")
@@ -60,10 +60,8 @@ def run(inputs):
     n_infected = 0
     n_bursts = 10_000
 
-    # print_grid(grid, current_pos, 0)
-    for burst_num in range(1, n_bursts + 1):
+    for _burst_num in range(1, n_bursts + 1):
         direction, current_pos, new_infection = burst(grid, current_pos, direction)
         n_infected += new_infection
-        # print_grid(grid, current_pos, burst_num)
 
     return n_infected

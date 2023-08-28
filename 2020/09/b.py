@@ -27,3 +27,4 @@ def run(inputs):
                 return min(considered) + max(considered)
             elif total > target:
                 break
+    return None

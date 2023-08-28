@@ -1,9 +1,8 @@
 from functools import lru_cache
-from typing import List, Optional
 
 from a_star import AStarException, State, a_star
 
-# ToDo: Add caching (fastest route from any position)
+# TODO: Add caching (fastest route from any position)
 # Numba
 # Remove classes / add slots
 # Better algo working backwards
@@ -12,11 +11,10 @@ STEPS = [+1, -1, +1j, -1j]
 
 
 class GridLocation(State):
-
-    grid: List[List[int]]
+    grid: list[list[int]]
     dest: complex
 
-    def __init__(self, loc: complex, prev_locs: Optional[List[complex]] = None):
+    def __init__(self, loc: complex, prev_locs: list[complex] | None = None) -> None:
         self.loc = loc
         self.prev_locs = prev_locs or []
 
@@ -82,7 +80,8 @@ def run(inputs: str):
         try:
             initial_state = GridLocation(loc=starting_point)
             optimal_route = a_star(
-                initial_state=initial_state, tag_func=lambda gl: gl.loc
+                initial_state=initial_state,
+                tag_func=lambda gl: gl.loc,
             )
             steps.append(len(optimal_route.prev_locs))
         except AStarException:

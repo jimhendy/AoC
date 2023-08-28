@@ -4,7 +4,6 @@ from large_marble_game import Game, Player
 
 
 def run(inputs):
-
     data = re.findall(r"(\d+) players; last marble is worth (\d+) points", inputs)[0]
 
     n_players = int(data[0])

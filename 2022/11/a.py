@@ -1,18 +1,18 @@
 import operator
 from collections import deque
-from typing import Callable, List, Tuple
+from collections.abc import Callable
 
 
 class Monkey:
     def __init__(
         self,
         id: int,
-        items: List[int],
+        items: list[int],
         operation: Callable,
         test: Callable,
         throw_true: int,
         throw_false: int,
-    ):
+    ) -> None:
         self.id = id
         self.operarion = operation
         self.test = test
@@ -22,7 +22,7 @@ class Monkey:
 
         self.items_inspected = 0
 
-    def analyse_item(self) -> Tuple[int, int]:
+    def analyse_item(self) -> tuple[int, int]:
         self.items_inspected += 1
         item = self.items.popleft()
         item = self.operarion(item) // 3
@@ -58,7 +58,8 @@ class Monkey:
         elif components[1] == "*":
             op = operator.mul
         else:
-            raise RuntimeError(f"Unexpected {components[1]=}")
+            msg = f"Unexpected {components[1]=}"
+            raise RuntimeError(msg)
 
         if components[2] == "old":
             return lambda x: op(x, x)
@@ -71,7 +72,8 @@ class Monkey:
             quotient = int(test_str.split()[-1])
             return lambda x: not x % quotient
         else:
-            raise RuntimeError(f"Unexpected {test_str=}")
+            msg = f"Unexpected {test_str=}"
+            raise RuntimeError(msg)
 
 
 def run(inputs):

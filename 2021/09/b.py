@@ -6,7 +6,6 @@ from tools.point import Point2D
 
 
 def run(inputs):
-
     heightmap = np.array([list(l) for l in inputs.split(os.linesep)]).astype(int)
     basin_sizes = []
     for x in range(heightmap.shape[1]):
@@ -15,20 +14,18 @@ def run(inputs):
             low_point = Point2D(x, y)
             is_lowest = True
             for pp in low_point.nb4(grid_size=heightmap.shape):
-
                 if heightmap[pp.y, pp.x] <= h:
                     is_lowest = False
                     break
 
             if is_lowest:
-                points_in_basin = set([low_point])
+                points_in_basin = {low_point}
                 points_to_analyse = [low_point]
-                seen = set([low_point])
+                seen = {low_point}
                 while len(points_to_analyse):
                     p = points_to_analyse.pop()
 
                     for pp in p.nb4(grid_size=heightmap.shape):
-
                         if pp in seen:
                             continue
 

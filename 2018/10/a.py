@@ -5,12 +5,11 @@ import matplotlib.pylab as plt
 
 
 class Particle:
-
     reg = re.compile(
-        r"position=<([\s\-\d]+),([\s\-\d]+)> velocity=<([\s\-\d]+),([\s\-\d]+)>"
+        r"position=<([\s\-\d]+),([\s\-\d]+)> velocity=<([\s\-\d]+),([\s\-\d]+)>",
     )
 
-    def __init__(self, data_str):
+    def __init__(self, data_str) -> None:
         data = list(map(int, Particle.reg.findall(data_str)[0]))
         self.x = data[0]
         self.y = -data[1]
@@ -27,7 +26,7 @@ class Particle:
 
 
 def num_unique_ys(particles):
-    return len(set([p.y for p in particles]))
+    return len({p.y for p in particles})
 
 
 def run(inputs):
@@ -45,9 +44,3 @@ def run(inputs):
     y = [p.y for p in particles]
 
     plt.hist2d(x, y, bins=(range(min(x), max(x) + 1), range(min(y), max(y) + 1)))
-
-    # plt.show()
-
-    # import pdb
-
-    # pdb.set_trace()

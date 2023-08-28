@@ -3,7 +3,7 @@ import re
 
 
 class Reindeer:
-    def __init__(self, speed, time, rest):
+    def __init__(self, speed, time, rest) -> None:
         self.run_speed = int(speed)
         self.run_time = int(time)
         self.rest_time = int(rest)
@@ -36,9 +36,8 @@ class Reindeer:
 
 
 def run(inputs):
-
     reg = re.compile(
-        "(\D+) can fly (\d+) km\/s for (\d+) seconds, but then must rest for (\d+) seconds\."
+        r"(\D+) can fly (\d+) km\/s for (\d+) seconds, but then must rest for (\d+) seconds\.",
     )
 
     deer = {}
@@ -46,7 +45,7 @@ def run(inputs):
         deer[match[0]] = Reindeer(match[1], match[2], match[3])
         pass
 
-    for step in range(2503):
+    for _step in range(2503):
         [d.increment_step() for d in deer.values()]
         pass
 

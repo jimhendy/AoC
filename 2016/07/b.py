@@ -3,7 +3,6 @@ import re
 
 
 def run(inputs):
-
     # (?:^|\]) Start of line or outside [...] (non-capturing)
     # [a-z]*   Filler, lowercase letters (not [...])
     # (?P<a>[a-z]) Capture a group of single lowercase letter and call it "a"
@@ -15,10 +14,10 @@ def run(inputs):
     # etc.
 
     before_ssl = re.compile(
-        "(?:^|\])[a-z]*(?P<a>[a-z])(?P<b>(?!(?P=a))[a-z])(?P=a).*\[[a-z]*(?P=b)(?P=a)(?P=b)[a-z]*\]"
+        r"(?:^|\])[a-z]*(?P<a>[a-z])(?P<b>(?!(?P=a))[a-z])(?P=a).*\[[a-z]*(?P=b)(?P=a)(?P=b)[a-z]*\]",
     )
     after_ssl = re.compile(
-        "\[[a-z]*(?P<a>[a-z])(?P<b>(?!(?P=a))[a-z])(?P=a)[a-z]*\].*(?P=b)(?P=a)(?P=b)[a-z]*(?:$|\[)"
+        r"\[[a-z]*(?P<a>[a-z])(?P<b>(?!(?P=a))[a-z])(?P=a)[a-z]*\].*(?P=b)(?P=a)(?P=b)[a-z]*(?:$|\[)",
     )
 
     total = 0

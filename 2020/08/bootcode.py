@@ -13,7 +13,7 @@ def increment_pointer(func):
 
 
 class BootCode:
-    def __init__(self, instructions):
+    def __init__(self, instructions) -> None:
         self.instructions = self.extract_instructions(instructions)
         self.instruction_pointer = 0
         self.accumulator = 0
@@ -30,7 +30,7 @@ class BootCode:
         while self.instruction_pointer not in self.seen_instructions:
             if self.instruction_pointer == len(self.instructions):
                 # Reached the natural end of the code
-                return
+                return None
             self.seen_instructions.add(self.instruction_pointer)
             func, arg = self.instructions[self.instruction_pointer]
             func(arg)

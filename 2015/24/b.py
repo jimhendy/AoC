@@ -5,7 +5,6 @@ import numpy as np
 
 
 def subsets_that_sum(possibles, target, subset_size=None):
-
     if subset_size is None:
         Min = 1
         Max = len(possibles)
@@ -23,11 +22,10 @@ def subsets_that_sum(possibles, target, subset_size=None):
 
 
 def qe(packages):
-    return np.product(packages)
+    return np.prod(packages)
 
 
 def run(inputs):
-
     n_groups = 4
     weights = set(map(int, inputs.split(os.linesep)))
     group_sum = sum(weights) / n_groups
@@ -35,7 +33,6 @@ def run(inputs):
     results = []
 
     for g1_size in range(1, len(weights)):
-
         if len(results):
             break
 
@@ -44,7 +41,7 @@ def run(inputs):
             found_match = False
             for g2 in subsets_that_sum(weights_without_g1, group_sum):
                 weights_without_g2 = weights_without_g1 - set(g2)
-                for g3 in subsets_that_sum(weights_without_g2, group_sum):
+                for _g3 in subsets_that_sum(weights_without_g2, group_sum):
                     results.append(g1)
                     found_match = True
                     break

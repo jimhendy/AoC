@@ -4,7 +4,7 @@ import numpy as np
 def run(inputs):
     blocks = np.array(list(map(int, inputs.split())))
     n_banks = len(blocks)
-    seen = set([str(blocks)])
+    seen = {str(blocks)}
     n_steps = 1
     while True:
         max_index = np.argmax(blocks)

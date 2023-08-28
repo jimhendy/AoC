@@ -5,12 +5,10 @@ np.random.seed(123)
 
 
 def run(inputs):
-
     droid = Droid(inputs)
 
     count = 0
     while droid.tank_position is None:
-
         new_dir = None
         layout = droid.get_layout()
 

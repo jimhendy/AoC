@@ -10,7 +10,7 @@ POSITION = 2
 
 
 class Player:
-    def __init__(self, initial_position):
+    def __init__(self, initial_position) -> None:
         self.statuses = {(0, 0, initial_position): 1}
         self.turns_to_win = defaultdict(int)
         self.turns_to_not_yet_won = defaultdict(int)

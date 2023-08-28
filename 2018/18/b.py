@@ -19,7 +19,6 @@ def update_grid(in_grid, i):
     out_grid = [l[:] for l in in_grid]
     for row_num, row in enumerate(in_grid):
         for col_num in range(len(row)):
-
             p = Point(x=col_num, y=row_num)
 
             n_yards = 0

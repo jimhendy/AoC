@@ -11,7 +11,7 @@ class Equipment(Enum):
 
 
 class Route(State):
-    def __init__(self, pos, cave, equipment, time, history=None):
+    def __init__(self, pos, cave, equipment, time, history=None) -> None:
         self.pos = pos
         self.cave = cave
         self.equipment = equipment
@@ -49,7 +49,7 @@ class Route(State):
                 self.cave,
                 self.equipment,
                 self.time + 1,
-                self.history + [(self.pos.x, self.pos.y, self.equipment.value)],
+                [*self.history, (self.pos.x, self.pos.y, self.equipment.value)],
             )
         for e in Equipment:
             yield Route(
@@ -57,5 +57,5 @@ class Route(State):
                 self.cave,
                 e,
                 self.time + 7,
-                self.history + [(self.pos.x, self.pos.y, self.equipment.value)],
+                [*self.history, (self.pos.x, self.pos.y, self.equipment.value)],
             )

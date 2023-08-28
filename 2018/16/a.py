@@ -6,7 +6,7 @@ import pandas as pd
 
 def run(inputs):
     reg = re.compile(
-        r"Before:\s+\[([\s\,\-\d]+)\]\s([\-\d\s]+)\sAfter:\s+\[([\s\,\-\d]+)\]"
+        r"Before:\s+\[([\s\,\-\d]+)\]\s([\-\d\s]+)\sAfter:\s+\[([\s\,\-\d]+)\]",
     )
     funcs = [
         "addr",
@@ -56,7 +56,7 @@ def run(inputs):
                 mapping[value] = col
                 df = df[df.index != value]
 
-    for k in sorted(list(mapping.keys())):
+    for k in sorted(mapping.keys()):
         print(f'{k}: "{mapping[k]}"')
 
     return total

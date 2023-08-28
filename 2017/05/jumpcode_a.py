@@ -1,5 +1,5 @@
 class JumpCode:
-    def __init__(self, code):
+    def __init__(self, code) -> None:
         self.code = list(map(int, code.split()))
         self.instruction_pointer = 0
         self.n_steps = 0

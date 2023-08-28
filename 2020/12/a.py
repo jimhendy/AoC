@@ -15,7 +15,6 @@ RIGHT = {"E": "S", "S": "W", "W": "N", "N": "E"}
 
 
 def run(inputs):
-
     heading = "E"
     pos = Point(0, 0)
 

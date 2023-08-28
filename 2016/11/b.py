@@ -17,21 +17,19 @@ def run(inputs):
         floor_int = _int_from_str(floor)
         contents_by_floor[floor_int] = set(
             [Generator(n) for n in re.findall(r"(\w+) generator", line)]
-            + [Microchip(n) for n in re.findall(r"(\w+)\-compatible microchip", line)]
+            + [Microchip(n) for n in re.findall(r"(\w+)\-compatible microchip", line)],
         )
 
     initial_state = Status(contents_by_floor)
 
     # Add the extra items
     initial_state.contents[1] = initial_state.contents[1].union(
-        set(
-            (
-                Microchip("elerium"),
-                Generator("elerium"),
-                Microchip("dilithium"),
-                Generator("dilithium"),
-            )
-        )
+        {
+            Microchip("elerium"),
+            Generator("elerium"),
+            Microchip("dilithium"),
+            Generator("dilithium"),
+        },
     )
     result = a_star.a_star(initial_state, lambda x: f"{x.elevator_floor}{x.contents}")
 

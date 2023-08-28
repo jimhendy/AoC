@@ -16,7 +16,6 @@ def add_loc(locs, loc):
 
 
 def run(inputs):
-
     direction = "N"
     loc = np.array([0, 0])
     current_dir_it = dirs.index(direction)
@@ -38,7 +37,7 @@ def run(inputs):
         new_dir_it = (current_dir_it + step) % len(dirs)
         new_dir = dirs[new_dir_it]
 
-        for i in range(n_steps):
+        for _i in range(n_steps):
             loc += steps[new_dir]
             if tuple(loc) in locs:
                 return np.abs(loc).sum()

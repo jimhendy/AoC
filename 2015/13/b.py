@@ -5,9 +5,8 @@ from itertools import permutations
 
 
 def run(inputs):
-
     reg = re.compile(
-        "(\D+) would (\D+) (\d+) happiness units by sitting next to (\D+)\."
+        r"(\D+) would (\D+) (\d+) happiness units by sitting next to (\D+)\.",
     )
 
     happiness = defaultdict(lambda: defaultdict(list))

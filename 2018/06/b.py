@@ -6,12 +6,11 @@ THRESHOLD = 10_000
 
 
 def run(inputs):
-
     coords = pd.DataFrame(
         [
             {"x": int(i.split(",")[0]), "y": int(i.split(",")[1])}
             for i in inputs.split(os.linesep)
-        ]
+        ],
     )
 
     max_coord = coords.max(axis=0)
@@ -21,7 +20,7 @@ def run(inputs):
             {"x": x, "y": y}
             for x in range(-1, max_coord.x + 2)
             for y in range(-1, max_coord.y + 2)
-        ]
+        ],
     )
 
     distance_cols = []

@@ -17,7 +17,7 @@ def run(inputs):
         floor_int = _int_from_str(floor)
         contents_by_floor[floor_int] = set(
             [Generator(n) for n in re.findall(r"(\w+) generator", line)]
-            + [Microchip(n) for n in re.findall(r"(\w+)\-compatible microchip", line)]
+            + [Microchip(n) for n in re.findall(r"(\w+)\-compatible microchip", line)],
         )
 
     initial_state = Status(contents_by_floor)

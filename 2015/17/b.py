@@ -4,7 +4,6 @@ from itertools import combinations
 
 
 def run(inputs):
-
     sizes = [int(i) for i in inputs.split(os.linesep)]
 
     count = 0
@@ -21,3 +20,4 @@ def run(inputs):
         pass
 
     pass
+    return None

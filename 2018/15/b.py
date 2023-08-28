@@ -3,11 +3,9 @@ import grid
 
 
 def run(inputs):
-
     elf_power = 3
 
     while True:
-
         print("=" * 40)
         print(f"Trying Elf Power: {elf_power}")
 

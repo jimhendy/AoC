@@ -32,13 +32,11 @@ def game(p1, p2):
             p2.append(c1)
 
     p1.extend(p2)
-    result = not len(p2), sum([(i + 1) * j for i, j in enumerate(p1[::-1])])
-
-    return result
+    return not len(p2), sum([(i + 1) * j for i, j in enumerate(p1[::-1])])
 
 
 def run(inputs):
-    p1, p2 = [
+    p1, p2 = (
         list(map(int, i.split(os.linesep)[1:])) for i in inputs.split(os.linesep * 2)
-    ]
+    )
     return game(p1, p2)[1]

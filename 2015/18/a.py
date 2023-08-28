@@ -34,7 +34,6 @@ def get_neighbours(y, x, lights):
 
 
 def update(lights):
-
     orig = copy.deepcopy(lights)
 
     for y_i, y in enumerate(lights):
@@ -58,14 +57,9 @@ def update(lights):
 
 
 def run(inputs):
-
     lights = [list(i) for i in inputs.split(os.linesep)]
 
-    for i in range(100):
-        # [ print(''.join(l)) for l in lights ]
-        # print()
+    for _i in range(100):
         lights = update(lights)
         pass
-    # [ print(''.join(l)) for l in lights ]
-    # print()
     return sum([i.count("#") for i in lights])

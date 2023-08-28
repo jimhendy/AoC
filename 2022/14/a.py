@@ -1,5 +1,3 @@
-from typing import Dict
-
 ROCK = 0
 SAND = 1
 FALL_FROM = 500
@@ -19,8 +17,7 @@ def crange(start, end):
 
 
 def run(inputs):
-
-    grid: Dict[complex:int] = {}
+    grid: dict[complex:int] = {}
     max_y = -1
 
     for line in inputs.splitlines():

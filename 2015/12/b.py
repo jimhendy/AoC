@@ -2,7 +2,6 @@ import json
 
 
 def extract_nums(data):
-
     total = 0
     print(data)
     if type(data) is dict:
@@ -31,7 +30,6 @@ def extract_nums(data):
 
 
 def run(inputs):
-
     j = json.loads(inputs)
 
     return extract_nums(j)

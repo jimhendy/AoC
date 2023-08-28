@@ -26,7 +26,8 @@ def run(inputs):
             depends_on = line[1], line[3]
             if all(d in monkies for d in depends_on):
                 monkies[name] = ops[line[2]](
-                    monkies[depends_on[0]], monkies[depends_on[1]]
+                    monkies[depends_on[0]],
+                    monkies[depends_on[1]],
                 )
 
     return monkies[ROOT_MONKEY]

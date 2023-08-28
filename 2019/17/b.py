@@ -134,15 +134,11 @@ def get_turn(layout):
 
 
 def run(inputs):
-
-    # inputs[0] = '2'
     prog = intcode.Intcode(inputs)
     prog.analyse_intcode()
 
     data = np.array(list(map(chr, prog.outputs)))[:-1]
     data = data.reshape(-1, int(np.argwhere(data == os.linesep)[0] + 1))
-
-    # [ print(o, end='') for o in data.ravel() ]
 
     A = "R,10,L,10,L,12,R,6"
     B = "L,10,R,12,R,12"
@@ -175,11 +171,9 @@ def run(inputs):
             steps += 1
             step = get_step(direction)
             new_pos = prev_pos + step
-            # print(prev_pos, new_pos)
             symbol = get_droid_symbol(layout)
             layout[prev_pos[0]][prev_pos[1]] = MapSymbol.LADDER
             layout[new_pos[0]][new_pos[1]] = symbol
-            # print(layout[prev_pos[0]][prev_pos[1]], layout[new_pos[0]][new_pos[1]])
             prev_pos = new_pos
             pass
         else:
@@ -188,8 +182,6 @@ def run(inputs):
 
         os.system("clear")
         [print(i.value, end="") for i in layout.ravel()]
-        # time.sleep(0.01)
-        # print('-'*50)
         pass
     commands.append(steps)
     commands = ",".join(list(map(str, commands[1:])))

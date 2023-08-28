@@ -21,12 +21,12 @@ def run(inputs):
     top_left = sorted_tiles[0]
     top_left.located = True
     # Rotate the top-left tile so it's matches are on the correct sides
-    while any([m["MySide"] not in ["right", "bottom"] for m in top_left.matches]):
+    while any(m["MySide"] not in ["right", "bottom"] for m in top_left.matches):
         top_left.rotate_clockwise()
 
     ordered_tiles = [[top_left]]
 
-    while any([not t.located for t in tiles]):
+    while any(not t.located for t in tiles):
         if len(ordered_tiles[-1]) == np.sqrt(len(tiles)):
             prev_tile = ordered_tiles[-1][0]
             prev_side = "bottom"
@@ -37,7 +37,7 @@ def run(inputs):
             prev_side = "right"
             this_side = "left"
 
-        match = [m for m in prev_tile.matches if m["MySide"].endswith(prev_side)][0]
+        match = next(m for m in prev_tile.matches if m["MySide"].endswith(prev_side))
         this_tile = match["Them"]
 
         current_side = getattr(prev_tile, prev_side)()
@@ -89,7 +89,7 @@ def run(inputs):
             grid.append("".join(["".join(i) for i in image_rows]))
 
     sea_monster = re.compile(
-        r"^(.{18})#(.)\n#(.{4})##(.{4})##(.{4})###\n(.)#(.{2})#(.{2})#(.{2})#(.{2})#(.{2})#(.{3})$"
+        r"^(.{18})#(.)\n#(.{4})##(.{4})##(.{4})###\n(.)#(.{2})#(.{2})#(.{2})#(.{2})#(.{2})#(.{3})$",
     )
     sea_monster_hash = 15
 
@@ -98,7 +98,6 @@ def run(inputs):
 
     # Manually found the orientation of grid which gives a non-zero "total" below
     grid = grid[::-1]
-    # grid = [ ''.join(list(row)) for row in zip(*reversed(grid))]
 
     total = 0
     for start_row in range(len(grid) - sm_rows + 1):
@@ -107,7 +106,7 @@ def run(inputs):
                 [
                     row[start_col : start_col + sm_cols]
                     for row in grid[start_row : start_row + sm_rows]
-                ]
+                ],
             )
             if sea_monster.search(sub_grid):
                 total += sea_monster_hash

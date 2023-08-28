@@ -30,7 +30,7 @@ def get_reg_b(func):
 
 
 class OptCode:
-    def __init__(self, instruction_pointet_register, instructions):
+    def __init__(self, instruction_pointet_register, instructions) -> None:
         self.ip_reg = instruction_pointet_register
         self.instruction_pointer = 0
         self.instructions = instructions
@@ -38,7 +38,7 @@ class OptCode:
         self.instruction_reg = re.compile(r"(\w+) ([\-\d]+) ([\-\d]+) ([\-\d]+)")
         self.instruction_count = defaultdict(int)  # instruction_id : count
         self.instruction_count_order = defaultdict(
-            list
+            list,
         )  # count : list([instructions_pointers])
         self.seen = set()
         self.prev_seen = None
@@ -46,9 +46,6 @@ class OptCode:
     def run(self):
         count = 0
         while True:
-
-            # print(self.registers)
-
             try:
                 i = self.instructions[self.instruction_pointer]
             except IndexError:
@@ -65,7 +62,6 @@ class OptCode:
             func(*list(map(int, matches[1:])))
             count += 1
             # if count > 20:
-            #    break
 
     ## ADD
 

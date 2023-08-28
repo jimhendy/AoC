@@ -34,12 +34,10 @@ def get_neighbours(y, x, lights):
 
 
 def update(lights):
-
     orig = copy.deepcopy(lights)
     size = len(lights) - 1
     for y_i, y in enumerate(lights):
         for x_i, x in enumerate(y):
-
             if (
                 (x_i == 0 and y_i == 0)
                 or (x_i == 0 and y_i == size)
@@ -67,7 +65,6 @@ def update(lights):
 
 
 def run(inputs):
-
     lights = [list(i) for i in inputs.split(os.linesep)]
 
     size = len(lights) - 1
@@ -76,7 +73,7 @@ def run(inputs):
     lights[size][0] = "#"
     lights[size][size] = "#"
 
-    for i in range(100):
+    for _i in range(100):
         [print("".join(l)) for l in lights]
         print()
         lights = update(lights)

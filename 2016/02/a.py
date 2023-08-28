@@ -17,7 +17,6 @@ def move(step_dir, current_pos):
 
 
 def run(inputs):
-
     pos = np.argwhere(KEYPAD == 5)[0]
     results = []
 

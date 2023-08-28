@@ -2,9 +2,7 @@ from ast import literal_eval
 
 
 def compare(left, right) -> int:
-    """
-    If ordered return True, else return False
-    """
+    """If ordered return True, else return False."""
     if isinstance(left, int) and isinstance(right, int):
         if left < right:
             return 1
@@ -26,6 +24,7 @@ def compare(left, right) -> int:
             if abs(c) == 1:
                 return c
         return 0
+    return None
 
 
 def run(inputs):

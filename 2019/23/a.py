@@ -4,7 +4,6 @@ import intcode
 
 
 def run(inputs):
-
     n_computers = 50
     computers = []
     for i in range(n_computers):
@@ -17,7 +16,6 @@ def run(inputs):
 
     while True:
         for c, q in zip(computers, queues):
-
             if q.qsize():
                 while q.qsize():
                     c.analyse_intcode(q.get())
@@ -39,3 +37,4 @@ def run(inputs):
             pass
         pass
     pass
+    return None

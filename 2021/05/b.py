@@ -8,12 +8,10 @@ def steps(p1, p2):
 
 
 def run(inputs):
-
     points = defaultdict(int)  # (x, y) -> num vents
 
     for l in inputs.replace(" ", "").split(os.linesep):
-
-        (x1, y1), (x2, y2) = [i.split(",") for i in l.split("->")]
+        (x1, y1), (x2, y2) = (i.split(",") for i in l.split("->"))
         x1, x2, y1, y2 = map(int, (x1, x2, y1, y2))
 
         if x1 == x2 or y1 == y2:

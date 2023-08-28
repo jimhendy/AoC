@@ -16,19 +16,19 @@ class WrongOutputError(Exception):
 
 
 class Assembunny:
-    def __init__(self, instructions):
+    def __init__(self, instructions) -> None:
         self.instructions = self.extract_instructions(instructions)
         self.registers = defaultdict(lambda: 0)
         self.instruction_pointer = 0
-        self.number_regex = re.compile("^-?\d+$")
+        self.number_regex = re.compile(r"^-?\d+$")
         self.transmission_output = []
 
     def __call__(self):
         while len(self.transmission_output) < 50:
             logger.debug(self.registers)
             if len(self.transmission_output) > 1 and (
-                any([i != 0 for i in self.transmission_output[::2]])
-                or any([i != 1 for i in self.transmission_output[1::2]])
+                any(i != 0 for i in self.transmission_output[::2])
+                or any(i != 1 for i in self.transmission_output[1::2])
             ):
                 raise WrongOutputError
 
@@ -95,19 +95,13 @@ class Assembunny:
             if func_name == "tgl":
                 new_func = "inc"
             elif len(args) == 1:
-                if func_name == "inc":
-                    new_func = "dec"
-                else:
-                    new_func = "inc"
+                new_func = "dec" if func_name == "inc" else "inc"
             elif len(args) == 2:
-                if func_name == "jnz":
-                    new_func = "cpy"
-                else:
-                    new_func = "jnz"
+                new_func = "cpy" if func_name == "jnz" else "jnz"
             logger.debug(
-                f"Toggling position {tgl_pointer}, {func_name} to {new_func} with args {args}"
+                f"Toggling position {tgl_pointer}, {func_name} to {new_func} with args {args}",
             )
-            self.instructions[tgl_pointer] = [new_func] + args
+            self.instructions[tgl_pointer] = [new_func, *args]
 
         self.instruction_pointer += 1
 
@@ -127,9 +121,9 @@ class Assembunny:
         ]
         for i, df in enumerate(desired_funcs):
             func_name, *args = self.instructions[self.instruction_pointer + i]
-            if not func_name == df[0]:
+            if func_name != df[0]:
                 return
-            if not len(args) == len(df) - 1:
+            if len(args) != len(df) - 1:
                 return
             for df_a, a in zip(df[1:], args):
                 if isinstance(df_a, int):
@@ -138,7 +132,7 @@ class Assembunny:
                     if df_a != int(a):
                         return
                 else:
-                    if df_a in letters.keys():
+                    if df_a in letters:
                         if a != letters[df_a]:
                             return
                     else:
@@ -154,7 +148,7 @@ class Assembunny:
         d_value = self.get_value(d)
 
         logger.debug(
-            f"Implementing cheat, {a} += {b} * {d} ({a_value} += {b_value} * {d_value})"
+            f"Implementing cheat, {a} += {b} * {d} ({a_value} += {b_value} * {d_value})",
         )
 
         self.registers[a] += b_value * d_value

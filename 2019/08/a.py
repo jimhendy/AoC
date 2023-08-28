@@ -3,7 +3,6 @@ import numpy as np
 
 
 def run(inputs):
-
     data = common.in_to_array(inputs)
 
     # We don't care about row or column so resize to flatten that

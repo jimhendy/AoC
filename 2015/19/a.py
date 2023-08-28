@@ -23,8 +23,7 @@ def replace_str(in_str, remove, replace):
 
 
 def run(inputs):
-
-    reg = re.compile("(\D+) \=\> (\D+)")
+    reg = re.compile(r"(\D+) \=\> (\D+)")
 
     base = inputs.split(os.linesep)[-1]
     replacements = []

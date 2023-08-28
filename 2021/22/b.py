@@ -1,10 +1,9 @@
 import os
 from collections import deque
-from typing import List, Union
 
 
 class Cuboid:
-    def __init__(self, min_x, min_y, min_z, max_x, max_y, max_z):
+    def __init__(self, min_x, min_y, min_z, max_x, max_y, max_z) -> None:
         self.min_x, self.min_y, self.min_z = min_x, min_y, min_z
         self.max_x, self.max_y, self.max_z = max_x, max_y, max_z
         assert self.max_x >= self.min_x
@@ -33,7 +32,7 @@ class Cuboid:
             * (self.max_z - self.min_z)
         )
 
-    def non_overlapping_cuboids(self, other) -> Union[None, List["Cuboid"]]:
+    def non_overlapping_cuboids(self, other) -> None | list["Cuboid"]:
         if self.max_x <= other.min_x or self.min_x >= other.max_x:
             return None
         if self.max_y <= other.min_y or self.min_y >= other.max_y:
@@ -90,7 +89,7 @@ class Cuboid:
         )
         return [c for c in (above, below, left, right, forward, backward) if c.volume()]
 
-    def turn_off(self, other: "Cuboid") -> List["Cuboid"]:
+    def turn_off(self, other: "Cuboid") -> list["Cuboid"]:
         new_cuboids = self.non_overlapping_cuboids(other)
         if new_cuboids is None:
             return [self]

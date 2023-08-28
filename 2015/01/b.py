@@ -1,5 +1,4 @@
 def run(inputs):
-
     floor = 0
 
     for step, i in enumerate(list(inputs)):
@@ -12,3 +11,4 @@ def run(inputs):
 
         if floor == -1:
             return step + 1
+    return None

@@ -3,7 +3,9 @@ import maze
 
 
 class MazeState(a_star.State):
-    def __init__(self, maze, current_number, previous_steps=0, collected_numbers=None):
+    def __init__(
+        self, maze, current_number, previous_steps=0, collected_numbers=None,
+    ) -> None:
         self.maze = maze
         self.current_number = current_number
         self.collected_numbers = [] if collected_numbers is None else collected_numbers
@@ -21,7 +23,7 @@ class MazeState(a_star.State):
         return self.previous_steps < other.previous_steps
 
     def all_possible_next_states(self):
-        for next_number in self.maze.number_locations().keys():
+        for next_number in self.maze.number_locations():
             if next_number in self.collected_numbers:
                 continue
             yield MazeState(
@@ -37,7 +39,8 @@ def run(inputs):
     m = maze.Maze(inputs)
     initial_state = MazeState(m, 0)
     best_route = a_star.a_star(
-        initial_state, tag_func=lambda x: str(x.collected_numbers)
+        initial_state,
+        tag_func=lambda x: str(x.collected_numbers),
     )
 
     return best_route.previous_steps

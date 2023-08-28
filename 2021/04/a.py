@@ -1,16 +1,15 @@
 import os
 from itertools import chain
-from typing import List
 
 import numpy as np
 
 
 class Board:
-    def __init__(self, nums: List[List[int]]):
+    def __init__(self, nums: list[list[int]]) -> None:
         self.nums = np.array(nums)
         self.size = self.nums.shape[0]
-        self.rows = [set(list(i)) for i in self.nums]
-        self.cols = [set(list(i)) for i in self.nums.T]
+        self.rows = [set(i) for i in self.nums]
+        self.cols = [set(i) for i in self.nums.T]
         self.total = self.nums.sum()
         self.all_nums = set(self.nums.flatten().tolist())
 
@@ -41,3 +40,4 @@ def run(inputs):
             result = b.check(called_set)
             if result is not None:
                 return result * n
+    return None

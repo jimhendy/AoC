@@ -7,7 +7,7 @@ def run(inputs):
     cycle = find_cycle(inputs)
     print(f"Cycle: {cycle}")
     programs = starting_positions()
-    for dance in range(1_000_000_000 % cycle):
+    for _dance in range(1_000_000_000 % cycle):
         programs = do_dance_single_cycle(programs, inputs)
     return "".join(programs)
 
@@ -25,7 +25,8 @@ def do_dance_single_cycle(programs, inputs):
         elif i[0] == "p":
             programs = partner(programs, i[1:])
         else:
-            raise RuntimeError(f"Unknown command {i}")
+            msg = f"Unknown command {i}"
+            raise RuntimeError(msg)
     return programs
 
 
@@ -36,7 +37,7 @@ def find_cycle(inputs):
     for dance in range(1_000_000_000):
         programs = do_dance_single_cycle(programs, inputs)
         letters = "".join(programs)
-        if letters in seen.keys():
+        if letters in seen:
             return dance + 1
     return letters
 
@@ -46,7 +47,7 @@ def spin(programs, num):
 
 
 def exchange(programs, args):
-    pos_a, pos_b = [int(i) for i in args.split("/")]
+    pos_a, pos_b = (int(i) for i in args.split("/"))
     return _swap_pos(programs, pos_a, pos_b)
 
 

@@ -1,6 +1,5 @@
 import re
 from collections import defaultdict, deque
-from typing import Dict
 
 from tools.point import Point2D
 
@@ -14,10 +13,9 @@ def run(inputs: str):
 
     open_tiles = set()
     walls = set()
-    loop_tiles: Dict[str, Dict[Point2D, Point2D]] = defaultdict(dict)
+    loop_tiles: dict[str, dict[Point2D, Point2D]] = defaultdict(dict)
 
     for y, row in enumerate(board):
-
         for x, char in enumerate(row):
             if char == " ":
                 continue

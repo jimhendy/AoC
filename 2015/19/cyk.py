@@ -3,8 +3,7 @@ from collections import defaultdict
 
 def _get_combs(y, x, data):
     if y == 0:
-        for i in data[y][x]:
-            yield i
+        yield from data[y][x]
     for yi in range(y):  # 0 -> (y-1)
         new_base = data[yi][x]
         for b in new_base:
@@ -14,13 +13,13 @@ def _get_combs(y, x, data):
 
 def cyk(target, grammar):
     """
-    target : str, the string we wish to test if it is in the language
-    grammar: dict, key of root, values as list of strings
+    Target : str, the string we wish to test if it is in the language
+    grammar: dict, key of root, values as list of strings.
     """
     # x is (y,x) dict of strings
     data = defaultdict(lambda: defaultdict(set))
 
-    possibles = set([i for j in grammar.values() for i in j])
+    possibles = {i for j in grammar.values() for i in j}
 
     # First time is special
     for i in range(len(target)):

@@ -9,13 +9,9 @@ def run(inputs):
 
     n_turns = 2020
     for turn in range(len(most_recent), n_turns - 1):
-
         mr = most_recent.get(prev_num)
 
-        if mr is None:
-            spoken = 0
-        else:
-            spoken = turn - mr
+        spoken = 0 if mr is None else turn - mr
 
         most_recent[prev_num] = turn
         prev_num = spoken

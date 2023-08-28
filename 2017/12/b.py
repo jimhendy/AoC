@@ -4,7 +4,7 @@ import networkx as nx
 
 
 def run(inputs):
-    connections = re.findall("(\d+) <-> ([\d, ]+)+", inputs)
+    connections = re.findall(r"(\d+) <-> ([\d, ]+)+", inputs)
 
     graph = nx.Graph()
 

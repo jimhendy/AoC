@@ -2,9 +2,9 @@ import os
 
 
 def run(inputs):
-    p1, p2 = [
+    p1, p2 = (
         list(map(int, i.split(os.linesep)[1:])) for i in inputs.split(os.linesep * 2)
-    ]
+    )
 
     while p1 and p2:
         c1, c2 = p1.pop(0), p2.pop(0)

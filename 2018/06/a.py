@@ -8,7 +8,7 @@ def run(inputs):
         [
             {"x": int(i.split(",")[0]), "y": int(i.split(",")[1])}
             for i in inputs.split(os.linesep)
-        ]
+        ],
     )
 
     max_coord = coords.max(axis=0)
@@ -18,7 +18,7 @@ def run(inputs):
             {"x": x, "y": y}
             for x in range(-1, max_coord.x + 2)
             for y in range(-1, max_coord.y + 2)
-        ]
+        ],
     )
 
     distance_cols = []
@@ -31,9 +31,10 @@ def run(inputs):
     space["MinimumBackward"] = space[reversed(distance_cols)].idxmin(axis=1)
 
     space.loc[
-        space.MinimumForward.eq(space.MinimumBackward), "Minimum"
+        space.MinimumForward.eq(space.MinimumBackward),
+        "Minimum",
     ] = space.MinimumForward
-    space.Minimum.fillna(".", inplace=True)
+    space.Minimum = space.Minimum.fillna(".")
 
     outer_mask = (
         space.x.eq(-1)

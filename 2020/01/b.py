@@ -10,3 +10,4 @@ def run(inputs):
             for n_k in nums[j + 1 :]:
                 if n_i + n_j + n_k == 2020:
                     return n_i * n_j * n_k
+    return None

@@ -20,3 +20,4 @@ def run(inputs):
 
         if result is None:
             return bc.accumulator
+    return None

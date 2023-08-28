@@ -12,7 +12,6 @@ def run_phase(inp):
 
 
 def run(inputs):
-
     offset = int(inputs[:7])
     data = list(inputs) * 10000
 
@@ -26,9 +25,8 @@ def run(inputs):
 
     data = list(map(int, data[offset:]))
 
-    for i in range(100):
+    for _i in range(100):
         data = run_phase(data)
         pass
 
-    result = "".join(map(str, map(int, data[:8])))
-    return result
+    return "".join(map(str, map(int, data[:8])))

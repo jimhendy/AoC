@@ -2,7 +2,6 @@ import common
 
 
 def run(inputs, aim=19690720):
-
     in_copy = common.in_to_array(inputs)
 
     for noun in range(99):
@@ -15,4 +14,5 @@ def run(inputs, aim=19690720):
                 print(f"Found working combination: Noue: {noun}, Verb: {verb}")
                 return noun * 100 + verb
 
-    raise Exception("Failure to find working combination")
+    msg = "Failure to find working combination"
+    raise Exception(msg)

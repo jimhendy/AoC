@@ -5,7 +5,6 @@ import numpy as np
 
 
 def run(inputs):
-
     open_to_close = {"(": ")", "[": "]", "{": "}", "<": ">"}
     opens = set(open_to_close.keys())
     closes = set(open_to_close.values())
@@ -14,7 +13,6 @@ def run(inputs):
     scores = []
 
     for line in inputs.split(os.linesep):
-
         lifo = LifoQueue()
         skip_line = False
 
@@ -26,7 +24,8 @@ def run(inputs):
                     skip_line = True
                     break
             else:
-                raise NotImplementedError(f'Unknown character "{char}"')
+                msg = f'Unknown character "{char}"'
+                raise NotImplementedError(msg)
 
         if not skip_line:
             line_score = 0

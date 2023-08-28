@@ -2,7 +2,6 @@ import hashlib
 
 
 def run(inputs):
-
     i = 0
     n_zeros = 5
     code = []
@@ -10,7 +9,7 @@ def run(inputs):
 
     while True:
         m = hashlib.md5()
-        m.update(f"{inputs}{i}".encode("utf-8"))
+        m.update(f"{inputs}{i}".encode())
         h = m.hexdigest()
 
         if h[:n_zeros] == required_start:

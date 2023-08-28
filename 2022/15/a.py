@@ -2,7 +2,7 @@ import re
 
 REG_NUM = r"(-?\d+)"
 REG = re.compile(
-    f"^Sensor at x={REG_NUM}, y={REG_NUM}: closest beacon is at x={REG_NUM}, y={REG_NUM}$"
+    f"^Sensor at x={REG_NUM}, y={REG_NUM}: closest beacon is at x={REG_NUM}, y={REG_NUM}$",
 )
 
 Y = 2_000_000
@@ -24,7 +24,7 @@ class Range:
     def __len__(self) -> int:
         return self.upper - self.lower
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Range({self.lower},{self.upper})"
 
 

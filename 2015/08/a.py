@@ -3,7 +3,6 @@ import os
 
 
 def run(inputs):
-
     code = 0
     memory = 0
 

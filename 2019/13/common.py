@@ -22,11 +22,13 @@ tile_content = {
 
 
 def print_game(tiles):
-    # os.system('clear')
     display = pd.DataFrame(tiles, columns=["x", "y", "c"])
     display["cell"] = display["c"].map(Tile)
     display = display.pivot_table(
-        index="y", columns="x", values="cell", aggfunc="last"
+        index="y",
+        columns="x",
+        values="cell",
+        aggfunc="last",
     ).values
 
     for row in display:

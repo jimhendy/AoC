@@ -5,7 +5,7 @@ from collections import defaultdict
 
 
 class Molecule:
-    def __init__(self, n_reacts, mol_str, reacts):
+    def __init__(self, n_reacts, mol_str, reacts) -> None:
         self.n_reacts = n_reacts
         self.mol_str = mol_str
         self.reacts = reacts
@@ -31,10 +31,9 @@ def replace_all(string, drop, insert):
 
 
 def run(inputs):
-
     base = inputs.split(os.linesep)[-1]
 
-    reaction_reg = re.compile("(\D+) \=\> (\D+)")
+    reaction_reg = re.compile(r"(\D+) \=\> (\D+)")
     reactions = defaultdict(set)
     for i in inputs.split(os.linesep):
         match = reaction_reg.findall(i)
@@ -44,11 +43,10 @@ def run(inputs):
         pass
 
     possibles = [Molecule(0, base, [])]
-    seen = set([base])
+    seen = {base}
     total = 0
 
     while len(possibles):
-
         total += 1
 
         best_option = heapq.heappop(possibles)
@@ -68,7 +66,7 @@ def run(inputs):
                         Molecule(
                             best_option.n_reacts + 1,
                             new_mol,
-                            best_option.reacts + [f"{start}=>{end}"],
+                            [*best_option.reacts, f"{start}=>{end}"],
                         ),
                     )
 

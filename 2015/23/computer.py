@@ -1,10 +1,10 @@
 import re
 
-INS_REG = re.compile("^(\w{3}) (.+)$")
+INS_REG = re.compile(r"^(\w{3}) (.+)$")
 
 
 class Computer:
-    def __init__(self, code):
+    def __init__(self, code) -> None:
         self.a = 0
         self.b = 0
         self.code = code
@@ -17,7 +17,7 @@ class Computer:
     def run(self):
         while True:
             if self.instruction_pointer < 0 or self.instruction_pointer >= len(
-                self.code
+                self.code,
             ):
                 break
             next_instruction = self.code[self.instruction_pointer]

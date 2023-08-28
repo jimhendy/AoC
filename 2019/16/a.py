@@ -20,7 +20,6 @@ def run_phase(inp, phase):
 
 
 def run(inputs):
-
     phase = 0
     inp = inputs
 

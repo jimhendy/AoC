@@ -13,7 +13,7 @@ class NoProductionReactionException(Exception):
 
 
 class Store:
-    def __init__(self):
+    def __init__(self) -> None:
         self._store = defaultdict(int)
         self._used_store = self._store.copy()
         pass
@@ -25,8 +25,9 @@ class Store:
 
     def retrieve(self, component):
         if not self.is_available(component):
+            msg = f"Trying to use component {component} from the store when it is not available"
             raise StoreEmptyException(
-                f"Trying to use component {component} from the store when it is not available"
+                msg,
             )
         if component.is_infinite:
             self.add(component)
@@ -43,7 +44,7 @@ class Store:
 
 
 class Component:
-    def __init__(self, c_str):
+    def __init__(self, c_str) -> None:
         self.c_str = c_str
         s_split = c_str.split()
         self.num = int(float(s_split[0]))
@@ -51,7 +52,7 @@ class Component:
         self.is_infinite = self.element == "ORE"
         pass
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return Component._get_repr_str(self.element, self.num)
 
     def __mul__(self, factor):
@@ -68,7 +69,7 @@ class Component:
 
 
 class Reaction:
-    def __init__(self, r_str):
+    def __init__(self, r_str) -> None:
         self.r_str = r_str
         s_split = r_str.split("=>")
         self.inputs = [Component(c) for c in s_split[0].split(",")]
@@ -78,14 +79,15 @@ class Reaction:
         self.output = self.output[0]
         pass
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return Reaction._get_repr_str(self.inputs, self.output)
 
     def __mul__(self, factor):
         return Reaction(
             Reaction._get_repr_str(
-                [i * factor for i in self.inputs], self.output * factor
-            )
+                [i * factor for i in self.inputs],
+                self.output * factor,
+            ),
         )
 
     def __rmul__(self, factor):
@@ -98,8 +100,9 @@ class Reaction:
     def __call__(self, store):
         for i in self.inputs:
             if not store.is_available(i):
+                msg = f"Cannot execute {self} as {i} not available in store"
                 raise StoreEmptyException(
-                    f"Cannot execute {self} as {i} not available in store"
+                    msg,
                 )
             pass
         [store.retrieve(i) for i in self.inputs]
@@ -112,22 +115,19 @@ class Reaction:
 @lru_cache(maxsize=2048)
 def find_reaction(reactions, element):
     possibles = [r for r in reactions if element == r.output.element]
-    if not len(possibles) == 1:
-        if len(possibles) == 0:
-            ex = NoProductionReactionException
-        else:
-            ex = Exception
-        raise ex(f"Found {len(possibles)} reactions producing {element} : {possibles}")
+    if len(possibles) != 1:
+        ex = NoProductionReactionException if len(possibles) == 0 else Exception
+        msg = f"Found {len(possibles)} reactions producing {element} : {possibles}"
+        raise ex(msg)
     return possibles[0]
 
 
 def run_reaction(reaction, all_reactions, store=None):
-
     if store is None:
         store = Store()
         pass
 
-    while not all([store.is_available(i) for i in reaction.inputs]):
+    while not all(store.is_available(i) for i in reaction.inputs):
         for ic in reaction.inputs:
             if not store.is_available(ic):
                 input_reaction = find_reaction(all_reactions, ic.element)
@@ -135,7 +135,7 @@ def run_reaction(reaction, all_reactions, store=None):
                 num_required_from_reactions = ic.num - store._store[ic.element]
 
                 num_reactions_required = int(
-                    np.ceil(num_required_from_reactions / input_reaction.output.num)
+                    np.ceil(num_required_from_reactions / input_reaction.output.num),
                 )
                 required_reaction = input_reaction * num_reactions_required
                 run_reaction(required_reaction, all_reactions, store)

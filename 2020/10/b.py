@@ -6,12 +6,11 @@ import pandas as pd
 
 
 def run(inputs):
-
     charging_outlet = 0
     inputs = list(map(int, inputs.split(os.linesep)))
     device = max(inputs) + 3
 
-    adapters = pd.Series([charging_outlet, device] + inputs).sort_values()
+    adapters = pd.Series([charging_outlet, device, *inputs]).sort_values()
 
     diffs = adapters.diff()
 
@@ -31,7 +30,7 @@ def run(inputs):
     total = 1
     for i in range(2, max_run + 1):
         reg_str = "(?=(3," + ",".join(["1"] * i) + ",3))"
-        for m in re.findall(reg_str, s):
+        for _m in re.findall(reg_str, s):
             total *= {1: 1, 2: 2, 3: 4, 4: 7, 5: 9}[i]
 
     return total

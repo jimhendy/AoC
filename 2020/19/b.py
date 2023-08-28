@@ -11,7 +11,7 @@ def run(inputs):
     messages = messages.split(os.linesep)
 
     while any(
-        [character.isdigit() for rule_reg in rules.values() for character in rule_reg]
+        character.isdigit() for rule_reg in rules.values() for character in rule_reg
     ):
         for rule_num, rule_reg in rules.items():
             for sub_rule_num in re.findall(r"(\d+)", rule_reg):
@@ -24,15 +24,12 @@ def run(inputs):
     for k, v in rules.items():
         rules[k] = v.replace(" ", "")
 
-    # rules['8'] = '( 42 | 42 8 )'
-    # rules['11'] = '( 42 31 | 42 11 31 )'
-
     # 0 = 8 11
     # Match 42 31 from centre
     # Any number of 42s on the left
 
     reg = re.compile(
-        "^(" + rules["42"] + ")(" + rules["42"] + ")+(" + rules["31"] + ")+$"
+        "^(" + rules["42"] + ")(" + rules["42"] + ")+(" + rules["31"] + ")+$",
     )
     reg_11_rep = re.compile(
         "^(?:"
@@ -43,7 +40,7 @@ def run(inputs):
         + rules["31"]
         + ")(?:"
         + rules["31"]
-        + ")*$"
+        + ")*$",
     )
     reg_8 = re.compile("^(" + rules["42"] + ")+$")
 

@@ -3,8 +3,7 @@ from collections import Counter
 
 
 def run(inputs):
-
-    reg = re.compile("([a-z\-]+)\-(\d+)\[([a-z]+)\]")
+    reg = re.compile(r"([a-z\-]+)\-(\d+)\[([a-z]+)\]")
 
     total = 0
 

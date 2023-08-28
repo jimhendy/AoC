@@ -15,7 +15,7 @@ def chinese_remainder(b, n):
     Where n1, n2, ..., nk are co-prime
     """
     assert len(b) == len(n)
-    N = np.product(n)
+    N = np.prod(n)
     total = 0
     for ni, bi in zip(n, b):
         Ni = N / ni
@@ -28,7 +28,7 @@ def chinese_remainder(b, n):
 def inverse_mod(a, n):
     """
     Return x in the below
-    a * x = 1 mod(n)
+    a * x = 1 mod(n).
     """
     reduced_a = a % n
     x = 0

@@ -30,7 +30,6 @@ def polypow(a, b, m, n):
 
 
 def run(inputs):
-
     n_cards = 119315717514047
     n_shuffles = 101741582076661
     pos = 2020
@@ -58,6 +57,4 @@ def run(inputs):
 
     a, b = polypow(a, b, n_shuffles, n_cards)
 
-    result = (pos * a + b) % n_cards
-
-    return result
+    return (pos * a + b) % n_cards

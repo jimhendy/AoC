@@ -2,7 +2,7 @@ import os
 
 
 class Tile:
-    def __init__(self, lines):
+    def __init__(self, lines) -> None:
         lines = lines.split(os.linesep)
         self.id_num = int(lines[0].split()[1].rstrip(":"))
         self.grid = [list(l) for l in lines[1:]]
@@ -78,7 +78,7 @@ class Tile:
     def grid_str(self):
         return os.linesep.join(["".join(l) for l in self.grid])
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.id_num}, {len(self.matches)} matches"
 
     def image(self):

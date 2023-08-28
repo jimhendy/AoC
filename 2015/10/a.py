@@ -7,7 +7,6 @@ def evaluate(num):
 
 
 def run(inputs):
-
     num = int(inputs)
     for _ in range(40):
         num = evaluate(num)

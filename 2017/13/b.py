@@ -4,7 +4,6 @@ from status import Status
 
 
 def run(inputs):
-
     status = Status(inputs)
 
     size = 1e7

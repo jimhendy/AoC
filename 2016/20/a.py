@@ -10,3 +10,4 @@ def run(inputs):
             min_ip = max(r[1] + 1, min_ip)
         else:
             return min_ip
+    return None

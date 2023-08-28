@@ -18,6 +18,4 @@ def run(inputs):
     for c in commands:
         pos += steps[c]
 
-    distance = np.sum(np.abs(pos)) / 2
-
-    return distance
+    return np.sum(np.abs(pos)) / 2

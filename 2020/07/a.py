@@ -13,7 +13,8 @@ def run(inputs):
             continue
 
         children = re.findall(
-            r"(\d+) ([\w\s]+) bag(?:s)?(?:[\.\,])?", line.split("contain")[1]
+            r"(\d+) ([\w\s]+) bag(?:s)?(?:[\.\,])?",
+            line.split("contain")[1],
         )
         [graph.add_edge(parent, c[1], weight=int(c[0])) for c in children]
 

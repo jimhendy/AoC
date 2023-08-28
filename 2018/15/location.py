@@ -1,5 +1,5 @@
 class Location:
-    def __init__(self, row, col):
+    def __init__(self, row, col) -> None:
         self.row = row
         self.col = col
         self.tup = (row, col)
@@ -20,5 +20,5 @@ class Location:
     def __hash__(self):
         return hash(self.tup)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self.tup)

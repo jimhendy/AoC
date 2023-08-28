@@ -2,7 +2,7 @@ import a_star
 
 
 class Position(a_star.State):
-    def __init__(self, x, y, fav_num, prev_steps=0):
+    def __init__(self, x, y, fav_num, prev_steps=0) -> None:
         self.x = x
         self.y = y
         self.fav_num = fav_num
@@ -33,7 +33,10 @@ class Position(a_star.State):
                 if dy != 0 and dx != 0:
                     continue
                 yield Position(
-                    self.x + dx, self.y + dy, self.fav_num, self.prev_steps + 1
+                    self.x + dx,
+                    self.y + dy,
+                    self.fav_num,
+                    self.prev_steps + 1,
                 )
 
 

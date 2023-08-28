@@ -27,7 +27,9 @@ def all_empty(location: Point2D, locations: Points, direction: str) -> bool:
 
 
 def proposed_destinations(
-    wants_to_move: Points, locations: Points, directions: list[str]
+    wants_to_move: Points,
+    locations: Points,
+    directions: list[str],
 ) -> dict[Point2D, list[Point2D]]:
     destinations = defaultdict(list)
     for loc in wants_to_move:
@@ -55,7 +57,6 @@ def parse_inputs(inputs: str) -> Points:
 
 
 def run(inputs: str) -> int:
-
     locations = parse_inputs(inputs)
     preferred_dirs = ["up", "down", "left", "right"]
 

@@ -5,7 +5,7 @@ import numpy as np
 
 REG_NUM = r"(-?\d+)"
 REG = re.compile(
-    f"^Sensor at x={REG_NUM}, y={REG_NUM}: closest beacon is at x={REG_NUM}, y={REG_NUM}$"
+    f"^Sensor at x={REG_NUM}, y={REG_NUM}: closest beacon is at x={REG_NUM}, y={REG_NUM}$",
 )
 
 # Range = 1D np.ndarray with 2 element, lower and upper
@@ -33,7 +33,6 @@ def ranges_overlap(range_1: Range, range_2: Range) -> bool:
 
 @nb.njit("i8(i8[:,:], i8)", parallel=False, boundscheck=False, cache=True)
 def numba_run(inputs: np.ndarray, grid_size: INT) -> INT:
-
     distances = np.zeros(inputs.shape[0], dtype=INT)
 
     for sensor_id in nb.prange(inputs.shape[0]):
@@ -43,7 +42,6 @@ def numba_run(inputs: np.ndarray, grid_size: INT) -> INT:
     for Y in range(grid_size + 1):
         ranges = []
         for sensor_id in range(inputs.shape[0]):
-
             sensor_x = inputs[sensor_id, 0]
             sensor_y = inputs[sensor_id, 1]
 
@@ -69,7 +67,6 @@ def numba_run(inputs: np.ndarray, grid_size: INT) -> INT:
                     if i == j:
                         continue
                     if ranges_overlap(ri, rj):
-
                         ranges.pop(j)
                         ri[0] = min(lower(ri), lower(rj))
                         ri[1] = max(upper(ri), upper(rj))
@@ -84,7 +81,6 @@ def numba_run(inputs: np.ndarray, grid_size: INT) -> INT:
         if len(ranges) != 1:
             for r in ranges:
                 if lower(r) == 0:
-                    print(r) # This is required to get the correct answer ???????
                     return 4_000_000 * (upper(r) + 1) + Y
 
     return 0

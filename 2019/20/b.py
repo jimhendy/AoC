@@ -7,7 +7,7 @@ import numba
 import numpy as np
 
 STEPS = np.array([np.array(i) for i in [(1, 0), (-1, 0), (0, 1), (0, -1)]]).astype(
-    np.int8
+    np.int8,
 )
 
 
@@ -40,7 +40,6 @@ def get_gates(layout):
                         continue
                     next_next_char = chr(get_char(next_next_pos, layout))
                     if next_next_char == ".":
-
                         if step[1] == 1 or step[0] == 1:
                             key = f"{char}{next_char}"
                         else:
@@ -59,7 +58,7 @@ def get_gates(layout):
                             key += "_i"
                             pass
 
-                        if key in data.keys():
+                        if key in data:
                             key += "_1"
                         data[key] = next_next_pos
     return data
@@ -86,7 +85,6 @@ def dijkstra(origin, destination, layout_orig):
     origin_set = set_char(origin, layout_prev, seen_char)
     steps = 0
     if not origin_set:
-        # raise Exception(f'Canno\'t set origin at position {origin}')
         return -1
     while True:
         if get_char(destination, layout) == seen_char:
@@ -111,14 +109,13 @@ def dijkstra(origin, destination, layout_orig):
                     pass
                 pass
             pass
-        # plot(layout)
         if np.array_equal(layout_prev, layout):
-            # print(f'Canno\'t find a path from {origin} to {destination}')
             return -1
         layout_prev = layout.copy()
         steps += 1
         pass
     pass
+    return None
 
 
 def plot(layout):
@@ -127,9 +124,8 @@ def plot(layout):
 
 
 def run(inputs):
-
     layout = np.array([list(map(ord, i)) for i in inputs.split(os.linesep)]).astype(
-        np.int8
+        np.int8,
     )
     plot(layout)
 
@@ -138,7 +134,7 @@ def run(inputs):
 
     [graph.add_node(k, pos=v) for k, v in gates.items()]
 
-    for k, v in gates.items():
+    for k in gates:
         if not k.endswith("_i"):
             continue
         graph.add_edge(k, k.replace("_i", "_o"), weight=1)
@@ -167,7 +163,6 @@ def run(inputs):
     q = [(0, [("AA_o", 0)])]
 
     while q:
-
         steps, path = heapq.heappop(q)
 
         c_node = path[-1][0]
@@ -183,7 +178,6 @@ def run(inputs):
             pass
 
         for n in graph.neighbors(c_node):
-
             if n == "AA_o":
                 continue
 
@@ -210,3 +204,4 @@ def run(inputs):
                 pass
 
             heapq.heappush(q, (steps + new_steps, new_path))
+    return None

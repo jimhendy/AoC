@@ -1,19 +1,19 @@
 import math
 import operator
 from collections import deque
-from typing import Callable, List, Tuple
+from collections.abc import Callable
 
 
 class Monkey:
     def __init__(
         self,
         id: int,
-        items: List[int],
+        items: list[int],
         operation: Callable,
         test_quotient: int,
         throw_true: int,
         throw_false: int,
-    ):
+    ) -> None:
         self.id = id
         self.operarion = operation
         self.test_quotient = test_quotient
@@ -27,7 +27,7 @@ class Monkey:
     def set_lcm(self, lcm: int):
         self.lcm = lcm
 
-    def analyse_item(self) -> Tuple[int, int]:
+    def analyse_item(self) -> tuple[int, int]:
         self.items_inspected += 1
         item = self.items.popleft()
         item = self.operarion(item) % self.lcm
@@ -63,7 +63,8 @@ class Monkey:
         elif components[1] == "*":
             op = operator.mul
         else:
-            raise RuntimeError(f"Unexpected {components[1]=}")
+            msg = f"Unexpected {components[1]=}"
+            raise RuntimeError(msg)
 
         if components[2] == "old":
             return lambda x: op(x, x)
@@ -75,7 +76,8 @@ class Monkey:
         if test_str.startswith("divisible by"):
             return int(test_str.split()[-1])
         else:
-            raise RuntimeError(f"Unexpected {test_str=}")
+            msg = f"Unexpected {test_str=}"
+            raise RuntimeError(msg)
 
 
 def run(inputs):

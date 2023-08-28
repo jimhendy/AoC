@@ -1,7 +1,6 @@
 import re
 from collections import Counter
 from functools import lru_cache
-from typing import Dict, Optional, Set
 
 from tools.a_star import State, a_star
 
@@ -15,22 +14,20 @@ TARGET_RESOURCE = "geode"
 class Factory(State):
     __slots__ = ("robots", "resources", "elapsed_time", "chose_not_to_build", "metric")
 
-    blueprint: Dict[str, Counter[str, int]]  # output_resource: {input_resource: num}
+    blueprint: dict[str, Counter[str, int]]  # output_resource: {input_resource: num}
     threshold: int = 0
 
     def __init__(
         self,
         robots: Counter[str, int],
-        resources: Optional[Counter[str, int]] = None,
+        resources: Counter[str, int] | None = None,
         elapsed_time: int = 0,
-        chose_to_not_build: Optional[Set[str]] = None,
+        chose_to_not_build: set[str] | None = None,
     ) -> None:
-
         self.elapsed_time = elapsed_time
         self.resources = resources or Counter()
         self.robots = robots
         self.chose_to_not_build = chose_to_not_build or set()
-        # self.metric = self._metric()
 
     def __str__(self) -> str:
         return f"{self.robots}, {self.resources}, {self.elapsed_time}"
@@ -40,12 +37,16 @@ class Factory(State):
         return self.resources[TARGET_RESOURCE] >= Factory.threshold
         return True
         return Factory.would_be_valid(
-            robots=self.robots, resources=self.resources, time_left=self.time_left
+            robots=self.robots,
+            resources=self.resources,
+            time_left=self.time_left,
         )
 
     @staticmethod
     def would_be_valid(
-        robots: Counter, resources: Dict[str, Counter], time_left: int
+        robots: Counter,
+        resources: dict[str, Counter],
+        time_left: int,
     ) -> bool:
         Factory.threshold = max(Factory.threshold, resources[TARGET_RESOURCE])
         return resources[TARGET_RESOURCE] >= Factory.threshold
@@ -92,9 +93,7 @@ class Factory(State):
             new_resources = self.resources + self.robots - self.blueprint[resource]
 
             # if not Factory.would_be_valid(
-            #    robots=new_robots, resources=new_resources, time_left=time_left
             # ):
-            #    continue
 
             yield Factory(
                 robots=new_robots,
@@ -110,7 +109,6 @@ class Factory(State):
             new_resources = self.resources + self.robots
 
             # if Factory.would_be_valid(
-            #    robots=self.robots, resources=new_resources, time_left=time_left
             # ):
             yield Factory(
                 robots=self.robots.copy(),
@@ -121,7 +119,6 @@ class Factory(State):
 
 
 def run(inputs):
-
     blueprints = {
         int(BLUEPRINT_REG.findall(bp)[0]): {
             d[0]: Counter({d[i + 1]: int(d[i]) for i in range(1, 5, 2) if d[i]})
@@ -132,7 +129,6 @@ def run(inputs):
     total = 0
     for bp_id, bp in blueprints.items():
         print(bp_id)
-        # print(bp)
         # raise
         Factory.blueprint = bp
         Factory.threshold = 0
@@ -140,6 +136,5 @@ def run(inputs):
         best_option = a_star(initial_state)  # , tag_func=lambda x: uuid.uuid4())
         total += bp_id * best_option.resources[TARGET_RESOURCE]
         print(best_option.resources)
-        # print(best_option.history)
         # raise
     return total

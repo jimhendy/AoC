@@ -7,13 +7,12 @@ def run(inputs):
     seen = set()
     prev_r3 = None
     while True:
-
         r1 = r3 | 65536
         r3 = 9450265
 
         r3 = func(r1, r3)
 
-        while 256 <= r1:
+        while r1 >= 256:
             r1 = r1 // 256
             r3 = func(r1, r3)
 

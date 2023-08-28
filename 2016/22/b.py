@@ -16,7 +16,6 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
     total = 0
 
     while not np.array_equal(dp, (0, 0)):
-        # print_zp_dp(zp, dp)
         # if we can move the data into the space left or up then do it
         if zp[0] == dp[0] and zp[1] == dp[1] - 1:
             # left
@@ -107,10 +106,6 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
         print(dp)
         print(total)
 
-        # import pdb
-
-        # pdb.set_trace()
-
     return total
 
 
@@ -139,9 +134,8 @@ def print_grid(used, dp):
 
 
 class Status(a_star.State):
-    def __init__(self, sizes, used, goal_data_loc, n_steps):
+    def __init__(self, sizes, used, goal_data_loc, n_steps) -> None:
         super().__init__()
-        # print_grid(used, goal_data_loc)
         self.sizes = sizes
         self.used = used
         self.goal_data_loc = goal_data_loc
@@ -172,7 +166,6 @@ class Status(a_star.State):
         avail = self.sizes - self.used
         for y in range(self.sizes.shape[0]):
             for x in range(self.sizes.shape[1]):
-
                 # loop over cells to move FROM
                 if self.used[y][x] == 0:
                     continue
@@ -192,7 +185,6 @@ class Status(a_star.State):
                             continue
 
                         if avail[y + dy][x + dx] >= self.used[y][x]:
-
                             used_copy = self.used.copy()
                             used_copy[y + dy][x + dx] += used_copy[y][x]
                             used_copy[y][x] = 0
@@ -211,9 +203,8 @@ class Status(a_star.State):
 
 
 def run(inputs):
-
     reg = re.compile(
-        r"\/dev\/grid\/node-x(\d+)-y(\d+)\s+(\d+)T\s+(\d+)T\s+(\d+)T\s+(\d+)\%"
+        r"\/dev\/grid\/node-x(\d+)-y(\d+)\s+(\d+)T\s+(\d+)T\s+(\d+)T\s+(\d+)\%",
     )
     data = []
     for m in reg.findall(inputs):
@@ -225,7 +216,7 @@ def run(inputs):
                 "used": int(m[3]),
                 "avail": int(m[4]),
                 "use": int(m[5]),
-            }
+            },
         )
     df = pd.DataFrame(data)
     df_p = df.pivot_table(index="y", columns="x", values=["size", "used"])

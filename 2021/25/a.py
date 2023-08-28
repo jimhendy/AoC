@@ -1,7 +1,5 @@
 import os
 
-# Points: (x (east), y (south))
-
 
 def step(east, south, width, height):
     next_east = set()
@@ -39,7 +37,8 @@ def run(inputs):
             elif char == "v":
                 south.add((j, i))
             elif char != ".":
-                raise RuntimeError(f"Unexpected map character: {char}")
+                msg = f"Unexpected map character: {char}"
+                raise RuntimeError(msg)
 
     width = j + 1
     height = i + 1

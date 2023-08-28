@@ -1,5 +1,5 @@
 class Cpu:
-    def __init__(self, instructions: str):
+    def __init__(self, instructions: str) -> None:
         self.instructions = iter(instructions.splitlines())
         self.cycles = 0
         self.x = 1
@@ -42,7 +42,6 @@ class Cpu:
 
 
 def run(inputs):
-
     cpu = Cpu(instructions=inputs)
     cpu.run()
 

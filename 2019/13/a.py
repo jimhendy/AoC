@@ -5,7 +5,6 @@ from intcode import optprog
 
 
 def run(inputs):
-
     prog = optprog(inputs)
     prog.analyse_intcode()
     counts = Counter(prog.outputs[2::3])

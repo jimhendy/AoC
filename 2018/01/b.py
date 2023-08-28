@@ -2,7 +2,6 @@ import os
 
 
 def run(inputs):
-
     freq = 0
     i = 0
     freqs = list(map(int, inputs.split(os.linesep)))

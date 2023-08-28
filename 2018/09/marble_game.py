@@ -1,11 +1,10 @@
 class Game:
-    def __init__(self, last_marble, n_players):
+    def __init__(self, last_marble, n_players) -> None:
         self.marbles = [0]
         self.next_marble = 1
         self.current_marble_index = 0
         self.turn = -1
         self.last_marble = last_marble
-        # self.unused_marbles = list(range(1,last_marble+1))
         self.n_players = n_players
 
     def current_player(self):
@@ -45,7 +44,7 @@ class Game:
             self.current_marble_index = 0
         return score
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         out = []
         for i, m in enumerate(self.marbles):
             if i == self.current_marble_index:
@@ -56,5 +55,5 @@ class Game:
 
 
 class Player:
-    def __init__(self):
+    def __init__(self) -> None:
         self.score = 0

@@ -5,7 +5,6 @@ import numpy as np
 
 
 def run(inputs):
-
     possible_phases = np.arange(5, 10)
 
     data = {}
@@ -16,7 +15,7 @@ def run(inputs):
         # Run the first iteration using the phases
         [a.analyse_intcode(p) for a, p in zip(amps, phases)]
 
-        while not all([a.complete for a in amps]):
+        while not all(a.complete for a in amps):
             for a in amps:
                 a.analyse_intcode(prev_output)
                 prev_output = a.outputs[-1]
@@ -26,7 +25,5 @@ def run(inputs):
         pass
 
     output = sorted(data.items(), key=lambda x: x[1])[-1]
-
-    # print(output)
 
     return output[1]

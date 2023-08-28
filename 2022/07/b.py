@@ -4,10 +4,10 @@ from pathlib import Path
 
 import networkx as nx
 
-REG_CD = re.compile("^\$ cd (.+)$")
-REG_LS = re.compile("^\$ ls$")
+REG_CD = re.compile(r"^\$ cd (.+)$")
+REG_LS = re.compile(r"^\$ ls$")
 REG_OUTPUT_DIR = re.compile("^dir (.+)$")
-REG_OUTPUT_FILE = re.compile("^(\d+) (.+)$")
+REG_OUTPUT_FILE = re.compile(r"^(\d+) (.+)$")
 
 TOTAL_SPACE = 70_000_000
 UPDATE_SPACE = 30_000_000
@@ -15,7 +15,9 @@ UPDATE_SPACE = 30_000_000
 
 @lru_cache(maxsize=1024)
 def directory_size(
-    directory_name: Path, graph: nx.Graph, is_root_node: bool = False
+    directory_name: Path,
+    graph: nx.Graph,
+    is_root_node: bool = False,
 ) -> int:
     if is_root_node:
         total = 0
@@ -34,7 +36,6 @@ def run(inputs):
     directories = []
 
     for line in inputs.splitlines():
-
         if reg := REG_CD.findall(line):
             destination = reg[0]
             if destination == "..":
@@ -55,11 +56,14 @@ def run(inputs):
 
         elif reg := REG_OUTPUT_FILE.findall(line):
             graph.add_edge(
-                current_directory, current_directory / reg[0][1], weight=int(reg[0][0])
+                current_directory,
+                current_directory / reg[0][1],
+                weight=int(reg[0][0]),
             )
 
         else:
-            raise RuntimeError(f"Unexpected {line=}")
+            msg = f"Unexpected {line=}"
+            raise RuntimeError(msg)
 
     current_used_space = directory_size(Path("/"), graph, True)
     current_free_space = TOTAL_SPACE - current_used_space

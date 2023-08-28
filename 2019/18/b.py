@@ -34,20 +34,18 @@ def reachable_keys(loc, keys, grid):
 
 def run(inputs):
     grid = inputs.split(os.linesep)
-    droid_loc = [
+    droid_loc = next(
         (x, y)
         for y, row in enumerate(grid)
         for x, char in enumerate(row)
         if char == "@"
-    ][0]
-    all_keys = set(
-        [
-            char
-            for y, row in enumerate(grid)
-            for x, char in enumerate(row)
-            if char.islower()
-        ]
     )
+    all_keys = {
+        char
+        for y, row in enumerate(grid)
+        for x, char in enumerate(row)
+        if char.islower()
+    }
 
     # Fix the grid
     grid[droid_loc[1] - 1] = (
@@ -88,5 +86,7 @@ def run(inputs):
                 new_locs = locs[:i] + (new_loc,) + locs[i + 1 :]
                 print(new_locs)
                 heapq.heappush(
-                    q, (steps + new_steps, new_locs, keys | frozenset([new_key]))
+                    q,
+                    (steps + new_steps, new_locs, keys | frozenset([new_key])),
                 )
+    return None

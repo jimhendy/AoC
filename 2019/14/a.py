@@ -4,7 +4,6 @@ import common
 
 
 def run(inputs):
-
     all_reactions = tuple([common.Reaction(r) for r in inputs.split(os.linesep)])
     fuel_reaction = common.find_reaction(all_reactions, "FUEL")
 

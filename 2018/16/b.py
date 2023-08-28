@@ -4,7 +4,6 @@ import optcode
 
 
 def run(inputs):
-
     # Two blank lines indicate start of code
     instructions = []
     start = False

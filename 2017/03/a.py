@@ -1,5 +1,4 @@
 def run(inputs):
-
     target = int(inputs)
 
     upper_square_root = 1

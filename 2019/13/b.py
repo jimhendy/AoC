@@ -4,13 +4,11 @@ from intcode import optprog
 
 
 def run(inputs):
-
     prog = optprog(inputs)
     prog.code[0] = 2
 
     joystick = 0
     while True:
-
         prog.analyse_intcode(joystick)
 
         output = np.array(prog.outputs).reshape(-1, 3)

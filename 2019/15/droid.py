@@ -41,7 +41,7 @@ def move(pos, direction):
 
 
 class Droid:
-    def __init__(self, inputs):
+    def __init__(self, inputs) -> None:
         self.position = np.zeros(2)
         self.prog = intcode.Intcode(inputs)
         self.layout = {tuple(self.position): MapSymbol.DROID}
@@ -101,7 +101,7 @@ class Droid:
             count = 0
             for x in range(x_min, x_max + 1):
                 for y in range(y_min, y_max + 1):
-                    if tuple([x, y]) in self.layout.keys():
+                    if (x, y) in self.layout:
                         continue
                     extra_pos[count][0] = x
                     extra_pos[count][1] = y
@@ -135,7 +135,8 @@ class Droid:
         route = droid_route(droid, destination, layout)
 
         if route is False:
-            raise Exception(f"Cannot find route from {droid.position} to {destination}")
+            msg = f"Cannot find route from {droid.position} to {destination}"
+            raise Exception(msg)
 
         for r in route[1:]:
             if r[0] > droid.position[0]:
@@ -164,7 +165,6 @@ class Droid:
         return_cells = []
 
         for p in path:
-
             if tuple(p) in self.completed_oxygen_tiles:
                 continue
 
@@ -252,7 +252,6 @@ class Droid:
         current_route_it = 1
 
         while True:
-
             # If done, return
             if Droid.arrays_match(route[current_route_it - 1], destination):
                 return Droid.remove_nan_rows(route)
@@ -291,6 +290,7 @@ class Droid:
                 return False
             pass
         pass
+        return None
 
     def droid_route(self, destination, layout=None):
         if layout is None:
@@ -306,11 +306,9 @@ class Droid:
             possible_pos = np.vstack([possible_pos, destination])
             pass
 
-        route = Droid.find_route(self.position, destination, possible_pos)
-        return route
+        return Droid.find_route(self.position, destination, possible_pos)
 
     def go_to(self, destination, layout=None):
-
         if layout is None:
             layout = self.get_layout()
             pass
@@ -318,7 +316,8 @@ class Droid:
         route = self.droid_route(destination, layout)
 
         if route is False:
-            raise Exception(f"Cannot find route from {self.position} to {destination}")
+            msg = f"Cannot find route from {self.position} to {destination}"
+            raise Exception(msg)
 
         for r in route[1:]:
             if r[0] > self.position[0]:

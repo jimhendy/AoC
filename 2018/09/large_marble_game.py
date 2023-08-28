@@ -2,7 +2,7 @@ from collections import deque
 
 
 class Game:
-    def __init__(self, last_marble, n_players):
+    def __init__(self, last_marble, n_players) -> None:
         self.marbles = deque([0])
         self.next_marble = 1
         self.turn = -1
@@ -40,5 +40,5 @@ class Game:
 
 
 class Player:
-    def __init__(self):
+    def __init__(self) -> None:
         self.score = 0

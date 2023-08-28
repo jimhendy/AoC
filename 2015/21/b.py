@@ -25,19 +25,19 @@ def fight(equipment, my_hp, boss_hp, boss_damage, boss_armor):
 
         pass
     pass
+    return None
 
 
 def run(inputs):
-
     all_equipment = []
     equip_type = None
-    with open("2015/21/store.txt", "r") as f:
+    with open("2015/21/store.txt") as f:
         for l in f.readlines():
-            type_match = re.match("^[^\s]+: ", l)
+            type_match = re.match(r"^[^\s]+: ", l)
             if type_match:
                 equip_type = type_match[0].rstrip(" :")
             else:
-                l_split = re.findall("^(.+)\s+(\d+)\s+(\d)\s+(\d)$", l)
+                l_split = re.findall(r"^(.+)\s+(\d+)\s+(\d)\s+(\d)$", l)
                 if not len(l_split):
                     continue
                 l_split = l_split[0]
@@ -48,7 +48,7 @@ def run(inputs):
                         "Cost": int(l_split[1]),
                         "Damage": int(l_split[2]),
                         "Armor": int(l_split[3]),
-                    }
+                    },
                 )
     df_equip = pd.DataFrame(all_equipment)
 
@@ -77,9 +77,5 @@ def run(inputs):
                 pass
             pass
         pass
-
-    # import code
-
-    # code.interact(local=locals())
 
     return sorted(fights, key=lambda x: x[0])[-1][0]

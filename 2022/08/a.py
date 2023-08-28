@@ -16,5 +16,5 @@ def run(inputs):
             visible_from_top(inputs[::-1])[::-1],  # From bottom
             visible_from_top(inputs.T).T,  # From left
             visible_from_top(inputs.T[::-1])[::-1].T,  # From right
-        )
+        ),
     ).sum()

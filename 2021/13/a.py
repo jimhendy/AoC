@@ -9,7 +9,6 @@ def fold(points, value, axis):
 
 
 def run(inputs):
-
     points = []
     folds = []
     for line in inputs.split(os.linesep):

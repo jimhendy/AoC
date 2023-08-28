@@ -11,7 +11,7 @@ PATH_CACHE = {}
 
 
 class Grid:
-    def __init__(self, input_grid, elf_power=3):
+    def __init__(self, input_grid, elf_power=3) -> None:
         self.elf_power = elf_power
         self.grid = self.create_gird(input_grid)
         self.unit_counts = defaultdict(int)
@@ -24,7 +24,7 @@ class Grid:
             for c, char in enumerate(row):
                 if char == CHARS["Elf"]:
                     self.add_unit(
-                        units.Elf(Location(r, c), self, attack_power=self.elf_power)
+                        units.Elf(Location(r, c), self, attack_power=self.elf_power),
                     )
                 elif char == CHARS["Goblin"]:
                     self.add_unit(units.Goblin(Location(r, c), self))
@@ -35,7 +35,7 @@ class Grid:
             if u.hit_points <= 0:
                 continue
             u.take_turn()
-        if any([v == 0 for v in self.unit_counts.values()]):
+        if any(v == 0 for v in self.unit_counts.values()):
             raise exceptions.GameOverException
         self.rounds += 1
 
@@ -61,7 +61,7 @@ class Grid:
 
     def find_paths(self, starting_pos, targets):
         key = self.get_key(starting_pos, targets)
-        if key in PATH_CACHE.keys():
+        if key in PATH_CACHE:
             return PATH_CACHE[key]
         loc_to_steps = []
         for t in targets:
@@ -98,7 +98,7 @@ class Grid:
 
 
 class PathState(a_star.State):
-    def __init__(self, prev_steps, target_pos, grid):
+    def __init__(self, prev_steps, target_pos, grid) -> None:
         self.prev_steps = prev_steps  # Should include starting loc
         self.target_pos = target_pos
         self.grid = grid
@@ -113,9 +113,11 @@ class PathState(a_star.State):
         for al in adjacent_locs(self.prev_steps[-1]):
             if self.grid.get_char(al) != CHARS["Space"]:
                 continue
-            new_prev_steps = self.prev_steps + [al]
+            new_prev_steps = [*self.prev_steps, al]
             yield PathState(
-                prev_steps=new_prev_steps, target_pos=self.target_pos, grid=self.grid
+                prev_steps=new_prev_steps,
+                target_pos=self.target_pos,
+                grid=self.grid,
             )
 
     def __lt__(self, other):

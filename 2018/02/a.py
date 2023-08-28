@@ -4,7 +4,6 @@ import pandas as pd
 
 
 def run(inputs):
-
     counts = {2: 0, 3: 0}
 
     for box in inputs.split(os.linesep):

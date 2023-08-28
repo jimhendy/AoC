@@ -8,15 +8,13 @@ logger = logging.getLogger(__name__)
 
 
 class Assembunny:
-    def __init__(self, instructions):
+    def __init__(self, instructions) -> None:
         self.instructions = self.extract_instructions(instructions)
         self.registers = defaultdict(lambda: 0)
         self.instruction_pointer = 0
 
     def __call__(self):
         while True:
-            # print(self.registers)
-            # time.sleep(0.5)
             try:
                 ins = self.instructions[self.instruction_pointer]
                 ins()

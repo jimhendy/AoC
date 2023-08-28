@@ -10,7 +10,7 @@ STEPS = ((-1, 0), (1, 0), (0, 1), (0, -1))
 
 def a_star(initial_state):
     possible_states = [initial_state]
-    seen = set([initial_state._id])
+    seen = {initial_state._id}
     while len(possible_states):
         best_option = heapq.heappop(possible_states)
         if best_option.is_complete():
@@ -18,12 +18,13 @@ def a_star(initial_state):
         for s in best_option.all_possible_next_states(seen):
             seen.add(s._id)
             heapq.heappush(possible_states, s)
+    return None
 
 
 class Route:
     __slots__ = ["x", "y", "_id", "risk"]
 
-    def __init__(self, x, y, _id=0, prev_risk=0):
+    def __init__(self, x, y, _id=0, prev_risk=0) -> None:
         self.x = x
         self.y = y
         self._id = _id
@@ -41,7 +42,6 @@ class Route:
 
     def all_possible_next_states(self, seen: set):
         for dx, dy in STEPS:
-
             new_x = self.x + dx
             if not 0 <= new_x < MAP_SIZE:
                 continue
@@ -67,7 +67,7 @@ def run(inputs):
             [(char + x + y) for x in range(5) for char in row]
             for y in range(5)
             for row in orig_scan
-        ]
+        ],
     )
     scan[scan > 9] += scan[scan > 9] // 10  # > 9 wraps to 1, not 0
     scan = np.mod(scan, 10)

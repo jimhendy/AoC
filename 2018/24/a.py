@@ -4,7 +4,6 @@ from army import Army
 
 
 def run(inputs):
-
     armies = []
     for line in inputs.split(os.linesep):
         if not line.strip():
@@ -14,7 +13,7 @@ def run(inputs):
         else:
             armies[-1].add_group(line)
 
-    while all([len(a.groups) for a in armies]):
+    while all(len(a.groups) for a in armies):
         a_groups = armies[0].groups[:]
         b_groups = armies[1].groups[:]
         for g in sorted(armies[0].groups)[::-1]:
@@ -27,7 +26,8 @@ def run(inputs):
                 a_groups.remove(chosen_target)
 
         all_groups = sorted(
-            [g for a in armies for g in a.groups], key=lambda g: g.initiative
+            [g for a in armies for g in a.groups],
+            key=lambda g: g.initiative,
         )[::-1]
         for g in all_groups:
             g.attack()

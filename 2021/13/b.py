@@ -10,7 +10,6 @@ def fold(points, value, axis):
 
 
 def run(inputs):
-
     points = []
     folds = []
     for line in inputs.split(os.linesep):
@@ -33,4 +32,5 @@ def run(inputs):
 
     print(df)
 
-    raise NotImplementedError("Read the above letters, do not automatically submit")
+    msg = "Read the above letters, do not automatically submit"
+    raise NotImplementedError(msg)

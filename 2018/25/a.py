@@ -5,18 +5,18 @@ from constellation import Constellation, Point
 
 
 def run(inputs):
-
     c = [
         Constellation(
             [
                 Point(
                     *list(
                         map(
-                            int, re.findall(r"(-?\d+),(-?\d+),(-?\d+),(-?\d+)", line)[0]
-                        )
-                    )
-                )
-            ]
+                            int,
+                            re.findall(r"(-?\d+),(-?\d+),(-?\d+),(-?\d+)", line)[0],
+                        ),
+                    ),
+                ),
+            ],
         )
         for line in inputs.split(os.linesep)
     ]

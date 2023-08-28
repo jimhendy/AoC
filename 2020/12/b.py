@@ -19,7 +19,6 @@ def left(current):
 
 
 def run(inputs):
-
     waypoint = Point(10, -1)  # Always relative to ship
     ship = Point(0, 0)
 

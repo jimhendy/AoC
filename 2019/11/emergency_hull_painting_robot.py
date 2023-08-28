@@ -26,7 +26,7 @@ class Rotation(Enum):
 
 
 class EhpRobot:
-    def __init__(self, intcode_inputs, start_color=Color.BLACK):
+    def __init__(self, intcode_inputs, start_color=Color.BLACK) -> None:
         self.start_color = start_color
         self._direction = Direction.NORTH
         self._position = np.array((0, 0))

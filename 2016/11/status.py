@@ -5,13 +5,13 @@ from items import Microchip
 
 
 class Status:
-    def __init__(self, contents, current_elevator_floor=1, prev_steps=0):
+    def __init__(self, contents, current_elevator_floor=1, prev_steps=0) -> None:
         self.contents = contents
         self.elevator_floor = current_elevator_floor
         self.prev_steps = prev_steps
         self.n_items = sum([len(v) for v in self.contents.values()])
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         size = [len(v) for v in self.contents.values()]
         total = np.sum(size)
         return f"{self.prev_steps}, {self.elevator_floor}, {size}, {total}, {self._mean_level():,.2f}"
@@ -72,11 +72,9 @@ class Status:
 
     def is_complete(self):
         return all(
-            [
-                len(contents) == 0
-                for floor, contents in self.contents.items()
-                if floor != 4
-            ]
+            len(contents) == 0
+            for floor, contents in self.contents.items()
+            if floor != 4
         )
 
     def all_possible_next_states(self):
@@ -91,19 +89,19 @@ class Status:
             else:
                 gens.append(i)
 
-        matching_sets = [set((m, g)) for m in chips for g in gens if m.name == g.name]
+        matching_sets = [{m, g} for m in chips for g in gens if m.name == g.name]
         two_generators = list(map(set, itertools.combinations(gens, 2)))
         two_microchips = list(map(set, itertools.combinations(chips, 2)))
         # Combine all these sets
         possible_content = (
-            [set([i]) for i in current_items]
+            [{i} for i in current_items]
             + matching_sets
             + two_generators
             + two_microchips
         )
         # Could go to any other floor but each delta 1 is considered a move
         possible_floors = [
-            i for i in self.contents.keys() if abs(i - self.elevator_floor) == 1
+            i for i in self.contents if abs(i - self.elevator_floor) == 1
         ]
 
         for dest_floor in possible_floors:

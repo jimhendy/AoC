@@ -5,7 +5,6 @@ import numpy as np
 
 
 def run(inputs):
-
     possible_phases = np.arange(5)
 
     data = {}
@@ -20,7 +19,5 @@ def run(inputs):
         pass
 
     output = sorted(data.items(), key=lambda x: x[1])[-1]
-
-    # print(output)
 
     return output[1]

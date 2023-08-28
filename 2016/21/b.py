@@ -47,8 +47,7 @@ def _rotate_map(len_s):
             rolls += 1
         n_roll.append(rolls)
     final_pos = [i + r for i, r in zip(initial_pos, n_roll)]
-    output = {f % len_s: -r for f, r in zip(final_pos, n_roll)}
-    return output
+    return {f % len_s: -r for f, r in zip(final_pos, n_roll)}
 
 
 def reverse_positions(s, x, y):
@@ -64,8 +63,7 @@ def move_position(s, y, x):
     y = int(y)
     value = s[x]
     s = np.delete(s, x)
-    s = np.insert(s, y, value)
-    return s
+    return np.insert(s, y, value)
 
 
 def run(inputs):

@@ -1,12 +1,12 @@
 class Point:
-    def __init__(self, x, y):
+    def __init__(self, x, y) -> None:
         self.x = x
         self.y = y
 
     def tup(self):
         return (self.x, self.y)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"({self.x},{self.y})"
 
     def __eq__(self, other):

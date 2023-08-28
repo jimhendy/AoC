@@ -1,5 +1,5 @@
 class Point:
-    def __init__(self, x, y):
+    def __init__(self, x, y) -> None:
         self.x = x
         self.y = y
 
@@ -9,7 +9,7 @@ class Point:
     def __abs__(self):
         return abs(self.x) + abs(self.y)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"({self.x},{self.y})"
 
     def __eq__(self, other):

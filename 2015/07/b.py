@@ -46,12 +46,13 @@ def do_direct(line, wires):
     return ret_value(line, wires, REGS["direct"], lambda x: x[0])
 
 
-def run_once(wires, inputs, skip=[]):
+def run_once(wires, inputs, skip=None):
+    if skip is None:
+        skip = []
     inputs = inputs.split(os.linesep)
     remaining_inputs = inputs[:]
 
     while len(remaining_inputs):
-
         inputs = remaining_inputs[:]
 
         for line in inputs:
@@ -72,7 +73,7 @@ def run_once(wires, inputs, skip=[]):
 
             try:
                 loc, value = func(line, wires)
-                if not any([loc == i for i in skip]):
+                if not any(loc == i for i in skip):
                     wires[loc] = value
                     pass
                 remaining_inputs.remove(line)

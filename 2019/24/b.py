@@ -45,6 +45,7 @@ def update_cell(grid, x, y, extra):
             return EMPTY
         pass
     pass
+    return None
 
 
 def plot(grid):
@@ -68,7 +69,6 @@ def update(grid_orig, grid_up, grid_down):
     grid = grid_orig.copy()
     for y in range(grid.shape[0]):
         for x in range(grid.shape[1]):
-
             extra = 0
 
             if x == 0:
@@ -113,27 +113,23 @@ def new_grid():
 
 
 def run(inputs):
-
     grids = {
         0: np.array(
-            [np.array(list(map(ord, i))) for i in inputs.split(os.linesep)]
-        ).astype(np.int8)
+            [np.array(list(map(ord, i))) for i in inputs.split(os.linesep)],
+        ).astype(np.int8),
     }
     grids[0][2][2] = MIDDLE
     grids[-1] = new_grid()
     grids[1] = new_grid()
 
     for _ in range(200):
-
         levels = list(grids.keys())
         new_grids = {}
 
         for level in levels:
-
             grid = grids[level]
 
             # if not len(np.argwhere( grid == BUG )):
-            #    continue
 
             up = level - 1
             down = level + 1
@@ -152,7 +148,7 @@ def run(inputs):
 
         grids = new_grids
 
-        keys = sorted(list(grids.keys()))
+        keys = sorted(grids.keys())
         for k in keys:
             grids[k]
 
@@ -160,18 +156,12 @@ def run(inputs):
             if current:
                 continue
 
-            if k - 1 in grids.keys():
-                down = np.count_nonzero(grids[k - 1] == BUG)
-            else:
-                down = 0
+            down = np.count_nonzero(grids[k - 1] == BUG) if k - 1 in grids else 0
 
             if down:
                 continue
 
-            if k + 1 in grids.keys():
-                up = np.count_nonzero(grids[k + 1] == BUG)
-            else:
-                up = 0
+            up = np.count_nonzero(grids[k + 1] == BUG) if k + 1 in grids else 0
 
             if up:
                 continue
@@ -180,6 +170,4 @@ def run(inputs):
 
         pass
 
-    result = sum([np.count_nonzero(g == BUG) for g in grids.values()])
-
-    return result
+    return sum([np.count_nonzero(g == BUG) for g in grids.values()])

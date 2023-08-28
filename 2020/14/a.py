@@ -7,7 +7,6 @@ def run(inputs):
     memory = {}
     reg = re.compile(r"mem\[(\d+)\] = (\d+)")
     for line in inputs.split(os.linesep):
-
         if not len(line.strip()):
             continue
 
@@ -17,8 +16,9 @@ def run(inputs):
             register, num = reg.findall(line)[0]
             b_num = f"{int(num):036b}"
             masked_num = int(
-                "".join([n if m == "X" else m for m, n in zip(mask, b_num)]), 2
+                "".join([n if m == "X" else m for m, n in zip(mask, b_num)]),
+                2,
             )
             memory[register] = masked_num
 
-    return sum([v for v in memory.values()])
+    return sum(list(memory.values()))

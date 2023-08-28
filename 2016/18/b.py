@@ -11,15 +11,9 @@ N_ROWS = 400000
 def get_prev_tiles(tiles, pos):
     b = tiles[pos]
 
-    if pos - 1 < 0:
-        a = SAFE
-    else:
-        a = tiles[pos - 1]
+    a = SAFE if pos - 1 < 0 else tiles[pos - 1]
 
-    if pos + 1 >= tiles.shape[0]:
-        c = SAFE
-    else:
-        c = tiles[pos + 1]
+    c = SAFE if pos + 1 >= tiles.shape[0] else tiles[pos + 1]
 
     return a, b, c
 

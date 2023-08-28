@@ -10,7 +10,9 @@ class GameWon(Exception):
 
 
 class Game:
-    def __init__(self, player_hp, boss_hp, player_mana, boss_damage, hard_mode=False):
+    def __init__(
+        self, player_hp, boss_hp, player_mana, boss_damage, hard_mode=False,
+    ) -> None:
         self.player = character.Character(player_hp, player_mana)
         self.boss = character.Character(boss_hp)
         self.boss_damage = boss_damage
@@ -31,13 +33,11 @@ class Game:
         new.boss = self.boss.copy()
         new.game_won = self.game_won
         new.turns_complete = self.turns_complete
-        new.spells_used = [s for s in self.spells_used]
+        new.spells_used = list(self.spells_used)
         return new
 
     def play_turn(self, spell_type):
-        """
-        Play a single turn for the player and one for the boss
-        """
+        """Play a single turn for the player and one for the boss."""
         if self.hard_mode:
             self.player.hp -= 1
             self.check_result()

@@ -3,12 +3,10 @@ import re
 
 
 def run(inputs):
-
     reg = re.compile(r"(\w+) ([-+]?\d*\.?\d+)")
     horizontal, depth, aim = 0, 0, 0
 
     for line in inputs.split(os.linesep):
-
         direction, value = reg.findall(line)[0]
         value = int(value)
 
@@ -20,6 +18,7 @@ def run(inputs):
         elif direction == "down":
             aim += value
         else:
-            raise NotImplementedError(f'Unexpected command: "{line}"')
+            msg = f'Unexpected command: "{line}"'
+            raise NotImplementedError(msg)
 
     return horizontal * depth

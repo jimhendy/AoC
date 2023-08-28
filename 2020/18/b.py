@@ -20,8 +20,7 @@ def evaluate_first_bracket_term(line):
 
 def evaluate_term(term):
     term = evaluate_operator(term, "+", addition_reg, lambda x, y: x + y)
-    term = evaluate_operator(term, "*", multiplication_reg, lambda x, y: x * y)
-    return term
+    return evaluate_operator(term, "*", multiplication_reg, lambda x, y: x * y)
 
 
 def evaluate_operator(term, op, reg, func):

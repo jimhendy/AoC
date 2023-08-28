@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 class ChipReceiver(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         self.chips = []
 
     def get(self, chip_value):
@@ -21,7 +21,7 @@ class ChipReceiver(ABC):
 
 
 class Bot(ChipReceiver):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.give_to_high = None
         self.give_to_low = None
@@ -32,7 +32,7 @@ class Bot(ChipReceiver):
         self.give_if_possible()
 
     def give_if_possible(self):
-        if not len(self.chips) == 2:
+        if len(self.chips) != 2:
             return
         if self.give_to_high is None or self.give_to_low is None:
             return
@@ -57,10 +57,7 @@ OUTPUTS = defaultdict(Output)
 
 def give(from_bot, low_high, dest_bot_output, dest_id):
     logger.info(f"Bot {from_bot} giving {low_high} to {dest_bot_output} {dest_id}")
-    if dest_bot_output == "bot":
-        dest_dict = BOTS
-    else:
-        dest_dict = OUTPUTS
+    dest_dict = BOTS if dest_bot_output == "bot" else OUTPUTS
     BOTS[from_bot].set_give_instruction(low_high, dest_dict[dest_id])
 
 
@@ -70,17 +67,15 @@ def get(bot_id, value):
 
 
 GIVE_REG = re.compile(
-    "^bot (\d+) gives (low|high) to (bot|output) (\d+) and (low|high) to (bot|output) (\d+)$"
+    r"^bot (\d+) gives (low|high) to (bot|output) (\d+) and (low|high) to (bot|output) (\d+)$",
 )
-GET_REG = re.compile("^value (\d+) goes to bot (\d+)$")
+GET_REG = re.compile(r"^value (\d+) goes to bot (\d+)$")
 
 
 def run(inputs):
-
     values = defaultdict(list)
 
     for ins in inputs.split(os.linesep):
-
         matches = GIVE_REG.findall(ins)
 
         if len(matches):
@@ -91,7 +86,6 @@ def run(inputs):
             give(from_bot, matches[4], matches[5], int(matches[6]))
 
         else:
-
             matches = GET_REG.findall(ins)
             assert len(matches) == 1
             matches = matches[0]

@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import List
 
 import numpy as np
 
@@ -7,19 +6,16 @@ from tools.number_conversion import binary_to_decimal
 
 
 class Packet(ABC):
-    """
-    Abstract base class for a Packet from the hex-message queue.
-    """
 
-    def __init__(self, version: int, type_id: int):
+    """Abstract base class for a Packet from the hex-message queue."""
+
+    def __init__(self, version: int, type_id: int) -> None:
         self.version = version
         self.type_id = type_id
         self._cached_value = None
 
     def value(self) -> int:
-        """
-        Fetch the value of this packet. Values are cached to streamline complex calculations.
-        """
+        """Fetch the value of this packet. Values are cached to streamline complex calculations."""
         if self._cached_value is None:
             self._cached_value = self._value()
         return self._cached_value
@@ -30,13 +26,14 @@ class Packet(ABC):
 
 
 class Literal(Packet):
+
     """
     A literal ``Packet`` (``type_id=4``).
 
     This packet represents a numerical value only.
     """
 
-    def __init__(self, version: int, binary: List[str]):
+    def __init__(self, version: int, binary: list[str]) -> None:
         super().__init__(version=version, type_id=4)
         self.binary = binary
         self.decimal = binary_to_decimal(self.binary)
@@ -46,13 +43,14 @@ class Literal(Packet):
 
 
 class Operator(Packet):
+
     """
     An operator ``Packet``.
 
     This packet represents a calculation on ``Literals``.
     """
 
-    def __init__(self, version: int, type_id: int, subpackets: List[Packet]):
+    def __init__(self, version: int, type_id: int, subpackets: list[Packet]) -> None:
         assert type_id != 4
         super().__init__(version=version, type_id=type_id)
         self.subpackets = subpackets

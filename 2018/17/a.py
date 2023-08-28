@@ -67,8 +67,8 @@ def is_static(loc, grid, direction=None):
 
 
 def display(grid):
-    y = set([p.y for p in grid["clay"] | grid["falling"] | grid["static"]])
-    x = set([p.x for p in grid["clay"] | grid["falling"] | grid["static"]])
+    y = {p.y for p in grid["clay"] | grid["falling"] | grid["static"]}
+    x = {p.x for p in grid["clay"] | grid["falling"] | grid["static"]}
     df = pd.DataFrame(
         ".",
         index=list(range(min(y) - 1, max(y) + 2)),

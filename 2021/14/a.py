@@ -5,7 +5,6 @@ from collections import Counter, deque
 def step(q, alterations):
     len_before_step = len(q)
     for _ in range(len_before_step - 1):
-
         starting_pair = q[0] + q[1]
         to_insert = alterations.get(starting_pair)
 
@@ -19,7 +18,7 @@ def step(q, alterations):
 
 def run(inputs):
     initial, _, *alteration_inputs = inputs.split(os.linesep)
-    alterations = {k: v for k, v in (a.split(" -> ") for a in alteration_inputs)}
+    alterations = dict(a.split(" -> ") for a in alteration_inputs)
     q = deque(list(initial))
 
     [step(q, alterations) for _ in range(10)]

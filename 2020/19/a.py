@@ -11,7 +11,7 @@ def run(inputs):
     messages = messages.split(os.linesep)
 
     while any(
-        [character.isdigit() for rule_reg in rules.values() for character in rule_reg]
+        character.isdigit() for rule_reg in rules.values() for character in rule_reg
     ):
         for rule_num, rule_reg in rules.items():
             for sub_rule_num in re.findall(r"(\d+)", rule_reg):

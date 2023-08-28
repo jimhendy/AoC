@@ -4,7 +4,6 @@ import pandas as pd
 
 
 def run(inputs):
-
     s = pd.Series(inputs.split(os.linesep))
 
     single_match = s.str.contains("(\\D).\\1")

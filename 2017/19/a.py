@@ -7,7 +7,7 @@ import maze
 def run(inputs):
     grid = [list(row) for row in inputs.split(os.linesep)]
     start_row = 0
-    start_col = [col for col, char in enumerate(grid[start_row]) if char == "|"][0]
+    start_col = next(col for col, char in enumerate(grid[start_row]) if char == "|")
     initial_state = maze.Maze(grid, start_row, start_col)
 
     solution = a_star.augmented_a_star(initial_state)

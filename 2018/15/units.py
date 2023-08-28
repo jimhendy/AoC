@@ -6,7 +6,7 @@ DEBUG = False
 
 
 class Unit:
-    def __init__(self, loc, grid, symbol, enemy_symbol, attack_power=3):
+    def __init__(self, loc, grid, symbol, enemy_symbol, attack_power=3) -> None:
         self.symbol = symbol
         self.enemy_symbol = enemy_symbol
         self.attack_power = attack_power
@@ -39,7 +39,8 @@ class Unit:
         min_path_length = min(path_lengths.keys())
         if min_path_length != 1:
             min_path = sorted(
-                path_lengths[min_path_length], key=lambda p: p.prev_steps[-1]
+                path_lengths[min_path_length],
+                key=lambda p: p.prev_steps[-1],
             )[0]
             self.move(min_path.prev_steps[1])
         self.attack()
@@ -53,7 +54,7 @@ class Unit:
         targets = []
         for al in grid.adjacent_locs(self.loc):
             if self.grid.get_char(al) == self.enemy_symbol:
-                targets.append([u for u in self.grid.units if u.loc == al][0])
+                targets.append(next(u for u in self.grid.units if u.loc == al))
         if not len(targets):
             return
         hit_points = defaultdict(list)
@@ -84,15 +85,15 @@ class Unit:
                     pass
         return adj_locs
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.symbol} [{self.loc.__repr__()}]"
 
 
 class Elf(Unit):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs, symbol="E", enemy_symbol="G")
 
 
 class Goblin(Unit):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs, symbol="G", enemy_symbol="E")

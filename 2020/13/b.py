@@ -4,7 +4,8 @@ import os
 
 
 def combine_phased_rotations(a_period, a_phase, b_period, b_phase):
-    """Combine two phased rotations into a single phased rotation
+    """
+    Combine two phased rotations into a single phased rotation.
 
     Returns: combined_period, combined_phase
 
@@ -16,7 +17,8 @@ def combine_phased_rotations(a_period, a_phase, b_period, b_phase):
     phase_difference = a_phase - b_phase
     pd_mult, pd_remainder = divmod(phase_difference, gcd)
     if pd_remainder:
-        raise ValueError("Rotation reference points never synchronize.")
+        msg = "Rotation reference points never synchronize."
+        raise ValueError(msg)
 
     combined_period = a_period // gcd * b_period
     combined_phase = (a_phase - s * pd_mult * a_period) % combined_period
@@ -24,17 +26,22 @@ def combine_phased_rotations(a_period, a_phase, b_period, b_phase):
 
 
 def arrow_alignment(red_len, green_len, advantage):
-    """Where the arrows first align, where green starts shifted by advantage"""
+    """Where the arrows first align, where green starts shifted by advantage."""
     period, phase = combine_phased_rotations(
-        red_len, 0, green_len, -advantage % green_len
+        red_len,
+        0,
+        green_len,
+        -advantage % green_len,
     )
     return -phase % period
 
 
 def extended_gcd(a, b):
-    """Extended Greatest Common Divisor Algorithm
+    """
+    Extended Greatest Common Divisor Algorithm.
 
-    Returns:
+    Returns
+    -------
         gcd: The greatest common divisor of a and b.
         s, t: Coefficients such that s*a + t*b = gcd
 
@@ -60,4 +67,4 @@ def run(inputs):
     inputs = inputs.split(os.linesep)
     buses = {i: int(j) for i, j in enumerate(inputs[1].split(",")) if j.isdigit()}
 
-    return chinese_remainder([-i for i in buses.keys()], list(buses.values()))
+    return chinese_remainder([-i for i in buses], list(buses.values()))

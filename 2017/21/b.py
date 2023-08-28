@@ -35,14 +35,15 @@ def find_possible_matches(matrix):
 def enhance_sub_image(sub_image, rules):
     global CACHE
     image_hash = hash(sub_image.tostring())
-    if image_hash in CACHE.keys():
+    if image_hash in CACHE:
         return CACHE[image_hash]
     for rule in rules:
         rule_i = rule[0]
-        if any([np.array_equal(sub_image, m) for m in find_possible_matches(rule_i)]):
+        if any(np.array_equal(sub_image, m) for m in find_possible_matches(rule_i)):
             CACHE[image_hash] = rule[1]
             return rule[1]
-    raise Exception(f'Could not find match for sub-image "{sub_image}"')
+    msg = f'Could not find match for sub-image "{sub_image}"'
+    raise Exception(msg)
 
 
 def enhance(image, rules):
@@ -53,7 +54,8 @@ def enhance(image, rules):
         this_row = []
         for x_start in range(0, size, break_size):
             sub_image = image[
-                y_start : y_start + break_size, x_start : x_start + break_size
+                y_start : y_start + break_size,
+                x_start : x_start + break_size,
             ]
             this_row.append(enhance_sub_image(sub_image, rules))
         rows.append(np.hstack(this_row))

@@ -63,7 +63,6 @@ def find_route(origin, destination, possibles):
     current_route_it = 1
 
     while True:
-
         # If done, return
         if arrays_match(route[current_route_it - 1], destination):
             return remove_nan_rows(route)
@@ -94,9 +93,6 @@ def find_route(origin, destination, possibles):
             poss_next = remaining_poss.copy()
             for p in poss:
                 if not len(poss_next):
-                    # import code
-
-                    # code.interact(local=locals())
                     pass
                 it_route = find_route(p, destination, poss_next)
                 if it_route is False:
@@ -107,6 +103,7 @@ def find_route(origin, destination, possibles):
             pass
         pass
     pass
+    return None
 
 
 def droid_route(droid, destination, layout=None):
@@ -123,16 +120,15 @@ def droid_route(droid, destination, layout=None):
         possible_pos = np.vstack([possible_pos, destination])
         pass
 
-    route = find_route(droid.position, destination, possible_pos)
-    return route
+    return find_route(droid.position, destination, possible_pos)
 
 
 def go_to(droid, layout, destination):
-
     route = droid_route(droid, destination, layout)
 
     if route is False:
-        raise Exception(f"Cannot find route from {droid.position} to {destination}")
+        msg = f"Cannot find route from {droid.position} to {destination}"
+        raise Exception(msg)
 
     for r in route[1:]:
         if r[0] > droid.position[0]:

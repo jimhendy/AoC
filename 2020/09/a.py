@@ -16,3 +16,4 @@ def run(inputs):
         if found:
             continue
         return target
+    return None

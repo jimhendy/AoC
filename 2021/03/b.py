@@ -1,5 +1,5 @@
 import os
-from typing import Callable
+from collections.abc import Callable
 
 import numpy as np
 
@@ -8,7 +8,7 @@ from tools.number_conversion import binary_to_decimal
 
 def find_value(inputs: np.ndarray, desired_bit_lambda: Callable) -> int:
     """
-    Extract the last remaining row from ``inputs`` when iteratively filtering 
+    Extract the last remaining row from ``inputs`` when iteratively filtering
     by ``desired_bit_lambda`` from the most-significant-bit to the least.
 
     :param inputs: Numpy array of binary values to filter.
@@ -20,7 +20,7 @@ def find_value(inputs: np.ndarray, desired_bit_lambda: Callable) -> int:
     bit_num = 0
     while possibles.shape[0] > 1:
         bits = possibles[:, bit_num]
-        counts = {k: v for k, v in zip(*np.unique(bits, return_counts=True))}
+        counts = dict(zip(*np.unique(bits, return_counts=True)))
         desired_bit = desired_bit_lambda(counts)
         possibles = possibles[bits == desired_bit]
         bit_num += 1

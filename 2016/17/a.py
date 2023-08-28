@@ -13,7 +13,7 @@ STEPS = {
 
 
 class Position(a_star.State):
-    def __init__(self, pos, passcode):
+    def __init__(self, pos, passcode) -> None:
         self.pos = pos
         self.passcode = passcode
 
@@ -39,18 +39,13 @@ class Position(a_star.State):
                 | (new_pos[0] > 3)
                 | (new_pos[1] < -3)
             ):
-                # print(f'Pos not valid "{new_pos}"')
                 continue
             if h not in ["b", "c", "d", "e", "f"]:
-                # print(f'Hash not valid "{h}" for "{new_pos}"')
                 continue
-            # print(f'** Yielding {new_pos}')
             yield Position(pos=new_pos, passcode=self.passcode + s[0])
-        # print('-'*40)
 
 
 def run(inputs):
-
     initial_state = Position(np.array([0, 0]), inputs)
     result = a_star.a_star(initial_state, tag_func=lambda x: x.passcode)
 

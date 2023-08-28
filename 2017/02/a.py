@@ -6,5 +6,5 @@ def run(inputs):
         np.ptp(
             np.array([np.array(i.split("\t")) for i in inputs.split("\n")]).astype(int),
             axis=1,
-        )
+        ),
     )

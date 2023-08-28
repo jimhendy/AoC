@@ -1,13 +1,11 @@
 import os
-from typing import Set, Tuple
 
 import numpy as np
 
-Beacon = Tuple[int, int, int]
+Beacon = tuple[int, int, int]
 
 
 class Scanner:
-
     _orientation_lambdas = [
         lambda x, y, z: (x, y, z),
         lambda x, y, z: (x, z, -y),
@@ -37,15 +35,15 @@ class Scanner:
         lambda x, y, z: (-y, z, -x),
     ]
 
-    def __init__(self, beacons):
+    def __init__(self, beacons) -> None:
         self.beacons = set(beacons)
         self.scanner_locs = [(0, 0, 0)]
 
     def extend(
         self,
         new_scanner: "Scanner",
-        new_becons: Set[Beacon],
-        new_scanner_pos: Tuple[int, int, int],
+        new_becons: set[Beacon],
+        new_scanner_pos: tuple[int, int, int],
     ):
         [self.beacons.add(b) for b in new_becons]
         for c in new_scanner.scanner_locs:
@@ -57,15 +55,14 @@ class Scanner:
 
 
 def compare(scanner_1, scanner_2):
-
     for beacons_2 in scanner_2.orientations():
         for b1 in scanner_1.beacons:
             for b2 in beacons_2:
                 offset = [i - j for i, j in zip(b1, b2)]
 
-                beacons_2_in_1_coords = set(
-                    [tuple([i + j for i, j in zip(bb2, offset)]) for bb2 in beacons_2]
-                )
+                beacons_2_in_1_coords = {
+                    tuple([i + j for i, j in zip(bb2, offset)]) for bb2 in beacons_2
+                }
                 overlap = beacons_2_in_1_coords.intersection(scanner_1.beacons)
                 if len(overlap) >= 12:
                     scanner_1.extend(scanner_2, beacons_2_in_1_coords, offset)
@@ -101,7 +98,7 @@ def run(inputs):
                 if result:
                     to_remove.append(j)
                     print(
-                        f"Combining scanner {j} into {i}, {len(scanners)-len(to_remove)} scanners left"
+                        f"Combining scanner {j} into {i}, {len(scanners)-len(to_remove)} scanners left",
                     )
 
                 else:
@@ -110,7 +107,8 @@ def run(inputs):
                 break
 
         if not to_remove:
-            raise RuntimeError("Should not be here, nothing to remove")
+            msg = "Should not be here, nothing to remove"
+            raise RuntimeError(msg)
 
         for i, r in enumerate(to_remove):
             del scanners[r - i]

@@ -23,7 +23,6 @@ def do(start_a, start_b, factor_a, factor_b, mod, n_repeats):
     val_a = start_a
     val_b = start_b
     for i in range(n_repeats):
-
         if not i % 100_000:
             print(i)
 
@@ -48,5 +47,10 @@ def do(start_a, start_b, factor_a, factor_b, mod, n_repeats):
 def run(inputs):
     starting_values = [int(i.split()[-1]) for i in inputs.split(os.linesep)]
     return do(
-        starting_values[0], starting_values[1], 16807, 48271, 2147483647, 5_000_000
+        starting_values[0],
+        starting_values[1],
+        16807,
+        48271,
+        2147483647,
+        5_000_000,
     )

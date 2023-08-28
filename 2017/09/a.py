@@ -2,13 +2,12 @@ import re
 
 
 def run(inputs):
-
     # Remove double !!
     while "!!" in inputs:
-        inputs = re.sub("\!\!", "", inputs)
+        inputs = re.sub(r"\!\!", "", inputs)
 
     # Remove cancelled characters
-    inputs = re.sub("\!.", "", inputs)
+    inputs = re.sub(r"\!.", "", inputs)
 
     # Remove garbage
     inputs = re.sub("(<.*?>)", "", inputs)

@@ -6,8 +6,12 @@ LOWER_CASE = set()
 
 class Route:
     def __init__(
-        self, current_loc, connections, visits=None, has_double_lower_visit=False
-    ):
+        self,
+        current_loc,
+        connections,
+        visits=None,
+        has_double_lower_visit=False,
+    ) -> None:
         self.current_loc = current_loc
         self.visits = visits or defaultdict(int)
         self.visits[self.current_loc] += 1
@@ -21,7 +25,6 @@ class Route:
 
     def all_possible_next_states(self):
         for next_loc in self.connections[self.current_loc]:
-
             prev_visits = self.visits[next_loc]
             if prev_visits and next_loc in LOWER_CASE:
                 if prev_visits == 2:
@@ -52,9 +55,8 @@ def extract_connections(inputs):
 
 
 def run(inputs):
-
     connections = extract_connections(inputs)
-    [LOWER_CASE.add(k) for k in connections.keys() if k.islower()]
+    [LOWER_CASE.add(k) for k in connections if k.islower()]
     queue = deque([Route("start", connections)])
     n_routes = 0
 

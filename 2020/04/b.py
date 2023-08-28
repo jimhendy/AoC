@@ -18,7 +18,7 @@ def is_valid(passport):
 
 def check_validity(passport):
     fields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
-    assert all([f in passport.keys() for f in fields])
+    assert all(f in passport for f in fields)
 
     check_int(passport["byr"], 1920, 2002)
     check_int(passport["iyr"], 2010, 2020)

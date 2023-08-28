@@ -27,7 +27,7 @@ def get_reg_b(func):
 
 
 class OptCode:
-    def __init__(self, instructions):
+    def __init__(self, instructions) -> None:
         self.instructions = instructions
         self.registers = [0] * 4
         self.instruction_reg = re.compile(r"([\-\d]+) ([\-\d]+) ([\-\d]+) ([\-\d]+)")

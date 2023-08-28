@@ -1,5 +1,4 @@
 from functools import lru_cache
-from typing import List, Optional
 
 from a_star import State, a_star
 
@@ -7,11 +6,10 @@ STEPS = [+1, -1, +1j, -1j]
 
 
 class GridLocation(State):
-
-    grid: List[List[int]]
+    grid: list[list[int]]
     dest: complex
 
-    def __init__(self, loc: complex, prev_locs: Optional[List[complex]] = None):
+    def __init__(self, loc: complex, prev_locs: list[complex] | None = None) -> None:
         self.loc = loc
         self.prev_locs = prev_locs or []
 
@@ -58,6 +56,7 @@ class GridLocation(State):
                 c = x + 1j * y
                 if GridLocation.value_at_loc(c) == value:
                     return c
+        return None
 
 
 def run(inputs: str):

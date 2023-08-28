@@ -30,7 +30,7 @@ def run(inputs):
     labels += list(range(max(labels) + 1, max_cup + 1))
 
     # Key is cup, value is cup to the right
-    cups = {i: j for i, j in zip(labels[:-1], labels[1:])}
+    cups = dict(zip(labels[:-1], labels[1:]))
     cups[labels[-1]] = labels[0]
 
     current = labels[0]

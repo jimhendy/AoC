@@ -4,10 +4,9 @@ import numpy as np
 
 
 class Claim:
-
     reg = re.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
 
-    def __init__(self, data):
+    def __init__(self, data) -> None:
         self.data = data
         match = Claim.reg.findall(self.data)[0]
         self.num = match[0]
@@ -40,3 +39,4 @@ def run(inputs):
                 continue
         if not overlap:
             return c.num
+    return None

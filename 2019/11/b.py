@@ -6,7 +6,6 @@ import seaborn as sns
 
 
 def run(inputs):
-
     robot = ehpr.EhpRobot(inputs, start_color=ehpr.Color.WHITE)
     robot.run()
 
@@ -15,7 +14,7 @@ def run(inputs):
             np.array([int(i) for i in k[1:-1].split()])
             for k, v in robot._colors.items()
             if v == ehpr.Color.WHITE
-        ]
+        ],
     ).T
 
     df = pd.DataFrame({"x": xy[0], "y": xy[1]})
@@ -27,12 +26,9 @@ def run(inputs):
             df[i] = np.nan
 
     df = df[sorted(df.columns)]
-    df.sort_index(inplace=True, ascending=False)
+    df = df.sort_index(ascending=False)
 
     sns.heatmap(df.values, cbar=False)
     plt.axis("off")
-    # plt.show()
 
-    result = input("What does it say: ")
-
-    return result
+    return input("What does it say: ")

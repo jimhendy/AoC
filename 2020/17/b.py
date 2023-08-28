@@ -27,7 +27,7 @@ def extreme_cubes(active):
 
 
 def nb80(cube):
-    for (dx, dy, dz, dw) in itertools.product(STEPS, STEPS, STEPS, STEPS):
+    for dx, dy, dz, dw in itertools.product(STEPS, STEPS, STEPS, STEPS):
         if not dx and not dy and not dz and not dw:
             continue
         yield (cube[0] + dx, cube[1] + dy, cube[2] + dz, cube[3] + dw)

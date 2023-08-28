@@ -1,8 +1,8 @@
 class Item:
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         self.name = name
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{type(self).__name__}_{self.name}"
 
     def __eq__(self, other):

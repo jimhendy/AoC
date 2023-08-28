@@ -5,7 +5,6 @@ import numpy as np
 
 
 def run(inputs):
-
     prog = intcode.Intcode(inputs)
     prog.analyse_intcode()
 
@@ -24,7 +23,7 @@ def run(inputs):
                     data[y][x - 1],
                     data[y][x + 1],
                 ]
-                if all([i == "#" for i in others]):
+                if all(i == "#" for i in others):
                     positions.append(x * y)
                     pass
                 pass

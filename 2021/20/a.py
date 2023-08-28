@@ -2,8 +2,6 @@ import os
 
 from tools.number_conversion import binary_to_decimal
 
-# coords = (y, x)
-
 STEPS = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1))
 ON = "1"
 OFF = "0"

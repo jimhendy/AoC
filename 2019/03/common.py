@@ -8,15 +8,9 @@ def index_of_array(array, value):
 
 
 def get_intersections(wire_coords):
-    intersections = np.array(
-        [
-            x
-            for x in set(tuple(x) for x in wire_coords[0])
-            & set(tuple(x) for x in wire_coords[1])
-        ]
+    return np.array(
+        list({tuple(x) for x in wire_coords[0]} & {tuple(x) for x in wire_coords[1]}),
     )
-
-    return intersections
 
 
 def get_wire_coords(inputs):
@@ -30,7 +24,7 @@ def get_wire_coords(inputs):
             direction = v[0]
             step = int(v[1:])
             move_func = get_move_func(direction)
-            for s in range(step):
+            for _s in range(step):
                 previous_pos = move_func(previous_pos)
                 wire_coords[wire_num].append(previous_pos)
                 pass

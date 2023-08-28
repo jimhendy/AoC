@@ -1,5 +1,4 @@
 def run(inputs):
-
     n = inputs
     n_len = len(n)
 

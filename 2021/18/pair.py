@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Union
+from typing import Union
 
 import numpy as np
 
@@ -17,7 +17,7 @@ class Explosion:
 
 
 class Pair:
-    def __init__(self, left: Union["Pair", int], right: Union["Pair", int]):
+    def __init__(self, left: Union["Pair", int], right: Union["Pair", int]) -> None:
         self.left = left
         self.right = right
         self.left_int = isinstance(self.left, int)
@@ -44,8 +44,9 @@ class Pair:
 
     def _add_number_from_explode(self, number: int, leftmost: bool):
         """
-        An explosion has occured and we need to add a value to the leftmost or rightmost
-        number in this pair. Travserse child pairs until we find a number to add to.
+        An explosion has occured and we need to add a value to the leftmost
+        or rightmost number in this pair. Travserse child pairs until we find a
+        number to add to.
         """
         if leftmost:
             if self.left_int:
@@ -58,7 +59,7 @@ class Pair:
             else:
                 self.right._add_number_from_explode(number, leftmost)
 
-    def explode_nested_pairs(self, level=0) -> Union[bool, List[Explosion]]:
+    def explode_nested_pairs(self, level=0) -> bool | list[Explosion]:
         """
         Check all sub-pairs for any nested at level 4 and explode if found.
 
@@ -67,17 +68,22 @@ class Pair:
         If unhandled ``Explosion``s occur, return a ``list`` of them.
         """
         if level > 4:
-            raise RuntimeError(f"Level should not get this high, {level}, {self}")
+            msg = f"Level should not get this high, {level}, {self}"
+            raise RuntimeError(msg)
         elif level == 4:
             assert (
                 self.left_int and self.right_int
-            ), f'Expected two ints at this level but found left="{self.left}", right="{self.right}"'
+            ), (
+                f'Expected two ints at this level but found left="{self.left}", '
+                f'right="{self.right}"'
+            )
             return [
                 Explosion(Direction.LEFT, self.left),
                 Explosion(Direction.RIGHT, self.right),
             ]
-        # Would like to wrap the below into a method to avoid repeated code but unsure how to then assign
-        # with e.g. self.right += e.value as passing self.right would not work due to scoping
+        # Would like to wrap the below into a method to avoid repeated code but unsure
+        # how to then assign with e.g. self.right += e.value as passing self.right
+        # would not work due to scoping
         if not self.left_int:
             ex = self.left.explode_nested_pairs(level=level + 1)
             if ex is False:
@@ -154,7 +160,8 @@ class Pair:
 
     @classmethod
     def from_str(cls, string: str) -> "Pair":
-        assert string[0] == "[" and string[-1] == "]"
+        assert string[0] == "["
+        assert string[-1] == "]"
         _string = string[1:-1]
         if _string[0] == "[":  # Left is another pair
             open_count = 0
@@ -163,7 +170,8 @@ class Pair:
                 if not open_count:
                     break
             return cls(
-                cls.from_str(_string[: i + 1]), cls._pair_or_value(_string[i + 2 :])
+                cls.from_str(_string[: i + 1]),
+                cls._pair_or_value(_string[i + 2 :]),
             )
         else:  # Left is a number
             left, right = _string.split(",", 1)

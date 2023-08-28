@@ -4,7 +4,6 @@ import seaborn as sns
 
 
 def run(inputs):
-
     input_coords = [(i, j) for i in range(50) for j in range(50)]
 
     outputs = []
@@ -19,10 +18,5 @@ def run(inputs):
 
     dfp = df.pivot_table(index="y", columns="x", values="o")
     sns.heatmap(dfp)
-    # plt.show()
-
-    # import code
-
-    # code.interact(local=locals())
 
     return len(df[df.o.ne(0)])

@@ -12,7 +12,7 @@ class Mode(Enum):
 
 
 class Intcode:
-    def __init__(self, inputs):
+    def __init__(self, inputs) -> None:
         self.inputs = Intcode.in_to_array(inputs)
         self.code = defaultdict(int)
         for i, v in enumerate(self.inputs):
@@ -83,8 +83,9 @@ class Intcode:
             print(f"Address: {self.address}")
             print(f"Optcode: {self.optcode}")
             print(self.code[self.address : self.address + 4])
+            msg = f'Unexpected optcode "{self.code[self.address]}" at address "{self.address}"'
             raise NotImplementedError(
-                f'Unexpected optcode "{self.code[self.address]}" at address "{self.address}"'
+                msg,
             )
         return func()
 
@@ -100,6 +101,7 @@ class Intcode:
         else:
             raise NotImplementedError
         pass
+        return None
 
     def _get_value(self, mode):
         return self.code[self._get_address(mode=mode)]
@@ -148,11 +150,9 @@ class Intcode:
         if self.input_signal is not None:
             value = self.input_signal
             self.input_signal = None
-            # print( f'Using input {value}')
             pass
         else:
             # No input signal - return and wait
-            # print('No input')
             return None
             pass
         self.step()

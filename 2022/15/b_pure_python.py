@@ -4,10 +4,9 @@ from tqdm import tqdm
 
 REG_NUM = r"(-?\d+)"
 REG = re.compile(
-    f"^Sensor at x={REG_NUM}, y={REG_NUM}: closest beacon is at x={REG_NUM}, y={REG_NUM}$"
+    f"^Sensor at x={REG_NUM}, y={REG_NUM}: closest beacon is at x={REG_NUM}, y={REG_NUM}$",
 )
 
-# MAX = 20
 MAX = 4_000_000
 
 
@@ -27,18 +26,17 @@ class Range:
     def __len__(self) -> int:
         return self.upper - self.lower
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Range({self.lower},{self.upper})"
 
 
 def run(inputs):
-
     inputs = [list(map(int, REG.findall(line)[0])) for line in inputs.splitlines()]
 
     for Y in tqdm(range(MAX + 1)):
         ranges = []
 
-        for (sx, sy, bx, by) in inputs:
+        for sx, sy, bx, by in inputs:
             distance = abs(bx - sx) + abs(by - sy)
             dist_to_y = abs(Y - sy)
             width_at_y = distance - dist_to_y
@@ -70,7 +68,6 @@ def run(inputs):
                 break
 
         if not failed:
-
             for x in range(MAX + 1):
                 failed_x = False
                 for r in ranges:
@@ -79,3 +76,4 @@ def run(inputs):
                         break
                 if not failed_x:
                     return 4_000_000 * x + Y
+    return None

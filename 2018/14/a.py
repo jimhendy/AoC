@@ -1,5 +1,5 @@
 class State:
-    def __init__(self):
+    def __init__(self) -> None:
         self.loc_a = 0
         self.loc_b = 1
         self.scores = [3, 7]
@@ -15,7 +15,7 @@ class State:
         self.loc_a = (self.loc_a + score_a + 1) % len(self.scores)
         self.loc_b = (self.loc_b + score_b + 1) % len(self.scores)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         out = []
         for i, n in enumerate(self.scores):
             if i == self.loc_a:

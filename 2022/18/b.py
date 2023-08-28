@@ -1,11 +1,14 @@
 from collections import deque
-from typing import Iterable
+from typing import TYPE_CHECKING
 
 from tools.point import Point3D as Point
 
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
 
 def run(inputs):
-    drops = set(Point(*map(int, l.split(","))) for l in inputs.splitlines())
+    drops = {Point(*map(int, l.split(","))) for l in inputs.splitlines()}
 
     mins = [min(d.values[i] - 2 for d in drops) for i in range(3)]
     maxs = [max(d.values[i] + 2 for d in drops) for i in range(3)]
@@ -16,14 +19,12 @@ def run(inputs):
     seen = set()
 
     while free_spaces:
-
         p = free_spaces.pop()
         if p in seen:
             continue
         seen.add(p)
 
         for n in p.all_neighbours():
-
             if n in seen:
                 continue
             if any(not mins[i] <= n.values[i] <= maxs[i] for i in range(3)):

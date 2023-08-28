@@ -3,7 +3,6 @@ import numba
 
 @numba.njit
 def spinlock(steps, n_iterations):
-
     # Start from [ 0 (1) ]
     second_number = 1
     current_pos = 1

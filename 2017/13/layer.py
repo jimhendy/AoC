@@ -1,5 +1,5 @@
 class Layer:
-    def __init__(self, depth, range_):
+    def __init__(self, depth, range_) -> None:
         self.depth = depth
         self.range = range_
         self.scanner_range_position = 0

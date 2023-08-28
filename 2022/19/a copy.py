@@ -1,7 +1,6 @@
 import re
 from collections import Counter
 from functools import lru_cache
-from typing import Dict, Optional, Set
 
 from tools.a_star import State, a_star
 
@@ -15,17 +14,16 @@ TARGET_RESOURCE = "geode"
 class Config(State):
     __slots__ = ("robots", "resources", "elapsed_time", "chose_not_to_build")
 
-    blueprint: Dict[str, Counter[str, int]]  # output_resource: {input_resource: num}
+    blueprint: dict[str, Counter[str, int]]  # output_resource: {input_resource: num}
     threshold: int = 0
 
     def __init__(
         self,
         robots: Counter[str, int],
-        resources: Optional[Counter[str, int]] = None,
+        resources: Counter[str, int] | None = None,
         elapsed_time: int = 0,
-        chose_to_not_build: Optional[Set[str]] = None,
+        chose_to_not_build: set[str] | None = None,
     ) -> None:
-
         self.elapsed_time = elapsed_time
         self.resources = resources or Counter()
         self.robots = robots
@@ -36,12 +34,16 @@ class Config(State):
 
     def is_valid(self) -> bool:
         return Config.would_be_valid(
-            robots=self.robots, resources=self.resources, time_left=self.time_left
+            robots=self.robots,
+            resources=self.resources,
+            time_left=self.time_left,
         )
 
     @staticmethod
     def would_be_valid(
-        robots: Counter, resources: Dict[str, Counter], time_left: int
+        robots: Counter,
+        resources: dict[str, Counter],
+        time_left: int,
     ) -> bool:
         assured = resources[TARGET_RESOURCE] + time_left * robots[TARGET_RESOURCE]
         Config.threshold = max(Config.threshold, assured)
@@ -83,7 +85,9 @@ class Config(State):
             new_resources = self.resources + self.robots - self.blueprint[resource]
 
             if not Config.would_be_valid(
-                robots=new_robots, resources=new_resources, time_left=time_left
+                robots=new_robots,
+                resources=new_resources,
+                time_left=time_left,
             ):
                 continue
 
@@ -100,7 +104,9 @@ class Config(State):
             new_resources = self.resources + self.robots
 
             if Config.would_be_valid(
-                robots=self.robots, resources=new_resources, time_left=time_left
+                robots=self.robots,
+                resources=new_resources,
+                time_left=time_left,
             ):
                 yield Config(
                     robots=self.robots.copy(),
@@ -111,7 +117,6 @@ class Config(State):
 
 
 def run(inputs):
-
     blueprints = {
         int(BLUEPRINT_REG.findall(bp)[0]): {
             d[0]: Counter({d[i + 1]: int(d[i]) for i in range(1, 5, 2) if d[i]})
@@ -123,7 +128,6 @@ def run(inputs):
     total = 0
     for bp_id, bp in blueprints.items():
         print(bp_id)
-        # print(bp)
         # raise
         Config.blueprint = bp
         Config.threshold = 0
@@ -131,6 +135,5 @@ def run(inputs):
         best_option = a_star(initial_state)  # , tag_func=lambda x: uuid.uuid4())
         total += bp_id * best_option.resources[TARGET_RESOURCE]
         print(best_option.resources)
-        # print(best_option.history)
         # raise
     return total

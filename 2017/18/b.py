@@ -6,7 +6,6 @@ from duetcode import JumpCode
 
 
 def run(inputs):
-
     instructions = inputs.split(os.linesep)
 
     p0 = JumpCode(instructions)
@@ -18,7 +17,7 @@ def run(inputs):
     with ThreadPoolExecutor(max_workers=2) as executor:
         while True:
             print([p.is_waiting for p in (p0, p1)])
-            if all([p.is_waiting for p in (p0, p1)]):
+            if all(p.is_waiting for p in (p0, p1)):
                 break
             else:
                 for i, p in enumerate((p0, p1)):

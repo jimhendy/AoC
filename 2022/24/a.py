@@ -1,5 +1,5 @@
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, List
 
 from tools.a_star import State, a_star
 from tools.point import Point2D
@@ -36,10 +36,10 @@ class Blizzard:
 
 
 class Blizzards:
-    def __init__(self, initial_blizzards: List[Blizzard]) -> None:
-        self._blizzards_store: Dict[int, list[Blizzard]] = {0: initial_blizzards}
-        self._locations_store: Dict[int, set[Point2D]] = {
-            0: {b.location for b in initial_blizzards}
+    def __init__(self, initial_blizzards: list[Blizzard]) -> None:
+        self._blizzards_store: dict[int, list[Blizzard]] = {0: initial_blizzards}
+        self._locations_store: dict[int, set[Point2D]] = {
+            0: {b.location for b in initial_blizzards},
         }
 
     def locations(self, elapsed_time: int) -> set[Point2D]:
@@ -74,7 +74,9 @@ def parse_inputs(inputs: str) -> None:
                     WALLS.add(Point2D(x=x, y=y))
                 case _:
                     blizzards.append(
-                        Blizzard(location=Point2D(x=x, y=y), direction=DIRECTIONS[char])
+                        Blizzard(
+                            location=Point2D(x=x, y=y), direction=DIRECTIONS[char],
+                        ),
                     )
     GRID_HEIGHT = max(w.y for w in WALLS)
     GRID_WIDTH = max(w.x for w in WALLS)
@@ -87,7 +89,7 @@ class Config(State):
     location: Point2D
     blizzards: Blizzards
     elapsed_time: int = field(default=0)
-    history: List[Point2D] = field(default_factory=list)
+    history: list[Point2D] = field(default_factory=list)
 
     def __lt__(self, other: "Config") -> bool:
         if self.elapsed_time == other.elapsed_time:
@@ -103,16 +105,18 @@ class Config(State):
     def is_complete(self) -> bool:
         return self.location == DESTINATION
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.elapsed_time=}, {self.location=}"
 
     def all_possible_next_states(self) -> Iterable["Config"]:
         new_time = self.elapsed_time + 1
         new_history = self.history[:] + [self.location]
 
-        kwargs = dict(
-            elapsed_time=new_time, blizzards=self.blizzards, history=new_history
-        )
+        kwargs = {
+            "elapsed_time": new_time,
+            "blizzards": self.blizzards,
+            "history": new_history,
+        }
         for dest in self.location.nb4():
             if dest in self.blizzards.locations(new_time) or dest in WALLS:
                 continue

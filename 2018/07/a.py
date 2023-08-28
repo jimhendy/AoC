@@ -5,7 +5,8 @@ from collections import defaultdict
 def run(inputs):
     order = defaultdict(list)
     for i in re.findall(
-        r"Step ([A-Z]) must be finished before step ([A-Z]) can begin.", inputs
+        r"Step ([A-Z]) must be finished before step ([A-Z]) can begin.",
+        inputs,
     ):
         order[i[0]].append(i[1])
 
@@ -19,7 +20,7 @@ def run(inputs):
             s
             for s in all_steps
             if s not in complete
-            and all([s not in order[k] for k in all_steps if k not in complete])
+            and all(s not in order[k] for k in all_steps if k not in complete)
         ]
         chosen = min(available)
         complete.append(chosen)

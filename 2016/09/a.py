@@ -3,16 +3,14 @@ import re
 
 
 def run(inputs):
-
     data = "".join(inputs.split(os.linesep))
 
-    marker_reg = re.compile("\((\d+)x(\d+)\)")
+    marker_reg = re.compile(r"\((\d+)x(\d+)\)")
     prev_end_pos = 0
 
     output = ""
 
     for match in marker_reg.finditer(data):
-
         start, end = match.span()
         if start < prev_end_pos:
             # Still inside the previous marker

@@ -13,8 +13,7 @@ def in_to_array(inputs):
             data.append([x, y])
             pass
         pass
-    data = np.array(data)
-    return data
+    return np.array(data)
 
 
 def num_visible(data):
@@ -23,15 +22,13 @@ def num_visible(data):
         angle = _get_angle(data, position)
         visible[(position[0], position[1])] = len(np.unique(angle))
         pass
-    visible = pd.Series(visible).sort_values()
-    return visible
+    return pd.Series(visible).sort_values()
 
 
 def _get_angle(data, pos):
     delta = data - pos
     angle_ = (np.arctan2(-1 * delta[:, 1], delta[:, 0]) - np.pi / 2) * -1
-    angle = (angle_ + 2 * np.pi) % (2 * np.pi)
-    return angle
+    return (angle_ + 2 * np.pi) % (2 * np.pi)
 
 
 def _get_distance(data, pos):

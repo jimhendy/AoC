@@ -13,19 +13,23 @@ usage = "python main.py <YYYY>/<DD>/<P>.py \n e.g. python main.py 2019/01/a.py"
 
 parser = argparse.ArgumentParser(usage=usage)
 parser.add_argument(
-    "solver_file", help='File containing "run(inputs)" function to solve the problem'
+    "solver_file",
+    help='File containing "run(inputs)" function to solve the problem',
 )
 parser.add_argument("--submit", action="store_true", help="Submit this solution")
 parser.add_argument(
-    "--test_input", nargs="*", type=str, help="Test input to pass to solver"
+    "--test_input",
+    nargs="*",
+    type=str,
+    help="Test input to pass to solver",
 )
 parser.add_argument(
-    "--test_file", help="Use the data store in the passed filename to test the problem"
+    "--test_file",
+    help="Use the data store in the passed filename to test the problem",
 )
 args = parser.parse_args()
 
 if __name__ == "__main__":
-
     # Extract data form the requested solver file
     solver_file = args.solver_file
     year, day, file_name = solver_file.split(os.path.sep)

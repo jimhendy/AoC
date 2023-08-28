@@ -1,5 +1,5 @@
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, List
 
 from tools.a_star import State, a_star
 from tools.point import Point2D
@@ -36,10 +36,10 @@ class Blizzard:
 
 
 class Blizzards:
-    def __init__(self, initial_blizzards: List[Blizzard]) -> None:
-        self._blizzards_store: Dict[int, list[Blizzard]] = {0: initial_blizzards}
-        self._locations_store: Dict[int, set[Point2D]] = {
-            0: {b.location for b in initial_blizzards}
+    def __init__(self, initial_blizzards: list[Blizzard]) -> None:
+        self._blizzards_store: dict[int, list[Blizzard]] = {0: initial_blizzards}
+        self._locations_store: dict[int, set[Point2D]] = {
+            0: {b.location for b in initial_blizzards},
         }
 
     def locations(self, elapsed_time: int) -> set[Point2D]:
@@ -78,7 +78,9 @@ def parse_inputs(inputs: str) -> None:
                     WALLS.add(Point2D(x=x, y=y))
                 case _:
                     blizzards.append(
-                        Blizzard(location=Point2D(x=x, y=y), direction=DIRECTIONS[char])
+                        Blizzard(
+                            location=Point2D(x=x, y=y), direction=DIRECTIONS[char],
+                        ),
                     )
     GRID_HEIGHT = max(w.y for w in WALLS)
     GRID_WIDTH = max(w.x for w in WALLS)
@@ -105,12 +107,12 @@ class Config(State):
     def is_complete(self) -> bool:
         return self.location == DESTINATION
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.elapsed_time=}, {self.location=}"
 
     def all_possible_next_states(self) -> Iterable["Config"]:
         new_time = self.elapsed_time + 1
-        kwargs = dict(elapsed_time=new_time)
+        kwargs = {"elapsed_time": new_time}
         for dest in self.location.nb4():
             if dest in BLIZZARDS.locations(new_time) or dest in WALLS:
                 continue
@@ -140,10 +142,12 @@ def run(inputs: str) -> int:
 
     total_time = navigate_step(origin=entrance, destination=exit)
     total_time = navigate_step(
-        origin=exit, destination=entrance, initial_time=total_time
+        origin=exit,
+        destination=entrance,
+        initial_time=total_time,
     )
-    total_time = navigate_step(
-        origin=entrance, destination=exit, initial_time=total_time
+    return navigate_step(
+        origin=entrance,
+        destination=exit,
+        initial_time=total_time,
     )
-
-    return total_time

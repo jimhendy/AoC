@@ -2,7 +2,7 @@ import os
 
 
 class Die:
-    def __init__(self):
+    def __init__(self) -> None:
         self.rolls = 0
 
     def roll(self) -> int:
@@ -14,7 +14,7 @@ class Die:
 
 
 class Player:
-    def __init__(self, initial_position: int, die: Die):
+    def __init__(self, initial_position: int, die: Die) -> None:
         self.position = initial_position
         self.die = die
         self.score = 0
@@ -36,5 +36,5 @@ def run(inputs):
         for p in players:
             p.take_turn()
             if p.score > 1_000:
-                losing_player = [i for i in players if i != p][0]
+                losing_player = next(i for i in players if i != p)
                 return losing_player.score * die.rolls

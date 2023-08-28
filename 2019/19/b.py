@@ -45,7 +45,7 @@ def run(inputs):
 
     df = pd.DataFrame(extra, columns=["first_x", "y"]).set_index("y")
     df = df.join(
-        pd.DataFrame(extra_m, columns=["right_x", "y"]).set_index("y")
+        pd.DataFrame(extra_m, columns=["right_x", "y"]).set_index("y"),
     ).reset_index()
 
     df["Diff"] = df.right_x.sub(df.first_x)

@@ -51,8 +51,7 @@ def move_position(s, x, y):
     y = int(y)
     value = s[x]
     s = np.delete(s, x)
-    s = np.insert(s, y, value)
-    return s
+    return np.insert(s, y, value)
 
 
 def run(inputs):

@@ -25,5 +25,5 @@ def run(inputs):
             viewing_distance_from_top_to_bottom(inputs[::-1])[::-1],  # From bottom
             viewing_distance_from_top_to_bottom(inputs.T).T,  # From left
             viewing_distance_from_top_to_bottom(inputs.T[::-1])[::-1].T,  # From right
-        )
+        ),
     ).max()

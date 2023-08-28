@@ -12,7 +12,6 @@ def binary_search(func, lower=0, upper=None):
     upper can be provided, otherwise a reasonable estimate is found.
     Assert that func(lower) != func(upper) if upper is provided.
     """
-
     lower_bool = func(lower)
 
     if upper is None:

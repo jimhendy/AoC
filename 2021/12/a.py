@@ -3,7 +3,7 @@ from collections import defaultdict, deque
 
 
 class Route:
-    def __init__(self, current_loc, connections, visits=None):
+    def __init__(self, current_loc, connections, visits=None) -> None:
         self.current_loc = current_loc
         self.visits = visits or defaultdict(int)
         self.visits[self.current_loc] += 1
@@ -11,7 +11,6 @@ class Route:
 
     def all_possible_next_states(self):
         for next_loc in self.connections[self.current_loc]:
-
             if self.visits[next_loc] and next_loc.islower():
                 continue
 
@@ -37,7 +36,6 @@ def extract_connections(inputs):
 
 
 def run(inputs):
-
     connections = extract_connections(inputs)
     queue = deque([Route("start", connections)])
     n_routes = 0

@@ -3,9 +3,8 @@ from collections import defaultdict
 
 
 def run(inputs):
-
     initial, _, *alteration_inputs = inputs.split(os.linesep)
-    alterations = {k: v for k, v in (a.split(" -> ") for a in alteration_inputs)}
+    alterations = dict(a.split(" -> ") for a in alteration_inputs)
 
     pairs = defaultdict(int)
     for i, j in zip(initial[:-1], initial[1:]):

@@ -4,7 +4,6 @@ import pandas as pd
 
 
 def run(inputs):
-
     df = pd.DataFrame([list(i) for i in inputs.split(os.linesep)])
 
     message = []

@@ -7,3 +7,4 @@ def run(inputs):
         for n_j in nums[i + 1 :]:
             if n_i + n_j == 2020:
                 return n_i * n_j
+    return None

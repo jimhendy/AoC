@@ -9,7 +9,7 @@ DIRECTIONS = {
 
 
 class Cart:
-    def __init__(self, loc, track):
+    def __init__(self, loc, track) -> None:
         self.loc = loc  # np.array(row, col)
         self.track = track
         self.direction = self.initial_direction()

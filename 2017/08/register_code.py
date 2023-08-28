@@ -4,7 +4,7 @@ from functools import partial
 
 
 class RegisterCode:
-    def __init__(self, code_text):
+    def __init__(self, code_text) -> None:
         self.registers = defaultdict(int)
         self.code = self.extract_code(code_text)
         self.history = []
@@ -23,7 +23,8 @@ class RegisterCode:
                 "test": partial(self.test, *m[3:]),
             }
             for m in re.findall(
-                r"(\w+) (inc|dec) ([-\d+]+) if (\w+) (.+) ([-\d+]+)", code_text
+                r"(\w+) (inc|dec) ([-\d+]+) if (\w+) (.+) ([-\d+]+)",
+                code_text,
             )
         ]
 
@@ -35,5 +36,5 @@ class RegisterCode:
 
     def test(self, register, comparison_str, comparison_value):
         return eval(
-            f"int({self.registers[register]}) {comparison_str} int({comparison_value})"
+            f"int({self.registers[register]}) {comparison_str} int({comparison_value})",
         )

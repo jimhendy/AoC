@@ -4,7 +4,6 @@ import intcode
 
 
 def run(inputs):
-
     n_computers = 50
     computers = []
     for i in range(n_computers):
@@ -21,7 +20,6 @@ def run(inputs):
     while True:
         all_empty = True
         for c, q in zip(computers, queues):
-
             if q.qsize():
                 all_empty = False
                 while q.qsize():
@@ -57,3 +55,4 @@ def run(inputs):
 
         pass
     pass
+    return None

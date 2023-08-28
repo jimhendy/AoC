@@ -18,10 +18,10 @@ def run(inputs):
                 [
                     r if m == "0" else ("1" if m == "1" else "{}")
                     for m, r in zip(mask, b_reg)
-                ]
+                ],
             )
             for xs in set(itertools.combinations([1, 0] * n_x, n_x)):
                 r = int(masked_reg.format(*xs), 2)
                 memory[r] = int(num)
 
-    return sum([v for v in memory.values()])
+    return sum(list(memory.values()))

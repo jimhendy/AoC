@@ -5,7 +5,6 @@ STEPS = {"E": Point(-1, 0), "W": Point(+1, 0), "N": Point(0, -1), "S": Point(0, 
 
 
 def run(inputs):
-
     inputs = inputs.strip().rstrip("$").lstrip("^")
     graph = nx.Graph()
     pos = Point(0, 0)
@@ -14,7 +13,7 @@ def run(inputs):
     for c in inputs:
         if c == "(":
             before_brackets.append(pos)
-        elif c in STEPS.keys():
+        elif c in STEPS:
             new_pos = pos + STEPS[c]
             graph.add_edge(pos, new_pos)
             pos = new_pos
@@ -24,5 +23,5 @@ def run(inputs):
             pos = before_brackets.pop()
 
     return len(
-        [k for k, v in nx.shortest_path(graph, Point(0, 0)).items() if len(v) > 1_000]
+        [k for k, v in nx.shortest_path(graph, Point(0, 0)).items() if len(v) > 1_000],
     )

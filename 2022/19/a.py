@@ -51,7 +51,7 @@ def analyse_blueperint(blueprint, total_time: int) -> int:
             for cost, new_robots in blueprint:
                 if all(cost <= resources):  # We can afford this robot.
                     next_timestep.append(
-                        (resources + robots - cost, robots + new_robots)
+                        (resources + robots - cost, robots + new_robots),
                     )
         todo = prune(next_timestep)  # Prune the search queue.
     return max(have[0] for have, _ in todo)

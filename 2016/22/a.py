@@ -5,7 +5,7 @@ import pandas as pd
 
 def run(inputs):
     reg = re.compile(
-        r"\/dev\/grid\/node-x(\d+)-y(\d+)\s+(\d+)T\s+(\d+)T\s+(\d+)T\s+(\d+)\%"
+        r"\/dev\/grid\/node-x(\d+)-y(\d+)\s+(\d+)T\s+(\d+)T\s+(\d+)T\s+(\d+)\%",
     )
     data = []
     for m in reg.findall(inputs):
@@ -17,7 +17,7 @@ def run(inputs):
                 "used": int(m[3]),
                 "avail": int(m[4]),
                 "use": int(m[5]),
-            }
+            },
         )
     df = pd.DataFrame(data)
     total = 0

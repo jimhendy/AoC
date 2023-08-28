@@ -1,3 +1,4 @@
+import contextlib
 import re
 from collections import defaultdict
 from functools import lru_cache
@@ -6,14 +7,14 @@ import tqdm
 
 
 class Turing:
-    def __init__(self, instructions):
+    def __init__(self, instructions) -> None:
         self.tape = defaultdict(int)
         self.cursor = 0
         self.instructions = instructions
         self.state = self.extract_inital_state()
         self.steps = self.extract_steps()
         print(
-            f"Turning machine created with initial state {self.state} and {self.steps:,} steps."
+            f"Turning machine created with initial state {self.state} and {self.steps:,} steps.",
         )
 
     def extract_inital_state(self):
@@ -38,13 +39,9 @@ class Turing:
     @lru_cache(1024)
     def extract_instruction_data(self, state, value):
         reg = Turing.generate_regex(state, value)
-        try:
+        with contextlib.suppress(Exception):
             match = re.findall(reg, self.instructions)[0]
-        except:
-            # import pdb
 
-            # pdb.set_trace()
-            pass
         return {
             "WriteValue": int(match[0]),
             "MoveLeft": match[1] == "left",
@@ -60,5 +57,5 @@ class Turing:
                 r"Write the value (\d)\.",
                 r"Move one slot to the (\w+)\.",
                 r"Continue with state ([A-Z])\.",
-            ]
+            ],
         )

@@ -13,7 +13,7 @@ def run(inputs):
         for i in range(max_blocks):
             blocks[(max_index + 1 + i) % n_banks] += 1
         state = str(blocks)
-        if state in seen.keys():
+        if state in seen:
             return n_steps - seen[state]
         seen[state] = n_steps
         n_steps += 1

@@ -4,10 +4,9 @@ from collections import defaultdict
 
 
 class JumpCode:
-
     num_codes = 0
 
-    def __init__(self, instructions):
+    def __init__(self, instructions) -> None:
         self.instructions = instructions
         self.instruction_pointer = 0
         self.registers = defaultdict(int)
@@ -43,15 +42,16 @@ class JumpCode:
         self.is_running = False
 
     def _get_value(self, value):
-        if isinstance(value, (int, float)) or (
+        if isinstance(value, int | float) or (
             isinstance(value, str) and re.match(r"^(\-?\d+)$", value)
         ):
             return int(value)
         elif isinstance(value, str):
             return self._get_value(self.registers[value])
         else:
+            msg = f'Expected value to be a string or int, found "{value}", type: "{type(value)}"'
             raise NotImplementedError(
-                f'Expected value to be a string or int, found "{value}", type: "{type(value)}"'
+                msg,
             )
 
     def snd(self, x):
@@ -85,6 +85,7 @@ class JumpCode:
         self.is_waiting = False
         self.registers[x] = self._get_value(value)
         self.instruction_pointer += 1
+        return None
 
     def jgz(self, x, y):
         if self._get_value(x) > 0:

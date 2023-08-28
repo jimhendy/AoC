@@ -57,7 +57,7 @@ def run(inputs):
                 new_rock = new_pos
             else:
                 [occupied.add(p) for p in new_rock]
-                highest_rock = max(highest_rock, max(p.imag for p in new_rock))
+                highest_rock = max(highest_rock, *(p.imag for p in new_rock))
                 break
 
         data[rock_i] = highest_rock - previous

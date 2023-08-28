@@ -52,11 +52,9 @@ def run(inputs):
     remaining_inputs = inputs[:]
 
     while len(remaining_inputs):
-
         inputs = remaining_inputs[:]
 
         for line in inputs:
-
             func = None
             if " AND " in line:
                 func = do_and

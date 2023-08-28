@@ -7,7 +7,8 @@ import pandas as pd
 def run(inputs):
     reg = re.compile(r"([\-\d]+)")
     df = pd.DataFrame(
-        [reg.findall(line) for line in inputs.split(os.linesep)], columns=list("xyzr")
+        [reg.findall(line) for line in inputs.split(os.linesep)],
+        columns=list("xyzr"),
     ).astype(int)
     max_r = df.loc[df.r.idxmax()]
 

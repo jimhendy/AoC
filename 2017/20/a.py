@@ -3,11 +3,11 @@ import re
 
 import numpy as np
 
-NUM = "[ \-\d]+"
+NUM = r"[ \-\d]+"
 
 
 class Particle:
-    def __init__(self, particle_id, config_str):
+    def __init__(self, particle_id, config_str) -> None:
         self.particle_id = particle_id
         data = list(
             map(
@@ -16,7 +16,7 @@ class Particle:
                     f"^p=<({NUM}),({NUM}),({NUM})>, v=<({NUM}),({NUM}),({NUM})>, a=<({NUM}),({NUM}),({NUM})>$",
                     config_str,
                 )[0],
-            )
+            ),
         )
         self.position = np.array([data[0], data[1], data[2]])
         self.velocity = np.array([data[3], data[4], data[5]])
@@ -38,5 +38,6 @@ def run(inputs):
         [p.update() for p in particles]
 
     return sorted(
-        [(p.particle_id, p.distance()) for p in particles], key=lambda x: x[1]
+        [(p.particle_id, p.distance()) for p in particles],
+        key=lambda x: x[1],
     )[0][0]

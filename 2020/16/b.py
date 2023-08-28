@@ -6,7 +6,6 @@ import pandas as pd
 
 
 def run(inputs):
-
     rules, my_ticket, tickets = extract_data(inputs)
     valid_tickets = find_valid_tickets(rules, tickets)
     rule_index = find_rules_index(rules, valid_tickets)
@@ -16,7 +15,7 @@ def run(inputs):
         if rule_name.startswith("departure"):
             nums.append(my_ticket[index])
 
-    return np.product(nums)
+    return np.prod(nums)
 
 
 def extract_data(inputs):
@@ -45,7 +44,7 @@ def find_valid_tickets(rules, tickets):
         valid_ticket = True
         for num in ticket:
             valid_num = False
-            for rule_name, rule in rules.items():
+            for rule in rules.values():
                 if rule[0] <= num <= rule[1] or rule[2] <= num <= rule[3]:
                     valid_num = True
                     break
@@ -64,10 +63,13 @@ def find_rules_index(rules, valid_tickets):
             for rule_name, rule in rules.items():
                 valid = rule[0] <= num <= rule[1] or rule[2] <= num <= rule[3]
                 data.append(
-                    {"Num_i": num_i, "RuleName": rule_name, "Valid": int(valid)}
+                    {"Num_i": num_i, "RuleName": rule_name, "Valid": int(valid)},
                 )
     df = pd.DataFrame(data).pivot_table(
-        index="RuleName", columns="Num_i", values="Valid", aggfunc="mean"
+        index="RuleName",
+        columns="Num_i",
+        values="Valid",
+        aggfunc="mean",
     )
     df[df.ne(1)] = 0
     df = df.astype(int)

@@ -6,8 +6,7 @@ import networkx as nx
 
 
 def run(inputs):
-
-    reg = re.compile("(.+) to (.+) = (\d+)")
+    reg = re.compile(r"(.+) to (.+) = (\d+)")
 
     graph = nx.Graph()
 
@@ -18,7 +17,6 @@ def run(inputs):
 
     best_path_length = None
     for path in itertools.permutations(graph.nodes):
-
         this_path_length = 0
 
         for i, j in zip(path[:-1], path[1:]):
@@ -26,7 +24,6 @@ def run(inputs):
 
         if best_path_length is None or this_path_length > best_path_length:
             best_path_length = this_path_length
-            # print(best_path_length, path)
             pass
 
         pass

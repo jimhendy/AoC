@@ -10,7 +10,6 @@ def instruction(instr, prog):
 
 
 def run(inputs):
-
     prog = Intcode(inputs)
 
     ins = [

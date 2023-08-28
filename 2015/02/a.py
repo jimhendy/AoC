@@ -11,14 +11,14 @@ def area(dims):
     smallest = min([x, y, z])
     return 2 * x + 2 * y + 2 * z + smallest
     pass
+    return None
 
 
 def run(inputs):
-
-    reg = re.compile("(\d+)x(\d+)x(\d+)")
+    reg = re.compile(r"(\d+)x(\d+)x(\d+)")
 
     dims = np.array(
-        [int(i) for line in inputs.split(os.linesep) for i in reg.findall(line)[0]]
+        [int(i) for line in inputs.split(os.linesep) for i in reg.findall(line)[0]],
     ).reshape(-1, 3)
 
     total = 0

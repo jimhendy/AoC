@@ -3,10 +3,11 @@ import re
 
 def increment(password):
     if password[-1] == "z":
-        return increment(password[:-1]) + ["a"]
+        return [*increment(password[:-1]), "a"]
     else:
         return password[:-1] + [chr(ord(password[-1]) + 1)]
     pass
+    return None
 
 
 def is_increasing(password):
@@ -27,13 +28,13 @@ def is_increasing(password):
 def is_pairs(password):
     p = "".join(password)
     matches = re.findall(r"(\D)(\1)", p)
-    if len(set([m[0] for m in matches])) < 2:
+    if len({m[0] for m in matches}) < 2:
         return False
     return True
 
 
 def is_good_chars(password):
-    return not any([i in password for i in ["i", "o", "l"]])
+    return not any(i in password for i in ["i", "o", "l"])
 
 
 def run(inputs):
@@ -48,3 +49,4 @@ def run(inputs):
         pass
 
     pass
+    return None

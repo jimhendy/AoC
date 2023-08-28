@@ -3,7 +3,6 @@ import tqdm
 
 
 def run(inputs):
-
     serial_number = int(inputs)
 
     df = pd.DataFrame([{"x": x, "y": y} for x in range(1, 301) for y in range(1, 301)])

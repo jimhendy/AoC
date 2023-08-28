@@ -1,5 +1,4 @@
 from collections import deque
-from typing import List
 
 from packets import Literal, Operator, Packet
 
@@ -7,21 +6,21 @@ from tools.number_conversion import binary_to_decimal, hex_to_binary
 
 
 class BitsMessage:
-    def __init__(self, hex_message: str):
+    def __init__(self, hex_message: str) -> None:
         """
-        Construct a BitsMessage
+        Construct a BitsMessage.
 
         :param hex_message: The input hex string to decode.
         """
         self.hex_message = hex_message
         self.queue = deque(
-            [j for i in list(self.hex_message) for j in hex_to_binary(i)]
+            [j for i in list(self.hex_message) for j in hex_to_binary(i)],
         )
         self.packets = []
         self.version_total = 0
         self.pops = 0
 
-    def extract_n_binary(self, n: int) -> List[int]:
+    def extract_n_binary(self, n: int) -> list[int]:
         """
         Pop (from the left) ``n`` characters from the ``queue`` of binary bits.
 
@@ -40,7 +39,7 @@ class BitsMessage:
         """
         return binary_to_decimal(self.extract_n_binary(n))
 
-    def extract_literal_binary(self) -> List[str]:
+    def extract_literal_binary(self) -> list[str]:
         """
         Extract the literal number from the left of the ``queue`` and return as a list of binary bits.
 
@@ -85,4 +84,5 @@ class BitsMessage:
                 ]
                 return Operator(version=version, type_id=type_id, subpackets=subpackets)
             else:
-                raise NotImplementedError(f"length_type_id {length_type_id} unknown")
+                msg = f"length_type_id {length_type_id} unknown"
+                raise NotImplementedError(msg)

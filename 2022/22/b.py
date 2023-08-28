@@ -1,6 +1,6 @@
 import re
 from collections import defaultdict, deque
-from typing import Callable, Dict
+from collections.abc import Callable
 
 from tools.point import Point2D
 
@@ -15,11 +15,10 @@ def run(inputs: str):  # sourcery skip: collection-into-set
 
     open_tiles = set()
     walls = set()
-    loop_tiles: Dict[str, Dict[Point2D, Point2D]] = defaultdict(dict)
-    loop_directions: Dict[str, Dict[Point2D, Point2D]] = defaultdict(dict)
+    loop_tiles: dict[str, dict[Point2D, Point2D]] = defaultdict(dict)
+    loop_directions: dict[str, dict[Point2D, Point2D]] = defaultdict(dict)
 
     for y, row in enumerate(board):
-
         for x, char in enumerate(row):
             if char == " ":
                 continue
@@ -32,7 +31,8 @@ def run(inputs: str):  # sourcery skip: collection-into-set
     side_length = max(len(board) // 4, max(len(line) for line in board) // 4)
 
     def extract_from_x(
-        x_lambda: Callable[[int], int], min_or_max: Callable
+        x_lambda: Callable[[int], int],
+        min_or_max: Callable,
     ) -> Callable[[int], Point2D]:
         def func(i: int) -> Point2D:
             x = x_lambda(i)
@@ -41,7 +41,8 @@ def run(inputs: str):  # sourcery skip: collection-into-set
         return func
 
     def extract_from_y(
-        y_lambda: Callable[[int], int], min_or_max: Callable
+        y_lambda: Callable[[int], int],
+        min_or_max: Callable,
     ) -> Callable[[int], Point2D]:
         def func(i: int) -> Point2D:
             y = y_lambda(i)

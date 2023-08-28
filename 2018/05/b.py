@@ -18,5 +18,5 @@ def reduced_length(inputs, omit):
 
 
 def run(inputs):
-    possibles = set((i.lower() for i in list(inputs)))
+    possibles = {i.lower() for i in list(inputs)}
     return min([reduced_length(inputs, p) for p in possibles])

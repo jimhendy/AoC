@@ -10,7 +10,7 @@ def new_year(year: int) -> None:
         day_dir.mkdir(exist_ok=True)
         for part in "ab":
             filename = day_dir / f"{part}.py"
-            subprocess.call(f"touch {str(filename)}", shell=True)
+            subprocess.call(f"touch {filename!s}", shell=True)
 
 
 if __name__ == "__main__":

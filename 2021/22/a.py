@@ -3,7 +3,7 @@ import os
 
 def get_extremes(numbers, variable):
     lower, upper = list(
-        map(int, numbers.split(variable + "=")[1].split(",")[0].split(".."))
+        map(int, numbers.split(variable + "=")[1].split(",")[0].split("..")),
     )
 
     return [lower, upper + 1]

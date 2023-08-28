@@ -23,13 +23,10 @@ def index_from_row_col(row, col):
 
 
 def run(inputs):
-
-    aim_row = int(re.findall("row (\d+)", inputs)[0])
-    aim_col = int(re.findall("column (\d+)", inputs)[0])
+    aim_row = int(re.findall(r"row (\d+)", inputs)[0])
+    aim_col = int(re.findall(r"column (\d+)", inputs)[0])
 
     desired_i = index_from_row_col(aim_row, aim_col)
 
     prev = 20151125
-    result = find_rand(prev, desired_i)
-
-    return result
+    return find_rand(prev, desired_i)

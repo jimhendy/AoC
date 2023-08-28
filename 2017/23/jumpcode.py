@@ -3,7 +3,7 @@ from collections import defaultdict
 
 
 class JumpCode:
-    def __init__(self, instructions, bail_func=None, debug_mode=False):
+    def __init__(self, instructions, bail_func=None, debug_mode=False) -> None:
         self.instructions = instructions
         self.instruction_pointer = 0
         self.registers = defaultdict(int)
@@ -37,15 +37,16 @@ class JumpCode:
         pass
 
     def _get_value(self, value):
-        if isinstance(value, (int, float)) or (
+        if isinstance(value, int | float) or (
             isinstance(value, str) and re.match(r"^(\-?\d+)$", value)
         ):
             return int(value)
         elif isinstance(value, str):
             return self._get_value(self.registers[value])
         else:
+            msg = f'Expected value to be a string or int, found "{value}", type: "{type(value)}"'
             raise NotImplementedError(
-                f'Expected value to be a string or int, found "{value}", type: "{type(value)}"'
+                msg,
             )
 
     def set(self, x, y):

@@ -11,7 +11,7 @@ ROCKS = itertools.cycle(
         [complex(0, 0), complex(1, 0), complex(2, 0), complex(2, 1), complex(2, 2)],
         [complex(0, 0), complex(0, 1), complex(0, 2), complex(0, 3)],
         [complex(0, 0), complex(0, 1), complex(1, 1), complex(1, 0)],
-    ]
+    ],
 )
 
 
@@ -52,7 +52,7 @@ def run(inputs):
                 new_rock = new_pos
             else:
                 [occupied.add(p) for p in new_rock]
-                highest_rock = max(highest_rock, max(p.imag for p in new_rock))
+                highest_rock = max(highest_rock, *(p.imag for p in new_rock))
                 break
 
     return highest_rock + 1

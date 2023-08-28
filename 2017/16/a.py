@@ -11,7 +11,8 @@ def run(inputs):
         elif i[0] == "p":
             programs = partner(programs, i[1:])
         else:
-            raise RuntimeError(f"Unknown command {i}")
+            msg = f"Unknown command {i}"
+            raise RuntimeError(msg)
     return "".join(programs)
 
 
@@ -20,7 +21,7 @@ def spin(programs, num):
 
 
 def exchange(programs, args):
-    pos_a, pos_b = [int(i) for i in args.split("/")]
+    pos_a, pos_b = (int(i) for i in args.split("/"))
     return _swap_pos(programs, pos_a, pos_b)
 
 

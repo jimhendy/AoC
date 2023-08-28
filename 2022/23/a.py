@@ -27,7 +27,9 @@ def all_empty(location: Point2D, locations: Points, direction: str) -> bool:
 
 
 def proposed_destinations(
-    wants_to_move: Points, locations: Points, directions: list[str]
+    wants_to_move: Points,
+    locations: Points,
+    directions: list[str],
 ) -> dict[Point2D, list[Point2D]]:
     destinations = defaultdict(list)
     for loc in wants_to_move:
@@ -77,12 +79,10 @@ def print_grid(locations: Points) -> None:
 
 
 def run(inputs: str) -> int:
-
     locations = parse_inputs(inputs)
     preferred_dirs = ["up", "down", "left", "right"]
 
     for _ in range(10):
-        # print_grid(locations)
         wants = wants_to_move(locations)
         destinations = proposed_destinations(wants, locations, preferred_dirs)
         move_elves(locations, destinations)

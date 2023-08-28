@@ -7,7 +7,7 @@ from tools.point import Point2D
 
 
 class Route(State):
-    def __init__(self, pos, scan, prev_risk=0):
+    def __init__(self, pos, scan, prev_risk=0) -> None:
         self.current_pos = pos
         self.scan = scan
         self.risk = prev_risk + self.scan[self.current_pos.y, self.current_pos.x]

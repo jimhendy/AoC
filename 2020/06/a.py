@@ -2,7 +2,6 @@ import os
 
 
 def run(inputs):
-
     total = 0
     data = set()  # Use a set to store the answers from each group
     for line in inputs.split(os.linesep):

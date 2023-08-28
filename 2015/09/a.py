@@ -6,8 +6,7 @@ import networkx as nx
 
 
 def run(inputs):
-
-    reg = re.compile("(.+) to (.+) = (\d+)")
+    reg = re.compile(r"(.+) to (.+) = (\d+)")
 
     graph = nx.Graph()
 
@@ -18,11 +17,10 @@ def run(inputs):
 
     best_path_length = None
     for path in itertools.permutations(graph.nodes):
-
         this_path_length = 0
         failed = False
 
-        for i, j in zip(path[:-1], path[1:]):
+        for i, j in itertools.pairwise(path):
             new_path = nx.dijkstra_path(graph, i, j)
             if len(new_path) != 2:
                 failed = True
@@ -35,7 +33,6 @@ def run(inputs):
 
         if best_path_length is None or this_path_length < best_path_length:
             best_path_length = this_path_length
-            # print(best_path_length, path)
             pass
 
         pass

@@ -14,7 +14,7 @@ CHARACTERS = {Terrain.Rocky: ".", Terrain.Wet: "=", Terrain.Narrow: "|", "unknow
 
 
 class Cave:
-    def __init__(self, depth, target):
+    def __init__(self, depth, target) -> None:
         self.depth = depth
         self.target = target
         self.erosion_level_cache = {}  # Keyed by point
@@ -23,7 +23,6 @@ class Cave:
         self.grid = []
 
     def geologic_index(self, p):
-
         if p in self.geologic_index_cache:
             return self.geologic_index_cache[p]
 
@@ -37,14 +36,13 @@ class Cave:
             gi = p.y * 48271
         else:
             gi = self.erosion_level(p.neighbour("left")) * self.erosion_level(
-                p.neighbour("up")
+                p.neighbour("up"),
             )
 
         self.geologic_index_cache[p] = gi
         return gi
 
     def erosion_level(self, p):
-
         if p in self.erosion_level_cache:
             return self.erosion_level_cache[p]
 
@@ -59,12 +57,9 @@ class Cave:
         self.terrain_cache[p] = terrain
         return terrain
 
-    def __repr__(self):
-        max_x = max([p.x for p in self.terrain_cache.keys()])
-        max_y = max([p.y for p in self.terrain_cache.keys()])
-
-        # max_x = max([max_x, self.target.x])
-        # max_y = max([max_y, self.target.y])
+    def __repr__(self) -> str:
+        max_x = max([p.x for p in self.terrain_cache])
+        max_y = max([p.y for p in self.terrain_cache])
 
         out = ""
         for y in range(max_y + 1):

@@ -10,7 +10,6 @@ def instruction(instr, prog):
 
 
 def run(inputs):
-
     prog = Intcode(inputs)
 
     ins = ["NOT B J", "NOT C T", "OR J T", "AND D T", "NOT A J", "OR T J", "WALK"]

@@ -1,5 +1,4 @@
 import os
-from typing import Dict, List, Tuple, Union
 
 import numpy as np
 
@@ -11,9 +10,9 @@ class Amphipod:
         self,
         type: str,
         id_number: int,
-        hallway_pos: Union[None, int] = None,
+        hallway_pos: None | int = None,
         entered_room: bool = False,
-    ):
+    ) -> None:
         self.type = type
         self.cost = {"A": 1, "B": 10, "C": 100, "D": 1_000}[type]
         self.hallway_pos = hallway_pos
@@ -28,12 +27,12 @@ class Amphipod:
             id_number=self.id_number,
         )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.type}, {self.cost}, {self.hallway_pos}, {self.entered_room}, {self.id_number}"
 
 
 class Hallway:
-    def __init__(self, length: int, occupied: Dict[int, int] = None):
+    def __init__(self, length: int, occupied: dict[int, int] | None = None) -> None:
         self.length = length
         self.occupied = (
             {}
@@ -49,31 +48,34 @@ class Hallway:
 
     def copy(self) -> "Hallway":
         return Hallway(
-            length=self.length, occupied={k: v for k, v in self.occupied.items()}
+            length=self.length,
+            occupied=dict(self.occupied.items()),
         )
 
 
 class Room:
     def __init__(
         self,
-        top_amphipod_id: Union[None, int],
-        bottom_amphipod_id: Union[None, int],
+        top_amphipod_id: None | int,
+        bottom_amphipod_id: None | int,
         hallway_pos: int,
         desired_type: str,
-    ):
+    ) -> None:
         self.top_amphipod_id = top_amphipod_id
         self.bottom_amphipod_id = bottom_amphipod_id
         self.hallway_pos = hallway_pos
         self.desired_type = desired_type
 
-    def can_add(self, amphipod: Amphipod, all_amphipods: List[Amphipod]) -> bool:
+    def can_add(self, amphipod: Amphipod, all_amphipods: list[Amphipod]) -> bool:
         if amphipod.type != self.desired_type:
             return False
         if self.bottom_amphipod_id is None:
             return True
         if self.top_amphipod_id is not None:
             return False
-        bottom = [a for a in all_amphipods if a.id_number == self.bottom_amphipod_id][0]
+        bottom = next(
+            a for a in all_amphipods if a.id_number == self.bottom_amphipod_id
+        )
         return amphipod.type == bottom.type
 
     def add_amphipod(self, amphipod_id: int) -> "Room":
@@ -92,12 +94,13 @@ class Room:
                 desired_type=self.desired_type,
             )
         else:
-            raise RuntimeError("No space to add a new amphipod")
+            msg = "No space to add a new amphipod"
+            raise RuntimeError(msg)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.top_amphipod_id}_{self.bottom_amphipod_id}"
 
-    def get_next_amphipod_id(self) -> Union[int, None]:
+    def get_next_amphipod_id(self) -> int | None:
         if self.top_amphipod_id is not None:
             return self.top_amphipod_id
         elif self.bottom_amphipod_id is not None:
@@ -113,15 +116,15 @@ class Room:
             desired_type=self.desired_type,
         )
 
-    def is_complete(self, all_amphipods: List[Amphipod]) -> bool:
+    def is_complete(self, all_amphipods: list[Amphipod]) -> bool:
         if self.top_amphipod_id is None or self.bottom_amphipod_id is None:
             return False
-        top_type = [a for a in all_amphipods if a.id_number == self.top_amphipod_id][
-            0
-        ].type
-        bottom_type = [
+        top_type = next(
+            a for a in all_amphipods if a.id_number == self.top_amphipod_id
+        ).type
+        bottom_type = next(
             a for a in all_amphipods if a.id_number == self.bottom_amphipod_id
-        ][0].type
+        ).type
         return top_type == bottom_type == self.desired_type
 
 
@@ -129,11 +132,11 @@ class Route(State):
     def __init__(
         self,
         hallway: Hallway,
-        rooms: List[Room],
-        amphipods: List[Amphipod],
+        rooms: list[Room],
+        amphipods: list[Amphipod],
         energy: int = 0,
-        history: Union[None, List[Tuple[int, str]]] = None,
-    ):
+        history: None | list[tuple[int, str]] = None,
+    ) -> None:
         self.hallway = hallway
 
         self.rooms = rooms
@@ -143,7 +146,7 @@ class Route(State):
         self.history.append((self.energy, self.__repr__()))
 
     def is_complete(self):
-        return all([r.is_complete(all_amphipods=self.amphipods) for r in self.rooms])
+        return all(r.is_complete(all_amphipods=self.amphipods) for r in self.rooms)
 
     def is_valid(self):
         return True
@@ -152,9 +155,9 @@ class Route(State):
         return self.energy < other.energy
 
     def _amphipod_from_id(self, id_number: int) -> str:
-        return [a for a in self.amphipods if a.id_number == id_number][0]
+        return next(a for a in self.amphipods if a.id_number == id_number)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         s = "#" * (self.hallway.length + 2) + os.linesep + "#"
         for hallway_pos in range(self.hallway.length):
             if hallway_pos in self.hallway.occupied:
@@ -194,23 +197,23 @@ class Route(State):
 
     def all_possible_next_states(self):
         # Hallway chaps can move to other hallway spots or into empty rooms (can't pass each other)
-        occupied = sorted(list(self.hallway.occupied.keys()))
+        occupied = sorted(self.hallway.occupied.keys())
         for hallway_pos, amphipod_id in self.hallway.occupied.items():
-            amphipod = [a for a in self.amphipods if a.id_number == amphipod_id][0]
+            amphipod = next(a for a in self.amphipods if a.id_number == amphipod_id)
             if amphipod.entered_room:
+                msg = "Shouldn't have dudes in the hallway that have already entered a room"
                 raise RuntimeError(
-                    "Shouldn't have dudes in the hallway that have already entered a room"
+                    msg,
                 )
 
             for new_pos in range(self.hallway.length):
                 # if any([new_pos == r.hallway_pos for r in self.rooms]):
-                #    continue
                 if new_pos == hallway_pos or new_pos in occupied:
                     continue
                 elif new_pos < hallway_pos:
-                    crossing_other = any([new_pos < i < hallway_pos for i in occupied])
+                    crossing_other = any(new_pos < i < hallway_pos for i in occupied)
                 else:
-                    crossing_other = any([new_pos > i > hallway_pos for i in occupied])
+                    crossing_other = any(new_pos > i > hallway_pos for i in occupied)
                 if crossing_other:
                     continue
 
@@ -249,7 +252,9 @@ class Route(State):
                     )
                 else:
                     new_hallway = self.hallway.move_amphipod(
-                        old=hallway_pos, new=new_pos, amphipod_id=amphipod.id_number
+                        old=hallway_pos,
+                        new=new_pos,
+                        amphipod_id=amphipod.id_number,
                     )
                     new_rooms = [r.copy() for r in self.rooms]
                     new_amphipods = [a.copy() for a in self.amphipods if a != amphipod]
@@ -271,24 +276,20 @@ class Route(State):
             next_amphipod_id = r.get_next_amphipod_id()
             if next_amphipod_id is None:
                 continue
-            next_amphipod = [
+            next_amphipod = next(
                 a for a in self.amphipods if a.id_number == next_amphipod_id
-            ][0]
+            )
             if next_amphipod.entered_room:
                 continue
             for new_pos in range(self.hallway.length):
                 if new_pos in occupied:
                     continue
-                elif any([rr.hallway_pos == new_pos for rr in self.rooms]):
+                elif any(rr.hallway_pos == new_pos for rr in self.rooms):
                     continue
                 elif new_pos < r.hallway_pos:
-                    crossing_other = any(
-                        [new_pos < i < r.hallway_pos for i in occupied]
-                    )
+                    crossing_other = any(new_pos < i < r.hallway_pos for i in occupied)
                 else:
-                    crossing_other = any(
-                        [new_pos > i > r.hallway_pos for i in occupied]
-                    )
+                    crossing_other = any(new_pos > i > r.hallway_pos for i in occupied)
                 if crossing_other:
                     continue
 
@@ -333,7 +334,7 @@ def run(inputs):
         Amphipod(type=t, id_number=i)
         for i, t in enumerate(list(top_amphipods) + list(bottom_amphipods))
     ]
-    print([a for a in amphipods])
+    print(list(amphipods))
 
     rooms = [
         Room(

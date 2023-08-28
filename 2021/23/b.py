@@ -29,7 +29,7 @@ class Route:
         energy,
         amphipod_id_to_type,
         amphipod_id_to_cost,
-    ):
+    ) -> None:
         self.hallway = hallway
         self.rooms = rooms
         self.energy = energy
@@ -160,7 +160,6 @@ class Route:
 
         # Hallway chaps can move into their room if it's ready
         for hallway_pos, amphipod_id in enumerate(self.hallway):
-
             if amphipod_id == -1:
                 continue
 
@@ -205,12 +204,11 @@ class Route:
                     self.energy + move_energy + in_energy,
                     self.amphipod_id_to_type,
                     self.amphipod_id_to_cost,
-                )
+                ),
             )
 
         # Room chaps can move out only if the have not already done so
         for room_id, room in enumerate(self.rooms):
-
             if self.next_space_to_leave[room_id] == -1:
                 continue
 
@@ -221,7 +219,6 @@ class Route:
             room_pos = self.room_id_to_hallway_pos(room_id)
 
             for new_pos in range(len(self.hallway)):
-
                 if new_pos in occupied:
                     continue
                 elif new_pos == room_pos:
@@ -268,7 +265,7 @@ class Route:
                             self.energy + move_energy + in_energy + out_energy,
                             self.amphipod_id_to_type,
                             self.amphipod_id_to_cost,
-                        )
+                        ),
                     )
                 else:
                     # Go from room into hallway
@@ -289,15 +286,13 @@ class Route:
                             self.energy + move_energy + extra_energy,
                             self.amphipod_id_to_type,
                             self.amphipod_id_to_cost,
-                        )
+                        ),
                     )
         return outputs
 
 
 def a_star(initial_state, tag_func=str):
-    """
-    Custom implementation required as numba jitclass instances can't be used in the heapq
-    """
+    """Custom implementation required as numba jitclass instances can't be used in the heapq."""
     i = 0
     possible_states = [(initial_state[0], i)]
     data = {i: initial_state[1]}
@@ -305,7 +300,6 @@ def a_star(initial_state, tag_func=str):
     seen = set()
 
     while len(possible_states):
-
         _, best_option_key = heapq.heappop(possible_states)
         best_option = data.pop(best_option_key)
 
@@ -326,7 +320,8 @@ def a_star(initial_state, tag_func=str):
             key = (s.energy, i)
             heapq.heappush(possible_states, key)
 
-    raise RuntimeError("Search did not complete")
+    msg = "Search did not complete"
+    raise RuntimeError(msg)
 
 
 def run(inputs):

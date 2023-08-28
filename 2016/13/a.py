@@ -4,7 +4,7 @@ DEST = [31, 39]
 
 
 class Position(a_star.State):
-    def __init__(self, x, y, fav_num, prev_steps=0):
+    def __init__(self, x, y, fav_num, prev_steps=0) -> None:
         self.x = x
         self.y = y
         self.fav_num = fav_num
@@ -24,7 +24,9 @@ class Position(a_star.State):
 
     def is_valid(self):
         return (self.x >= 0 and self.y >= 0) and not is_wall(
-            self.x, self.y, self.fav_num
+            self.x,
+            self.y,
+            self.fav_num,
         )
 
     def all_possible_next_states(self):
@@ -33,7 +35,10 @@ class Position(a_star.State):
                 if dy != 0 and dx != 0:
                     continue
                 yield Position(
-                    self.x + dx, self.y + dy, self.fav_num, self.prev_steps + 1
+                    self.x + dx,
+                    self.y + dy,
+                    self.fav_num,
+                    self.prev_steps + 1,
                 )
 
 

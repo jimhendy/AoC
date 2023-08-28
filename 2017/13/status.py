@@ -4,7 +4,7 @@ from layer import Layer
 
 
 class Status:
-    def __init__(self, inputs):
+    def __init__(self, inputs) -> None:
         self.inputs = inputs
         self.layers = self._get_layers()
         self.my_depth = 0
@@ -12,9 +12,9 @@ class Status:
         self.severity = None
 
     def _get_layers(self):
-        layers = dict()
+        layers = {}
         for i in self.inputs.split(os.linesep):
-            depth, range_ = [int(ii.strip()) for ii in i.split(":")]
+            depth, range_ = (int(ii.strip()) for ii in i.split(":"))
             layers[depth] = Layer(depth, range_)
         return layers
 

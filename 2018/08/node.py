@@ -1,5 +1,8 @@
+import contextlib
+
+
 class Node:
-    def __init__(self, remaining_input, parent_node=None):
+    def __init__(self, remaining_input, parent_node=None) -> None:
         self.remaining_input = remaining_input
         self.metadata = []
         self.parent_node = parent_node
@@ -16,8 +19,7 @@ class Node:
         else:
             total = 0
             for i in self.metadata:
-                try:
+                with contextlib.suppress(IndexError):
                     total += self.children[i - 1].value()
-                except IndexError:
-                    pass
+
             return total

@@ -6,13 +6,12 @@ from moon import Moon
 
 
 def run(inputs):
-
     moons = [Moon(ps) for ps in inputs.split(os.linesep)]
     n_steps = 1000
 
     for s in range(1, n_steps + 1):
         for i, mi in enumerate(moons):
-            for j, mj in enumerate(moons[i + 1 :]):
+            for _j, mj in enumerate(moons[i + 1 :]):
                 common.apply_gravity(mi, mj)
                 pass
             pass

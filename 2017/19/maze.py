@@ -4,7 +4,9 @@ import a_star
 
 
 class Maze(a_star.State):
-    def __init__(self, grid, row, col, letters=None, n_steps=0, direction=(+1, 0)):
+    def __init__(
+        self, grid, row, col, letters=None, n_steps=0, direction=(+1, 0),
+    ) -> None:
         self.grid = grid
         self.row = row
         self.col = col
@@ -55,7 +57,6 @@ class Maze(a_star.State):
         return n_connections == 1
 
     def all_possible_next_states(self):
-
         if self.current_character != "+":
             # Continue in same direction
             yield Maze(
@@ -94,5 +95,5 @@ class Maze(a_star.State):
     def __lt__(self, other):
         return self.n_steps < other.n_steps
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.row}_{self.col}_{self.current_character}"

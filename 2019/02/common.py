@@ -28,8 +28,9 @@ def analyse_optcode(inputs, address):
     else:
         print(inputs)
         print(inputs[address : address + 4])
+        msg = f'Unexpected code "{inputs[address]}" at address "{address}"'
         raise NotImplementedError(
-            f'Unexpected code "{inputs[address]}" at address "{address}"'
+            msg,
         )
 
 

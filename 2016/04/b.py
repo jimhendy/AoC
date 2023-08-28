@@ -14,8 +14,7 @@ def cipher(key, shift):
 
 
 def run(inputs):
-
-    reg = re.compile("([a-z\-]+)\-(\d+)\[([a-z]+)\]")
+    reg = re.compile(r"([a-z\-]+)\-(\d+)\[([a-z]+)\]")
 
     results = defaultdict(list)
 
@@ -34,14 +33,12 @@ def run(inputs):
             [
                 "".join([cipher(character, sector_id) for character in word])
                 for word in match[0].split("-")
-            ]
+            ],
         )
 
         if "north" in deciphered:
             results[sector_id].append(deciphered)
 
-    # print(results)
-
     assert len(results) == 1
 
-    return list(results.keys())[0]
+    return next(iter(results.keys()))

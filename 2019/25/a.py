@@ -19,7 +19,6 @@ def run_cmd(prog, cmd=None):
 
 
 def run(inputs):
-
     prog = intcode.Intcode(inputs)
 
     cmds = [
@@ -71,7 +70,6 @@ def run(inputs):
     n_things = len(things)
 
     for n_drops in range(n_things):
-
         for comb in itertools.combinations(things, n_things - n_drops):
             print(comb)
             print(current_inv)
@@ -93,6 +91,7 @@ def run(inputs):
             if 'A loud, robotic voice says "Alert! Droids on this ship are' in msg:
                 print("Failure")
             else:
-                reg = re.compile("to get in by typing (\d+) on the keypad")
+                reg = re.compile(r"to get in by typing (\d+) on the keypad")
                 match = re.findall(reg, msg)
                 return match[0]
+    return None

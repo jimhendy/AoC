@@ -31,7 +31,6 @@ def run(salt):
 
         to_delete = []
         for k, v in possibles.items():
-
             if k == index:
                 continue
 
