@@ -1,5 +1,7 @@
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from functools import cached_property
+from typing import ClassVar
 
 from a_star import State, a_star
 
@@ -8,37 +10,35 @@ REG = re.compile(
 )
 
 
-@dataclass
+@dataclass(slots=True, frozen=True)
 class Valve:
     name: str
     rate: int
-    leads_to: list[str]
+    leads_to: dict[str, int]  # Desination, Duration
+
+
+@dataclass(slots=True, frozen=True)
+class Actor:
+    location: str
+    time_to_action: int
 
 
 VALVES: dict[str, Valve] = {}
-THRESHOLD: int = 0
 TIME: int = 26
 
 
+@dataclass(slots=True, frozen=True)
 class Config(State):
-    def __init__(
-        self,
-        location: str,
-        el_location: str,
-        elapsed_time: int = 0,
-        released: int = 0,
-        total_flow_rate: int = 0,
-        open_valves: list[str] | None = None,
-        history: str = "",
-    ) -> None:
-        self.location = location
-        self.el_location = el_location
-        self.total_flow_rate = total_flow_rate
-        self.open_valves = open_valves or set()
-        self.elapsed_time = elapsed_time
-        self.released = released
-        self.history = history
-        self.history += f"{self.location}/{self.el_location}({self.elapsed_time}) "
+    person: Actor
+    elephant: Actor
+
+    elapsed_time: int = 0
+    released: int = 0
+    total_flow_rate: int = 0
+
+    open_valves: set[str] = field(default_factory=set)
+
+    _threshold: ClassVar[int] = 0
 
     def all_possible_next_states(self):
         new_time = self.elapsed_time + 1
@@ -104,15 +104,15 @@ class Config(State):
         if self.elapsed_time > TIME:
             return False
         self.guaranteed()
-        return self.potential() >= (THRESHOLD / 1)
+        return self.potential >= Config._threshold
 
     def __lt__(self, other: "Config") -> bool:
-        if self.elapsed_time == other.elapsed_time:
-            return self.released > other.released
         return self.elapsed_time < other.elapsed_time
 
+    @cached_property
     def potential(self):
-        # Other configs should only be one or two steps behind so consider what they can do in that time
+        # Other configs should only be one or two steps behind so consider what they
+        # can do in that time
         remaining_rates = sorted(
             [v.rate for k, v in VALVES.items() if k not in self.open_valves],
             reverse=True,
@@ -124,25 +124,29 @@ class Config(State):
             + best_potential / 1.01
         )
 
-    @property
+    @cached_property
     def time_to_go(self):
         return max(TIME - self.elapsed_time, 0)
 
     def guaranteed(self):
-        global THRESHOLD
-        g = self.released + self.total_flow_rate * self.time_to_go
-        THRESHOLD = max(THRESHOLD, g)
+        guaranteed = self.released + self.total_flow_rate * self.time_to_go
+        Config._threshold = max(Config._threshold, guaranteed)
 
+    @cached
     def tag(self):
-        return f"{self.location}, {self.el_location}, {self.total_flow_rate}, {self.released}"
+        return (
+            f"{self.location}, {self.el_location}, "
+            f"{self.total_flow_rate}, {self.released}"
+        )
 
     def __str__(self) -> str:
-        return f"{self.location}/{self.el_location}, {self.open_valves}, {self.released}, {self.elapsed_time}, {self.history}"
+        return (
+            f"{self.location}/{self.el_location}, {self.open_valves}, "
+            f"{self.released}, {self.elapsed_time}, {self.history}"
+        )
 
 
 def run(inputs):
-    global VALVES
-
     for line in inputs.splitlines():
         name, rate, leads_to = REG.findall(line)[0]
         rate = int(rate)

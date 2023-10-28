@@ -1,15 +1,21 @@
 import heapq
+import logging
 from abc import ABC, abstractmethod
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 
 DEBUG = 0
 
 
-class AStarException(Exception):
+class AStarError(Exception):
     pass
 
 
-def a_star(initial_state, tag_func=str, return_status=False):
+def a_star(
+    initial_state: "State",
+    tag_func: Callable = str,
+    *,
+    return_status: bool = False,
+):
     """
     Perform the A* search algorithm
     The initial_state should be a subclass of State (below)
@@ -40,31 +46,32 @@ def a_star(initial_state, tag_func=str, return_status=False):
     n_tests = 0
     is_complete = False
 
-    while len(possible_states):
+    while possible_states:
         best_option = heapq.heappop(possible_states)
         n_tests += 1
-        if DEBUG > 0:
-            print(
-                f"Test {n_tests}, n_options {len(possible_states)}, best_option: {tag_func(best_option)}",
+        if logging.getLogger().isEnabledFor(logging.DEBUG):
+            logging.debug(
+                f"Test {n_tests}, n_options {len(possible_states)}",
+                f", best_option: {tag_func(best_option)}",
             )
         if best_option.is_complete():
-            if DEBUG > 0:
-                print("Search complete")
+            if logging.getLogger().isEnabledFor(logging.DEBUG):
+                logging.debug("Search complete")
             is_complete = True
             break
 
         for s in best_option.all_possible_next_states():
             if not s.is_valid():
-                if DEBUG > 1:
-                    print(f"Skipping {s} as not valid")
+                if logging.getLogger().isEnabledFor(logging.DEBUG):
+                    logging.debug(f"Skipping {s} as not valid")
                 continue
             tag = tag_func(s)
             if tag in seen:
-                if DEBUG:
-                    print(f"Skipping {tag} as already seen")
+                if logging.getLogger().isEnabledFor(logging.DEBUG):
+                    logging.debug(f"Skipping {tag} as already seen")
                 continue
-            if DEBUG:
-                print("Adding new state to heap")
+            if logging.getLogger().isEnabledFor(logging.DEBUG):
+                logging.debug("Adding new state to heap")
             seen.add(tag)
             heapq.heappush(possible_states, s)
 
@@ -79,7 +86,7 @@ def a_star(initial_state, tag_func=str, return_status=False):
         return best_option
     else:
         msg = "Search did not complete"
-        raise AStarException(msg)
+        raise AStarError(msg)
 
 
 class State(ABC):

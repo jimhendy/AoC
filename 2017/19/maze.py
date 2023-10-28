@@ -5,7 +5,13 @@ import a_star
 
 class Maze(a_star.State):
     def __init__(
-        self, grid, row, col, letters=None, n_steps=0, direction=(+1, 0),
+        self,
+        grid,
+        row,
+        col,
+        letters=None,
+        n_steps=0,
+        direction=(+1, 0),
     ) -> None:
         self.grid = grid
         self.row = row

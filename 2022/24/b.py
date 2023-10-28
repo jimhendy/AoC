@@ -79,7 +79,8 @@ def parse_inputs(inputs: str) -> None:
                 case _:
                     blizzards.append(
                         Blizzard(
-                            location=Point2D(x=x, y=y), direction=DIRECTIONS[char],
+                            location=Point2D(x=x, y=y),
+                            direction=DIRECTIONS[char],
                         ),
                     )
     GRID_HEIGHT = max(w.y for w in WALLS)

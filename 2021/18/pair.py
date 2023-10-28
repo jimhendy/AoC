@@ -71,9 +71,7 @@ class Pair:
             msg = f"Level should not get this high, {level}, {self}"
             raise RuntimeError(msg)
         elif level == 4:
-            assert (
-                self.left_int and self.right_int
-            ), (
+            assert self.left_int and self.right_int, (
                 f'Expected two ints at this level but found left="{self.left}", '
                 f'right="{self.right}"'
             )

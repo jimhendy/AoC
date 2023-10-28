@@ -8,7 +8,8 @@ def run(inputs):
             for diff in [-1, +1]:
                 neighbour = ",".join(
                     map(
-                        str, [(v if i != pos else v + diff) for i, v in enumerate(loc)],
+                        str,
+                        [(v if i != pos else v + diff) for i, v in enumerate(loc)],
                     ),
                 )
                 if neighbour in drops:

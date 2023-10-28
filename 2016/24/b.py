@@ -4,7 +4,11 @@ import maze
 
 class MazeState(a_star.State):
     def __init__(
-        self, maze, current_number, previous_steps=0, collected_numbers=None,
+        self,
+        maze,
+        current_number,
+        previous_steps=0,
+        collected_numbers=None,
     ) -> None:
         self.maze = maze
         self.current_number = current_number

@@ -11,7 +11,12 @@ class GameWon(Exception):
 
 class Game:
     def __init__(
-        self, player_hp, boss_hp, player_mana, boss_damage, hard_mode=False,
+        self,
+        player_hp,
+        boss_hp,
+        player_mana,
+        boss_damage,
+        hard_mode=False,
     ) -> None:
         self.player = character.Character(player_hp, player_mana)
         self.boss = character.Character(boss_hp)
