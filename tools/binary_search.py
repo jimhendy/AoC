@@ -1,5 +1,7 @@
 import logging
 
+from tools.errors import BinarySearchError
+
 DEBUG = False
 
 

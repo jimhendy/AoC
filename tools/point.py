@@ -40,7 +40,9 @@ class Point:
             return all(
                 s == o
                 for s, o in itertools.zip_longest(
-                    self.values, other.values, fillvalue=0,
+                    self.values,
+                    other.values,
+                    fillvalue=0,
                 )
             )
         return all(
@@ -126,7 +128,6 @@ class Point:
     ) -> Iterable[Self]:
         """
         Generates all the neighboring points of the current point.
-
 
         Args:
         ----

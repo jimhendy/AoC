@@ -11,6 +11,8 @@ numpy = "<1.25"
 numba = "^0.57.1"
 aocd = "^0.1"
 networkx = "^3.1"
+pytest = "^7.4.3"
+pre-commit = "^3.5.0"
 
 [tool.poetry.dev-dependencies]
 
@@ -27,11 +29,8 @@ build-backend = "poetry.core.masonry.api"
 select = ["ALL"]
 ignore = [
     "ANN" , # Type annotations
-    "T201", # Use of print
-    "S101", # Use of assert
     "D211", # No blank line before class
     "D212", # Docstrings should start on first line
-    "D101", # Missing docstring in public class
     "D205", # 1 blank line required between summary line and description
     "D401", # First line of docstring should be in imperative mood
     "D107", # Missing docstring in public class
@@ -49,6 +48,7 @@ ignore = [
     "PLR2004", # Magic value used in comparison
 ]
 target-version = "py311"
+exclude = ["20??", "tests"]
 
 [tool.ruff.per-file-ignores]
 "optcode.py" = [
