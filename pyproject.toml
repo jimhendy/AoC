@@ -34,6 +34,7 @@ ignore = [
     "D205", # 1 blank line required between summary line and description
     "D401", # First line of docstring should be in imperative mood
     "D107", # Missing docstring in public class
+    "D101", # Missing docstring in public class
     "D102", # Missing docstring in puclic method
     "D105", # Missing docstring in magic method
     "D100", # Missing docstring in public module
