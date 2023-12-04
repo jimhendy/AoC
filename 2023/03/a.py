@@ -1,5 +1,6 @@
-from tools.point import Point2D
 import re
+
+from tools.point import Point2D
 
 NUMERIC_REG = re.compile(r"(\d+)")
 
@@ -9,7 +10,10 @@ def _is_symbol(c: str) -> bool:
 
 
 def _part_number(
-    number: re.Match, grid: list[str], y: int, grid_size: tuple[int, int]
+    number: re.Match,
+    grid: list[str],
+    y: int,
+    grid_size: tuple[int, int],
 ) -> int:
     for x in range(number.start(), number.end()):
         point = Point2D(x, y)

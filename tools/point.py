@@ -122,6 +122,7 @@ class Point:
         finally:
             self.steps = original_steps
 
+    @profile
     def all_neighbours(
         self,
         grid_size: int | tuple[int, ...] | None = None,
@@ -166,7 +167,9 @@ class Point:
             if not all(i >= 0 for i in grid_size):
                 raise PointError("Grid_size must be positive")
             if any(point >= grid for point, grid in zip(self, grid_size, strict=True)):
-                raise PointError(f"Initial point is outside the grid. {grid_size=}, {self=}")
+                raise PointError(
+                    f"Initial point is outside the grid. {grid_size=}, {self=}",
+                )
 
         # Generate all the neighboring points
         for s in self.steps.values():

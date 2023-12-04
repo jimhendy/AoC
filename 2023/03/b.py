@@ -1,7 +1,8 @@
-from tools.point import Point2D
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Iterable
+
+from tools.point import Point2D
 
 NUMERIC_REG = re.compile(r"(\d+)")
 
@@ -22,7 +23,10 @@ def _is_gear(c: str) -> bool:
 
 
 def _adjacent_gear_locations(
-    number: re.Match, grid: list[str], y: int, grid_size: tuple[int, int]
+    number: re.Match,
+    grid: list[str],
+    y: int,
+    grid_size: tuple[int, int],
 ) -> Iterable[Point2D]:
     considered = set()
     for x in range(number.start(), number.end()):
@@ -45,7 +49,7 @@ def run(inputs: str) -> int:
         for number in NUMERIC_REG.finditer(line):
             for gear_location in _adjacent_gear_locations(number, grid, y, grid_size):
                 part_number = int(number.group(0))
-                if not gear_location in gears:
+                if gear_location not in gears:
                     gears[gear_location] = Gear(gear_location, [part_number])
                 else:
                     gears[gear_location].part_numbers.append(part_number)
