@@ -4,20 +4,37 @@ from contextlib import contextmanager
 from typing import ClassVar, Self
 
 import numpy as np
+from numba import njit
 
 from tools.errors import PointError
 
+DTYPE = np.int64
 
 class Point:
+    __slots__ = ("values",)
     def __init__(self, *values: list[float]) -> None:
-        self.values = np.array(values)
+        self.values = np.array(values, dtype=DTYPE)
 
     @classmethod
     def from_iterable(cls, values: Iterable[float]) -> Self:
         new = cls()
         new.values = np.array(values)
         return new
+    
+    @staticmethod
+    @njit(
+        "int64[:](int64[:], int64[:], int64)",
+        cache=True,
+    )
+    def _add_values(a: np.ndarray[DTYPE], b: np.ndarray[DTYPE], fill_value: DTYPE = 0) -> np.ndarray[DTYPE]:
+        a_len = a.shape[0]
+        b_len = b.shape[0]
 
+        result = np.full(max(a_len, b_len), fill_value=fill_value, dtype=DTYPE)
+        result[:a_len] += a
+        result[:b_len] += b
+        return result
+    
     @property
     def steps(self) -> dict[str, Self]:
         return {}  # To be set in sub-class
@@ -37,28 +54,13 @@ class Point:
 
     def __eq__(self, other: Self | Iterable[float]) -> bool:
         if isinstance(other, Point):
-            return all(
-                s == o
-                for s, o in itertools.zip_longest(
-                    self.values,
-                    other.values,
-                    fillvalue=0,
-                )
-            )
+            other = other.values
         return all(
             s == o for s, o in itertools.zip_longest(self.values, other, fillvalue=0)
         )
-
     def __add__(self, other: Self | float) -> Self:
         if isinstance(other, Point):
-            new_values = [
-                s + o
-                for s, o in itertools.zip_longest(
-                    self.values,
-                    other.values,
-                    fillvalue=0,
-                )
-            ]
+            new_values = self._add_values(self.values, other.values, 0)
         else:
             new_values = self.values + other
         return self.from_iterable(new_values)
@@ -122,7 +124,6 @@ class Point:
         finally:
             self.steps = original_steps
 
-    @profile
     def all_neighbours(
         self,
         grid_size: int | tuple[int, ...] | None = None,

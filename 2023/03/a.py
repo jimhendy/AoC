@@ -8,7 +8,6 @@ NUMERIC_REG = re.compile(r"(\d+)")
 def _is_symbol(c: str) -> bool:
     return not c.isnumeric() and c != "."
 
-
 def _part_number(
     number: re.Match,
     grid: list[str],
@@ -21,7 +20,6 @@ def _part_number(
             if _is_symbol(grid[neighbour.y][neighbour.x]):
                 return int(number.group(0))
     return 0
-
 
 def run(inputs: str) -> int:
     grid = inputs.splitlines()

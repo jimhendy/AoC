@@ -19,7 +19,6 @@ def seat_outside_range(p, grid):
     return False
 
 
-# @profile
 def find_neighbour_char(p, d, grid):
     while True:
         p = p.neighbour(d)
@@ -31,7 +30,6 @@ def find_neighbour_char(p, d, grid):
         return char
 
 
-# @profile
 def update_seats(in_grid):
     out_grid = [row[:] for row in in_grid]
     for row_num, row in enumerate(in_grid):
