@@ -10,8 +10,10 @@ from tools.errors import PointError
 
 DTYPE = np.int64
 
+
 class Point:
     __slots__ = ("values",)
+
     def __init__(self, *values: list[float]) -> None:
         self.values = np.array(values, dtype=DTYPE)
 
@@ -20,13 +22,15 @@ class Point:
         new = cls()
         new.values = np.array(values)
         return new
-    
+
     @staticmethod
     @njit(
         "int64[:](int64[:], int64[:], int64)",
         cache=True,
     )
-    def _add_values(a: np.ndarray[DTYPE], b: np.ndarray[DTYPE], fill_value: DTYPE = 0) -> np.ndarray[DTYPE]:
+    def _add_values(
+        a: np.ndarray[DTYPE], b: np.ndarray[DTYPE], fill_value: DTYPE = 0,
+    ) -> np.ndarray[DTYPE]:
         a_len = a.shape[0]
         b_len = b.shape[0]
 
@@ -34,7 +38,7 @@ class Point:
         result[:a_len] += a
         result[:b_len] += b
         return result
-    
+
     @property
     def steps(self) -> dict[str, Self]:
         return {}  # To be set in sub-class
@@ -58,6 +62,7 @@ class Point:
         return all(
             s == o for s, o in itertools.zip_longest(self.values, other, fillvalue=0)
         )
+
     def __add__(self, other: Self | float) -> Self:
         if isinstance(other, Point):
             new_values = self._add_values(self.values, other.values, 0)
