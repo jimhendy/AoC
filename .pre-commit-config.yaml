@@ -16,7 +16,7 @@ repos:
     hooks:
       - id: ruff
         name: Run Ruff
-        entry: ruff
+        entry: ruff check
         language: system
         types: [python]
-        args: [ --fix, --exit-non-zero-on-fix ]
+        args: [ --fix, --exit-non-zero-on-fix, --config, pyproject.toml ]

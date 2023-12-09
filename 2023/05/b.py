@@ -135,9 +135,9 @@ def destination_ranges(range_: Range, mapping: Mapping) -> list[Range]:
                 # No next range, just y=x
                 length = range_.end + 3
 
-        length = min(length, range_.end - x + 1)
+        length = min(length, range_.end - x)
         dest_ranges.append(Range(start=y, length=length))
-        x += length
+        x += length + 1
 
         if x >= range_.end:
             break
