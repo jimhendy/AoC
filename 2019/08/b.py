@@ -13,7 +13,6 @@ def run(inputs):
     output = np.full(data.shape[1:], np.nan)
     for layer in range(data.shape[0]):
         output = np.where(np.isnan(output), data[layer], output)
-        pass
 
     # Plot the result
     sns.heatmap(output)

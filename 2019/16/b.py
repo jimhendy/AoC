@@ -7,7 +7,6 @@ def run_phase(inp):
     output = np.zeros(len(inp))
     for i, x in enumerate(inp[::-1]):
         output[-i - 1] = (output[-i] + x) % 10
-        pass
     return output
 
 
@@ -27,6 +26,5 @@ def run(inputs):
 
     for _i in range(100):
         data = run_phase(data)
-        pass
 
     return "".join(map(str, map(int, data[:8])))

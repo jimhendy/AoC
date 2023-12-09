@@ -39,9 +39,7 @@ def run(inputs):
         ins = "_".join(i.split())
         if ins[-1].isdigit():
             ins = "_".join(ins.split("_")[:-1]), int(ins.split("_")[-1])
-            pass
         instructions.append(ins)
-        pass
 
     a = 1
     b = 0
@@ -49,11 +47,8 @@ def run(inputs):
     for i in instructions[::-1]:
         if type(i) == tuple:
             a, b = globals()[i[0]](n_cards, a, b, *i[1:])
-            pass
         else:
             a, b = globals()[i](n_cards, a, b)
-            pass
-        pass
 
     a, b = polypow(a, b, n_shuffles, n_cards)
 

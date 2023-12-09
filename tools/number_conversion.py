@@ -22,7 +22,9 @@ def hex_to_decimal(h: str) -> int:
     :param h: A hex character 0->F.
     :return: Decimal representation of ``h``.
     """
-    assert h in list("0123456789ABCDEF")
+    if h not in list("0123456789ABCDEF"):
+        error = f"{h} is not a valid hex character."
+        raise ValueError(error)
     return int(h, base=16)
 
 

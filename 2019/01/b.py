@@ -12,7 +12,6 @@ def log_new_fuel(total_new_fuel):
     global iteration
     iteration += 1
     logger.info(f"Iteration: {iteration:02d}, extra fuel: {total_new_fuel:,.2f}")
-    pass
 
 
 def run(inputs):
@@ -29,6 +28,5 @@ def run(inputs):
         log_new_fuel(total_new_fuel)
         total_fuel += total_new_fuel
         previous_iteration = new_fuel
-        pass
 
     return total_fuel

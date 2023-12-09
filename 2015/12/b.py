@@ -10,22 +10,14 @@ def extract_nums(data):
         else:
             for v in data.values():
                 total += extract_nums(v)
-                pass
-            pass
-        pass
     elif type(data) is list:
         for d in data:
             if type(d) is int:
                 total += d
-                pass
             elif type(d) is list or type(d) is dict:
                 total += extract_nums(d)
-                pass
-            pass
-        pass
     elif type(data) is int:
         total = data
-        pass
     return total
 
 

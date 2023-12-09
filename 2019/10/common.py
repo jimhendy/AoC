@@ -11,8 +11,6 @@ def in_to_array(inputs):
             if cell != "#":
                 continue
             data.append([x, y])
-            pass
-        pass
     return np.array(data)
 
 
@@ -21,7 +19,6 @@ def num_visible(data):
     for position in data:
         angle = _get_angle(data, position)
         visible[(position[0], position[1])] = len(np.unique(angle))
-        pass
     return pd.Series(visible).sort_values()
 
 

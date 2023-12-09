@@ -29,6 +29,5 @@ def run(inputs):
 
         if prog.complete:
             break
-        pass
 
     return score

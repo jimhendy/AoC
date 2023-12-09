@@ -10,7 +10,6 @@ def run(inputs):
         p = intcode.Intcode(inputs)
         p.analyse_intcode(i)
         computers.append(p)
-        pass
 
     queues = [queue.Queue() for _ in range(n_computers)]
 
@@ -24,11 +23,8 @@ def run(inputs):
                 all_empty = False
                 while q.qsize():
                     c.analyse_intcode(q.get())
-                    pass
-                pass
             else:
                 c.analyse_intcode(-1)
-                pass
 
             while len(c.outputs):
                 c_q = c.outputs.pop(0)
@@ -37,13 +33,9 @@ def run(inputs):
                 if c_q == 255:
                     nat["x"] = x_q
                     nat["y"] = y_q
-                    pass
                 else:
                     queues[c_q].put(x_q)
                     queues[c_q].put(y_q)
-                    pass
-                pass
-            pass
 
         if all_empty:
             if nat["y"] in ys:
@@ -51,8 +43,5 @@ def run(inputs):
             ys.add(nat["y"])
             queues[0].put(nat["x"])
             queues[0].put(nat["y"])
-            pass
 
-        pass
-    pass
     return None

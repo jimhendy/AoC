@@ -14,7 +14,6 @@ def intcode(inputs):
             break
         in_copy[ret_address] = ret_value
         address += step
-        pass
     return in_copy
 
 

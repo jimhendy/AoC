@@ -14,6 +14,5 @@ def run(inputs):
     for move in list(inputs):
         loc += directions[move]
         locs[tuple(loc)] = 0
-        pass
 
     return len(locs)

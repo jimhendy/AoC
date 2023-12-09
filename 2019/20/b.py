@@ -44,7 +44,6 @@ def get_gates(layout):
                             key = f"{char}{next_char}"
                         else:
                             key = f"{next_char}{char}"
-                            pass
 
                         if (
                             (pos[0] == 0)
@@ -56,7 +55,6 @@ def get_gates(layout):
 
                         else:
                             key += "_i"
-                            pass
 
                         if key in data:
                             key += "_1"
@@ -104,17 +102,10 @@ def dijkstra(origin, destination, layout_orig):
                         next_char = get_char(next_pos, layout_prev)
                         if next_char == 46:  # ord('.')
                             set_char(next_pos, layout, seen_char)
-                            pass
-                        pass
-                    pass
-                pass
-            pass
         if np.array_equal(layout_prev, layout):
             return -1
         layout_prev = layout.copy()
         steps += 1
-        pass
-    pass
     return None
 
 
@@ -138,7 +129,6 @@ def run(inputs):
         if not k.endswith("_i"):
             continue
         graph.add_edge(k, k.replace("_i", "_o"), weight=1)
-        pass
 
     for o_name, o in gates.items():
         for d_name, d in gates.items():
@@ -148,8 +138,6 @@ def run(inputs):
             if distance < 0:
                 continue
             graph.add_edge(o_name, d_name, weight=distance)
-            pass
-        pass
     """
     pos = nx.get_node_attributes(graph, 'pos')
     nx.draw(graph, pos)
@@ -172,10 +160,8 @@ def run(inputs):
             if c_level == 0:
                 for p in path:
                     print(p)
-                    pass
                 return steps
             continue
-            pass
 
         for n in graph.neighbors(c_node):
             if n == "AA_o":
@@ -197,11 +183,9 @@ def run(inputs):
                 if c_level == 0:
                     continue
                 new_path.append((n.replace("_o", "_i"), c_level - 1))
-                pass
             elif n.endswith("_i") and n.replace("_i", "_o") in graph.neighbors(n):
                 new_path.append((n.replace("_i", "_o"), c_level + 1))
                 new_steps += 1
-                pass
 
             heapq.heappush(q, (steps + new_steps, new_path))
     return None

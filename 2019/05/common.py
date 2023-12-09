@@ -7,7 +7,6 @@ import numpy as np
 class Mode(Enum):
     POSITION = 0
     IMMEDIATE = 1
-    pass
 
 
 class optprog:
@@ -18,7 +17,6 @@ class optprog:
         self.param_modes = defaultdict(lambda: Mode.POSITION)
         self.optcode = None
         self.outputs = []
-        pass
 
     @staticmethod
     def in_to_array(inputs):
@@ -27,7 +25,6 @@ class optprog:
     def analyse_intcode(self):
         while self.analyse_instruction() is not None:
             pass
-        pass
 
     def analyse_instruction(self):
         optcode = self.code[self.address]
@@ -37,11 +34,9 @@ class optprog:
             self.param_modes[1] = Mode(int(optcode_str[2]))
             self.param_modes[2] = Mode(int(optcode_str[1]))
             self.param_modes[3] = Mode(int(optcode_str[0]))
-            pass
         else:
             self.optcode = optcode
             self.param_modes.clear()
-            pass
         return self.analyse_optcode()
 
     def analyse_optcode(self):
@@ -75,7 +70,6 @@ class optprog:
             return self.code[self.address]
         else:
             raise NotImplementedError
-        pass
         return None
 
     def _compare(self, func):
@@ -104,7 +98,6 @@ class optprog:
             value = self._get_value(self.param_modes[2])
             self.address = value
             return True
-            pass
         self.address += 1
         return True
 

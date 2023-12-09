@@ -23,8 +23,6 @@ def fight(equipment, my_hp, boss_hp, boss_damage, boss_armor):
         if my_hp <= 0:
             return False
 
-        pass
-    pass
     return None
 
 

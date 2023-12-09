@@ -39,7 +39,5 @@ def run(inputs):
             except game.GameWon:
                 pass
             heapq.heappush(possible_games, gc)
-            pass
-        pass
 
     return best_option.player.used_mana

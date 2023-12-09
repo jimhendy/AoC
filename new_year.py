@@ -1,5 +1,4 @@
 import pathlib
-import subprocess
 
 
 def new_year(year: int) -> None:
@@ -10,7 +9,7 @@ def new_year(year: int) -> None:
         day_dir.mkdir(exist_ok=True)
         for part in "ab":
             filename = day_dir / f"{part}.py"
-            subprocess.call(f"touch {filename!s}", shell=True)
+            filename.touch(exist_ok=True)
 
 
 if __name__ == "__main__":

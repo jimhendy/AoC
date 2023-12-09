@@ -21,6 +21,5 @@ def run(inputs):
     total = 0
     for pres_dims in dims:
         total += length(pres_dims)
-        pass
 
     return total

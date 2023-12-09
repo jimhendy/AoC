@@ -25,9 +25,6 @@ def update(lights, start, end, func):
     for x in range(start[0], end[0] + 1):
         for y in range(start[1], end[1] + 1):
             lights[x][y] = func(lights[x][y])
-            pass
-        pass
-    pass
 
 
 def run(inputs):
@@ -43,6 +40,5 @@ def run(inputs):
         func = funcs[groups[0]]
 
         update(lights, start, end, func)
-        pass
 
     return np.sum(lights)

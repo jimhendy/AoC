@@ -18,6 +18,5 @@ def run(inputs):
         i += 1
         if len(code) == 8:
             break
-        pass
 
     return "".join(code)

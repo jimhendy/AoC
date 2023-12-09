@@ -13,16 +13,12 @@ def get_num_bugs(grid, x, y):
     num_bugs = 0
     if x != 0 and grid[y][x - 1] == BUG:
         num_bugs += 1
-        pass
     if x != (grid.shape[1] - 1) and grid[y][x + 1] == BUG:
         num_bugs += 1
-        pass
     if y != 0 and grid[y - 1][x] == BUG:
         num_bugs += 1
-        pass
     if y != (grid.shape[0] - 1) and grid[y + 1][x] == BUG:
         num_bugs += 1
-        pass
     return num_bugs
 
 
@@ -37,14 +33,11 @@ def update_cell(grid, x, y, extra):
             return BUG
         else:
             return EMPTY
-        pass
     else:
         if n_bugs == 1 or n_bugs == 2:
             return BUG
         else:
             return EMPTY
-        pass
-    pass
     return None
 
 
@@ -52,11 +45,8 @@ def plot(grid):
     for row in grid:
         for char in row:
             print(chr(char), end="")
-            pass
         print()
-        pass
     print()
-    pass
 
 
 @numba.njit(numba.int8(numba.int8[:]))
@@ -89,7 +79,6 @@ def update(grid_orig, grid_up, grid_down):
             elif y == 3 and x == 2:
                 # bottom edge down
                 extra = count_bugs(grid_down[4])
-                pass
 
             # top/bottom
             if y == 0:
@@ -97,11 +86,8 @@ def update(grid_orig, grid_up, grid_down):
                 extra += count_bugs(grid_up[1][2:3])
             elif y == 4:
                 extra += count_bugs(grid_up[3][2:3])
-                pass
 
             grid[y][x] = update_cell(grid_orig, x, y, extra)
-            pass
-        pass
     return grid
 
 
@@ -140,11 +126,8 @@ def run(inputs):
             if down not in grids:
                 grids[down] = new_grid()
                 new_grids[down] = new_grid()
-                pass
 
             new_grids[level] = update(grid, grids[up], grids[down])
-
-            pass
 
         grids = new_grids
 
@@ -167,7 +150,5 @@ def run(inputs):
                 continue
 
             del grids[k]
-
-        pass
 
     return sum([np.count_nonzero(g == BUG) for g in grids.values()])

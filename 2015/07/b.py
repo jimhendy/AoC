@@ -69,21 +69,15 @@ def run_once(wires, inputs, skip=None):
                 func = do_l_shift
             else:
                 func = do_direct
-                pass
 
             try:
                 loc, value = func(line, wires)
                 if not any(loc == i for i in skip):
                     wires[loc] = value
-                    pass
                 remaining_inputs.remove(line)
-                pass
             except KeyError:
                 continue
 
-            pass
-
-        pass
     return wires
 
 

@@ -15,7 +15,5 @@ def run(inputs):
         match = reaction_reg.findall(i)
         for m in match:
             reactions[m[0]].add(m[1])
-            pass
-        pass
 
     cyk(base, reactions)

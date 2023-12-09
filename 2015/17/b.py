@@ -13,11 +13,7 @@ def run(inputs):
             if sum(c) == 150:
                 count += 1
                 counts[n] += 1
-                pass
-            pass
         if len(counts):
             return counts[n]
-        pass
 
-    pass
     return None

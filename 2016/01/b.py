@@ -42,11 +42,8 @@ def run(inputs):
             if tuple(loc) in locs:
                 return np.abs(loc).sum()
             locs = add_loc(locs, loc)
-            pass
 
         direction = new_dir
         current_dir_it = new_dir_it
-
-        pass
 
     return np.abs(loc).sum()

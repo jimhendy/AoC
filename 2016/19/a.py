@@ -10,5 +10,4 @@ def run(inputs):
             elves = elves.reshape(-1, 2)[:, 0]
         else:
             elves = np.hstack((elves[-1], elves[:-1].reshape(-1, 2)[:, 0]))
-        pass
     return elves[0]

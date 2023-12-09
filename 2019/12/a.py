@@ -13,12 +13,9 @@ def run(inputs):
         for i, mi in enumerate(moons):
             for _j, mj in enumerate(moons[i + 1 :]):
                 common.apply_gravity(mi, mj)
-                pass
-            pass
         [m.update_position() for m in moons]
         print(f"After {s} steps:")
         [print(m.print_data()) for m in moons]
         print()
-        pass
 
     return np.sum([m.energy() for m in moons])

@@ -38,7 +38,6 @@ class JumpCode:
             if f_value is not None and f_value is False:
                 # Stuck waiting
                 break
-            pass
         self.is_running = False
 
     def _get_value(self, value):

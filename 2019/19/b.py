@@ -17,7 +17,6 @@ def run(inputs):
     outputs = []
     for i in input_coords:
         outputs.append({"x": i[0], "y": i[1], "o": test_coord(i[0], i[1])})
-        pass
 
     df = pd.DataFrame(outputs)
 
@@ -28,9 +27,7 @@ def run(inputs):
         max_y = max_y + 1
         while not test_coord(min_x, max_y):
             min_x += 1
-            pass
         extra.append((min_x, max_y))
-        pass
 
     extra_m = []
     max_y = df.y.max()
@@ -39,9 +36,7 @@ def run(inputs):
         max_y = max_y + 1
         while test_coord(max_x, max_y):
             max_x += 1
-            pass
         extra_m.append((max_x, max_y))
-        pass
 
     df = pd.DataFrame(extra, columns=["first_x", "y"]).set_index("y")
     df = df.join(

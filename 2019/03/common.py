@@ -27,9 +27,6 @@ def get_wire_coords(inputs):
             for _s in range(step):
                 previous_pos = move_func(previous_pos)
                 wire_coords[wire_num].append(previous_pos)
-                pass
-            pass
-        pass
     return wire_coords
 
 

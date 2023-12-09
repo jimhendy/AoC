@@ -15,18 +15,14 @@ def run(inputs):
         if len(layout) > 1:
             new_pos = droid.find_unknown_cell(layout)
             droid.go_to(new_pos, layout)
-            pass
         else:
             new_dir = Droid.random_direction()
             droid(new_dir)
-            pass
 
         if count % 100 == 0:
             droid.plot(True)
-            pass
 
         count += 1
-        pass
 
     route = droid.droid_route(np.array([0, 0]))
 

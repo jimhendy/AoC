@@ -10,19 +10,16 @@ class Direction(Enum):
     EAST = 1
     SOUTH = 2
     WEST = 3
-    pass
 
 
 class Color(Enum):
     BLACK = 0
     WHITE = 1
-    pass
 
 
 class Rotation(Enum):
     ANTICLOCKWISE = 0
     CLOCKWISE = 1
-    pass
 
 
 class EhpRobot:
@@ -34,7 +31,6 @@ class EhpRobot:
         self._colors = defaultdict(lambda: Color.BLACK)
         self._colors[str(self._position)] = self.start_color
         self.program = intcode.optprog(intcode_inputs)
-        pass
 
     def run(self):
         while True:
@@ -51,9 +47,6 @@ class EhpRobot:
             self._rotate(rotate_cmd)
             self._step_forward()
 
-            pass
-        pass
-
     def _step_forward(self):
         delta = {
             Direction.NORTH: [0, +1],
@@ -63,7 +56,6 @@ class EhpRobot:
         }[self._direction]
         self._position += np.array(delta)
         self._path.append(self._position.copy())
-        pass
 
     def _rotate(self, rotation):
         if rotation == Rotation.ANTICLOCKWISE:
@@ -74,17 +66,13 @@ class EhpRobot:
             raise NotImplementedError
 
         self._direction = Direction((self._direction.value + delta + 4) % 4)
-        pass
 
     def _set_color(self, color, pos=None):
         if pos is None:
             pos = self._position
-            pass
         self._colors[str(pos)] = color
-        pass
 
     def _get_position_color(self, pos=None):
         if pos is None:
             pos = self._position
-            pass
         return self._colors[str(pos)]

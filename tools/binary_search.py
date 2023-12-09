@@ -65,14 +65,17 @@ def binary_search(func, lower=0, upper=None):
                 raise BinarySearchError(msg)
         upper = lower + offset
 
-    else:
-        if func(upper) == lower_bool:
-            msg = "Supplied function gives the same response for the upper and lower bounds, cannot run binary search"
-            raise BinarySearchError(
-                msg,
-            )
+    elif func(upper) == lower_bool:
+        msg = (
+            "Supplied function gives the same response for the upper and lower bounds, "
+            "cannot run binary search"
+        )
+        raise BinarySearchError(
+            msg,
+        )
 
-    logger.debug(f"Binary Search Lower: {lower}, Upper: {upper}")
+    debug = f"Binary Search Lower: {lower}, Upper: {upper}"
+    logger.debug(debug)
 
     best_so_far = lower if lower_bool else upper
 
@@ -80,7 +83,8 @@ def binary_search(func, lower=0, upper=None):
         mid = (lower + upper) // 2
         result = func(mid)
 
-        logger.debug(f"Binary search test: {mid} -> {result}")
+        debug = f"Binary search test: {mid} -> {result}"
+        logger.debug(debug)
 
         if result:
             best_so_far = mid
@@ -90,6 +94,7 @@ def binary_search(func, lower=0, upper=None):
         else:
             upper = mid - 1
 
-    logger.debug(f"Binary search result: {best_so_far}")
+    debug = f"Binary search result: {best_so_far}"
+    logger.debug(debug)
 
     return best_so_far

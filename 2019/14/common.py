@@ -16,7 +16,6 @@ class Store:
     def __init__(self) -> None:
         self._store = defaultdict(int)
         self._used_store = self._store.copy()
-        pass
 
     def is_available(self, component):
         if component.is_infinite:
@@ -31,16 +30,12 @@ class Store:
             )
         if component.is_infinite:
             self.add(component)
-            pass
         self._store[component.element] -= component.num
         self._used_store[component.element] += component.num
         return True
 
     def add(self, component):
         self._store[component.element] += component.num
-        pass
-
-    pass
 
 
 class Component:
@@ -50,7 +45,6 @@ class Component:
         self.num = int(float(s_split[0]))
         self.element = s_split[1].strip()
         self.is_infinite = self.element == "ORE"
-        pass
 
     def __repr__(self) -> str:
         return Component._get_repr_str(self.element, self.num)
@@ -65,8 +59,6 @@ class Component:
     def _get_repr_str(element, num):
         return f"{num} {element}"
 
-    pass
-
 
 class Reaction:
     def __init__(self, r_str) -> None:
@@ -77,7 +69,6 @@ class Reaction:
         self.output = [Component(c) for c in s_split[1].split(",")]
         assert len(self.output) == 1
         self.output = self.output[0]
-        pass
 
     def __repr__(self) -> str:
         return Reaction._get_repr_str(self.inputs, self.output)
@@ -104,12 +95,8 @@ class Reaction:
                 raise StoreEmptyException(
                     msg,
                 )
-            pass
         [store.retrieve(i) for i in self.inputs]
         store.add(self.output)
-        pass
-
-    pass
 
 
 @lru_cache(maxsize=2048)
@@ -125,7 +112,6 @@ def find_reaction(reactions, element):
 def run_reaction(reaction, all_reactions, store=None):
     if store is None:
         store = Store()
-        pass
 
     while not all(store.is_available(i) for i in reaction.inputs):
         for ic in reaction.inputs:
@@ -139,8 +125,5 @@ def run_reaction(reaction, all_reactions, store=None):
                 )
                 required_reaction = input_reaction * num_reactions_required
                 run_reaction(required_reaction, all_reactions, store)
-                pass
-            pass
-        pass
     reaction(store)
     return store

@@ -35,7 +35,6 @@ class Status:
             items_by_floor[lowest_occupied] -= 2
 
             current_floor = top_floor
-            pass
         return self.prev_steps + steps
 
     def _mean_level(self):

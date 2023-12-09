@@ -25,8 +25,4 @@ def run(inputs):
                 ]
                 if all(i == "#" for i in others):
                     positions.append(x * y)
-                    pass
-                pass
-            pass
-        pass
     return sum(positions)

@@ -10,14 +10,12 @@ class Direction(IntEnum):
     WEST = 3
     SOUTH = 2
     EAST = 4
-    pass
 
 
 class Response(IntEnum):
     WALL = 0
     SUCCESS = 1
     TANK = 2
-    pass
 
 
 class MapSymbol(Enum):
@@ -27,7 +25,6 @@ class MapSymbol(Enum):
     WALL = "#"
     TANK = "@"
     OXYGEN = "O"
-    pass
 
 
 def move(pos, direction):
@@ -49,7 +46,6 @@ class Droid:
         self.completed_tiles = []
         self.completed_oxygen_tiles = []
         self.on_tank = False
-        pass
 
     def __call__(self, instruction: Direction):
         self.prog.analyse_intcode(instruction.value)
@@ -57,7 +53,6 @@ class Droid:
         intended_position = self._get_intended_position(instruction)
         if response == Response.WALL:
             self.layout[tuple(intended_position)] = MapSymbol.WALL
-            pass
         elif response == Response.SUCCESS:
             if not self.on_tank:
                 self.layout[tuple(self.position)] = MapSymbol.PREVIOUS
@@ -65,14 +60,12 @@ class Droid:
                 self.on_tank = False
             self.position = intended_position.copy()
             self.layout[tuple(self.position)] = MapSymbol.DROID
-            pass
         elif response == Response.TANK:
             print(f"Tank found at :{intended_position}")
             self.tank_position = intended_position.copy()
             self.layout[tuple(intended_position)] = MapSymbol.TANK
             self.position = intended_position.copy()
             self.on_tank = True
-            pass
         return response
 
     def _get_intended_position(self, instruction):
@@ -87,7 +80,6 @@ class Droid:
             pos[i][0] = k[0]
             pos[i][1] = k[1]
             content[i] = v
-            pass
         x_min, y_min = pos.min(axis=0)
         x_max, y_max = pos.max(axis=0)
         x_range, y_range = pos.ptp(axis=0) + 1
@@ -106,11 +98,8 @@ class Droid:
                     extra_pos[count][0] = x
                     extra_pos[count][1] = y
                     count += 1
-                    pass
-                pass
             pos = np.vstack([pos, extra_pos])
             content = np.hstack([content, extra_content])
-            pass
         return pos, content
 
     def plot(self, clear=False):
@@ -126,10 +115,7 @@ class Droid:
             for x in range(x_min, x_max + 1):
                 c = content[np.all(pos == (x, y), axis=1)][-1]
                 print(c.value, end="")
-                pass
             print()
-            pass
-        pass
 
     def go_to(droid, layout, destination):
         route = droid_route(droid, destination, layout)
@@ -149,13 +135,10 @@ class Droid:
                 yield Direction.SOUTH
             else:
                 raise NotImplementedError
-            pass
-        pass
 
     def find_oxygen_adjacent_cells(self, layout=None):
         if layout is None:
             layout = self.get_layout()
-            pass
         pos, content = layout
         path_mask = content == MapSymbol.OXYGEN
         path = pos[path_mask]
@@ -182,16 +165,12 @@ class Droid:
                         return_cells.append(new_pos)
                     else:
                         continue
-                    pass
-                pass
             self.completed_oxygen_tiles.append(tuple(p))
-            pass
         return return_cells
 
     def find_unknown_cell(self, layout=None):
         if layout is None:
             layout = self.get_layout()
-            pass
         pos, content = layout
         path_mask = (content == MapSymbol.PREVIOUS) | (content == MapSymbol.DROID)
         path = pos[path_mask]
@@ -213,12 +192,9 @@ class Droid:
                         return new_pos
                     else:
                         continue
-                    pass
                 else:
                     return new_pos
-                pass
             self.completed_tiles.append(tuple(p))
-            pass
         return False
 
     @staticmethod
@@ -271,7 +247,6 @@ class Droid:
                 route[current_route_it] = new_pos
                 current_route_it += 1
                 current_pos = new_pos
-                pass
             else:
                 # Multiple options
 
@@ -288,14 +263,11 @@ class Droid:
                     ] = it_route
                     return Droid.remove_nan_rows(route)
                 return False
-            pass
-        pass
         return None
 
     def droid_route(self, destination, layout=None):
         if layout is None:
             layout = self.get_layout()
-            pass
 
         pos, content = layout
 
@@ -304,14 +276,12 @@ class Droid:
 
         if not any(np.all(possible_pos == destination, axis=1)):
             possible_pos = np.vstack([possible_pos, destination])
-            pass
 
         return Droid.find_route(self.position, destination, possible_pos)
 
     def go_to(self, destination, layout=None):
         if layout is None:
             layout = self.get_layout()
-            pass
 
         route = self.droid_route(destination, layout)
 
@@ -331,5 +301,3 @@ class Droid:
             else:
                 raise NotImplementedError
             self.__call__(direction)
-            pass
-        pass

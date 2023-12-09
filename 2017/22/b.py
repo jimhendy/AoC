@@ -67,7 +67,6 @@ def print_grid(grid, current_node, burst_num):
     )
     print(df)
     print("-" * 30)
-    pass
 
 
 def run(inputs):

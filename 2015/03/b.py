@@ -20,6 +20,5 @@ def run(inputs):
 
         locs[tuple(loc[0])] = 0
         locs[tuple(loc[1])] = 0
-        pass
 
     return len(locs)

@@ -9,7 +9,6 @@ def n_presents(target):
     for elf in range(1, max_num):
         # elf gives to their first house and in steps of that number
         houses[elf::elf] += 10 * elf
-        pass
     return houses
 
 

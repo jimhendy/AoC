@@ -18,7 +18,6 @@ def chinese_remainder(a, n):
         a_i = a[i]
         while (b_i * m_i) % n_i != a_i:
             m_i += 1
-            pass
         m.append(m_i)
     x = sum([b_i * m_i for b_i, m_i in zip(b, m)])
     return x % N

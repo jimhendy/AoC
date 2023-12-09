@@ -10,7 +10,6 @@ def area(dims):
     z = dims[1] * dims[2]
     smallest = min([x, y, z])
     return 2 * x + 2 * y + 2 * z + smallest
-    pass
     return None
 
 
@@ -24,6 +23,5 @@ def run(inputs):
     total = 0
     for pres_dims in dims:
         total += area(pres_dims)
-        pass
 
     return total

@@ -12,7 +12,6 @@ def run(inputs):
     for i in inputs.split(os.linesep):
         stuff = stuff_reg.findall(i)
         sues[int(sue_reg.findall(i)[0])] = {i[0]: int(i[1]) for i in stuff}
-        pass
 
     df = pd.DataFrame(sues).T
 

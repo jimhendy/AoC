@@ -14,7 +14,6 @@ class RegisterCode:
             if c["test"]():
                 c["alter"]()
             self.history.append(self.registers.copy())
-        pass
 
     def extract_code(self, code_text):
         return [

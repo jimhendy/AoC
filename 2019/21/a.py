@@ -6,7 +6,6 @@ from intcode import Intcode
 def instruction(instr, prog):
     [prog.analyse_intcode(ord(i)) for i in list(instr)]
     prog.analyse_intcode(10)
-    pass
 
 
 def run(inputs):

@@ -9,6 +9,5 @@ def run(inputs):
     for i in inputs.split(os.linesep):
         code += len(i)
         memory += len(re.escape(i)) + 2
-        pass
 
     return memory - code

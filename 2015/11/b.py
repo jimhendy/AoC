@@ -6,7 +6,6 @@ def increment(password):
         return [*increment(password[:-1]), "a"]
     else:
         return password[:-1] + [chr(ord(password[-1]) + 1)]
-    pass
     return None
 
 
@@ -20,8 +19,6 @@ def is_increasing(password):
                 return True
         else:
             l = 0
-            pass
-        pass
     return False
 
 
@@ -48,9 +45,6 @@ def run(inputs):
             p_count += 1
             if p_count == 2:
                 return "".join(password)
-            pass
         password = increment(password)
-        pass
 
-    pass
     return None

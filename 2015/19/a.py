@@ -14,12 +14,8 @@ def replace_str(in_str, remove, replace):
             index = new_index
             yield in_str[:index] + replace + in_str[index + len(remove) :]
             start = index + 1
-            pass
         except ValueError:
             break
-        pass
-
-    pass
 
 
 def run(inputs):
@@ -31,15 +27,11 @@ def run(inputs):
         match = reg.findall(i)
         for m in match:
             replacements.append((m[0], m[1]))
-            pass
-        pass
 
     output = set()
 
     for r in replacements:
         for new_chem in replace_str(base, r[0], r[1]):
             output.add(new_chem)
-            pass
-        pass
 
     return len(output)

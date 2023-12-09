@@ -8,7 +8,6 @@ class Moon:
         self.pos_str = pos_str
         self.position = self.extract_pos()
         self.velocity = np.array([0, 0, 0])
-        pass
 
     def extract_pos(self):
         return np.array([int(i) for i in re.findall(r"([-\d]+)", self.pos_str)])
@@ -27,15 +26,10 @@ class Moon:
             f"pos=<x= {self.position[0]}, y= {self.position[1]}, z= {self.position[2]}>, "
             + f"vel=<x= {self.velocity[0]}, y= {self.velocity[1]}, z= {self.velocity[2]}>"
         )
-        pass
         return None
 
     def update_velocity(self, directions):
         self.velocity = np.add(self.velocity, directions)
-        pass
 
     def update_position(self):
         self.position = np.add(self.position, self.velocity)
-        pass
-
-    pass

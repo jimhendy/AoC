@@ -8,28 +8,20 @@ def get_neighbours(y, x, lights):
         row = lights[y - 1]
         if x:
             total += row[x - 1] == "#"
-            pass
         total += row[x] == "#"
         if x < len(row) - 1:
             total += row[x + 1] == "#"
-            pass
-        pass
     if y < len(lights) - 1:
         row = lights[y + 1]
         if x:
             total += row[x - 1] == "#"
-            pass
         total += row[x] == "#"
         if x < len(row) - 1:
             total += row[x + 1] == "#"
-            pass
-        pass
     if x:
         total += lights[y][x - 1] == "#"
-        pass
     if x < len(lights[0]) - 1:
         total += lights[y][x + 1] == "#"
-        pass
     return total
 
 
@@ -51,15 +43,9 @@ def update(lights):
             if on:
                 if n_neighbours not in [2, 3]:
                     lights[y_i][x_i] = "."
-                    pass
-                pass
             else:
                 if n_neighbours == 3:
                     lights[y_i][x_i] = "#"
-                    pass
-                pass
-            pass
-        pass
 
     return lights
 
@@ -77,7 +63,6 @@ def run(inputs):
         [print("".join(l)) for l in lights]
         print()
         lights = update(lights)
-        pass
     [print("".join(l)) for l in lights]
     print()
     return sum([i.count("#") for i in lights])

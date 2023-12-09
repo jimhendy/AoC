@@ -23,12 +23,9 @@ def find_unknown_cell(layout):
                     return new_pos
                 else:
                     continue
-                pass
             else:
                 return new_pos
-            pass
         completed_tiles.append(tuple(p))
-        pass
     return False
 
 
@@ -82,7 +79,6 @@ def find_route(origin, destination, possibles):
             route[current_route_it] = new_pos
             current_route_it += 1
             current_pos = new_pos
-            pass
         else:
             # Multiple options
 
@@ -100,16 +96,12 @@ def find_route(origin, destination, possibles):
                 route[current_route_it : current_route_it + len(it_route)] = it_route
                 return remove_nan_rows(route)
             return False
-            pass
-        pass
-    pass
     return None
 
 
 def droid_route(droid, destination, layout=None):
     if layout is None:
         layout = droid.get_layout()
-        pass
 
     pos, content = layout
 
@@ -118,7 +110,6 @@ def droid_route(droid, destination, layout=None):
 
     if not any(np.all(possible_pos == destination, axis=1)):
         possible_pos = np.vstack([possible_pos, destination])
-        pass
 
     return find_route(droid.position, destination, possible_pos)
 
@@ -141,5 +132,3 @@ def go_to(droid, layout, destination):
             yield Direction.SOUTH
         else:
             raise NotImplementedError
-        pass
-    pass

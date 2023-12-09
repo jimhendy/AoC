@@ -12,7 +12,6 @@ def get_orbit_list(key, orbits):
     while prev_key in orbits:
         prev_key = orbits[prev_key]
         key_orbits.append(prev_key)
-        pass
     return key_orbits
 
 
@@ -22,5 +21,4 @@ def num_orbits(key, orbits):
     while prev_key in orbits:
         total += 1
         prev_key = orbits[prev_key]
-        pass
     return total

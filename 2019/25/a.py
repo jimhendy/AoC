@@ -11,7 +11,6 @@ def run_cmd(prog, cmd=None):
         cmd = input("Enter a command : ")
     for i in list(cmd):
         prog.analyse_intcode(ord(i))
-        pass
     prog.analyse_intcode(10)
     result = "".join([chr(i) for i in prog.outputs[output_len:]])
     print(result)
@@ -80,12 +79,10 @@ def run(inputs):
             for c in take:
                 run_cmd(prog, f"take {c}")
                 current_inv.append(c)
-                pass
 
             for c in drop:
                 run_cmd(prog, f"drop {c}")
                 current_inv.remove(c)
-                pass
 
             msg = run_cmd(prog, "north")
             if 'A loud, robotic voice says "Alert! Droids on this ship are' in msg:

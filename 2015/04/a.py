@@ -13,7 +13,5 @@ def run(inputs):
             return i
 
         i += 1
-        pass
 
-    pass
     return None

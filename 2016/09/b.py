@@ -16,6 +16,4 @@ def run(inputs):
         n_chars, repeats = list(map(int, match.groups()))
         multiples[end : end + n_chars] *= repeats
 
-        pass
-
     return multiples.sum()

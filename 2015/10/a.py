@@ -10,5 +10,4 @@ def run(inputs):
     num = int(inputs)
     for _ in range(40):
         num = evaluate(num)
-        pass
     return len(str(num))

@@ -68,7 +68,6 @@ def run(inputs):
                 func = do_l_shift
             else:
                 func = do_direct
-                pass
 
             try:
                 loc, value = func(line, wires)
@@ -77,9 +76,5 @@ def run(inputs):
                 continue
 
             remaining_inputs.remove(line)
-
-            pass
-
-        pass
 
     return wires["a"]

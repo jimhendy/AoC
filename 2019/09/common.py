@@ -8,7 +8,6 @@ class Mode(Enum):
     POSITION = 0
     IMMEDIATE = 1
     RELATIVE = 2
-    pass
 
 
 class optprog:
@@ -17,7 +16,6 @@ class optprog:
         self.code = defaultdict(int)
         for i, v in enumerate(self.inputs):
             self.code[i] = v
-            pass
         self.input_signal = None
         self.address = 0
         self.param_modes = defaultdict(lambda: Mode.POSITION)
@@ -25,7 +23,6 @@ class optprog:
         self.outputs = []
         self.complete = False
         self.relative_base = 0
-        pass
 
     @staticmethod
     def in_to_array(inputs):
@@ -35,7 +32,6 @@ class optprog:
         self.input_signal = input_signal
         while self.analyse_instruction() is not None:
             pass
-        pass
 
     def analyse_instruction(self):
         optcode = self.code[self.address]
@@ -45,11 +41,9 @@ class optprog:
             self.param_modes[1] = Mode(int(optcode_str[2]))
             self.param_modes[2] = Mode(int(optcode_str[1]))
             self.param_modes[3] = Mode(int(optcode_str[0]))
-            pass
         else:
             self.optcode = optcode
             self.param_modes.clear()
-            pass
         return self.analyse_optcode()
 
     def analyse_optcode(self):
@@ -89,7 +83,6 @@ class optprog:
             return self.relative_base + value
         else:
             raise NotImplementedError
-        pass
         return None
 
     def _get_value(self, mode):
@@ -97,7 +90,6 @@ class optprog:
 
     def step(self, step=1):
         self.address += step
-        pass
 
     def _compare(self, func):
         self.step()
@@ -125,7 +117,6 @@ class optprog:
             value = self._get_value(self.param_modes[2])
             self.address = value
             return True
-            pass
         self.step()
         return True
 
@@ -139,11 +130,9 @@ class optprog:
         if self.input_signal is not None:
             value = self.input_signal
             self.input_signal = None
-            pass
         else:
             # Get the input from the cmd line
             value = int(input("Enter an input: "))
-            pass
         self.step()
         output_address = self._get_address(mode=self.param_modes[1])
         self.code[output_address] = value

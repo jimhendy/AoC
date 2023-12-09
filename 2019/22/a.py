@@ -16,7 +16,6 @@ def deal_with_increment(cards, inc):
     for i in range(cards.shape[0]):
         out[j] = cards[i]
         j = (j + inc) % cards.shape[0]
-        pass
     return out
 
 
@@ -32,17 +31,12 @@ def run(inputs):
         ins = "_".join(i.split())
         if ins[-1].isdigit():
             ins = "_".join(ins.split("_")[:-1]), int(ins.split("_")[-1])
-            pass
         instructions.append(ins)
-        pass
 
     for i in instructions:
         if type(i) == tuple:
             cards = globals()[i[0]](cards, *i[1:])
-            pass
         else:
             cards = globals()[i](cards)
-            pass
-        pass
 
     return np.argwhere(cards == 2019)

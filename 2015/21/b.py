@@ -23,8 +23,6 @@ def fight(equipment, my_hp, boss_hp, boss_damage, boss_armor):
         if my_hp <= 0:
             return my_cost
 
-        pass
-    pass
     return None
 
 
@@ -72,10 +70,5 @@ def run(inputs):
                     result = fight((w, a, r1, r2), 100, 103, 9, 2)
                     if result:
                         fights.append((result, (wn, an, rn1, rn2)))
-                        pass
-                    pass
-                pass
-            pass
-        pass
 
     return sorted(fights, key=lambda x: x[0])[-1][0]

@@ -11,5 +11,4 @@ def run(inputs):
     num = str(int(inputs))
     for _ in tqdm.tqdm(range(50)):
         num = evaluate(num)
-        pass
     return len(str(num))

@@ -9,7 +9,6 @@ class Tile(Enum):
     BLOCK = 2
     PADDLE = 3
     BALL = 4
-    pass
 
 
 tile_content = {
@@ -34,7 +33,4 @@ def print_game(tiles):
     for row in display:
         for cell in row:
             print(tile_content[cell], end="")
-            pass
         print()
-        pass
-    pass

@@ -12,7 +12,6 @@ def run(inputs):
         prog.analyse_intcode(i[0])
         prog.analyse_intcode(i[1])
         outputs.append({"x": i[0], "y": i[1], "o": prog.outputs[-1]})
-        pass
 
     df = pd.DataFrame(outputs)
 

@@ -11,7 +11,6 @@ def run(inputs):
     for you_i, you_o in enumerate(you[::-1]):
         if san[-you_i - 1] != you_o:
             break
-        pass
 
     # you_i now holds the index of the divergence
     return len(you) - you_i + len(san) - you_i

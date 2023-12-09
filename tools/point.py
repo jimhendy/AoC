@@ -29,7 +29,9 @@ class Point:
         cache=True,
     )
     def _add_values(
-        a: np.ndarray[DTYPE], b: np.ndarray[DTYPE], fill_value: DTYPE = 0,
+        a: np.ndarray[DTYPE],
+        b: np.ndarray[DTYPE],
+        fill_value: DTYPE = 0,
     ) -> np.ndarray[DTYPE]:
         a_len = a.shape[0]
         b_len = b.shape[0]
@@ -58,7 +60,7 @@ class Point:
 
     def __eq__(self, other: Self | Iterable[float]) -> bool:
         if isinstance(other, Point):
-            other = other.values
+            other = other.values  # noqa: PD011
         return all(
             s == o for s, o in itertools.zip_longest(self.values, other, fillvalue=0)
         )
@@ -97,7 +99,7 @@ class Point:
 
     def __iadd__(self, other: Self | float) -> Self:
         if isinstance(other, Point):
-            self.values += other.values
+            self.values += other.values  # noqa: PD011
         else:
             self.values += other
         return self
@@ -115,7 +117,7 @@ class Point:
         return self + self.steps[direction]
 
     def distance_to(self, other: Self, order: int = 1) -> float:
-        return np.linalg.norm(self.values - other.values, ord=order)
+        return np.linalg.norm(self.values - other.values, ord=order)  # noqa: PD011
 
     def __iter__(self):
         yield from self.values
@@ -138,9 +140,12 @@ class Point:
 
         Args:
         ----
-            grid_size (int or tuple[int, ...] or None): The size of the grid or None if there is no grid. Negative values are allowed.
-                If an int is provided, it is assumed that the grid is a square grid with equal sides. No negative values allowed.
-                If a tuple is provided, it should contain the size of each dimension of the grid. No negative values allowed.
+            grid_size (int or tuple[int, ...] or None): The size of the grid or None
+                    if there is no grid. Negative values are allowed.
+                If an int is provided, it is assumed that the grid is a square grid
+                    with equal sides. No negative values allowed.
+                If a tuple is provided, it should contain the size of each dimension
+                    of the grid. No negative values allowed.
 
 
         Returns:
@@ -151,12 +156,16 @@ class Point:
         Raises:
         ------
             PointError: If the current point does not have a "steps" attribute.
-            PointError: If the grid_size is not compatible with the dimensions of the point.
+            PointError: If the grid_size is not compatible with the dimensions of the
+                point.
             PointError: If any dimension of the grid_size is not positive.
         """
         # Check if the current point has a "steps" attribute
         if not len(self.steps):
-            msg = 'Trying to find neighbours for a Point baseclass with no "steps" attribute'
+            msg = (
+                "Trying to find neighbours for a Point baseclass with no "
+                '"steps" attribute'
+            )
             raise RuntimeError(msg)
 
         # Convert grid_size to a tuple if it is an int
@@ -167,22 +176,21 @@ class Point:
         if grid_size is not None:
             grid_size = tuple(grid_size)
             if len(grid_size) != len(self):
-                raise PointError(
-                    f"grid_size must be an int or a {len(self)}-tuple of ints",
-                )
+                error = f"grid_size must be an int or a {len(self)}-tuple of ints"
+                raise PointError(error)
             if not all(i >= 0 for i in grid_size):
-                raise PointError("Grid_size must be positive")
+                error = "Grid_size must be positive"
+                raise PointError(error)
             if any(point >= grid for point, grid in zip(self, grid_size, strict=True)):
-                raise PointError(
-                    f"Initial point is outside the grid. {grid_size=}, {self=}",
-                )
+                error = f"Initial point is outside the grid. {grid_size=}, {self=}"
+                raise PointError(error)
 
         # Generate all the neighboring points
         for s in self.steps.values():
             neighbour = self + s
 
             if grid_size is not None:
-                if any(v < 0 for v in neighbour.values):
+                if any(v < 0 for v in neighbour.values):  # noqa: PD011
                     continue
 
                 if any(
@@ -249,7 +257,7 @@ class Point2D(Point):
 
 class PointyTop2DHexPoint(Point):
     # See https://www.redblobgames.com/grids/hexagons/
-    steps = {
+    steps: ClassVar[dict[str, Point]] = {
         "nw": Point(-1, 0, +1),
         "ne": Point(0, +1, +1),
         "e": Point(+1, +1, 0),
@@ -263,7 +271,7 @@ class PointyTop2DHexPoint(Point):
 
 
 class FlatTop2DHexPoint(Point):
-    steps = {
+    steps: ClassVar[dict[str, Point]] = {
         "n": Point(0, +1, -1),
         "ne": Point(+1, 0, -1),
         "se": Point(+1, -1, 0),

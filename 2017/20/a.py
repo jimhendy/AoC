@@ -21,7 +21,6 @@ class Particle:
         self.position = np.array([data[0], data[1], data[2]])
         self.velocity = np.array([data[3], data[4], data[5]])
         self.acceleration = np.array([data[6], data[7], data[8]])
-        pass
 
     def distance(self):
         return np.sum(np.abs(self.position))

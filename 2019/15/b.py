@@ -17,17 +17,14 @@ def run(inputs):
             if new_pos is False:
                 break
             droid.go_to(new_pos, layout)
-            pass
         else:
             new_dir = Droid.random_direction()
             droid(new_dir)
-            pass
 
         if count % 1 == 0:
             pass
 
         count += 1
-        pass
 
     minutes = 0
     droid.layout[tuple(droid.tank_position)] = MapSymbol.OXYGEN
@@ -35,12 +32,10 @@ def run(inputs):
         new_o_cells = droid.find_oxygen_adjacent_cells()
         for nc in new_o_cells:
             droid.layout[tuple(nc)] = MapSymbol.OXYGEN
-            pass
         if not len(new_o_cells):
             break
         if minutes % 1 == 0:
             pass
         minutes += 1
-        pass
 
     return minutes

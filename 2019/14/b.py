@@ -30,6 +30,5 @@ def run(inputs):
             right = mid - 1
         elif ore < initial_ore:
             left = mid + 1
-        pass
 
     return right

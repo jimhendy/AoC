@@ -24,7 +24,6 @@ def cyk(target, grammar):
     # First time is special
     for i in range(len(target)):
         data[0][i] = {target[i]}
-        pass
 
     for y in range(1, len(target) + 1):
         for x in range(len(target) - y):
@@ -35,17 +34,10 @@ def cyk(target, grammar):
                     print(this_target)
                     if this_target in v:
                         data[y][x].add(k)
-                        pass
-                    pass
-                pass
-            pass
-        pass
 
     for k, v in data.items():
         out = "".join([str(i) for i in v.values() if len(i)])
         if len(out):
             print(k, out)
-            pass
-        pass
 
     return data

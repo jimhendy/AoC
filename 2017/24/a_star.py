@@ -55,11 +55,9 @@ def augmented_a_star(initial_state, return_status=False):
             if not s.is_valid():
                 if DEBUG:
                     print(f"Skipping {s} as not valid")
-                    pass
                 continue
             if DEBUG:
                 print("Adding new state to heap")
-                pass
             heapq.heappush(possible_states, s)
 
     if return_status:

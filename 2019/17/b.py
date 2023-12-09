@@ -13,7 +13,6 @@ class MapSymbol(Enum):
     DROID_RIGHT = ">"
     DROID_DOWN = "v"
     NEWLINE = "\n"
-    pass
 
 
 DROID_CHARS = [
@@ -28,7 +27,6 @@ class Turn(Enum):
     RIGHT = "R"
     LEFT = "L"
     NONE = "0"
-    pass
 
 
 class Direction(Enum):
@@ -36,7 +34,6 @@ class Direction(Enum):
     LEFT = 1
     DOWN = 2
     RIGHT = 3
-    pass
 
 
 direction_map = {
@@ -160,13 +157,11 @@ def run(inputs):
             commands.append("L")
             steps = 0
             layout[prev_pos[0]][prev_pos[1]] = symbol_map[left_turn(direction)]
-            pass
         elif turn == Turn.RIGHT:
             commands.append(str(steps))
             commands.append("R")
             steps = 0
             layout[prev_pos[0]][prev_pos[1]] = symbol_map[right_turn(direction)]
-            pass
         elif turn == Turn.NONE:
             steps += 1
             step = get_step(direction)
@@ -175,14 +170,12 @@ def run(inputs):
             layout[prev_pos[0]][prev_pos[1]] = MapSymbol.LADDER
             layout[new_pos[0]][new_pos[1]] = symbol
             prev_pos = new_pos
-            pass
         else:
             print(f"Returned : {turn}")
             break
 
         os.system("clear")
         [print(i.value, end="") for i in layout.ravel()]
-        pass
     commands.append(steps)
     commands = ",".join(list(map(str, commands[1:])))
     print(commands)

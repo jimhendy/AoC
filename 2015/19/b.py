@@ -9,7 +9,6 @@ class Molecule:
         self.n_reacts = n_reacts
         self.mol_str = mol_str
         self.reacts = reacts
-        pass
 
     def size(self):
         return self.n_reacts + len(self.mol_str)
@@ -39,8 +38,6 @@ def run(inputs):
         match = reaction_reg.findall(i)
         for m in match:
             reactions[m[0]].add(m[1])
-            pass
-        pass
 
     possibles = [Molecule(0, base, [])]
     seen = {base}

@@ -23,6 +23,4 @@ def run(inputs):
                     break
         i += 1
 
-        pass
-
     return "".join(code)

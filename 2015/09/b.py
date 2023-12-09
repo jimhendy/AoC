@@ -13,7 +13,6 @@ def run(inputs):
     for line in inputs.split(os.linesep):
         matches = reg.findall(line)[0]
         graph.add_edge(matches[0], matches[1], weight=int(matches[2]))
-        pass
 
     best_path_length = None
     for path in itertools.permutations(graph.nodes):
@@ -24,8 +23,5 @@ def run(inputs):
 
         if best_path_length is None or this_path_length > best_path_length:
             best_path_length = this_path_length
-            pass
-
-        pass
 
     return best_path_length

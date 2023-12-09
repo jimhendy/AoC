@@ -33,9 +33,6 @@ class Spell(ABC):
 
         if self.remaining_turns == 0:
             player.armor -= self.armor
-            pass
-
-        pass
 
     def is_active(self):
         return self.remaining_turns > 0

@@ -33,8 +33,6 @@ class JumpCode:
             print(ins)
             print(self.registers)
             print("*" * 30)
-            pass
-        pass
 
     def _get_value(self, value):
         if isinstance(value, int | float) or (

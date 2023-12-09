@@ -8,7 +8,6 @@ class Mode(Enum):
     POSITION = 0
     IMMEDIATE = 1
     RELATIVE = 2
-    pass
 
 
 class Intcode:
@@ -17,7 +16,6 @@ class Intcode:
         self.code = defaultdict(int)
         for i, v in enumerate(self.inputs):
             self.code[i] = v
-            pass
         self.input_signal = None
         self.address = 0
         self.param_modes = defaultdict(lambda: Mode.POSITION)
@@ -26,16 +24,12 @@ class Intcode:
         self.complete = False
         self.relative_base = 0
         self._address_log = []
-        pass
 
     def reset(self):
         self.address = 0
         self.relative_base = 0
         for i, v in enumerate(self.inputs):
             self.code[i] = v
-            pass
-
-        pass
 
     @staticmethod
     def in_to_array(inputs):
@@ -45,7 +39,6 @@ class Intcode:
         self.input_signal = input_signal
         while self.analyse_instruction() is not None:
             pass
-        pass
 
     def analyse_instruction(self):
         self._address_log.append(self.address)
@@ -56,11 +49,9 @@ class Intcode:
             self.param_modes[1] = Mode(int(optcode_str[2]))
             self.param_modes[2] = Mode(int(optcode_str[1]))
             self.param_modes[3] = Mode(int(optcode_str[0]))
-            pass
         else:
             self.optcode = optcode
             self.param_modes.clear()
-            pass
         return self.analyse_optcode()
 
     def analyse_optcode(self):
@@ -100,7 +91,6 @@ class Intcode:
             return self.relative_base + value
         else:
             raise NotImplementedError
-        pass
         return None
 
     def _get_value(self, mode):
@@ -108,7 +98,6 @@ class Intcode:
 
     def step(self, step=1):
         self.address += step
-        pass
 
     def _compare(self, func):
         self.step()
@@ -136,7 +125,6 @@ class Intcode:
             value = self._get_value(self.param_modes[2])
             self.address = value
             return True
-            pass
         self.step()
         return True
 
@@ -150,11 +138,9 @@ class Intcode:
         if self.input_signal is not None:
             value = self.input_signal
             self.input_signal = None
-            pass
         else:
             # No input signal - return and wait
             return None
-            pass
         self.step()
         output_address = self._get_address(mode=self.param_modes[1])
         self.code[output_address] = value

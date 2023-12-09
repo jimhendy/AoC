@@ -19,10 +19,7 @@ def run(inputs):
             for a in amps:
                 a.analyse_intcode(prev_output)
                 prev_output = a.outputs[-1]
-                pass
-            pass
         data[phases] = prev_output
-        pass
 
     output = sorted(data.items(), key=lambda x: x[1])[-1]
 

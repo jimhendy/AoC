@@ -41,7 +41,6 @@ def get_gates(layout):
                             key = f"{char}{next_char}"
                         else:
                             key = f"{next_char}{char}"
-                            pass
                         if key in data:
                             key += "_1"
                         data[key] = next_next_pos
@@ -88,17 +87,10 @@ def dijkstra(origin, destination, layout_orig):
                         next_char = get_char(next_pos, layout_prev)
                         if next_char == 46:  # ord('.')
                             set_char(next_pos, layout, seen_char)
-                            pass
-                        pass
-                    pass
-                pass
-            pass
         if np.array_equal(layout_prev, layout):
             return -1
         layout_prev = layout.copy()
         steps += 1
-        pass
-    pass
     return None
 
 
@@ -120,7 +112,6 @@ def run(inputs):
         if not k.endswith("_1"):
             continue
         graph.add_edge(k, k.replace("_1", ""), weight=1)
-        pass
 
     for o_name, o in gates.items():
         for d_name, d in gates.items():
@@ -130,8 +121,6 @@ def run(inputs):
             if distance < 0:
                 continue
             graph.add_edge(o_name, d_name, weight=distance)
-            pass
-        pass
     """
     pos = nx.get_node_attributes(graph, 'pos')
     nx.draw(graph, pos)

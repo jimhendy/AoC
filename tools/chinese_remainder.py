@@ -14,14 +14,16 @@ def chinese_remainder(b: np.ndarray, n: np.ndarray) -> int:
 
     Where n1, n2, ..., nk are co-prime
     """
-    assert len(b) == len(n)
-    N = np.prod(n)
+    if len(b) != len(n):
+        error = f"b and n must have the same length, got {len(b)=} and {len(n)=}"
+        raise ValueError(error)
+    n_ = np.prod(n)
     total = 0
-    for ni, bi in zip(n, b):
-        Ni = N / ni
-        xi = inverse_mod(Ni, ni)
-        total += bi * Ni * xi
-    return total % N
+    for ni, bi in zip(n, b, strict=True):
+        ni_ = n_ / ni
+        xi = inverse_mod(ni_, ni)
+        total += bi * ni_ * xi
+    return total % n_
 
 
 @lru_cache(maxsize=1024)

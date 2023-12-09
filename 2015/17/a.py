@@ -10,8 +10,5 @@ def run(inputs):
         for c in combinations(sizes, n):
             if sum(c) == 150:
                 count += 1
-                pass
-            pass
-        pass
 
     return count

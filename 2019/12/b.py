@@ -23,7 +23,6 @@ def check_hist(hist, moons, axis):
     else:
         hist.add(status)
         return False
-    pass
     return None
 
 
@@ -43,19 +42,13 @@ def run(inputs):
             for i, mi in enumerate(moons):
                 for _j, mj in enumerate(moons[i + 1 :]):
                     common.apply_gravity(mi, mj)
-                    pass
-                pass
             [m.update_position() for m in moons]
 
             if s % 10000 == 0:
                 print(f"Iteration: {s}")
-                pass
 
             if check_hist(history, moons, axis=a):
                 axis_frequencies.append(s)
                 break
-
-            pass
-        pass
 
     return np.lcm.reduce(axis_frequencies)

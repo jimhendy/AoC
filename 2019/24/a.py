@@ -12,16 +12,12 @@ def get_num_bugs(grid, x, y):
     num_bugs = 0
     if x != 0 and grid[y][x - 1] == BUG:
         num_bugs += 1
-        pass
     if x != (grid.shape[1] - 1) and grid[y][x + 1] == BUG:
         num_bugs += 1
-        pass
     if y != 0 and grid[y - 1][x] == BUG:
         num_bugs += 1
-        pass
     if y != (grid.shape[0] - 1) and grid[y + 1][x] == BUG:
         num_bugs += 1
-        pass
     return num_bugs
 
 
@@ -34,14 +30,11 @@ def update_cell(grid, x, y):
             return BUG
         else:
             return EMPTY
-        pass
     else:
         if n_bugs == 1 or n_bugs == 2:
             return BUG
         else:
             return EMPTY
-        pass
-    pass
     return None
 
 
@@ -49,11 +42,8 @@ def plot(grid):
     for row in grid:
         for char in row:
             print(chr(char), end="")
-            pass
         print()
-        pass
     print()
-    pass
 
 
 @numba.njit(numba.int8[:, :](numba.int8[:, :]))
@@ -62,8 +52,6 @@ def update(grid_orig):
     for y in range(grid.shape[0]):
         for x in range(grid.shape[1]):
             grid[y][x] = update_cell(grid_orig, x, y)
-            pass
-        pass
     return grid
 
 
@@ -79,7 +67,6 @@ def run(inputs):
         if h in hashes:
             break
         hashes.add(h)
-        pass
 
     result = 0
     for y, row in enumerate(grid):

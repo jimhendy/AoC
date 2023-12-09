@@ -11,9 +11,6 @@ class Ingredient:
         self.flavour = int(flavour)
         self.texture = int(texture)
         self.calories = int(calories)
-        pass
-
-    pass
 
 
 def possible_combinations_sum(possibles, n_nums, target, others=None):
@@ -26,7 +23,6 @@ def possible_combinations_sum(possibles, n_nums, target, others=None):
         solution.append(p)
         if n_nums == 1 and p == target:
             yield solution
-            pass
         elif n_nums > 1:
             yield from possible_combinations_sum(
                 possibles,
@@ -34,9 +30,6 @@ def possible_combinations_sum(possibles, n_nums, target, others=None):
                 target - p,
                 solution,
             )
-            pass
-        pass
-    pass
 
 
 def run(inputs):
@@ -49,7 +42,6 @@ def run(inputs):
     ings = {}
     for match in reg.findall(inputs.replace(os.linesep, "")):
         ings[match[0]] = Ingredient(match[1], match[2], match[3], match[4], match[5])
-        pass
 
     np.tile(np.arange(0, num_ingredients + 1), len(ings)).reshape(
         -1,
@@ -71,8 +63,5 @@ def run(inputs):
 
         if score > best_score:
             best_score = score
-            pass
-
-        pass
 
     return best_score

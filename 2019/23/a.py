@@ -10,7 +10,6 @@ def run(inputs):
         p = intcode.Intcode(inputs)
         p.analyse_intcode(i)
         computers.append(p)
-        pass
 
     queues = [queue.Queue() for _ in range(n_computers)]
 
@@ -19,11 +18,8 @@ def run(inputs):
             if q.qsize():
                 while q.qsize():
                     c.analyse_intcode(q.get())
-                    pass
-                pass
             else:
                 c.analyse_intcode(-1)
-                pass
 
             while len(c.outputs):
                 c_q = c.outputs.pop(0)
@@ -33,8 +29,4 @@ def run(inputs):
                     return y_q
                 queues[c_q].put(x_q)
                 queues[c_q].put(y_q)
-                pass
-            pass
-        pass
-    pass
     return None

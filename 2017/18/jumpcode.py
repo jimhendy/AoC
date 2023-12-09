@@ -28,8 +28,6 @@ class JumpCode:
                 if ret is not None:
                     return ret
 
-            pass
-        pass
         return None
 
     def _get_value(self, value):

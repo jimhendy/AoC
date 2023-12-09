@@ -31,13 +31,10 @@ def run(inputs):
 
         for _i in range(n_steps):
             loc += steps[new_dir]
-            pass
 
         print(loc)
 
         direction = new_dir
         current_dir_it = new_dir_it
-
-        pass
 
     return np.abs(loc).sum()
