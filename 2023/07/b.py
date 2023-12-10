@@ -56,27 +56,31 @@ class Hand:
         self.type_ = self._extract_type()
 
     def _extract_type(self) -> HandType:
-        possible_cards = [self.cards[:]]
+        possible_hands = [self.cards[:]]
         for base_card_i, base_card in enumerate(self.cards):
             if base_card.label == "J":
-                possible_cards = self._replace_joker(possible_cards, base_card_i)
-        return max(map(self._type_from_cards, possible_cards))
+                possible_hands = self._replace_joker(possible_hands, base_card_i)
+        return max(map(self._type_from_cards, possible_hands))
 
     def _replace_joker(
         self,
-        possible_cards: list[list[Card]],
+        possible_hands: list[list[Card]],
         base_card_i: int,
     ) -> list[list[Card]]:
-        new_possible_cards = []
-        for card in possible_cards:
+        new_hands = []
+        for hand in possible_hands:
+            non_jokers_cards = [card.label for card in hand if card.label != "J"]
             for new_label in Card.ORDERED_LABELS:
                 if new_label == "J":
                     continue
 
-                new_card = card.copy()
-                new_card[base_card_i] = Card(new_label)
-                new_possible_cards.append(new_card)
-        return new_possible_cards
+                if len(non_jokers_cards) and new_label not in non_jokers_cards:
+                    continue
+
+                new_hand = hand.copy()
+                new_hand[base_card_i] = Card(new_label)
+                new_hands.append(new_hand)
+        return new_hands
 
     @staticmethod
     def _type_from_cards(cards: list[Card]) -> HandType:
