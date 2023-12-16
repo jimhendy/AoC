@@ -93,6 +93,17 @@ def a_star(
 
 
 class State(ABC):
+
+    """
+    A state in the A star search.
+
+    Implement:
+    - is_valid
+    - is_complete
+    - all_possible_next_states
+    - __lt__
+    """
+
     @abstractmethod
     def is_valid(self) -> bool:
         return False
