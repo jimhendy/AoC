@@ -29,14 +29,16 @@ def run(inputs: str) -> int:
             # Count how many empty x values are between i and j
             for x in empty_x:
                 if x > min(galaxies[i].real, galaxies[j].real) and x < max(
-                    galaxies[i].real, galaxies[j].real
+                    galaxies[i].real,
+                    galaxies[j].real,
                 ):
                     raw_distance += expansion
 
             # Similar for empty y
             for y in empty_y:
                 if y > min(galaxies[i].imag, galaxies[j].imag) and y < max(
-                    galaxies[i].imag, galaxies[j].imag
+                    galaxies[i].imag,
+                    galaxies[j].imag,
                 ):
                     raw_distance += expansion
 

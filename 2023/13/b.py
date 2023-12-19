@@ -24,7 +24,9 @@ def potential_pivots(pattern: np.ndarray) -> np.ndarray:
 
 
 def find_pivot(
-    pattern: np.ndarray, original_pivot: int | None = None, transpose: bool = False
+    pattern: np.ndarray,
+    original_pivot: int | None = None,
+    transpose: bool = False,
 ) -> int:
     """
     Find the first pivot point in the pattern.

@@ -1,11 +1,10 @@
-from collections import deque
 import re
-from dataclasses import dataclass
-from dataclasses import field
+from collections import deque
+from dataclasses import dataclass, field
 
 DAMAGED_REGEX = re.compile("#+")
-DAMAGED_OR_UNKNOWN = "(?:#|\?)"
-EMPTY_OR_UNKNOWN = "(?:\?|\.)"
+DAMAGED_OR_UNKNOWN = r"(?:#|\?)"
+EMPTY_OR_UNKNOWN = r"(?:\?|\.)"
 
 
 @dataclass(slots=True)

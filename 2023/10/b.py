@@ -1,5 +1,6 @@
+from collections.abc import Iterable
+
 from matplotlib.path import Path
-from typing import Iterable
 
 OUTGOING_DIRECTIONS = {
     "|": (complex(0, 1), complex(0, -1)),
@@ -14,7 +15,8 @@ OUTGOING_DIRECTIONS = {
 
 
 def accessible_neighbours(
-    location: complex, grid: list[list[str]]
+    location: complex,
+    grid: list[list[str]],
 ) -> Iterable[complex]:
     try:
         grid_character = grid[int(location.imag)][int(location.real)]
