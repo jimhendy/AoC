@@ -4,8 +4,6 @@ from collections.abc import Callable, Iterable
 
 from loguru import logger
 
-DEBUG = 0
-
 
 class AStarError(Exception):
     pass
@@ -16,6 +14,7 @@ def a_star(
     tag_func: Callable = str,
     *,
     return_status: bool = False,
+    debug_mode: bool = False,
 ):
     """
     Perform the A* search algorithm
@@ -31,22 +30,20 @@ def a_star(
         tag_func: {callable} -- [function to tag each
             state with so we can know if it has already been seen
             ]
-        return_status: {boolean} -- Rather than returning the
-            final state, return a dictionary summarising the search
 
     Keyword Arguments:
     -----------------
-        tag_func {callable} -- [function to tag each
-        state with so we can know if it has already been seen
-        ] (default: {str})
-
-        return_status {boolean} -- Rather than returning the
-        final state, return a dictionary summarising the search
+        return_status: {boolean} -- Rather than returning the
+            final state, return a dictionary summarising the search
+        debug_mode: {boolean} -- Whether to print debug messages
 
     Returns:
     -------
         [user_class(State)] -- [Desired search result]
     """
+    if not debug_mode:
+        logger.remove()
+
     possible_states = [initial_state]
     seen = set()
     n_tests = 0
