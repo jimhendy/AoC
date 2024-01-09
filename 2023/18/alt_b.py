@@ -23,13 +23,13 @@ class Point2D(complex):
 
 @cache
 def _direction(dir_str: str) -> Point2D:
-    if dir_str == "U":
+    if dir_str == "3":
         return Point2D(0, 1)
-    elif dir_str == "D":
+    elif dir_str == "1":
         return Point2D(0, -1)
-    elif dir_str == "L":
+    elif dir_str == "2":
         return Point2D(-1, 0)
-    elif dir_str == "R":
+    elif dir_str == "0":
         return Point2D(1, 0)
 
 
@@ -82,20 +82,21 @@ def _flood_fill(perimiter: set[Point2D], starting_location: Point2D) -> set[Poin
 
 def run(inputs: str) -> int:
     location = Point2D(0, 0)
-    perimiter_list = [location]
+    perimiter_intersections = [location]
     for line in inputs.splitlines():
-        direction_str, steps, _ = line.split()
-        steps = int(steps)
+        hex_value = line.split()[-1][1:-1]
+        direction_str = hex_value[-1]
+        steps = int(hex_value[1:-1], 16)
         direction = _direction(direction_str)
-        for _ in range(steps):
-            location += direction
-            perimiter_list.append(location)
+        location += steps * direction
+        perimiter_intersections.append(location)
 
-    perimiter_path = Path([[p.x, p.y] for p in perimiter_list])
-    perimiter = frozenset(perimiter_list)
+    perimiter_path = Path([[p.x, p.y] for p in perimiter_intersections])
+
+    perimiter = frozenset(perimiter_intersections)
 
     starting_location = _find_starting_location(perimiter_path, perimiter)
 
-    internal_points = _flood_fill(perimiter, starting_location)
+    print(starting_location)
 
-    return len(perimiter) + len(internal_points)
+    return len(perimiter)
