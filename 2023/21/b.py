@@ -13,22 +13,24 @@ def _location_in_original_grid(
 
 
 def run(inputs: str) -> int:
-    logger.info(f"Calculating for {STEPS = }")
-    rocks: set[complex] = set()
-    grid_width: int = 0
-    grid_height: int = 0
-    starting_location: complex = complex()
+    global OFFSET
+
+    rocks = set()
+    grid_width, grid_height = None, 0
+    starting_location = None
 
     for y, line in enumerate(inputs.splitlines()):
         characters = list(line)
         if not y:
             grid_width = len(characters)
+            OFFSET *= grid_width
         for x, c in enumerate(characters):
             if c == "#":
-                rocks.add(complex(x, y))
+                rocks.add(_num(x, y))
             elif c == "S":
-                starting_location = complex(x, y)
+                starting_location = _num(x, y)
         grid_height += 1
+
 
     logger.info(f"Starting location: {starting_location}")
     logger.info(f"Grid width: {grid_width}, grid height: {grid_height}")
