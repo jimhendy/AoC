@@ -110,9 +110,9 @@ def run(inputs: str):  # sourcery skip: collection-into-set
                 loop_directions[leaving_direction][beyond_leaving] = entering_direction
 
                 loop_tiles[OPPOSITES[entering_direction]][beyond_entering] = leaving
-                loop_directions[OPPOSITES[entering_direction]][
-                    beyond_entering
-                ] = OPPOSITES[leaving_direction]
+                loop_directions[OPPOSITES[entering_direction]][beyond_entering] = (
+                    OPPOSITES[leaving_direction]
+                )
 
     if side_length == 4:
         # Right of 1, right of 6

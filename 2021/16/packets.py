@@ -6,7 +6,6 @@ from tools.number_conversion import binary_to_decimal
 
 
 class Packet(ABC):
-
     """Abstract base class for a Packet from the hex-message queue."""
 
     def __init__(self, version: int, type_id: int) -> None:
@@ -26,7 +25,6 @@ class Packet(ABC):
 
 
 class Literal(Packet):
-
     """
     A literal ``Packet`` (``type_id=4``).
 
@@ -43,7 +41,6 @@ class Literal(Packet):
 
 
 class Operator(Packet):
-
     """
     An operator ``Packet``.
 

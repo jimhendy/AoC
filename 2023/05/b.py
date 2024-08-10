@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
 
 
-class NotInRangeError(Exception):
-    ...
+class NotInRangeError(Exception): ...
 
 
 @dataclass

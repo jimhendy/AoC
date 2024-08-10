@@ -159,6 +159,7 @@ class Point:
             PointError: If the grid_size is not compatible with the dimensions of the
                 point.
             PointError: If any dimension of the grid_size is not positive.
+
         """
         # Check if the current point has a "steps" attribute
         if not len(self.steps):

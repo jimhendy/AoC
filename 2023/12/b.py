@@ -1,10 +1,10 @@
-import regex as re
+import multiprocessing as mp
 from collections import deque
 from dataclasses import dataclass, field
-from typing import ClassVar
 from functools import cache
-import multiprocessing as mp
+from typing import ClassVar
 
+import regex as re
 
 DAMAGED_REGEX = re.compile("#+")
 DAMAGED_OR_UNKNOWN = r"[#\?]"

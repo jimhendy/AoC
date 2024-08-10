@@ -51,6 +51,7 @@ def binary_search(func, lower=0, upper=None):
         result = binary_search(custom_func, lower=10, upper=100)
         print(result)  # Output: Smallest value that satisfies the condition
         # within the range [10, 100]
+
     """
     lower_bool = func(lower)
 

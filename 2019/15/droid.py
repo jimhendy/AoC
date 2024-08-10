@@ -258,9 +258,9 @@ class Droid:
                     it_route = Droid.find_route(p, destination, poss_next)
                     if it_route is False:
                         continue
-                    route[
-                        current_route_it : current_route_it + len(it_route)
-                    ] = it_route
+                    route[current_route_it : current_route_it + len(it_route)] = (
+                        it_route
+                    )
                     return Droid.remove_nan_rows(route)
                 return False
         return None

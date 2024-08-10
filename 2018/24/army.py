@@ -34,12 +34,12 @@ class Army:
             attack_damage=int(basic[2]),
             attack_type=basic[3],
             initiative=int(basic[4]),
-            weaknesses=None
-            if not len(weak)
-            else [w.strip() for w in weak[0].split(",")],
-            immunities=None
-            if not len(immune)
-            else [i.strip() for i in immune[0].split(",")],
+            weaknesses=(
+                None if not len(weak) else [w.strip() for w in weak[0].split(",")]
+            ),
+            immunities=(
+                None if not len(immune) else [i.strip() for i in immune[0].split(",")]
+            ),
         )
         self.groups.append(new_group)
 

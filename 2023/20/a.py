@@ -1,9 +1,9 @@
+import time
 from abc import ABC, abstractmethod
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import IntEnum
 from typing import ClassVar
-from collections import defaultdict, deque
-import time
 
 
 class Pulse(IntEnum):
@@ -25,8 +25,9 @@ class Module(ABC):
     name: str
 
     @abstractmethod
-    def receive_pulse(self, transmission: Transmission) -> list[Transmission] | None:
-        ...
+    def receive_pulse(
+        self, transmission: Transmission
+    ) -> list[Transmission] | None: ...
 
     def transmit_pulse(self, pulse: Pulse) -> list[Transmission]:
         return [

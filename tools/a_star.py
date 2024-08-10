@@ -40,6 +40,7 @@ def a_star(
     Returns:
     -------
         [user_class(State)] -- [Desired search result]
+
     """
     if not debug_mode:
         logger.remove()
