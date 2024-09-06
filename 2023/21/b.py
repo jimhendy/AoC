@@ -12,9 +12,8 @@ def _location_in_original_grid(
     return complex(location.real % grid_width, location.imag % grid_height)
 
 
+# @profile
 def run(inputs: str) -> int:
-    global OFFSET
-
     rocks = set()
     grid_width, grid_height = None, 0
     starting_location = None
@@ -23,14 +22,12 @@ def run(inputs: str) -> int:
         characters = list(line)
         if not y:
             grid_width = len(characters)
-            OFFSET *= grid_width
         for x, c in enumerate(characters):
             if c == "#":
-                rocks.add(_num(x, y))
+                rocks.add((x, y))
             elif c == "S":
-                starting_location = _num(x, y)
+                starting_location = (x, y)
         grid_height += 1
-
 
     logger.info(f"Starting location: {starting_location}")
     logger.info(f"Grid width: {grid_width}, grid height: {grid_height}")
@@ -84,7 +81,6 @@ def run(inputs: str) -> int:
     remainders = {}
     print(f"Starting location: {starting_location}")
     for step in [1j, -1j, 1, -1]:
-
         # How many steps from the starting position to the edge of the original grid
         position = starting_location
 
