@@ -91,7 +91,6 @@ def a_star(
 
 
 class State(ABC):
-
     """
     A state in the A star search.
 
