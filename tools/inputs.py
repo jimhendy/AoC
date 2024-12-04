@@ -1,5 +1,6 @@
 def parse_grid(
-    inputs: str, ignore_chars: str | list[str] | None = None
+    inputs: str,
+    ignore_chars: str | list[str] | None = None,
 ) -> dict[complex, str]:
     if isinstance(ignore_chars, str):
         ignore_chars = [ignore_chars]
