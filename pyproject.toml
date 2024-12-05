@@ -19,11 +19,11 @@ dependencies = [
     "line-profiler>=4.1.3",
 ]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [tool.ruff]
+target-version = "py311"
+exclude = ["20??", "tests"]
+
+[tool.ruff.lint]
 select = ["ALL"]
 ignore = [
     "ANN" , # Type annotations
@@ -46,11 +46,10 @@ ignore = [
     "C901", # `run_once` is too complex (11 > 10)
     "PLR0912", # Too many branches
     "PLR2004", # Magic value used in comparison
+    "D203", # one-blank-line-before-class
 ]
-target-version = "py311"
-exclude = ["20??", "tests"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "optcode.py" = [
     "N803", # Argument should be lowercase
     "ARG002" # Unused method argument

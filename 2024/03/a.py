@@ -2,6 +2,7 @@ import re
 
 REG = re.compile("mul\(\d+,\d+\)")
 
+
 def run(inputs: str) -> int:
     total = 0
     for match in REG.findall(inputs):

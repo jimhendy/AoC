@@ -114,8 +114,7 @@ def calculate_cycle(history: dict[str, list[int]]) -> int:
                     first_cycle_start : first_cycle_start + cycle_length
                 ]
                 second_cycle = df.iloc[
-                    first_cycle_start
-                    + cycle_length : first_cycle_start
+                    first_cycle_start + cycle_length : first_cycle_start
                     + 2 * cycle_length
                 ]
                 if np.all(first_cycle.values == second_cycle.values):

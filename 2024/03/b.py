@@ -2,6 +2,7 @@ import re
 
 REG = re.compile("mul\(\d+,\d+\)|do\(\)|don't\(\)")
 
+
 def run(inputs: str) -> int:
     total = 0
     do = True

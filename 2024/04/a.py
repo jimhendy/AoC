@@ -3,12 +3,14 @@ import numpy as np
 
 TARGET = re.compile("XMAS")
 
+
 def _count_targets(rows: list[str]) -> int:
     count = 0
     for row in rows:
         count += len(TARGET.findall(row))
         count += len(TARGET.findall(row[::-1]))
     return count
+
 
 def _diagonals(array: np.array) -> list[str]:
     lines = ["".join(np.diag(array))]
@@ -25,8 +27,8 @@ def _diagonals(array: np.array) -> list[str]:
         offset += 1
     return lines
 
-def run(inputs: str) -> int:
 
+def run(inputs: str) -> int:
     array = np.array([list(row) for row in inputs.splitlines()])
 
     count = 0

@@ -32,8 +32,7 @@ def run(inputs: str) -> int:
         return sum(f(v) for v in visited.values())
 
     distance_to_edge = grid_size // 2
-    assert distance_to_edge == 65 # checking assumptions is good!
-
+    assert distance_to_edge == 65  # checking assumptions is good!
 
     # hardcoding for the puzzle input
     n = (26501365 - distance_to_edge) // grid_size
