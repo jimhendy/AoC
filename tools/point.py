@@ -60,7 +60,7 @@ class Point:
 
     def __eq__(self, other: Self | Iterable[float]) -> bool:
         if isinstance(other, Point):
-            other = other.values  # noqa: PD011
+            other = other.values
         return all(
             s == o for s, o in itertools.zip_longest(self.values, other, fillvalue=0)
         )
@@ -99,7 +99,7 @@ class Point:
 
     def __iadd__(self, other: Self | float) -> Self:
         if isinstance(other, Point):
-            self.values += other.values  # noqa: PD011
+            self.values += other.values
         else:
             self.values += other
         return self
@@ -117,7 +117,7 @@ class Point:
         return self + self.steps[direction]
 
     def distance_to(self, other: Self, order: int = 1) -> float:
-        return np.linalg.norm(self.values - other.values, ord=order)  # noqa: PD011
+        return np.linalg.norm(self.values - other.values, ord=order)
 
     def __iter__(self):
         yield from self.values
@@ -191,7 +191,7 @@ class Point:
             neighbour = self + s
 
             if grid_size is not None:
-                if any(v < 0 for v in neighbour.values):  # noqa: PD011
+                if any(v < 0 for v in neighbour.values):
                     continue
 
                 if any(
