@@ -1,5 +1,6 @@
-import numpy as np
 from collections import defaultdict
+
+import numpy as np
 
 
 def _get_char(array: np.ndarray, location: complex) -> str:
@@ -11,7 +12,9 @@ def _get_char(array: np.ndarray, location: complex) -> str:
 
 
 def _count_mas(
-    array: np.ndarray, a_locations: dict[complex, int], offset: complex
+    array: np.ndarray,
+    a_locations: dict[complex, int],
+    offset: complex,
 ) -> None:
     for y, line in enumerate(array):
         for x, char in enumerate(line):

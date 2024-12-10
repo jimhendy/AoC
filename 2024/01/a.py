@@ -3,7 +3,7 @@ import numpy as np
 
 def run(inputs: str) -> int:
     all_numbers = np.array(
-        [list(map(int, line.split())) for line in inputs.splitlines()]
+        [list(map(int, line.split())) for line in inputs.splitlines()],
     )
     nums_1 = all_numbers[:, 0]
     nums_2 = all_numbers[:, 1]

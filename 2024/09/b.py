@@ -42,7 +42,8 @@ def run(inputs: str) -> int:
 
         # Find the first free space from the left that can fit the file
         free_start = next(
-            (i for i, size in enumerate(free_space) if size >= file_size), None
+            (i for i, size in enumerate(free_space) if size >= file_size),
+            None,
         )
 
         if free_start is not None and free_start <= location:

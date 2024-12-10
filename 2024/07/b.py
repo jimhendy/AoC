@@ -1,7 +1,8 @@
 import math
-import tqdm
 import operator
-from typing import Generator
+from collections.abc import Generator
+
+import tqdm
 
 
 def concat(left: int, right: int) -> int:

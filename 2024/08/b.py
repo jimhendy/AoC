@@ -1,11 +1,15 @@
-from tools.inputs import parse_grid
+import math
 from collections import defaultdict
 from itertools import combinations
-import math
+
+from tools.inputs import parse_grid
 
 
 def antinode(
-    a: complex, b: complex, grid_width: int, grid_height: int
+    a: complex,
+    b: complex,
+    grid_width: int,
+    grid_height: int,
 ) -> list[complex]:
     """
     All points from a in the direction that lie on integer coordinates.

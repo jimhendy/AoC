@@ -1,6 +1,6 @@
 import re
 
-REG = re.compile("mul\(\d+,\d+\)")
+REG = re.compile(r"mul\(\d+,\d+\)")
 
 
 def run(inputs: str) -> int:

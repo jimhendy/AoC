@@ -27,7 +27,7 @@ def run(inputs: str) -> int:
                 break
             hard_drive[i], hard_drive[reverse_loc] = (
                 hard_drive[reverse_loc],
-                hard_drive[i],
+                char,
             )
             reverse_loc -= 1
 

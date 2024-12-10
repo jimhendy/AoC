@@ -1,6 +1,7 @@
-from tools.inputs import parse_grid
 from collections import defaultdict
 from itertools import combinations
+
+from tools.inputs import parse_grid
 
 
 def antinode(a: complex, b: complex) -> complex:

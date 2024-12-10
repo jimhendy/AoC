@@ -1,6 +1,6 @@
 import re
 
-REG = re.compile("mul\(\d+,\d+\)|do\(\)|don't\(\)")
+REG = re.compile(r"mul\(\d+,\d+\)|do\(\)|don't\(\)")
 
 
 def run(inputs: str) -> int:

@@ -1,5 +1,6 @@
-from tools.inputs import parse_grid
 import tqdm
+
+from tools.inputs import parse_grid
 
 
 def _turn(direction: complex) -> complex:
