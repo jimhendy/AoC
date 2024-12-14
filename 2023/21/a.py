@@ -1,5 +1,6 @@
-from tools.inputs import parse_grid, nb4
 from itertools import chain
+
+from tools.inputs import nb4, parse_grid
 
 
 def run(inputs: str) -> int:

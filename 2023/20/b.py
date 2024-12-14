@@ -25,7 +25,8 @@ class Module(ABC):
 
     @abstractmethod
     def receive_pulse(
-        self, transmission: Transmission
+        self,
+        transmission: Transmission,
     ) -> list[Transmission] | None: ...
 
     def transmit_pulse(self, pulse: Pulse) -> list[Transmission]:
@@ -41,7 +42,7 @@ class FlipFlop(Module):
 
     def receive_pulse(self, transmission: Transmission) -> list[Transmission] | None:
         if transmission.pulse != Pulse.low:
-            return
+            return None
         if self.state == Pulse.low:
             self.state = Pulse.high
         else:
@@ -104,7 +105,9 @@ class Machine:
 
         for name, type_ in types.items():
             self.modules[name] = type_(
-                name=name, sources=sources[name], destinations=destinations[name]
+                name=name,
+                sources=sources[name],
+                destinations=destinations[name],
             )
 
     def find_multiples(self) -> list[int]:
@@ -122,8 +125,10 @@ class Machine:
 
             self.transmissions.append(
                 Transmission(
-                    source="button", destination="broadcaster", pulse=Pulse.low
-                )
+                    source="button",
+                    destination="broadcaster",
+                    pulse=Pulse.low,
+                ),
             )
 
             while self.transmissions:

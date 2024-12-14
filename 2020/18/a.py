@@ -19,7 +19,7 @@ def evaluate_term(term):
     ints = list(map(int, int_reg.findall(term)))
     ops = operator_reg.findall(term)
     result = ints[0]
-    for i, o in zip(ints[1:], ops):
+    for i, o in zip(ints[1:], ops, strict=False):
         if o == "+":
             result += i
         elif o == "*":

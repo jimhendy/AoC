@@ -68,16 +68,14 @@ class Monkey:
 
         if components[2] == "old":
             return lambda x: op(x, x)
-        else:
-            return lambda x: op(x, int(components[2]))
+        return lambda x: op(x, int(components[2]))
 
     @staticmethod
     def extract_test_func(test_str: str) -> Callable:
         if test_str.startswith("divisible by"):
             return int(test_str.split()[-1])
-        else:
-            msg = f"Unexpected {test_str=}"
-            raise RuntimeError(msg)
+        msg = f"Unexpected {test_str=}"
+        raise RuntimeError(msg)
 
 
 def run(inputs):

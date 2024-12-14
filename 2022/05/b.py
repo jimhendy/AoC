@@ -18,14 +18,13 @@ def run(inputs: str) -> str:
         if crates_complete:
             instructions_starting_line = line_num
             break
+        if all(line_character.isnumeric() for line_character in line.split()):
+            num_stacks = int(line.split()[-1])
+            stacks_reg = re.compile(" ".join([".(.)."] * num_stacks))
+            initial_crates = [stacks_reg.findall(c)[0] for c in initial_crates]
+            crates_complete = True
         else:
-            if all(line_character.isnumeric() for line_character in line.split()):
-                num_stacks = int(line.split()[-1])
-                stacks_reg = re.compile(" ".join([".(.)."] * num_stacks))
-                initial_crates = [stacks_reg.findall(c)[0] for c in initial_crates]
-                crates_complete = True
-            else:
-                initial_crates.append(line)
+            initial_crates.append(line)
 
     crates = defaultdict(deque)
     for stack_num in range(num_stacks):

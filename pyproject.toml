@@ -18,6 +18,9 @@ dependencies = [
     "scipy>=1.14.1",
     "line-profiler>=4.1.3",
     "tqdm>=4.67.1",
+    "pyqt6>=6.8.0",
+    "sympy>=1.13.3",
+    "scikit-image>=0.25.0",
 ]
 
 

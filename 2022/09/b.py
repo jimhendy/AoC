@@ -5,7 +5,7 @@ ROPE_LEN = 10
 def sign(x: int) -> int:
     if x > 0:
         return 1
-    elif x < 0:
+    if x < 0:
         return -1
     return 0
 

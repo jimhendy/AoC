@@ -44,6 +44,5 @@ def run(inputs):
             if result is not None:
                 if len(complete_boards) == len(boards) - 1:
                     return result * n
-                else:
-                    complete_boards.add(b)
+                complete_boards.add(b)
     return None

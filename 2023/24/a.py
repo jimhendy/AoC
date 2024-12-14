@@ -1,8 +1,6 @@
-from dataclasses import dataclass, field
-from loguru import logger
-from itertools import combinations
 import math
-
+from dataclasses import dataclass, field
+from itertools import combinations
 
 MIN = 200_000_000_000_000
 MAX = 400_000_000_000_000

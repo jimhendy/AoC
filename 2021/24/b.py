@@ -14,8 +14,7 @@ class ArithmeticLogicUnit:
     def get(self, name: str):
         if name in {"w", "x", "y", "z"}:
             return getattr(self, name)
-        else:
-            return int(name)
+        return int(name)
 
     def run(self, inputs: deque):
         self.inputs = inputs

@@ -17,7 +17,7 @@ def run(inputs):
             masked_reg = "".join(
                 [
                     r if m == "0" else ("1" if m == "1" else "{}")
-                    for m, r in zip(mask, b_reg)
+                    for m, r in zip(mask, b_reg, strict=False)
                 ],
             )
             for xs in set(itertools.combinations([1, 0] * n_x, n_x)):

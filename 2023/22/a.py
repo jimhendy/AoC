@@ -1,5 +1,6 @@
-from tools.point import Point3D
 import re
+
+from tools.point import Point3D
 
 
 def _parse_inputs(inputs: str) -> list[tuple[Point3D, Point3D]]:
@@ -45,8 +46,9 @@ def run(inputs: str) -> int:
         start, end = line.split("~")
         bricks.append(
             Brick(
-                Point3D(*map(int, start.split(","))), Point3D(*map(int, end.split(",")))
-            )
+                Point3D(*map(int, start.split(","))),
+                Point3D(*map(int, end.split(","))),
+            ),
         )
 
     return len(bricks)

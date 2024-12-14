@@ -93,8 +93,7 @@ class Cuboid:
         new_cuboids = self.non_overlapping_cuboids(other)
         if new_cuboids is None:
             return [self]
-        else:
-            return new_cuboids
+        return new_cuboids
 
 
 def run(inputs):

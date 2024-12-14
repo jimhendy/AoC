@@ -25,6 +25,6 @@ def run(inputs):
             total = sum(considered)
             if total == target:
                 return min(considered) + max(considered)
-            elif total > target:
+            if total > target:
                 break
     return None

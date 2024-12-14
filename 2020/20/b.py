@@ -85,7 +85,7 @@ def run(inputs):
 
     grid = []
     for ot_row in ordered_tiles:
-        for image_rows in zip(*[t.image() for t in ot_row]):
+        for image_rows in zip(*[t.image() for t in ot_row], strict=False):
             grid.append("".join(["".join(i) for i in image_rows]))
 
     sea_monster = re.compile(

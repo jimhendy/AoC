@@ -30,11 +30,10 @@ def test(humn: int) -> bool:
                     print(humn)
                     print(monkies[depends_on[0]], monkies[depends_on[1]])
                     return monkies[depends_on[0]] >= monkies[depends_on[1]]
-                else:
-                    monkies[name] = OPS[line[2]](
-                        monkies[depends_on[0]],
-                        monkies[depends_on[1]],
-                    )
+                monkies[name] = OPS[line[2]](
+                    monkies[depends_on[0]],
+                    monkies[depends_on[1]],
+                )
     return None
 
 

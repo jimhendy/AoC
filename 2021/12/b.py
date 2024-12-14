@@ -27,9 +27,7 @@ class Route:
         for next_loc in self.connections[self.current_loc]:
             prev_visits = self.visits[next_loc]
             if prev_visits and next_loc in LOWER_CASE:
-                if prev_visits == 2:
-                    continue
-                elif prev_visits and self.has_double_lower_visit:
+                if prev_visits == 2 or (prev_visits and self.has_double_lower_visit):
                     continue
 
             yield Route(

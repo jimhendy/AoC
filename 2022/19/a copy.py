@@ -12,7 +12,7 @@ TARGET_RESOURCE = "geode"
 
 
 class Config(State):
-    __slots__ = ("robots", "resources", "elapsed_time", "chose_not_to_build")
+    __slots__ = ("chose_not_to_build", "elapsed_time", "resources", "robots")
 
     blueprint: dict[str, Counter[str, int]]  # output_resource: {input_resource: num}
     threshold: int = 0

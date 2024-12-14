@@ -4,18 +4,12 @@ import os
 def extreme_cubes(active):
     min_x, min_y, min_z, max_x, max_y, max_z = 0, 0, 0, 0, 0, 0
     for x, y, z in active:
-        if x > max_x:
-            max_x = x
-        if y > max_y:
-            max_y = y
-        if z > max_z:
-            max_z = z
-        if x < min_x:
-            min_x = x
-        if y < min_y:
-            min_y = y
-        if z < min_z:
-            min_z = z
+        max_x = max(x, max_x)
+        max_y = max(y, max_y)
+        max_z = max(z, max_z)
+        min_x = min(x, min_x)
+        min_y = min(y, min_y)
+        min_z = min(z, min_z)
     return min_x, min_y, min_z, max_x, max_y, max_z
 
 

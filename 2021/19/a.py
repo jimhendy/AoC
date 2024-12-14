@@ -13,7 +13,6 @@ class Scanner:
         lambda x, y, z: (-x, z, y),
         lambda x, y, z: (-x, y, -z),
         lambda x, y, z: (-x, -z, -y),
-        #
         lambda x, y, z: (-y, x, z),
         lambda x, y, z: (-z, x, -y),
         lambda x, y, z: (y, x, -z),
@@ -22,7 +21,6 @@ class Scanner:
         lambda x, y, z: (z, -x, -y),
         lambda x, y, z: (-y, -x, -z),
         lambda x, y, z: (-z, -x, y),
-        #
         lambda x, y, z: (z, -y, x),
         lambda x, y, z: (-y, -z, x),
         lambda x, y, z: (-z, y, x),
@@ -45,7 +43,9 @@ class Scanner:
     ):
         [self.beacons.add(b) for b in new_becons]
         for c in new_scanner.scanner_locs:
-            self.scanner_locs.append(tuple([i + j for i, j in zip(c, new_scanner_pos)]))
+            self.scanner_locs.append(
+                tuple([i + j for i, j in zip(c, new_scanner_pos, strict=False)])
+            )
 
     def orientations(self):
         for o in self._orientation_lambdas:
@@ -56,10 +56,11 @@ def compare(scanner_1, scanner_2):
     for beacons_2 in scanner_2.orientations():
         for b1 in scanner_1.beacons:
             for b2 in beacons_2:
-                offset = [i - j for i, j in zip(b1, b2)]
+                offset = [i - j for i, j in zip(b1, b2, strict=False)]
 
                 beacons_2_in_1_coords = {
-                    tuple([i + j for i, j in zip(bb2, offset)]) for bb2 in beacons_2
+                    tuple([i + j for i, j in zip(bb2, offset, strict=False)])
+                    for bb2 in beacons_2
                 }
                 overlap = beacons_2_in_1_coords.intersection(scanner_1.beacons)
                 if len(overlap) >= 12:
@@ -75,7 +76,7 @@ def run(inputs):
     for line in inputs.split(os.linesep):
         if "scanner" in line:
             continue
-        elif not line:
+        if not line:
             scanners.append(Scanner(beacons))
             beacons = []
         else:

@@ -9,11 +9,13 @@ def run(inputs):
     downs = [1, 1, 1, 1, 2]
 
     data = []
-    for r, d in zip(rights, downs):
+    for r, d in zip(rights, downs, strict=False):
         trees = sum(
             [
                 inputs[row][col % len(inputs[0])] == "#"
-                for row, col in zip(range(0, len(inputs), d), range(0, int(9e99), r))
+                for row, col in zip(
+                    range(0, len(inputs), d), range(0, int(9e99), r), strict=False
+                )
             ],
         )
         data.append(trees)

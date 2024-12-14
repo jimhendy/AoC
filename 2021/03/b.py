@@ -20,7 +20,7 @@ def find_value(inputs: np.ndarray, desired_bit_lambda: Callable) -> int:
     bit_num = 0
     while possibles.shape[0] > 1:
         bits = possibles[:, bit_num]
-        counts = dict(zip(*np.unique(bits, return_counts=True)))
+        counts = dict(zip(*np.unique(bits, return_counts=True), strict=False))
         desired_bit = desired_bit_lambda(counts)
         possibles = possibles[bits == desired_bit]
         bit_num += 1

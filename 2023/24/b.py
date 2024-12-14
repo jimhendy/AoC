@@ -1,23 +1,4 @@
-import numpy as np
-from loguru import logger
-
-
-def are_points_collinear(points):
-    # Use the first point as the reference
-    ref_point = points[0]
-
-    # Compute direction vectors from the reference point
-    direction_vectors = points[1:] - ref_point
-
-    # Check if we have only one direction vector (meaning only two points)
-    if len(direction_vectors) == 1:
-        return True  # Two points are always collinear
-
-    # Compute cross products of all direction vectors with the first direction vector
-    cross_products = np.cross(direction_vectors[0], direction_vectors[1:])
-
-    # Check if all cross products are zero (within a tolerance for floating-point precision)
-    return np.all(np.isclose(cross_products, 0))
+import sympy
 
 
 def run(inputs: str) -> int:
@@ -28,18 +9,44 @@ def run(inputs: str) -> int:
         particles.append(list(map(int, p.split(","))))
         velocities.append(list(map(int, v.split(","))))
 
-    particles = np.array(particles)
-    velocities = np.array(velocities)
+    particles = particles[:10]
 
-    for t in range(100):
-        logger.debug(f"Time: {t}")
-        if are_points_collinear(particles):
-            logger.debug(f"Particles are collinear at time {t}")
-            return t
-        logger.info("Particles are not collinear")
-        particles += velocities
+    # Define the unknowns for the rock's initial position (rx, ry, rz) and velocity (vx, vy, vz)
+    rx, ry, rz, vx, vy, vz = sympy.symbols("rx ry rz vx vy vz", real=True, integer=True)
+    interception_times = sympy.symbols(
+        f"t:{len(particles)}",
+        real=True,
+        integer=True,
+        positive=True,
+    )
 
+    # List to store the system of equations
+    equations = []
 
-np.array(
-    [list(map(int, line.split(","))) for line in data.replace("@", ",").splitlines()]
-)
+    # For each hailstone, calculate the system of equations for each dimension (x, y, z)
+    for h in range(len(particles)):
+        t = interception_times[h]
+
+        eq_x = sympy.Eq(rx + t * vx, particles[h][0] + t * velocities[h][0])
+        eq_y = sympy.Eq(ry + t * vy, particles[h][1] + t * velocities[h][1])
+        eq_z = sympy.Eq(rz + t * vz, particles[h][2] + t * velocities[h][2])
+
+        # Add the equations to the system
+        equations.extend([eq_x, eq_y, eq_z])
+
+    initial_guess = (0, 0, 0, 1, 1, 1) + tuple(range(1, len(particles) + 1))
+
+    # Solve the system of equations to find the initial position and velocity of the rock
+    solution = sympy.solve(equations, (rx, ry, rz, vx, vy, vz) + interception_times)[
+        0
+    ]  # , initial_guess)
+
+    # Display the solution
+    print("Solution for the initial position and velocity of the rock:", solution)
+
+    # Calculate the sum of the x, y, z coordinates of the initial position if the solution exists
+    if solution:
+        total_position_sum = solution[0] + solution[1] + solution[2]
+        print("Sum of the initial position coordinates (x, y, z):", total_position_sum)
+
+        return total_position_sum

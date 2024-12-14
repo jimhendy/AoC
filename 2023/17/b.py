@@ -41,7 +41,9 @@ class UltraCrucible(State):
     @cache
     def _num_forward_steps(self):
         total = 0
-        for to_, from_ in zip(self.history[::-1], self.history[:-1][::-1]):
+        for to_, from_ in zip(
+            self.history[::-1], self.history[:-1][::-1], strict=False
+        ):
             if (to_ - from_) == self.direction:
                 total += 1
             else:
@@ -137,7 +139,7 @@ class UltraCrucible(State):
 
     def draw_route(self):
         symbols = {}
-        for j, i in zip(self.history, self.history[1:] + [self.position]):
+        for j, i in zip(self.history, self.history[1:] + [self.position], strict=False):
             direction = i - j
             symbol = {
                 1: ">",

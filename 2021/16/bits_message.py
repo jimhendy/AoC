@@ -63,26 +63,22 @@ class BitsMessage:
 
         if type_id == 4:
             return Literal(version=version, binary=self.extract_literal_binary())
-        else:
-            length_type_id = self.extract_n_decimal(1)
-            if length_type_id == 0:
-                # Next 15 bits represent total length in bits of sub-packets
-                bit_lenth_of_subpackets = self.extract_n_decimal(15)
-                analysed_bits = 0
-                subpackets = []
-                while analysed_bits != bit_lenth_of_subpackets:
-                    start_pops = self.pops
-                    literal = self.extract_leading_packet()
-                    analysed_bits += self.pops - start_pops
-                    subpackets.append(literal)
-                return Operator(version=version, type_id=type_id, subpackets=subpackets)
-            elif length_type_id == 1:
-                # Next 11 bits are number of subpackets
-                n_subpackets = self.extract_n_decimal(11)
-                subpackets = [
-                    self.extract_leading_packet() for _ in range(n_subpackets)
-                ]
-                return Operator(version=version, type_id=type_id, subpackets=subpackets)
-            else:
-                msg = f"length_type_id {length_type_id} unknown"
-                raise NotImplementedError(msg)
+        length_type_id = self.extract_n_decimal(1)
+        if length_type_id == 0:
+            # Next 15 bits represent total length in bits of sub-packets
+            bit_lenth_of_subpackets = self.extract_n_decimal(15)
+            analysed_bits = 0
+            subpackets = []
+            while analysed_bits != bit_lenth_of_subpackets:
+                start_pops = self.pops
+                literal = self.extract_leading_packet()
+                analysed_bits += self.pops - start_pops
+                subpackets.append(literal)
+            return Operator(version=version, type_id=type_id, subpackets=subpackets)
+        if length_type_id == 1:
+            # Next 11 bits are number of subpackets
+            n_subpackets = self.extract_n_decimal(11)
+            subpackets = [self.extract_leading_packet() for _ in range(n_subpackets)]
+            return Operator(version=version, type_id=type_id, subpackets=subpackets)
+        msg = f"length_type_id {length_type_id} unknown"
+        raise NotImplementedError(msg)

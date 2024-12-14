@@ -1,8 +1,9 @@
 import re
+
 import numpy as np
 
 # Button A: X+79, Y+87
-BUTTON_REG = re.compile("^Button \w: X(.+), Y(.+)$")
+BUTTON_REG = re.compile(r"^Button \w: X(.+), Y(.+)$")
 # Prize: X=7384, Y=4824
 PRICE_REG = re.compile("^Prize: X=(.+), Y=(.+)$")
 

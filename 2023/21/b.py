@@ -1,7 +1,7 @@
 from collections import deque
+from collections.abc import Callable
 
-from tools.inputs import parse_grid, nb4
-from typing import Callable
+from tools.inputs import nb4, parse_grid
 
 
 def run(inputs: str) -> int:
@@ -11,7 +11,7 @@ def run(inputs: str) -> int:
 
     visited: dict[complex, int] = {}
     queue: deque[tuple[int, complex]] = deque(
-        [(0, next(k for k, v in grid.items() if v == "S"))]
+        [(0, next(k for k, v in grid.items() if v == "S"))],
     )
 
     while queue:

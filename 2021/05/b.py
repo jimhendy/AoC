@@ -21,7 +21,7 @@ def run(inputs):
         else:
             x = steps(x1, x2)
             y = steps(y1, y2)
-            for x, y in zip(x, y):
+            for x, y in zip(x, y, strict=False):
                 points[(x, y)] += 1
 
     return sum([v >= 2 for v in points.values()])

@@ -6,19 +6,18 @@ def compare(left, right) -> int:
     if isinstance(left, int) and isinstance(right, int):
         if left < right:
             return 1
-        elif left == right:
+        if left == right:
             return 0
-        else:
-            return -1
-    elif isinstance(left, int) and isinstance(right, list):
+        return -1
+    if isinstance(left, int) and isinstance(right, list):
         return compare([left], right)
-    elif isinstance(left, list) and isinstance(right, int):
+    if isinstance(left, list) and isinstance(right, int):
         return compare(left, [right])
-    elif isinstance(left, list) and isinstance(right, list):
+    if isinstance(left, list) and isinstance(right, list):
         for index in range(max(len(left), len(right))):
             if index >= len(left):
                 return 1
-            elif index >= len(right):
+            if index >= len(right):
                 return -1
             c = compare(left[index], right[index])
             if abs(c) == 1:

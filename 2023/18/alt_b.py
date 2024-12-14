@@ -25,11 +25,11 @@ class Point2D(complex):
 def _direction(dir_str: str) -> Point2D:
     if dir_str == "3":
         return Point2D(0, 1)
-    elif dir_str == "1":
+    if dir_str == "1":
         return Point2D(0, -1)
-    elif dir_str == "2":
+    if dir_str == "2":
         return Point2D(-1, 0)
-    elif dir_str == "0":
+    if dir_str == "0":
         return Point2D(1, 0)
 
 

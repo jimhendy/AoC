@@ -33,6 +33,7 @@ def a_star(initial_state, tag_func=str, return_status=False):
     Returns:
     -------
         [user_class(State)] -- [Desired search result]
+
     """
     possible_states = [initial_state]
     seen = set()
@@ -74,11 +75,10 @@ def a_star(initial_state, tag_func=str, return_status=False):
             "n_tests": n_tests,
             "is_complete": is_complete,
         }
-    elif is_complete:
+    if is_complete:
         return best_option
-    else:
-        msg = "Search did not complete"
-        raise AStarException(msg)
+    msg = "Search did not complete"
+    raise AStarException(msg)
 
 
 class State(ABC):

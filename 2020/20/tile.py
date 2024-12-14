@@ -34,7 +34,7 @@ class Tile:
         yield from self.reverse_edges()
 
     def rotate_clockwise(self):
-        self.grid = [list(row) for row in zip(*reversed(self.grid))]
+        self.grid = [list(row) for row in zip(*reversed(self.grid), strict=False)]
         for i, m in enumerate(self.matches):
             self.matches[i]["MySide"] = {
                 "top": "right",

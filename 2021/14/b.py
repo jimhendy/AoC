@@ -7,7 +7,7 @@ def run(inputs):
     alterations = dict(a.split(" -> ") for a in alteration_inputs)
 
     pairs = defaultdict(int)
-    for i, j in zip(initial[:-1], initial[1:]):
+    for i, j in zip(initial[:-1], initial[1:], strict=False):
         pairs[i + j] += 1
 
     for _ in range(40):

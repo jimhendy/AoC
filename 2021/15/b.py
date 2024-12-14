@@ -22,7 +22,7 @@ def a_star(initial_state):
 
 
 class Route:
-    __slots__ = ["x", "y", "_id", "risk"]
+    __slots__ = ["_id", "risk", "x", "y"]
 
     def __init__(self, x, y, _id=0, prev_risk=0) -> None:
         self.x = x

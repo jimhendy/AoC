@@ -53,11 +53,10 @@ class Pair:
                 self.left += number
             else:
                 self.left._add_number_from_explode(number, leftmost)
+        elif self.right_int:
+            self.right += number
         else:
-            if self.right_int:
-                self.right += number
-            else:
-                self.right._add_number_from_explode(number, leftmost)
+            self.right._add_number_from_explode(number, leftmost)
 
     def explode_nested_pairs(self, level=0) -> bool | list[Explosion]:
         """
@@ -70,7 +69,7 @@ class Pair:
         if level > 4:
             msg = f"Level should not get this high, {level}, {self}"
             raise RuntimeError(msg)
-        elif level == 4:
+        if level == 4:
             assert self.left_int and self.right_int, (
                 f'Expected two ints at this level but found left="{self.left}", '
                 f'right="{self.right}"'
@@ -109,25 +108,23 @@ class Pair:
             ex = self.right.explode_nested_pairs(level=level + 1)
             if ex is False:
                 return False
-            elif ex is True:
+            if ex is True:
                 return True
-            else:
-                if level == 3:
-                    self.right = 0
-                    self.right_int = True
-                return_exs = []
-                for e in ex:
-                    if e.direction is Direction.LEFT:
-                        if self.left_int:
-                            self.left += e.value
-                        else:
-                            self.left._add_number_from_explode(e.value, leftmost=False)
+            if level == 3:
+                self.right = 0
+                self.right_int = True
+            return_exs = []
+            for e in ex:
+                if e.direction is Direction.LEFT:
+                    if self.left_int:
+                        self.left += e.value
                     else:
-                        return_exs.append(e)
+                        self.left._add_number_from_explode(e.value, leftmost=False)
+                else:
+                    return_exs.append(e)
 
-                return return_exs if len(return_exs) and level else True
-        else:
-            return False
+            return return_exs if len(return_exs) and level else True
+        return False
 
     def split_large_values(self) -> bool:
         if self.left_int:
@@ -135,21 +132,16 @@ class Pair:
                 self.left = Pair(self.left // 2, int(np.ceil(self.left / 2)))
                 self.left_int = False
                 return True
-            else:
-                pass
-        else:
-            if self.left.split_large_values():
-                return True
+        elif self.left.split_large_values():
+            return True
 
         if self.right_int:
             if self.right > 9:
                 self.right = Pair(self.right // 2, int(np.ceil(self.right / 2)))
                 self.right_int = False
                 return True
-            else:
-                return False
-        else:
-            return self.right.split_large_values()
+            return False
+        return self.right.split_large_values()
 
     def __add__(self, other: "Pair") -> "Pair":
         p = Pair(left=self.copy(), right=other.copy())
@@ -171,9 +163,9 @@ class Pair:
                 cls.from_str(_string[: i + 1]),
                 cls._pair_or_value(_string[i + 2 :]),
             )
-        else:  # Left is a number
-            left, right = _string.split(",", 1)
-            return cls(int(left), cls._pair_or_value(right))
+        # Left is a number
+        left, right = _string.split(",", 1)
+        return cls(int(left), cls._pair_or_value(right))
 
     @classmethod
     def _pair_or_value(cls, string: str) -> Union["Pair", int]:

@@ -52,11 +52,9 @@ def numba_run(inputs: np.ndarray, grid_size: INT) -> INT:
                 min_x = sensor_x - width_at_y
                 max_x = sensor_x + width_at_y
 
-                if min_x < 0:
-                    min_x = 0
+                min_x = max(min_x, 0)
 
-                if max_x > grid_size:
-                    max_x = grid_size
+                max_x = min(max_x, grid_size)
 
                 ranges.append(np.array([min_x, max_x]))
 

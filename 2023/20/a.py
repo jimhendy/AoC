@@ -1,9 +1,7 @@
-import time
 from abc import ABC, abstractmethod
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import IntEnum
-from typing import ClassVar
 
 
 class Pulse(IntEnum):
@@ -26,7 +24,8 @@ class Module(ABC):
 
     @abstractmethod
     def receive_pulse(
-        self, transmission: Transmission
+        self,
+        transmission: Transmission,
     ) -> list[Transmission] | None: ...
 
     def transmit_pulse(self, pulse: Pulse) -> list[Transmission]:
@@ -42,7 +41,7 @@ class FlipFlop(Module):
 
     def receive_pulse(self, transmission: Transmission) -> list[Transmission] | None:
         if transmission.pulse != Pulse.low:
-            return
+            return None
         if self.state == Pulse.low:
             self.state = Pulse.high
         else:
@@ -105,7 +104,9 @@ class Machine:
 
         for name, type_ in types.items():
             self.modules[name] = type_(
-                name=name, sources=sources[name], destinations=destinations[name]
+                name=name,
+                sources=sources[name],
+                destinations=destinations[name],
             )
 
     def press_button(self) -> None:
@@ -113,7 +114,7 @@ class Machine:
         if self.transmissions:
             raise ValueError("Transmission queue not empty")
         self.transmissions.append(
-            Transmission(source="button", destination="broadcaster", pulse=Pulse.low)
+            Transmission(source="button", destination="broadcaster", pulse=Pulse.low),
         )
         while self.transmissions:
             transmission = self.transmissions.popleft()

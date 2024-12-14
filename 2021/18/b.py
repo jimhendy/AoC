@@ -12,7 +12,6 @@ def run(inputs):
             if xi == yi:
                 continue
             m = (x + y).magnitude()
-            if m > max_mag:
-                max_mag = m
+            max_mag = max(m, max_mag)
 
     return max_mag

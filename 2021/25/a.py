@@ -49,5 +49,4 @@ def run(inputs):
         n_steps += 1
         if len(next_east | east) == len(east) and len(next_south | south) == len(south):
             return n_steps
-        else:
-            east, south = next_east, next_south
+        east, south = next_east, next_south

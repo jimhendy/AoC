@@ -69,7 +69,7 @@ def run(inputs: str) -> int:
         for x in range(n_cols):
             if complex(x, y) in main_loop:
                 continue
-            elif loop_path.contains_point([x, y]):
+            if loop_path.contains_point([x, y]):
                 internal += 1
 
     return internal

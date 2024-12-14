@@ -1,8 +1,6 @@
 import multiprocessing as mp
-from collections import deque
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from functools import cache
-from typing import ClassVar
 
 import regex as re
 
@@ -37,9 +35,9 @@ class SpringRow:
     def split_completed_runs(state: str, completed_runs: list[int]) -> list[str]:
         if not completed_runs:
             return ["", state]
-        regex = f"(^\.*"
+        regex = r"(^\.*"
         for num_damaged in completed_runs:
-            regex += f"#{{{num_damaged}}}\.+"
+            regex += rf"#{{{num_damaged}}}\.+"
         regex += ")"
         group = re.compile(regex).findall(state)[0]
         before, after = state[: len(group)], state[len(group) :]
@@ -75,7 +73,9 @@ class SpringRow:
                 ]
                 completed_runs = []
                 for potential, expected in zip(
-                    potential_completed_runs, self.damaged_springs, strict=False
+                    potential_completed_runs,
+                    self.damaged_springs,
+                    strict=False,
                 ):
                     if potential == expected:
                         completed_runs.append(potential)
@@ -87,13 +87,14 @@ class SpringRow:
 
                 # Split the self.initial_state into the completed runs and unknown component
                 before, after = SpringRow.split_completed_runs(
-                    self.initial_state, completed_runs
+                    self.initial_state,
+                    completed_runs,
                 )
 
                 if completed_runs:
                     if not self.damaged_springs:
                         raise Exception(
-                            f"No more damaged springs but {len(completed_runs)=}"
+                            f"No more damaged springs but {len(completed_runs)=}",
                         )
                     damaged_springs = self.damaged_springs[len(completed_runs) :]
                 else:

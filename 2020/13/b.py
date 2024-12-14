@@ -47,6 +47,7 @@ def extended_gcd(a, b):
 
     Reference:
         https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm#Pseudocode
+
     """
     old_r, r = a, b
     old_s, s = 1, 0

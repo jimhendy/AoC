@@ -86,27 +86,25 @@ class Route:
     def hallway_pos_to_room_id(hallway_pos):
         if hallway_pos == 2:
             return 0
-        elif hallway_pos == 4:
+        if hallway_pos == 4:
             return 1
-        elif hallway_pos == 6:
+        if hallway_pos == 6:
             return 2
-        elif hallway_pos == 8:
+        if hallway_pos == 8:
             return 3
-        else:
-            return 100
+        return 100
 
     @staticmethod
     def room_id_to_hallway_pos(room_id):
         if room_id == 0:
             return 2
-        elif room_id == 1:
+        if room_id == 1:
             return 4
-        elif room_id == 2:
+        if room_id == 2:
             return 6
-        elif room_id == 3:
+        if room_id == 3:
             return 8
-        else:
-            return 100
+        return 100
 
     def is_complete(self):
         return np.all(self.rooms_complete)
@@ -219,9 +217,7 @@ class Route:
             room_pos = self.room_id_to_hallway_pos(room_id)
 
             for new_pos in range(len(self.hallway)):
-                if new_pos in occupied:
-                    continue
-                elif new_pos == room_pos:
+                if new_pos in occupied or new_pos == room_pos:
                     continue
 
                 crossing_other = False

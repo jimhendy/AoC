@@ -86,16 +86,15 @@ class Room:
                 hallway_pos=self.hallway_pos,
                 desired_type=self.desired_type,
             )
-        elif self.top_amphipod_id is None:
+        if self.top_amphipod_id is None:
             return Room(
                 top_amphipod_id=amphipod_id,
                 bottom_amphipod_id=self.bottom_amphipod_id,
                 hallway_pos=self.hallway_pos,
                 desired_type=self.desired_type,
             )
-        else:
-            msg = "No space to add a new amphipod"
-            raise RuntimeError(msg)
+        msg = "No space to add a new amphipod"
+        raise RuntimeError(msg)
 
     def __repr__(self) -> str:
         return f"{self.top_amphipod_id}_{self.bottom_amphipod_id}"
@@ -103,10 +102,9 @@ class Room:
     def get_next_amphipod_id(self) -> int | None:
         if self.top_amphipod_id is not None:
             return self.top_amphipod_id
-        elif self.bottom_amphipod_id is not None:
+        if self.bottom_amphipod_id is not None:
             return self.bottom_amphipod_id
-        else:
-            return None
+        return None
 
     def copy(self) -> "Room":
         return Room(
@@ -282,9 +280,9 @@ class Route(State):
             if next_amphipod.entered_room:
                 continue
             for new_pos in range(self.hallway.length):
-                if new_pos in occupied:
-                    continue
-                elif any(rr.hallway_pos == new_pos for rr in self.rooms):
+                if new_pos in occupied or any(
+                    rr.hallway_pos == new_pos for rr in self.rooms
+                ):
                     continue
                 elif new_pos < r.hallway_pos:
                     crossing_other = any(new_pos < i < r.hallway_pos for i in occupied)

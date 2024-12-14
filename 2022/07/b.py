@@ -40,11 +40,10 @@ def run(inputs):
             destination = reg[0]
             if destination == "..":
                 current_directory = current_directory.parent
+            elif current_directory is None:
+                current_directory = Path(destination)
             else:
-                if current_directory is None:
-                    current_directory = Path(destination)
-                else:
-                    current_directory /= destination
+                current_directory /= destination
 
         elif reg := REG_LS.findall(line):
             continue
