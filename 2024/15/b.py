@@ -1,5 +1,6 @@
-from tools.inputs import parse_grid
 from typing import Literal
+
+from tools.inputs import parse_grid
 
 EMPTY = "."
 LEFT_BOX = "["
@@ -8,7 +9,9 @@ WALL = "#"
 
 
 def move_boxes(
-    grid: dict[complex:str], location: complex, direction: complex
+    grid: dict[complex:str],
+    location: complex,
+    direction: complex,
 ) -> list[complex] | Literal[False]:
     """
     Return a list of **original** box locations that can be moved.
@@ -27,16 +30,15 @@ def move_boxes(
         if down_stream is False:
             return False
         return [location] + down_stream
-    else:
-        is_left = grid[location] == LEFT_BOX
-        other_loc = location + (1 if is_left else -1)
-        down_stream = move_boxes(grid, location + direction, direction)
-        if down_stream is False:
-            return False
-        down_stream_other = move_boxes(grid, other_loc + direction, direction)
-        if down_stream_other is False:
-            return False
-        return [location, other_loc] + down_stream + down_stream_other
+    is_left = grid[location] == LEFT_BOX
+    other_loc = location + (1 if is_left else -1)
+    down_stream = move_boxes(grid, location + direction, direction)
+    if down_stream is False:
+        return False
+    down_stream_other = move_boxes(grid, other_loc + direction, direction)
+    if down_stream_other is False:
+        return False
+    return [location, other_loc] + down_stream + down_stream_other
 
 
 def widen_grid(grid: str) -> str:

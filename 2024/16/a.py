@@ -1,4 +1,4 @@
-from tools.a_star import a_star, State
+from tools.a_star import State, a_star
 from tools.inputs import parse_grid
 
 GRID: dict[complex, str] = {}

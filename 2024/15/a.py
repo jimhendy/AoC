@@ -1,6 +1,6 @@
-from tools.inputs import parse_grid
 from typing import Literal
-from functools import lru_cache
+
+from tools.inputs import parse_grid
 
 EMPTY = "."
 BOX = "O"
@@ -10,7 +10,9 @@ CACHE = {}
 
 
 def box_destination(
-    grid: dict[complex:str], box_location: complex, direction: complex
+    grid: dict[complex:str],
+    box_location: complex,
+    direction: complex,
 ) -> complex | Literal[False]:
     """
     The destination of the pushed box.
@@ -22,7 +24,6 @@ def box_destination(
 
     If the box cannot be moved, return False.
     """
-
     cache_key = (str(grid), box_location, direction)
     if cache_key in CACHE:
         return CACHE[cache_key]
