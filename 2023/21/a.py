@@ -4,7 +4,7 @@ from tools.inputs import nb4, parse_grid
 
 
 def run(inputs: str) -> int:
-    grid = parse_grid(inputs, ignore_chars="#")
+    grid = parse_grid(inputs, blacklist="#")
     plot_locations = set(grid)
 
     current_locations = {next(k for k, v in grid.items() if v == "S")}

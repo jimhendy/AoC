@@ -6,7 +6,7 @@ from tools.inputs import nb4, parse_grid
 
 def run(inputs: str) -> int:
     grid_size = len(inputs.splitlines())
-    grid = parse_grid(inputs, ignore_chars="#")
+    grid = parse_grid(inputs, blacklist="#")
     plot_locations = set(grid)
 
     visited: dict[complex, int] = {}

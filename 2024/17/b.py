@@ -4,6 +4,7 @@ from functools import wraps
 import re
 from computer import find_a
 
+
 def run(inputs: str) -> int:
     registers, program = inputs.strip().split("\n\n")
     regregex = re.compile(r"Register (\w): (\d+)")
