@@ -1,7 +1,8 @@
-from dataclasses import dataclass, field
-from typing import ClassVar, Callable
-from functools import wraps
 import re
+from collections.abc import Callable
+from dataclasses import dataclass, field
+from functools import wraps
+from typing import ClassVar
 
 
 def combo(func: callable) -> callable:

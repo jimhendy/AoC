@@ -5,8 +5,7 @@ from tools.inputs import parse_grid
 
 
 def antinode(a: complex, b: complex) -> complex:
-    """
-    The point twice as far from a as b, in the same direction as b.
+    """The point twice as far from a as b, in the same direction as b.
 
     Such that:
     abs(antinode - a) * 2 == abs(antinode - b)

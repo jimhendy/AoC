@@ -1,8 +1,33 @@
+from typing import TypeVar
+
+T = TypeVar("T")
+
+
+def parse_list_of_lists(inputs: list[list[T]]) -> dict[complex, T]:
+    results = {}
+    for y, row in enumerate(inputs):
+        for x, value in enumerate(row):
+            results[complex(x, y)] = value
+    return results
+
+
 def parse_grid(
     inputs: str,
     blacklist: str | list[str] | None = None,
     whitelist: str | list[str] | None = None,
 ) -> dict[complex, str]:
+    """
+    Parse a grid from a string, optionally filtering out characters.
+
+    Args:
+        inputs: The string to parse.
+        blacklist: Characters to ignore.
+        whitelist: Characters to include.
+
+    Returns:
+        A dictionary mapping coordinates to characters.
+
+    """
     if blacklist and whitelist:
         msg = "Cannot have both a blacklist and a whitelist"
         raise ValueError(msg)

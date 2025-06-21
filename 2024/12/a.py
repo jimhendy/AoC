@@ -29,9 +29,7 @@ def find_all_regions(grid: dict[complex, str]) -> list[set[complex]]:
 
 
 def find_perimeter(region: set[complex]) -> int:
-    """
-    Sum the number of unique edges in the region
-    """
+    """Sum the number of unique edges in the region"""
     edges = defaultdict(int)
     for c in region:
         left = c - 0.5

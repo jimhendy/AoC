@@ -11,9 +11,7 @@ def antinode(
     grid_width: int,
     grid_height: int,
 ) -> list[complex]:
-    """
-    All points from a in the direction that lie on integer coordinates.
-    """
+    """All points from a in the direction that lie on integer coordinates."""
     unnormalised_step = b - a
     # If the unnormalised step has a common factor, we can reduce it.
     common_factor = math.gcd(int(unnormalised_step.real), int(unnormalised_step.imag))

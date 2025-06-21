@@ -1,7 +1,7 @@
-from functools import lru_cache
+from functools import cache
 
 
-@lru_cache(maxsize=None)
+@cache
 def can_be_made(available: frozenset[str], desired: str) -> bool:
     if desired in available:
         return True

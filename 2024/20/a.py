@@ -1,9 +1,8 @@
-from tools.inputs import parse_grid, loc_in_grid
-from tools.a_star import State, a_star
 from dataclasses import dataclass, field
-import heapq
-from collections import defaultdict, Counter
 from itertools import chain
+
+from tools.a_star import State, a_star
+from tools.inputs import loc_in_grid, parse_grid
 
 PATHS: set[complex] = set()
 END: complex = complex(0, 0)
@@ -23,7 +22,9 @@ class MapState(State):
             new_loc = self.loc + direction
             if new_loc in PATHS:
                 yield MapState(
-                    loc=new_loc, steps=self.steps + 1, history=self.history.copy()
+                    loc=new_loc,
+                    steps=self.steps + 1,
+                    history=self.history.copy(),
                 )
 
     def is_complete(self):

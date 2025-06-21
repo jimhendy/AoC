@@ -1,4 +1,4 @@
-from tools.a_star import a_star, State
+from tools.a_star import State, a_star
 
 GRID_SIZE = 70
 N_BYTES = 1024

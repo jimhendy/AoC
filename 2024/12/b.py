@@ -48,9 +48,7 @@ def find_all_regions(
 
 
 def find_sides(region: set[complex]) -> int:
-    """
-    Sum the number of unique edges in the region
-    """
+    """Sum the number of unique edges in the region"""
     edges = defaultdict(int)
     for c in region:
         left = c - 0.5

@@ -1,7 +1,7 @@
-from functools import lru_cache
+from functools import cache
 
 
-@lru_cache(maxsize=None)
+@cache
 def possible_combinations(available: frozenset[str], desired: str) -> int:
     count = int(desired in available)
 

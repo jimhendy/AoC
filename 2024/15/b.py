@@ -13,8 +13,7 @@ def move_boxes(
     location: complex,
     direction: complex,
 ) -> list[complex] | Literal[False]:
-    """
-    Return a list of **original** box locations that can be moved.
+    """Return a list of **original** box locations that can be moved.
 
     If a box cannot be moved, return False.
 
@@ -42,8 +41,7 @@ def move_boxes(
 
 
 def widen_grid(grid: str) -> str:
-    """
-    If the tile is #, the new map contains ## instead.
+    """If the tile is #, the new map contains ## instead.
     If the tile is O, the new map contains [] instead.
     If the tile is ., the new map contains .. instead.
     If the tile is @, the new map contains @. instead.

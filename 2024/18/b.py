@@ -1,4 +1,4 @@
-from tools.a_star import a_star, State
+from tools.a_star import State, a_star
 
 GRID_SIZE = 70
 N_BYTES = 1024
@@ -7,7 +7,10 @@ BYTES: set[complex] = set()
 
 class MapState(State):
     def __init__(
-        self, loc: complex, steps: int = 0, history: set[complex] | None = None
+        self,
+        loc: complex,
+        steps: int = 0,
+        history: set[complex] | None = None,
     ):
         self.loc = loc
         self.steps = steps
@@ -23,7 +26,9 @@ class MapState(State):
                 and new_loc not in BYTES
             ):
                 yield MapState(
-                    loc=new_loc, steps=self.steps + 1, history=self.history.copy()
+                    loc=new_loc,
+                    steps=self.steps + 1,
+                    history=self.history.copy(),
                 )
 
     def is_complete(self):
@@ -55,7 +60,7 @@ def run(inputs: str) -> int:
             route = a_star(
                 initial_state=MapState(loc=0),
             )
-        except Exception as e:
+        except Exception:
             return f"{last_added_byte.real:.0f},{last_added_byte.imag:.0f}"
 
         added_bytes = []
