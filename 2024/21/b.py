@@ -79,7 +79,7 @@ def _all_shortest_paths(
             )
 
             optimal_route = a_star(initial_state).history
-            paths = [f"{''.join(perm)}A" for perm in permutations(optimal_route)]
+            paths = {f"{''.join(perm)}A" for perm in permutations(optimal_route)}
             # Remove any paths with non-consecutive same directions
             # E.g. >>v NOT >v>
             non_consecutive_paths = []
@@ -112,7 +112,6 @@ def encode(
     grid: dict[complex:str],
     paths: dict[complex, dict[complex, list[str]]],
 ) -> set[str]:
-    print(code)
     results = {
         "",
     }
@@ -125,6 +124,36 @@ def encode(
         results = {r for r in results if len(r) == len(shortest_result)}
 
     return results
+
+
+def num_steps(
+    start: str,
+    end: str,
+    grid: dict[complex, str],
+    paths: dict[complex, dict[complex, list[str]]],
+    steps: int,
+    cache,
+) -> int:
+    if steps not in cache[start][end]:
+        potential_steps = []
+        for potential_path in paths[loc_in_grid(grid, start)][loc_in_grid(grid, end)]:
+            this_steps = 0
+            this_current = "A"
+            for character in potential_path:
+                this_steps += num_steps(
+                    this_current,
+                    character,
+                    grid,
+                    paths,
+                    steps - 1,
+                    cache,
+                )
+                this_current = character
+            potential_steps.append(this_steps)
+
+        cache[start][end][steps] = min(potential_steps)
+
+    return cache[start][end][steps]
 
 
 def extract_numeric(code: str) -> int:
@@ -140,15 +169,35 @@ def run(inputs: str) -> int:
 
     total = 0
 
+    # Start loc (str), End loc (str), Num Machines (int) -> Num Steps (int)
+    cache: dict[str, dict[str, dict[int, int]]] = defaultdict(lambda: defaultdict(dict))
+    for start, sub_paths in dir_paths.items():
+        for end, paths in sub_paths.items():
+            cache[dir_grid[start]][dir_grid[end]][1] = len(
+                paths[0],
+            )  # Store the length of the first path as the number of steps
+
     for code in inputs.splitlines():
         numeric = extract_numeric(code)
 
+        # Encode the num_pad to the first dir_pad
         codes = encode(f"A{code}", num_grid, num_paths)
-        for _ in range(25):
-            codes = [
-                c for code in codes for c in encode(f"A{code}", dir_grid, dir_paths)
-            ]
+        code_sizes = []
+        for code in codes:
+            this_total = 0
+            current = "A"
+            for character in code:
+                this_total += num_steps(
+                    current,
+                    character,
+                    dir_grid,
+                    dir_paths,
+                    cache=cache,
+                    steps=25,
+                )
+                current = character
+            code_sizes.append(this_total)
 
-        total += numeric * len(codes[0])
+        total += numeric * min(code_sizes)
 
     return total

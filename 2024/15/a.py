@@ -14,7 +14,8 @@ def box_destination(
     box_location: complex,
     direction: complex,
 ) -> complex | Literal[False]:
-    """The destination of the pushed box.
+    """
+    The destination of the pushed box.
 
     If multiple boxes are pushed, the destination is the next empty cell in the
     direction of the push.

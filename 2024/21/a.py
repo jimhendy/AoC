@@ -79,7 +79,7 @@ def _all_shortest_paths(
             )
 
             optimal_route = a_star(initial_state).history
-            paths = [f"{''.join(perm)}A" for perm in permutations(optimal_route)]
+            paths = {f"{''.join(perm)}A" for perm in permutations(optimal_route)}
             # Remove any paths with non-consecutive same directions
             # E.g. >>v NOT >v>
             non_consecutive_paths = []
@@ -143,8 +143,13 @@ def run(inputs: str) -> int:
         numeric = extract_numeric(code)
 
         codes = encode(f"A{code}", num_grid, num_paths)
-        codes = [c for code in codes for c in encode(f"A{code}", dir_grid, dir_paths)]
-        codes = [c for code in codes for c in encode(f"A{code}", dir_grid, dir_paths)]
+        breakpoint()
+        for _ in range(2):
+            codes = [
+                c for code in codes for c in encode(f"A{code}", dir_grid, dir_paths)
+            ]
+            min_len = min(len(c) for c in codes)
+            codes = [c for c in codes if len(c) == min_len]
 
         total += numeric * len(codes[0])
 

@@ -4,6 +4,19 @@ T = TypeVar("T")
 
 
 def parse_list_of_lists(inputs: list[list[T]]) -> dict[complex, T]:
+    """
+    Parse a list of lists into a dictionary with complex keys.
+
+    E.g.
+
+    [[1, 2], [3, 4]] becomes
+    {
+        0 + 0j: 1,
+        1 + 0j: 2,
+        0 + 1j: 3,
+        1 + 1j: 4
+    }
+    """
     results = {}
     for y, row in enumerate(inputs):
         for x, value in enumerate(row):

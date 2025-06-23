@@ -12,11 +12,11 @@ class Node:
     def __post_init__(self):
         if self.value is not None and (self.inputs or self.operation):
             raise ValueError(
-                f"Node {self.name} cannot have both value and inputs/operation."
+                f"Node {self.name} cannot have both value and inputs/operation.",
             )
         if self.value is None and (not self.inputs and not self.operation):
             raise ValueError(
-                f"Node {self.name} must have either inputs or an operation defined."
+                f"Node {self.name} must have either inputs or an operation defined.",
             )
 
     def is_ready(self, nodes: "Nodes") -> bool:
@@ -45,7 +45,7 @@ class Node:
             value = int(sum(input_values) % 2 != 0)
         else:
             raise ValueError(
-                f"Unknown operation {self.operation} for node {self.name}."
+                f"Unknown operation {self.operation} for node {self.name}.",
             )
 
         self.value = value
@@ -134,7 +134,7 @@ def run(inputs: str) -> int:
                 name=parts[-1],
                 inputs=[parts[0], parts[2]],
                 operation=parts[1],
-            )
+            ),
         )
         gate_outputs.append(parts[-1])
 
