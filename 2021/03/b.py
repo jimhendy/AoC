@@ -7,8 +7,7 @@ from tools.number_conversion import binary_to_decimal
 
 
 def find_value(inputs: np.ndarray, desired_bit_lambda: Callable) -> int:
-    """
-    Extract the last remaining row from ``inputs`` when iteratively filtering
+    """Extract the last remaining row from ``inputs`` when iteratively filtering
     by ``desired_bit_lambda`` from the most-significant-bit to the least.
 
     :param inputs: Numpy array of binary values to filter.

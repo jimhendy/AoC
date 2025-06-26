@@ -89,9 +89,7 @@ def calculate_load(mobile_rocks: set[complex], max_y: int) -> int:
 
 
 def calculate_cycle(history: dict[str, list[int]]) -> int:
-    """
-    Find the start, length and values of the cycle.
-    """
+    """Find the start, length and values of the cycle."""
     df = pd.DataFrame(history)
     last_line = df.iloc[-1]
 

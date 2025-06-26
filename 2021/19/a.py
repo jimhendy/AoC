@@ -44,7 +44,7 @@ class Scanner:
         [self.beacons.add(b) for b in new_becons]
         for c in new_scanner.scanner_locs:
             self.scanner_locs.append(
-                tuple([i + j for i, j in zip(c, new_scanner_pos, strict=False)])
+                tuple([i + j for i, j in zip(c, new_scanner_pos, strict=False)]),
             )
 
     def orientations(self):

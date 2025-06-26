@@ -42,7 +42,9 @@ class UltraCrucible(State):
     def _num_forward_steps(self):
         total = 0
         for to_, from_ in zip(
-            self.history[::-1], self.history[:-1][::-1], strict=False
+            self.history[::-1],
+            self.history[:-1][::-1],
+            strict=False,
         ):
             if (to_ - from_) == self.direction:
                 total += 1

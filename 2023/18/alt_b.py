@@ -46,8 +46,7 @@ def _perimiter_limits(perimiter: set[Point2D]) -> PerimiterLimits:
 
 
 def _find_starting_location(perimiter_path: Path, perimiter: set[Point2D]) -> Point2D:
-    """
-    Locate a cell within the perimiter.
+    """Locate a cell within the perimiter.
 
     We start from complex(0, 0) and find a cell near it within the shape
     of the perimiter.

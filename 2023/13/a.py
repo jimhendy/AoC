@@ -2,8 +2,7 @@ import numpy as np
 
 
 def potential_pivots(pattern: np.ndarray) -> np.ndarray:
-    """
-    Indices of potential pivot points.
+    """Indices of potential pivot points.
 
     These are found from consecutive differences in rows.
     The differences are absolute values and summed to
@@ -20,9 +19,7 @@ def potential_pivots(pattern: np.ndarray) -> np.ndarray:
 
 
 def find_pivot(pattern: np.ndarray) -> int:
-    """
-    Find the first pivot point in the pattern.
-    """
+    """Find the first pivot point in the pattern."""
     pivots = potential_pivots(pattern)
     for pivot in pivots:
         before = pattern[:pivot]

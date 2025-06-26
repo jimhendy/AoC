@@ -17,7 +17,7 @@ def run(inputs):
             b_num = f"{int(num):036b}"
             masked_num = int(
                 "".join(
-                    [n if m == "X" else m for m, n in zip(mask, b_num, strict=False)]
+                    [n if m == "X" else m for m, n in zip(mask, b_num, strict=False)],
                 ),
                 2,
             )

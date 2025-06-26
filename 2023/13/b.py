@@ -6,8 +6,7 @@ class PivotError(Exception):
 
 
 def potential_pivots(pattern: np.ndarray) -> np.ndarray:
-    """
-    Indices of potential pivot points.
+    """Indices of potential pivot points.
 
     These are found from consecutive differences in rows.
     The differences are absolute values and summed to
@@ -28,9 +27,7 @@ def find_pivot(
     original_pivot: int | None = None,
     transpose: bool = False,
 ) -> int:
-    """
-    Find the first pivot point in the pattern.
-    """
+    """Find the first pivot point in the pattern."""
     if transpose:
         pattern = pattern.T
         if original_pivot is not None:
@@ -54,8 +51,7 @@ def find_pivot(
 
 
 def pivot_point(pattern: np.ndarray, original_pivot: int | None = None) -> int:
-    """
-    Find the poivot point for this pattern.
+    """Find the poivot point for this pattern.
 
     Positive pivots are rows, negative are columns.
     """

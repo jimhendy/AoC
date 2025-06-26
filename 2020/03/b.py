@@ -14,7 +14,9 @@ def run(inputs):
             [
                 inputs[row][col % len(inputs[0])] == "#"
                 for row, col in zip(
-                    range(0, len(inputs), d), range(0, int(9e99), r), strict=False
+                    range(0, len(inputs), d),
+                    range(0, int(9e99), r),
+                    strict=False,
                 )
             ],
         )

@@ -50,8 +50,7 @@ class Particle:
         return cls(position=pos, velocity=vel)
 
     def _will_hit_point(self, point: Point) -> bool:
-        """
-        Test if this particle will go in the correct direction to hit the given point
+        """Test if this particle will go in the correct direction to hit the given point
 
         E.g.
         >>> p = Particle.from_string("1,2,3@1,1,1")

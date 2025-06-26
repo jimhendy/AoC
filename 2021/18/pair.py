@@ -43,8 +43,7 @@ class Pair:
             break
 
     def _add_number_from_explode(self, number: int, leftmost: bool):
-        """
-        An explosion has occured and we need to add a value to the leftmost
+        """An explosion has occured and we need to add a value to the leftmost
         or rightmost number in this pair. Travserse child pairs until we find a
         number to add to.
         """
@@ -59,8 +58,7 @@ class Pair:
             self.right._add_number_from_explode(number, leftmost)
 
     def explode_nested_pairs(self, level=0) -> bool | list[Explosion]:
-        """
-        Check all sub-pairs for any nested at level 4 and explode if found.
+        """Check all sub-pairs for any nested at level 4 and explode if found.
 
         If no explosion occurs, return ``False``.
         If an explosion occurs but are handled at this level, return ``True``.

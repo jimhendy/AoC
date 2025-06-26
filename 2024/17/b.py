@@ -3,14 +3,12 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import wraps
 from typing import ClassVar
-from tqdm import tqdm
+
 from loguru import logger
 
 
 class InvalidAValueError(Exception):
     """Custom exception for invalid value of register A."""
-
-    pass
 
 
 def combo(func: callable) -> callable:
@@ -78,22 +76,8 @@ class Computer:
                 self.program[self.instruction_pointer],
                 self.program[self.instruction_pointer + 1],
             )
-            # print()
-            # logger.warning(f"Current registers: {self.registers}")
-            # logger.info(f"Current registers in binary: {self.registers['A']:08b} {self.registers['B']:08b} {self.registers['C']:08b}")
-            # logger.info(f"Current outputs: {self.outputs}")
             opcode_name = self.opcode_mapping[opcode]
             getattr(self, f"_{opcode_name}")(operand)
-
-            # logger.debug(
-            #    f"Executing opcode {opcode} with operand {operand} at instruction pointer {self.instruction_pointer}"
-            # )
-            # logger.warning(f"Current registers: {self.registers}")
-            # logger.info(f"Current registers in binary: {self.registers['A']:08b} {self.registers['B']:08b} {self.registers['C']:08b}")
-            # logger.info(f"Current outputs: {self.outputs}")
-            # print()
-            # if not self.valid_outputs():
-            #    raise InvalidAValueError("Register A has an invalid value, causing infinite loop.")
 
     def reset(self, register_a: int) -> None:
         self.registers["A"] = register_a
@@ -108,7 +92,8 @@ class Computer:
             num_chars_matching = len(self.program)
         program = self.program[-num_chars_matching:]
         outputs = self.outputs[-num_chars_matching:]
-        for p, o in zip(program, outputs):
+
+        for p, o in zip(program, outputs, strict=False):
             if p != o:
                 return False
         return True
@@ -121,7 +106,6 @@ class Computer:
     def matching_output(self, num_chars_matching: int | None = None) -> bool:
         if not self.outputs:
             return False
-        print(self.outputs)
         return self._compare(num_chars_matching)
 
     def _adv_calc(self, operand: int) -> int:
@@ -190,6 +174,30 @@ def decimal_to_binary(decimal: int) -> list[int]:
     return list(reversed(binary))
 
 
+def all_combinations(
+    computer: Computer,
+    n_matching: int,
+    previous_combinations: list[list[int]],
+) -> list[list[int]]:
+    combinations = []
+    step = 3
+    for previous in previous_combinations:
+        start = binary_to_decimal(previous + [0] * step)
+        end = binary_to_decimal(previous + [1] * step) + 1
+
+        for a in range(start, end):
+            computer.reset(a)
+            try:
+                computer.run()
+                if computer.matching_output(n_matching):
+                    known_value = decimal_to_binary(a)
+                    combinations.append(known_value)
+            except InvalidAValueError:
+                continue
+
+    return combinations
+
+
 def run(inputs: str) -> int:
     registers, program = inputs.strip().split("\n\n")
     regregex = re.compile(r"Register (\w): (\d+)")
@@ -197,25 +205,17 @@ def run(inputs: str) -> int:
     program = list(map(int, program.split(":")[1].split(",")))
 
     computer = Computer(program)
+    possibles = [[]]
+    n_matching = 1
 
-    known_value = []
-    step = 3
+    for n_matching in range(1, len(program) + 1):
+        new_combinations = all_combinations(computer, n_matching, possibles)
+        if not new_combinations:
+            logger.warning("No new combinations found, stopping search.")
+            break
+        possibles = new_combinations
 
-    while not computer.matching_output():
-        # Find the next <steps> components to the answer
-        start = binary_to_decimal(known_value + [0] * step)
-        end = binary_to_decimal(known_value + [1] * step)
+    decimals = [binary_to_decimal(combination) for combination in possibles]
+    sorted_decimals = sorted(decimals)
 
-        matching_chars = len(known_value) % step + 1
-
-        for a in range(start, end):
-            computer.reset(a)
-            try:
-                computer.run()
-                if computer.matching_output(matching_chars):
-                    known_value = decimal_to_binary(a)
-                    break
-            except InvalidAValueError:
-                ...
-
-    return a
+    return sorted_decimals[0]
