@@ -1,2 +1,22 @@
+N = 12
+
 def run(input: str) -> int:
-    return 0
+    total = 0
+    for line in input.splitlines():
+        nums = []
+        max_pos = 0
+
+        for i in range(N):
+
+            if -N + i + 1 == 0:
+                sub_line = line[max_pos:]
+            else:
+                sub_line = line[max_pos: -N + i + 1]
+
+            max_n = max(sub_line)            
+            max_pos = line.index(max_n, max_pos) + 1
+            nums.append(max_n)
+
+        total += int("".join(nums))
+
+    return total
