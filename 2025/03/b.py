@@ -8,10 +8,7 @@ def run(input: str) -> int:
 
         for i in range(N):
 
-            if -N + i + 1 == 0:
-                sub_line = line[max_pos:]
-            else:
-                sub_line = line[max_pos: -N + i + 1]
+            sub_line = line[max_pos: -N + i + 1 or None]
 
             max_n = max(sub_line)            
             max_pos = line.index(max_n, max_pos) + 1
