@@ -26,8 +26,7 @@ def rotate_left_right(s, lr, x):
     x = int(x)
     if lr == "right":
         return np.roll(s, x)
-    else:
-        return np.roll(s, -x)
+    return np.roll(s, -x)
 
 
 def rotate_positions(s, x):

@@ -59,7 +59,8 @@ def run(inputs: str):  # sourcery skip: collection-into-set
         leaving_direction: str,
         entering_direction: str,
     ):
-        """Add the loop data for a particular side exit.
+        """
+        Add the loop data for a particular side exit.
 
         E.g. for the unfolded cube:
             11

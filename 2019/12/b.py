@@ -20,9 +20,8 @@ def check_hist(hist, moons, axis):
     status = get_status(moons, axis)
     if status in hist:
         return True
-    else:
-        hist.add(status)
-        return False
+    hist.add(status)
+    return False
     return None
 
 

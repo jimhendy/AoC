@@ -24,9 +24,8 @@ def polypow(a, b, m, n):
         return 1, 0
     if m % 2 == 0:
         return polypow(a * a % n, (a * b + b) % n, m // 2, n)
-    else:
-        c, d = polypow(a, b, m - 1, n)
-        return a * c % n, (a * d + b) % n
+    c, d = polypow(a, b, m - 1, n)
+    return a * c % n, (a * d + b) % n
 
 
 def run(inputs):

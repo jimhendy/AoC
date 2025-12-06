@@ -7,9 +7,8 @@ def extract_nums(data):
     if type(data) is dict:
         if "red" in data.values():
             return 0
-        else:
-            for v in data.values():
-                total += extract_nums(v)
+        for v in data.values():
+            total += extract_nums(v)
     elif type(data) is list:
         for d in data:
             if type(d) is int:

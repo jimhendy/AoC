@@ -27,10 +27,9 @@ class Game:
         self.turn += 1
         if marble_number % 23 == 0:
             return marble_number + self.scoring_turn()
-        else:
-            self.clockwise(1)
-            self.marbles.append(marble_number)
-            return 0
+        self.clockwise(1)
+        self.marbles.append(marble_number)
+        return 0
 
     def scoring_turn(self):
         self.anticlockwise(7)

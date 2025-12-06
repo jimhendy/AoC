@@ -16,10 +16,9 @@ class Node:
     def value(self):
         if not self.n_children:
             return sum(self.metadata)
-        else:
-            total = 0
-            for i in self.metadata:
-                with contextlib.suppress(IndexError):
-                    total += self.children[i - 1].value()
+        total = 0
+        for i in self.metadata:
+            with contextlib.suppress(IndexError):
+                total += self.children[i - 1].value()
 
-            return total
+        return total

@@ -190,10 +190,8 @@ class Droid:
                 if any(point_index):
                     if all(content[point_index] == MapSymbol.UNKNOWN):
                         return new_pos
-                    else:
-                        continue
-                else:
-                    return new_pos
+                    continue
+                return new_pos
             self.completed_tiles.append(tuple(p))
         return False
 

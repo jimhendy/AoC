@@ -8,8 +8,7 @@ class Location:
         row_diff = self.row - other.row
         if row_diff == 0:
             return self.col < other.col
-        else:
-            return row_diff < 0
+        return row_diff < 0
 
     def __gt__(self, other):
         return not self.__lt__(other)

@@ -8,7 +8,7 @@ def is_repeated_digits(n: int) -> bool:
 
 
 def run(input: str) -> int:
-    total =0
+    total = 0
     for range_ in input.split(","):
         start, end = map(int, range_.split("-"))
         for n in range(start, end + 1):

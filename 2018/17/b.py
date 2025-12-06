@@ -59,10 +59,10 @@ def is_static(loc, grid, direction=None):
 
     # is_static = everything in either direction is also static
     return (
-        direction == "left"
-        and (left_static or left in grid["clay"])
-        or direction == "right"
-        and (right_static or right in grid["clay"])
+        (direction == "left"
+        and (left_static or left in grid["clay"]))
+        or (direction == "right"
+        and (right_static or right in grid["clay"]))
     )
 
 

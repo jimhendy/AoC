@@ -76,13 +76,12 @@ class optprog:
         assert self.address >= 0
         if mode == Mode.POSITION:
             return self.code[self.address]
-        elif mode == Mode.IMMEDIATE:
+        if mode == Mode.IMMEDIATE:
             return self.address
-        elif mode == Mode.RELATIVE:
+        if mode == Mode.RELATIVE:
             value = self._get_value(mode=Mode.IMMEDIATE)
             return self.relative_base + value
-        else:
-            raise NotImplementedError
+        raise NotImplementedError
         return None
 
     def _get_value(self, mode):

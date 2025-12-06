@@ -18,7 +18,7 @@ def run(inputs):
     for path in itertools.permutations(graph.nodes):
         this_path_length = 0
 
-        for i, j in zip(path[:-1], path[1:]):
+        for i, j in zip(path[:-1], path[1:], strict=False):
             this_path_length += graph[i][j]["weight"]
 
         if best_path_length is None or this_path_length > best_path_length:

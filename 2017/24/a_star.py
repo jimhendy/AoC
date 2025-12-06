@@ -30,6 +30,7 @@ def augmented_a_star(initial_state, return_status=False):
     Returns:
     -------
         [user_class(State)] -- [Desired search result]
+
     """
     possible_states = [initial_state]
     n_tests = 0
@@ -39,8 +40,7 @@ def augmented_a_star(initial_state, return_status=False):
     while len(possible_states):
         best_option = heapq.heappop(possible_states)
         n_tests += 1
-        if best_option.strength > bridge_data[best_option.length]:
-            bridge_data[best_option.length] = best_option.strength
+        bridge_data[best_option.length] = max(best_option.strength, bridge_data[best_option.length])
         if DEBUG:
             print(f"Test {n_tests:,}, best_option: {best_option}")
             print(f"Current heap size: {len(possible_states):,}")
@@ -67,11 +67,10 @@ def augmented_a_star(initial_state, return_status=False):
             "is_complete": is_complete,
             "bridge_data": bridge_data,
         }
-    elif is_complete:
+    if is_complete:
         return best_option
-    else:
-        msg = "Search did not complete"
-        raise AStarException(msg)
+    msg = "Search did not complete"
+    raise AStarException(msg)
 
 
 class State(ABC):

@@ -91,6 +91,5 @@ class Group:
             return
         damage = self.calculate_inflicted_damage(self.target)
         units_lost = damage // self.target.hit_points
-        if self.target.n_units < units_lost:
-            units_lost = self.target.n_units
+        units_lost = min(self.target.n_units, units_lost)
         self.target.n_units -= units_lost

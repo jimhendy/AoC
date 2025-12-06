@@ -22,6 +22,7 @@ def a_star(initial_state, tag_func=str):
     Returns:
     -------
         [user_class] -- [Desired search result]
+
     """
     possible_states = [initial_state]
     seen = set()

@@ -8,9 +8,8 @@ class Component:
         match = Component.reg.findall(pins_str)
         if not len(match):
             raise f'Cannot extract component pins from supplied string "{pins_str}"'
-        else:
-            self.pin_a = int(match[0][0])
-            self.pin_b = int(match[0][1])
+        self.pin_a = int(match[0][0])
+        self.pin_b = int(match[0][1])
 
     def strength(self):
         return self.pin_a + self.pin_b

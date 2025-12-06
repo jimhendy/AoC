@@ -28,21 +28,20 @@ def get_next_coord(current_coord):
     if all(i >= 0 for i in current_coord) and current_coord[0] == current_coord[1]:
         # Next row
         return (current_coord[0] + 1, current_coord[1])
-    elif (
+    if (
         current_coord[0] > 0
         and current_coord[1] > -current_coord[0]
         and current_coord[1] <= current_coord[0]
     ):
         # Move up
         return (current_coord[0], current_coord[1] - 1)
-    elif current_coord[1] < 0 and current_coord[0] > current_coord[1]:
+    if current_coord[1] < 0 and current_coord[0] > current_coord[1]:
         # Move left
         return (current_coord[0] - 1, current_coord[1])
-    elif current_coord[0] < 0 and current_coord[1] < -current_coord[0]:
+    if current_coord[0] < 0 and current_coord[1] < -current_coord[0]:
         # Move down
         return (current_coord[0], current_coord[1] + 1)
-    elif current_coord[1] > 0 and current_coord[0] < current_coord[1]:
+    if current_coord[1] > 0 and current_coord[0] < current_coord[1]:
         # Move right
         return (current_coord[0] + 1, current_coord[1])
-    else:
-        raise RuntimeError
+    raise RuntimeError

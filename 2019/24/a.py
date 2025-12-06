@@ -28,13 +28,10 @@ def update_cell(grid, x, y):
     if char == BUG:
         if n_bugs == 1:
             return BUG
-        else:
-            return EMPTY
-    else:
-        if n_bugs == 1 or n_bugs == 2:
-            return BUG
-        else:
-            return EMPTY
+        return EMPTY
+    if n_bugs == 1 or n_bugs == 2:
+        return BUG
+    return EMPTY
     return None
 
 

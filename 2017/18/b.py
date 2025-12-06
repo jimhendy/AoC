@@ -19,11 +19,10 @@ def run(inputs):
             print([p.is_waiting for p in (p0, p1)])
             if all(p.is_waiting for p in (p0, p1)):
                 break
-            else:
-                for i, p in enumerate((p0, p1)):
-                    if not p.is_running:
-                        print(f"Restarting {i}")
-                        executor.submit(p.run)
+            for i, p in enumerate((p0, p1)):
+                if not p.is_running:
+                    print(f"Restarting {i}")
+                    executor.submit(p.run)
             time.sleep(1)
 
     return p1.n_sends

@@ -66,10 +66,9 @@ class optprog:
     def _get_value(self, mode):
         if mode == Mode.POSITION:
             return self.code[self.code[self.address]]
-        elif mode == Mode.IMMEDIATE:
+        if mode == Mode.IMMEDIATE:
             return self.code[self.address]
-        else:
-            raise NotImplementedError
+        raise NotImplementedError
         return None
 
     def _compare(self, func):

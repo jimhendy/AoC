@@ -4,7 +4,8 @@ import os
 
 
 def combine_phased_rotations(a_period, a_phase, b_period, b_phase):
-    """Combine two phased rotations into a single phased rotation.
+    """
+    Combine two phased rotations into a single phased rotation.
 
     Returns: combined_period, combined_phase
 
@@ -36,7 +37,8 @@ def arrow_alignment(red_len, green_len, advantage):
 
 
 def extended_gcd(a, b):
-    """Extended Greatest Common Divisor Algorithm.
+    """
+    Extended Greatest Common Divisor Algorithm.
 
     Returns
     -------

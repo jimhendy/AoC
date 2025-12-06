@@ -23,6 +23,6 @@ def run(inputs):
     while current_value != target:
         current_value += 1
         step = steps[(current_value - lower_square - 1) // (lower_square_root + 1)]
-        current_coord = [c + s for c, s in zip(current_coord, step)]
+        current_coord = [c + s for c, s in zip(current_coord, step, strict=False)]
 
     return sum([abs(i) for i in current_coord])

@@ -3,7 +3,7 @@ class Point:
         self.x = x
 
     def distance(self, other):
-        return sum([abs(i - j) for i, j in zip(self.x, other.x)])
+        return sum([abs(i - j) for i, j in zip(self.x, other.x, strict=False)])
 
     def __repr__(self) -> str:
         return ",".join(map(str, self.x))

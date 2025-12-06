@@ -7,7 +7,8 @@ from tools.number_conversion import binary_to_decimal, hex_to_binary
 
 class BitsMessage:
     def __init__(self, hex_message: str) -> None:
-        """Construct a BitsMessage.
+        """
+        Construct a BitsMessage.
 
         :param hex_message: The input hex string to decode.
         """
@@ -20,7 +21,8 @@ class BitsMessage:
         self.pops = 0
 
     def extract_n_binary(self, n: int) -> list[int]:
-        """Pop (from the left) ``n`` characters from the ``queue`` of binary bits.
+        """
+        Pop (from the left) ``n`` characters from the ``queue`` of binary bits.
 
         :param n: How many bits to return.
         :return: A list of ``n`` binary bits as single character ``str``s.
@@ -29,7 +31,8 @@ class BitsMessage:
         return [self.queue.popleft() for _ in range(n)]
 
     def extract_n_decimal(self, n: int) -> int:
-        """Pop (from the left) ``n`` characters from the ``queue`` and return as a decimal number.
+        """
+        Pop (from the left) ``n`` characters from the ``queue`` and return as a decimal number.
 
         :param n: How many bits to pop and convert.
         :retrun: Decimal representation of the ``n`` bit binary number.
@@ -37,7 +40,8 @@ class BitsMessage:
         return binary_to_decimal(self.extract_n_binary(n))
 
     def extract_literal_binary(self) -> list[str]:
-        """Extract the literal number from the left of the ``queue`` and return as a list of binary bits.
+        """
+        Extract the literal number from the left of the ``queue`` and return as a list of binary bits.
 
         :return: List of single ``str`` characters of the literal.
         """
@@ -48,7 +52,8 @@ class BitsMessage:
         return bits
 
     def extract_leading_packet(self) -> Packet:
-        """Extract the leading (left) packet from the ``queue`` and return.
+        """
+        Extract the leading (left) packet from the ``queue`` and return.
 
         :return: Packet subclass exrtracted from the ``queue``.
         """

@@ -27,8 +27,7 @@ def rotate_left_right(s, lr, x):
     x = int(x)
     if lr == "right":
         return np.roll(s, -x)
-    else:
-        return np.roll(s, x)
+    return np.roll(s, x)
 
 
 def rotate_positions(s, x):
@@ -46,8 +45,8 @@ def _rotate_map(len_s):
         if i >= 4:
             rolls += 1
         n_roll.append(rolls)
-    final_pos = [i + r for i, r in zip(initial_pos, n_roll)]
-    return {f % len_s: -r for f, r in zip(final_pos, n_roll)}
+    final_pos = [i + r for i, r in zip(initial_pos, n_roll, strict=False)]
+    return {f % len_s: -r for f, r in zip(final_pos, n_roll, strict=False)}
 
 
 def reverse_positions(s, x, y):

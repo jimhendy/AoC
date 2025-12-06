@@ -17,8 +17,7 @@ def move(step_dir, current_pos):
     new_char = KEYPAD[tuple(new_pos)]
     if new_char == "0":
         return current_pos
-    else:
-        return new_pos
+    return new_pos
 
 
 def run(inputs):

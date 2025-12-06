@@ -13,6 +13,6 @@ def run(inputs):
     index = zeros.argmin()
 
     unique, counts = np.unique(data[index], return_counts=True)
-    counts = dict(zip(unique, counts))
+    counts = dict(zip(unique, counts, strict=False))
 
     return counts[1] * counts[2]

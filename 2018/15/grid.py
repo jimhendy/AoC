@@ -124,8 +124,7 @@ class PathState(a_star.State):
         steps_diff = len(self.prev_steps) - len(other.prev_steps)
         if steps_diff == 0:
             return self.prev_steps[-1] < other.prev_steps[-1]
-        else:
-            return steps_diff < 0
+        return steps_diff < 0
 
     ## ==================================
 

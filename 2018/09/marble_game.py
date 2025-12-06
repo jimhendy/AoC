@@ -31,11 +31,10 @@ class Game:
         self.turn += 1
         if marble_number % 23 == 0:
             return marble_number + self.scoring_turn()
-        else:
-            loc = (self.current_marble_index + 1) % len(self.marbles) + 1
-            self.marbles.insert(loc, marble_number)
-            self.current_marble_index = loc
-            return 0
+        loc = (self.current_marble_index + 1) % len(self.marbles) + 1
+        self.marbles.insert(loc, marble_number)
+        self.current_marble_index = loc
+        return 0
 
     def scoring_turn(self):
         self.anticlockwise(7)

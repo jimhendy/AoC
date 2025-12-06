@@ -4,7 +4,8 @@ from tools.point import Point3D
 
 
 def _parse_inputs(inputs: str) -> list[tuple[Point3D, Point3D]]:
-    """Extract the points from the input string.
+    """
+    Extract the points from the input string.
 
     Input string is in the format:
     x1,y1,z1~x2,y2,z2

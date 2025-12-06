@@ -14,7 +14,7 @@ def run(inputs):
     queues = [queue.Queue() for _ in range(n_computers)]
 
     while True:
-        for c, q in zip(computers, queues):
+        for c, q in zip(computers, queues, strict=False):
             if q.qsize():
                 while q.qsize():
                     c.analyse_intcode(q.get())

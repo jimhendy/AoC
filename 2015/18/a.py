@@ -35,9 +35,8 @@ def update(lights):
             if on:
                 if n_neighbours not in [2, 3]:
                     lights[y_i][x_i] = "."
-            else:
-                if n_neighbours == 3:
-                    lights[y_i][x_i] = "#"
+            elif n_neighbours == 3:
+                lights[y_i][x_i] = "#"
 
     return lights
 

@@ -23,7 +23,7 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
             zp[1] += 1
             total += 1
             continue
-        elif zp[1] == zp[1] and zp[0] == dp[0] - 1:
+        if zp[1] == zp[1] and zp[0] == dp[0] - 1:
             # up
             dp[0] -= 1
             zp[1] += 1
@@ -37,7 +37,7 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
             dp[1] -= 1
             total += 3
             continue
-        elif dp[0] and zp[1] == dp[1] + 1 and zp[0] == dp[0]:
+        if dp[0] and zp[1] == dp[1] + 1 and zp[0] == dp[0]:
             # Right, move above and swap
             zp[1] -= 1
             dp[0] -= 1
@@ -50,7 +50,7 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
             zp[1] = 1
             dp[1] = 0
             continue
-        elif dp[1] == 0 and zp[1] == 0 and (dp[0] == (zp[0] - 1)):
+        if dp[1] == 0 and zp[1] == 0 and (dp[0] == (zp[0] - 1)):
             total += 5 * dp[0]
             zp[0] = 1
             dp[0] = 0
@@ -64,7 +64,7 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
                 zp[1] -= 1
                 total += 1
                 continue
-            elif dp[1] != 0:
+            if dp[1] != 0:
                 # Not left column
                 zp[0] -= 1
                 total += 1
@@ -76,27 +76,27 @@ def _metric_calc(zp_0, zp_1, dp_0, dp_1):
             zp[0] -= 1
             total += 1
             continue
-        elif zp[1] < dp[1] - 1:
+        if zp[1] < dp[1] - 1:
             # If far to the left, move space right
             zp[1] += 1
             total += 1
             continue
-        elif zp[0] < dp[0] - 1:
+        if zp[0] < dp[0] - 1:
             # If far above, move space down
             zp[0] += 1
             total += 1
             continue
-        elif zp[1] > dp[1] + 1:
+        if zp[1] > dp[1] + 1:
             # If far to the right, move space left
             zp[1] -= 1
             total += 1
             continue
-        elif zp[0] == dp[0] + 1 and np.abs(zp[1] - dp[1]) == 1:
+        if zp[0] == dp[0] + 1 and np.abs(zp[1] - dp[1]) == 1:
             # If below and diagonal move up
             zp[0] -= 1
             total += 1
             continue
-        elif zp[0] == dp[0] - 1 and np.abs(zp[1] - dp[1]) == 1:
+        if zp[0] == dp[0] - 1 and np.abs(zp[1] - dp[1]) == 1:
             zp[1] += np.sign(zp[1] - dp[1])
             total += 1
             continue

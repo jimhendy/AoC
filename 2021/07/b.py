@@ -6,7 +6,8 @@ CACHE = {}
 
 
 def feul_to_dest(dest: int, initial_positions: np.ndarray) -> int:
-    """Calculate the fuel required for all our crabby friends to travel from
+    """
+    Calculate the fuel required for all our crabby friends to travel from
     their ``initial_positions`` to ``dest``. Results are cached in ``CACHE``.
 
     :param dest: Horizontal destination position.
@@ -25,7 +26,8 @@ def run(inputs):
     pos = np.array(inputs.split(",")).astype(int)
 
     def func(dest: int) -> bool:
-        """For use in binary search to give monotonic result looking for the
+        """
+        For use in binary search to give monotonic result looking for the
         smallest value of ``dest`` where the feul required to travel to
         ``dest`` is less than the feul required to travel to ``dest + 1``.
 

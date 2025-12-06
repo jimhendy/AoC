@@ -31,7 +31,7 @@ class Position(a_star.State):
 
     def all_possible_next_states(self):
         new_hash = self._hash()[:4]
-        for s, h in zip(STEPS.items(), new_hash):
+        for s, h in zip(STEPS.items(), new_hash, strict=False):
             new_pos = self.pos + s[1]
             if (
                 (new_pos[0] < 0)

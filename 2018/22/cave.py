@@ -26,9 +26,7 @@ class Cave:
         if p in self.geologic_index_cache:
             return self.geologic_index_cache[p]
 
-        if p.x == 0 and p.y == 0:
-            gi = 0
-        elif p == self.target:
+        if (p.x == 0 and p.y == 0) or p == self.target:
             gi = 0
         elif p.y == 0:
             gi = p.x * 16807

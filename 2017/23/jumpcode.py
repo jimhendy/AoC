@@ -39,13 +39,12 @@ class JumpCode:
             isinstance(value, str) and re.match(r"^(\-?\d+)$", value)
         ):
             return int(value)
-        elif isinstance(value, str):
+        if isinstance(value, str):
             return self._get_value(self.registers[value])
-        else:
-            msg = f'Expected value to be a string or int, found "{value}", type: "{type(value)}"'
-            raise NotImplementedError(
-                msg,
-            )
+        msg = f'Expected value to be a string or int, found "{value}", type: "{type(value)}"'
+        raise NotImplementedError(
+            msg,
+        )
 
     def set(self, x, y):
         self.registers[x] = self._get_value(y)

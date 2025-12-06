@@ -3,7 +3,7 @@ def run(inputs):
     swapped = list(inputs.swapcase())
 
     reduced = []
-    for p, s in zip(polymer, swapped):
+    for p, s in zip(polymer, swapped, strict=False):
         if len(reduced) and reduced[-1] == s:
             reduced.pop()
         else:

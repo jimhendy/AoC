@@ -2,7 +2,8 @@ import numpy as np
 
 
 def run(inputs: str) -> int:
-    """Number of ways we can beat the record.
+    """
+    Number of ways we can beat the record.
 
     Distance = Speed * Time
     -

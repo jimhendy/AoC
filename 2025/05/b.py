@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class Range:
     start: int
@@ -25,11 +26,14 @@ def run(input: str) -> int:
         for i, current in enumerate(ranges):
             if used[i]:
                 continue
-            for j, other in enumerate(ranges[i + 1:], start=i + 1):
+            for j, other in enumerate(ranges[i + 1 :], start=i + 1):
                 if used[j]:
                     continue
                 if current.can_combine(other):
-                    current = Range(start=min(current.start, other.start), end=max(current.end, other.end))
+                    current = Range(
+                        start=min(current.start, other.start),
+                        end=max(current.end, other.end),
+                    )
                     used[j] = True
                     change = True
             new_ranges.append(current)

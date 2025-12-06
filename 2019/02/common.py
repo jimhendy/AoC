@@ -20,17 +20,16 @@ def intcode(inputs):
 def analyse_optcode(inputs, address):
     if inputs[address] == 99:
         return None, None, 1
-    elif inputs[address] == 1:
+    if inputs[address] == 1:
         return add(inputs, address)
-    elif inputs[address] == 2:
+    if inputs[address] == 2:
         return mul(inputs, address)
-    else:
-        print(inputs)
-        print(inputs[address : address + 4])
-        msg = f'Unexpected code "{inputs[address]}" at address "{address}"'
-        raise NotImplementedError(
-            msg,
-        )
+    print(inputs)
+    print(inputs[address : address + 4])
+    msg = f'Unexpected code "{inputs[address]}" at address "{address}"'
+    raise NotImplementedError(
+        msg,
+    )
 
 
 def add(inputs, address):

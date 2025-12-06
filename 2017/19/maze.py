@@ -73,30 +73,29 @@ class Maze(a_star.State):
                 self.n_steps + 1,
                 self.direction,
             )
+        # Try going orthogonally
+        elif self.direction[0]:
+            # Go left & right
+            for dc in (-1, 1):
+                yield Maze(
+                    self.grid,
+                    self.row,
+                    self.col + dc,
+                    self.letters,
+                    self.n_steps + 1,
+                    (0, dc),
+                )
         else:
-            # Try going orthogonally
-            if self.direction[0]:
-                # Go left & right
-                for dc in (-1, 1):
-                    yield Maze(
-                        self.grid,
-                        self.row,
-                        self.col + dc,
-                        self.letters,
-                        self.n_steps + 1,
-                        (0, dc),
-                    )
-            else:
-                # Go up & down
-                for dr in (-1, 1):
-                    yield Maze(
-                        self.grid,
-                        self.row + dr,
-                        self.col,
-                        self.letters,
-                        self.n_steps + 1,
-                        (dr, 0),
-                    )
+            # Go up & down
+            for dr in (-1, 1):
+                yield Maze(
+                    self.grid,
+                    self.row + dr,
+                    self.col,
+                    self.letters,
+                    self.n_steps + 1,
+                    (dr, 0),
+                )
 
     def __lt__(self, other):
         return self.n_steps < other.n_steps

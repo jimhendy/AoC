@@ -1,4 +1,5 @@
-from tools.inputs import parse_grid, nb8
+from tools.inputs import nb8, parse_grid
+
 
 def run(input: str) -> int:
     points = set(parse_grid(input, whitelist="@").keys())

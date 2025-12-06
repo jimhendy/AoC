@@ -18,7 +18,7 @@ def run(inputs):
 
     while True:
         all_empty = True
-        for c, q in zip(computers, queues):
+        for c, q in zip(computers, queues, strict=False):
             if q.qsize():
                 all_empty = False
                 while q.qsize():

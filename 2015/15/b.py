@@ -54,18 +54,17 @@ def run(inputs):
         len(ings),
         num_ingredients,
     ):
-        cal = max([0, sum([i.calories * n for i, n in zip(ings.values(), comb)])])
+        cal = max([0, sum([i.calories * n for i, n in zip(ings.values(), comb, strict=False)])])
         if cal != 500:
             continue
 
-        cap = max([0, sum([i.capacity * n for i, n in zip(ings.values(), comb)])])
-        dur = max([0, sum([i.durability * n for i, n in zip(ings.values(), comb)])])
-        tex = max([0, sum([i.texture * n for i, n in zip(ings.values(), comb)])])
-        fla = max([0, sum([i.flavour * n for i, n in zip(ings.values(), comb)])])
+        cap = max([0, sum([i.capacity * n for i, n in zip(ings.values(), comb, strict=False)])])
+        dur = max([0, sum([i.durability * n for i, n in zip(ings.values(), comb, strict=False)])])
+        tex = max([0, sum([i.texture * n for i, n in zip(ings.values(), comb, strict=False)])])
+        fla = max([0, sum([i.flavour * n for i, n in zip(ings.values(), comb, strict=False)])])
 
         score = cap * dur * tex * fla
 
-        if score > best_score:
-            best_score = score
+        best_score = max(score, best_score)
 
     return best_score

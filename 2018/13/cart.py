@@ -53,28 +53,26 @@ class Cart:
     def evaluate_turn(self, turn):
         if turn == "straight":
             return self.direction
-        elif turn == "left":
+        if turn == "left":
             return {
                 "UP": DIRECTIONS["LEFT"],
                 "RIGHT": DIRECTIONS["UP"],
                 "DOWN": DIRECTIONS["RIGHT"],
                 "LEFT": DIRECTIONS["DOWN"],
             }[self.dir_to_str()]
-        elif turn == "right":
+        if turn == "right":
             return {
                 "UP": DIRECTIONS["RIGHT"],
                 "RIGHT": DIRECTIONS["DOWN"],
                 "DOWN": DIRECTIONS["LEFT"],
                 "LEFT": DIRECTIONS["UP"],
             }[self.dir_to_str()]
-        else:
-            raise NotImplementedError
+        raise NotImplementedError
 
     def __lt__(self, other):
         if self.loc[0] == other.loc[0]:
             return self.loc[1] < other.loc[1]
-        else:
-            return self.loc[0] < other.loc[0]
+        return self.loc[0] < other.loc[0]
 
     def __gt__(self, other):
         return not self.__lt__(other)

@@ -35,8 +35,7 @@ def fight(boost, infection, immune_system):
             a.bring_out_your_dead()
     if len(armies[1].groups) and not len(armies[0].groups):
         return sum([g.n_units for g in armies[1].groups])
-    else:
-        return False
+    return False
 
 
 def run(inputs):

@@ -1,5 +1,6 @@
 from collections import deque
 
+
 def run(input: str) -> int:
     q = deque(range(100))
     q.rotate(50)
@@ -16,4 +17,3 @@ def run(input: str) -> int:
             if not q[0]:
                 total += 1
     return total
-            

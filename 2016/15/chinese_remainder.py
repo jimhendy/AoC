@@ -9,7 +9,7 @@ def chinese_remainder(a, n):
     assert len(a) == len(n)
     N = np.prod(n)
     b = [N / n_i for n_i in n]
-    a = [a_i % n_i for a_i, n_i in zip(a, n)]
+    a = [a_i % n_i for a_i, n_i in zip(a, n, strict=False)]
     m = []
     for i in range(len(a)):
         m_i = 1
@@ -19,5 +19,5 @@ def chinese_remainder(a, n):
         while (b_i * m_i) % n_i != a_i:
             m_i += 1
         m.append(m_i)
-    x = sum([b_i * m_i for b_i, m_i in zip(b, m)])
+    x = sum([b_i * m_i for b_i, m_i in zip(b, m, strict=False)])
     return x % N

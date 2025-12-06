@@ -4,15 +4,14 @@ import re
 def increment(password):
     if password[-1] == "z":
         return [*increment(password[:-1]), "a"]
-    else:
-        return password[:-1] + [chr(ord(password[-1]) + 1)]
+    return password[:-1] + [chr(ord(password[-1]) + 1)]
     return None
 
 
 def is_increasing(password):
     nums = list(map(ord, password))
     l = 0
-    for i, j in zip(nums[:-1], nums[1:]):
+    for i, j in zip(nums[:-1], nums[1:], strict=False):
         if j - i == 1:
             l += 1
             if l == 2:

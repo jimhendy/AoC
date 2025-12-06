@@ -35,12 +35,11 @@ class Route(State):
         terrain = self.cave.terrain(self.pos)
         if terrain == Terrain.Rocky:
             return self.equipment != Equipment.Empty
-        elif terrain == Terrain.Wet:
+        if terrain == Terrain.Wet:
             return self.equipment != Equipment.Torch
-        elif terrain == Terrain.Narrow:
+        if terrain == Terrain.Narrow:
             return self.equipment != Equipment.Climbing
-        else:
-            raise NotImplementedError
+        raise NotImplementedError
 
     def all_possible_next_states(self):
         for p in self.pos.nb4():

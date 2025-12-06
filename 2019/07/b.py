@@ -13,7 +13,7 @@ def run(inputs):
         amps = [common.optprog(inputs) for p in phases]
 
         # Run the first iteration using the phases
-        [a.analyse_intcode(p) for a, p in zip(amps, phases)]
+        [a.analyse_intcode(p) for a, p in zip(amps, phases, strict=False)]
 
         while not all(a.complete for a in amps):
             for a in amps:

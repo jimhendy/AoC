@@ -4,7 +4,8 @@ import numpy as np
 
 
 def chinese_remainder(b, n):
-    """Find the value "x" in the following system:
+    """
+    Find the value "x" in the following system:
 
     x = b1 mod(n1)
     x = b2 mod(n2)
@@ -25,7 +26,8 @@ def chinese_remainder(b, n):
 
 @lru_cache(maxsize=1024)
 def inverse_mod(a, n):
-    """Return x in the below
+    """
+    Return x in the below
     a * x = 1 mod(n).
     """
     reduced_a = a % n

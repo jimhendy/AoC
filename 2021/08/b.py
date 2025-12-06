@@ -19,7 +19,8 @@ class Display:
         return possibles[0]
 
     def _find_from_nearly(self, nearly):
-        """Find a scrambled wire which has one extra bit as compared to ``nearly``.
+        """
+        Find a scrambled wire which has one extra bit as compared to ``nearly``.
         Also return the extra letter.
         """
         possibles = [

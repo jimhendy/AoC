@@ -23,14 +23,13 @@ def run(inputs):
     max_happiness = 0
     for p in permutations(happiness.keys()):
         this_happiness = 0
-        for p_0, p_1 in zip(p[:-1], p[1:]):
+        for p_0, p_1 in zip(p[:-1], p[1:], strict=False):
             this_happiness += happiness[p_0][p_1]
             this_happiness += happiness[p_1][p_0]
         # Edge people
         this_happiness += happiness[p[0]][p[-1]]
         this_happiness += happiness[p[-1]][p[0]]
 
-        if this_happiness > max_happiness:
-            max_happiness = this_happiness
+        max_happiness = max(this_happiness, max_happiness)
 
     return max_happiness

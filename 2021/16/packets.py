@@ -25,7 +25,8 @@ class Packet(ABC):
 
 
 class Literal(Packet):
-    """A literal ``Packet`` (``type_id=4``).
+    """
+    A literal ``Packet`` (``type_id=4``).
 
     This packet represents a numerical value only.
     """
@@ -40,7 +41,8 @@ class Literal(Packet):
 
 
 class Operator(Packet):
-    """An operator ``Packet``.
+    """
+    An operator ``Packet``.
 
     This packet represents a calculation on ``Literals``.
     """

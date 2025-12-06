@@ -6,7 +6,7 @@ def reduced_length(inputs, omit):
     lowercase = list(inputs.lower())
 
     reduced = []
-    for p, s, l in zip(polymer, swapped, lowercase):
+    for p, s, l in zip(polymer, swapped, lowercase, strict=False):
         if l == omit:
             continue
         if len(reduced) and reduced[-1] == s:

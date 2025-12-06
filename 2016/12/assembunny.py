@@ -32,8 +32,7 @@ class Assembunny:
     def get_value(self, v):
         if v.isdigit():
             return int(v)
-        else:
-            return self.registers[v]
+        return self.registers[v]
 
     def cpy(self, x, y):
         x_value = self.get_value(x)

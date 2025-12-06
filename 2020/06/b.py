@@ -2,7 +2,8 @@ import os
 
 
 def run(inputs):
-    """Inputs = inputs.split("\n\n").
+    """
+    Inputs = inputs.split("\n\n").
 
     numTrue = 0
 

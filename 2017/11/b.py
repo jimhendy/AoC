@@ -20,7 +20,6 @@ def run(inputs):
     for c in commands:
         pos += steps[c]
         distance = np.sum(np.abs(pos)) / 2
-        if distance > max_distance:
-            max_distance = distance
+        max_distance = max(distance, max_distance)
 
     return max_distance

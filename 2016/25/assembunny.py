@@ -49,8 +49,7 @@ class Assembunny:
     def get_value(self, v):
         if self.number_regex.search(v):
             return int(v)
-        else:
-            return self.registers[v]
+        return self.registers[v]
 
     def cpy(self, x, y):
         x_value = self.get_value(x)
@@ -125,18 +124,17 @@ class Assembunny:
                 return
             if len(args) != len(df) - 1:
                 return
-            for df_a, a in zip(df[1:], args):
+            for df_a, a in zip(df[1:], args, strict=False):
                 if isinstance(df_a, int):
                     if not self.number_regex.search(a):
                         return
                     if df_a != int(a):
                         return
+                elif df_a in letters:
+                    if a != letters[df_a]:
+                        return
                 else:
-                    if df_a in letters:
-                        if a != letters[df_a]:
-                            return
-                    else:
-                        letters[df_a] = a
+                    letters[df_a] = a
         # Implement cheat
         a = letters["a"]
         b = letters["b"]
