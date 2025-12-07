@@ -54,10 +54,31 @@ def run(inputs):
         len(ings),
         num_ingredients,
     ):
-        cap = max([0, sum([i.capacity * n for i, n in zip(ings.values(), comb, strict=False)])])
-        dur = max([0, sum([i.durability * n for i, n in zip(ings.values(), comb, strict=False)])])
-        tex = max([0, sum([i.texture * n for i, n in zip(ings.values(), comb, strict=False)])])
-        fla = max([0, sum([i.flavour * n for i, n in zip(ings.values(), comb, strict=False)])])
+        cap = max(
+            [
+                0,
+                sum(
+                    [i.capacity * n for i, n in zip(ings.values(), comb, strict=False)],
+                ),
+            ],
+        )
+        dur = max(
+            [
+                0,
+                sum(
+                    [
+                        i.durability * n
+                        for i, n in zip(ings.values(), comb, strict=False)
+                    ],
+                ),
+            ],
+        )
+        tex = max(
+            [0, sum([i.texture * n for i, n in zip(ings.values(), comb, strict=False)])],
+        )
+        fla = max(
+            [0, sum([i.flavour * n for i, n in zip(ings.values(), comb, strict=False)])],
+        )
 
         score = cap * dur * tex * fla
 

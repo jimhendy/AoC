@@ -24,10 +24,8 @@ def reachable_keys(loc, keys, grid):
                 continue
             seen.add(new_loc)
             new_char = get_char(grid, new_loc)
-            if (
-                (new_char != "#"
-                and (not new_char.isupper()))
-                or (new_char.lower() in keys)
+            if (new_char != "#" and (not new_char.isupper())) or (
+                new_char.lower() in keys
             ):
                 q.append((new_loc, num_steps + 1))
 
