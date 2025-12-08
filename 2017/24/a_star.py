@@ -41,7 +41,8 @@ def augmented_a_star(initial_state, return_status=False):
         best_option = heapq.heappop(possible_states)
         n_tests += 1
         bridge_data[best_option.length] = max(
-            best_option.strength, bridge_data[best_option.length],
+            best_option.strength,
+            bridge_data[best_option.length],
         )
         if DEBUG:
             print(f"Test {n_tests:,}, best_option: {best_option}")

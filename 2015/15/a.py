@@ -74,10 +74,16 @@ def run(inputs):
             ],
         )
         tex = max(
-            [0, sum([i.texture * n for i, n in zip(ings.values(), comb, strict=False)])],
+            [
+                0,
+                sum([i.texture * n for i, n in zip(ings.values(), comb, strict=False)]),
+            ],
         )
         fla = max(
-            [0, sum([i.flavour * n for i, n in zip(ings.values(), comb, strict=False)])],
+            [
+                0,
+                sum([i.flavour * n for i, n in zip(ings.values(), comb, strict=False)]),
+            ],
         )
 
         score = cap * dur * tex * fla
