@@ -21,6 +21,7 @@ dependencies = [
     "pyqt6>=6.8.0",
     "sympy>=1.13.3",
     "scikit-image>=0.25.0",
+    "cvxpy>=1.7.5",
 ]
 
 
