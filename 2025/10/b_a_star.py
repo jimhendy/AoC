@@ -151,7 +151,10 @@ def recursive_a_star(
                 aim_index=intermediate_state.aim_index,
             )
             result_state = recursive_a_star(
-                all_buttons, aim_index_to_n_buttons, aim_index_pos + 1, next_state,
+                all_buttons,
+                aim_index_to_n_buttons,
+                aim_index_pos + 1,
+                next_state,
             )
             return result_state
         except AStarError:

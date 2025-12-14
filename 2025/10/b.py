@@ -28,7 +28,9 @@ def run(input: str) -> int:
         n = len(aim)
         m = len(buttons)
         x = cp.Variable(
-            m, integer=True, nonneg=True,
+            m,
+            integer=True,
+            nonneg=True,
         )  # Number of times to press each button
         constraints = []
         for i in range(n):
